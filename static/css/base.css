@@ -1,0 +1,29 @@
+@font-face {
+    font-family: ms;
+    src: url('../fonts/ms.ttf')
+}
+
+@font-face {
+    font-family: hanyi90;
+    src: url('../fonts/hanyi90.ttf')
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: hanyi90, ms, Arial;
+}
+
+#luoo {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+#volContainer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
