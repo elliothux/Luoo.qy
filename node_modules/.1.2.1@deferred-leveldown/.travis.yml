@@ -1,0 +1,13 @@
+language: node_js
+node_js:
+  - "0.10"
+  - "0.12"
+  - "2.5"
+  - "3.0"
+branches:
+  only:
+    - master
+notifications:
+  email:
+    - rod@vagg.org
+script: npm test
