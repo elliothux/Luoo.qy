@@ -1,19 +1,17 @@
-let path = require('path');
-
 module.exports = {
-    entry: './index.js',
+    entry: require('path').join(__dirname, './index'),
     output: {
-        path: path.join(__dirname),
+        path: require('path').join(__dirname),
         filename: 'index.build.js'
     },
-    resolve: {
-        extensions: ['', '.js', '.jsx']
-    },
     module: {
-        loaders: [
-            { test: /\.js|jsx$/, loaders: ['babel'] }
-
-        ]
+        loaders: [{
+            test: /\.js|jsx$/,
+            loader: 'babel-loader',
+            query: {
+                presets: ['react', 'es2015']
+            }
+        }]
     },
-    target: "electron"
+    target: "electron",
 };

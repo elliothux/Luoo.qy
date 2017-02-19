@@ -4,8 +4,11 @@ const url = require('url');
 const {app, BrowserWindow} = electron;
 
 
-const getVolList = require('./static/lib/base').getVolList();
+const getVolList = require('./static/lib/base').getVolList;
+const getTrackList = require('./static/lib/base').getTrackList;
 
+
+///////////////// Window //////////////////
 
 let win;
 
@@ -44,9 +47,7 @@ app.on('activate', () => {
         createWindiw()
 });
 
+///////////////// REMOTE FUNCTION /////////////////
 
-
-
-exports.getVolList = function (index = 0) {
-    getVolList(index).then(data)
-}
+exports.getVolList = getVolList;
+exports.getTrackList = getTrackList;
