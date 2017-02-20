@@ -14,7 +14,7 @@ let win;
 
 if (process.env.NODE_ENV === 'development') {
     BrowserWindow.addDevToolsExtension(
-        '/Users/huqingyang/Library/Application Support/Google/Chrome/Default/Extensions/fmkadmapgofadopljbjfkapdkoienihi'
+        `/Users/huqingyang/Library/Application Support/Google/Chrome/Default/Extensions/fmkadmapgofadopljbjfkapdkoienihi/2.0.12_0`
     );
 }
 

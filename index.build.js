@@ -9371,10 +9371,41 @@ var App = function (_React$Component) {
     function App(props) {
         _classCallCheck(this, App);
 
-        return _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
+        var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
+
+        _this.loadVol = _this.loadVol.bind(_this);
+        _this.state = {
+            children: [],
+            volList: null
+        };
+        _this.methods = {
+            getVolList: props.getVolList,
+            getTrackList: props.getTrackList
+        };
+        return _this;
     }
 
     _createClass(App, [{
+        key: 'componentWillMount',
+        value: function componentWillMount() {
+            console.log('f');
+            this.methods.getVolList().then(function (data) {
+                console.log(data);
+            });
+        }
+    }, {
+        key: 'loadVol',
+        value: function loadVol() {
+            var prevLength = this.state.children.length;
+            var dataToAdd = this.state.volList.silce(prevLength, prevLength + 10);
+            var childrenToAdd = [];
+            for (var i = 0; i < 10; i++) {
+                childrenToAdd.push(_react2.default.createElement(_Vol2.default, { key: prevLength + i, data: dataToAdd[i] }));
+            }this.setState(function (prevState, props) {
+                children: prevState.children.push(childrenToAdd);
+            }, null);
+        }
+    }, {
         key: 'render',
         value: function render() {
             return _react2.default.createElement(
@@ -9385,12 +9416,7 @@ var App = function (_React$Component) {
                 _react2.default.createElement(
                     'div',
                     { style: style.volContainer },
-                    _react2.default.createElement(_Vol2.default, null),
-                    _react2.default.createElement(_Vol2.default, null),
-                    _react2.default.createElement(_Vol2.default, null),
-                    _react2.default.createElement(_Vol2.default, null),
-                    _react2.default.createElement(_Vol2.default, null),
-                    _react2.default.createElement(_Vol2.default, null)
+                    this.state.children
                 ),
                 _react2.default.createElement(_Playing2.default, null)
             );
@@ -9717,19 +9743,19 @@ var Vol = function (_React$Component) {
             return _react2.default.createElement(
                 'div',
                 { className: 'vol', style: style.div },
-                _react2.default.createElement('img', { src: this.props.cover || '../static/pic/5877de4c96b3d.jpg', style: style.img }),
+                _react2.default.createElement('img', { src: this.props.data.cover || '../static/pic/5877de4c96b3d.jpg', style: style.img }),
                 _react2.default.createElement(
                     'div',
                     { style: style.detail },
                     _react2.default.createElement(
                         'p',
                         { style: style.volNumber },
-                        'Vol. ' + (this.props.vol || '899')
+                        'Vol. ' + (this.props.data.vol || '899')
                     ),
                     _react2.default.createElement(
                         'p',
                         null,
-                        this.props.title || '无心深究的生活庸常'
+                        this.props.data.title || '无心深究的生活庸常'
                     )
                 )
             );
@@ -22109,11 +22135,13 @@ var _electron = __webpack_require__(82);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var main = _electron.remote.require('./main');
+var getVolList = main.getVolList;
+var getTrackList = main.getTrackList;
 
 _reactDom2.default.render(_react2.default.createElement(
     'div',
     null,
-    _react2.default.createElement(_App2.default, null)
+    _react2.default.createElement(_App2.default, { getVolList: getVolList, getTrackList: getTrackList })
 ), document.getElementById('root'));
 
 /***/ })
