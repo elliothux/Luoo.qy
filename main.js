@@ -2,6 +2,7 @@ const electron = require('electron');
 const path = require('path');
 const url = require('url');
 const {app, BrowserWindow} = electron;
+const devTools =  require('electron-devtools-installer');
 
 
 const getVolList = require('./static/lib/base').getVolList;
@@ -33,6 +34,11 @@ function createWindiw() {
     win.on('closed', () => {
         win = null;
     });
+
+
+    devTools.default(devTools.REACT_DEVELOPER_TOOLS)
+        .then((name) => console.log(`Added Extension:  ${name}`))
+        .catch((err) => console.log('An error occurred: ', err));
 }
 
 app.on('ready', createWindiw);

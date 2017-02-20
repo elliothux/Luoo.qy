@@ -47,9 +47,13 @@ function getVolList() {
             })
             .on('close', function () {})
             .on('end', function () {
-                resolve(list.reverse());
+                resolve(list.sort(sortVolList));
             })
     })
+}
+
+function sortVolList(a, b) {
+    return parseInt(b.vol) - parseInt(a.vol)
 }
 
 // 传入 Vol 数目, 将其 Vol 删除

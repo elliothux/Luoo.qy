@@ -25,10 +25,13 @@ const style = {
 class App extends React.Component {
     constructor(props) {
         super(props);
-        this.loadVol = this.loadVol.bind(this);
+        this.showVol = this.showVol.bind(this);
+        this.showVolView = this.showVolView.bind(this);
         this.state = {
-            children: [],
-            volList: null
+            vol: [],
+            volList: null,
+            showVolView: false,
+            volViewData: null
         };
         this.methods = {
             getVolList: props.getVolList,
@@ -37,24 +40,32 @@ class App extends React.Component {
     }
 
     componentWillMount() {
-        console.log('f');
         this.methods.getVolList().then((data) => {
-            console.log(data)
+            this.setState((prevState, props) => {
+                return {volList: data}
+            })
+        }).then(this.showVol)
+    }
+
+    showVol() {
+        let prevLength = this.state.vol.length;
+        let dataToAdd = this.state.volList.slice(prevLength, prevLength+10);
+        let childrenToAdd = [];
+        for (let i=0; i<10; i++)
+            childrenToAdd.push(<Vol key={prevLength+i} index={prevLength+i} data={dataToAdd[i]} showVolView={this.showVolView}/>)
+
+        return this.setState((prevState, props) => {
+            return {
+                vol: prevState.vol.concat(childrenToAdd)
+            }
         })
     }
 
-    loadVol() {
-        let prevLength = this.state.children.length;
-        let dataToAdd = this.state.volList.silce(prevLength, prevLength+10);
-        let childrenToAdd = [];
-        for (let i=0; i<10; i++)
-            childrenToAdd.push(<Vol key={prevLength+i} data={dataToAdd[i]}/>)
-
-        this.setState((prevState, props) => {
-            children: prevState.children.push(childrenToAdd)
-        }, null)
+    showVolView(data) {
+        this.setState({
+            volViewData: data
+        })
     }
-
 
     render() {
         return(
@@ -62,10 +73,10 @@ class App extends React.Component {
                 <img src="../static/pic/5877de4c96b3d.jpg" style={style.img}/>
                 <Logo/>
                 <div style={style.volContainer}>
-                    {this.state.children}
+                    {this.state.vol}
                 </div>
-                <Playing/>
-                {/*<VolView/>*/}
+                {/*<Playing />*/}
+                <VolView data={this.state.volViewData} getTrackList={this.methods.getTrackList}/>
             </div>
         )
     }

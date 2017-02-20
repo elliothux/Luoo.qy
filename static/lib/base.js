@@ -10,14 +10,16 @@ module.exports.getTrackList = getTrackList;
 
 // 获取 Vol 列表
 function getVolList() {
-    return getData('http://127.0.0.1:5000/api/latestVol').then(data => {
+    getData('http://127.0.0.1:5000/api/latestVol').then(data => {
         const latestVol = parseInt(data);
         return db.isVolExist(latestVol).then(exist => {
             if (!exist)
                 getVolFromServer(latestVol);
-            return db.getVolList();
         })
-    })
+    }).catch(error => {
+        console.log(error)
+    });
+    return db.getVolList();
 }
 
 
