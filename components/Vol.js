@@ -37,10 +37,10 @@ class Vol extends React.Component {
     render() {
         return(
             <div className="vol" style={style.div}>
-                <img src={this.props.cover || '../static/pic/5877de4c96b3d.jpg'} style={style.img}/>
+                <img src={this.props.data.cover || '../static/pic/5877de4c96b3d.jpg'} style={style.img}/>
                 <div style={style.detail}>
-                    <p style={style.volNumber}>{'Vol. ' + (this.props.vol || '899')}</p>
-                    <p>{this.props.title || '无心深究的生活庸常'}</p>
+                    <p style={style.volNumber}>{'Vol. ' + (this.props.data.vol || '899')}</p>
+                    <p>{this.props.data.title || '无心深究的生活庸常'}</p>
                 </div>
             </div>
         )
