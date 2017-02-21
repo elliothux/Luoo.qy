@@ -1,4 +1,9 @@
 import React from 'react';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+const An = ReactCSSTransitionGroup;
+import Lib from '../static/lib';
+
+
 import Logo from './Logo';
 import Vol from './Vol';
 import Playing from './Playing';
@@ -14,6 +19,10 @@ const style = {
         overflow: 'auto'
     },
 
+    logo: {
+        marginLeft: 'calc(50% - 60px)'
+    },
+
     img: {
         width: '200%',
         height: '200%',
@@ -24,9 +33,28 @@ const style = {
         zIndex: -1
     },
 
+    button: {
+        width:'100px',
+        height: '40px',
+        borderRadius: '40px',
+        margin: '30px calc(50% - 50px)',
+        backgroundColor: 'white',
+        border: '1px solid gray',
+        fontSize: '1.2em',
+        fontWeight: 'bold',
+        cursor: 'pointer'
+    },
+
     volContainer: {
         width: '100%'
     }
+};
+
+
+const transition = {
+    transitionName: "vol",
+    transitionEnterTimeout: 5000,
+    transitionLeave: false
 };
 
 
@@ -70,13 +98,22 @@ class App extends React.Component {
         let dataToAdd = this.state.volList.slice(prevLength, prevLength+10);
         let childrenToAdd = [];
         for (let i=0; i<10; i++)
-            childrenToAdd.push(<Vol key={prevLength+i} index={prevLength+i} data={dataToAdd[i]} showVolView={this.showVolView}/>)
+            childrenToAdd.push(<Vol ref={(index) => {this[`vol${prevLength+i}`] = index}} key={prevLength+i} index={i+1} data={dataToAdd[i]} showVolView={this.showVolView}/>)
 
         return this.setState((prevState, props) => {
             return {
                 vol: prevState.vol.concat(childrenToAdd)
             }
         })
+    }
+
+    showVolInViewport() {
+        for(let i=0, len=this.state.volList.length; i<len; i++) {
+            let vol = this[`vol${i}`];
+            if (Lib.isElementInViewport(vol)) {
+                vol.className += 'volInViewport'
+            }
+        }
     }
 
     showVolView(data) {
@@ -127,10 +164,11 @@ class App extends React.Component {
             <div id="luoo">
                 <div style={Object.assign(style.appContainer, {top: (this.state.showVolView ? '100%' : '0%')})}>
                     <img src={this.state.background} style={style.img}/>
-                    <Logo/>
-                    <div style={style.volContainer}>
-                        {this.state.vol}
+                    <div style={style.logo} onClick={this.props.hiddenVolView}><Logo/></div>
+                    <div style={style.volContainer} onWheel={}>
+                        <An {...transition}>{this.state.vol}</An>>
                     </div>
+                    <button onClick={this.showMoreVol} style={style.button}>更多</button>
                     {/*<Playing />*/}
                 </div>
                 {this.state.showVolView ?

@@ -40,7 +40,7 @@ class Vol extends React.Component {
 
     render() {
         return(
-            <div className="vol" style={style.div} onClick={this.props.showVolView.bind(null, this.props.data)}>
+            <div className={`vol${this.props.index}`} style={style.div} onClick={this.props.showVolView.bind(null, this.props.data)}>
                 <img src={this.props.data.cover || '../static/pic/5877de4c96b3d.jpg'} style={style.img}/>
                 <div style={style.detail}>
                     <p style={style.volNumber}>{'Vol. ' + (this.props.data.vol || '899')}</p>

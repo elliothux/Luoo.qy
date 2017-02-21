@@ -48,5 +48,20 @@ Object.defineProperty(Lib, 'getData', {
     }
 });
 
+Object.defineProperty(Lib, 'isElementInViewport', {
+    writable: false,
+    configurable: false,
+    enumerable: true,
+    value: function (el) {
+        const rect = el.getBoundingClientRect();
+        return (
+            rect.top >= 0 &&
+            rect.left >= 0 &&
+            rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) && /*or $(window).height() */
+            rect.right <= (window.innerWidth || document.documentElement.clientWidth) /*or $(window).width() */
+        );
+    }
+});
 
-module.exports = Lib;
+
+export default Lib;

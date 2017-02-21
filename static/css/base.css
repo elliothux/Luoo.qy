@@ -27,3 +27,26 @@
     flex-wrap: wrap;
     justify-content: flex-start;
 }
+
+/********************** Animation *********************/
+
+.vol-enter {
+    opacity: 0;
+    transform: translateY(100%) scale(0.8);
+    transition: all 800ms ease-out;
+}
+
+.vol-enter.vol-enter-active {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+.vol1 { transition-delay: 0ms}
+.vol2 { transition-delay: 500ms}
+.vol3 { transition-delay: 300ms}
+.vol4 { transition-delay: 700ms}
+.vol6 { transition-delay: 500ms}
+.vol7 { transition-delay: 900ms}
+.vol8 { transition-delay: 700ms}
+.vol9 { transition-delay: 1200ms}
+.vol10 { transition-delay: 900ms}
