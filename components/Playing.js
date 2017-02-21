@@ -1,4 +1,5 @@
 import React from 'react';
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 
 
 const style = {
@@ -55,7 +56,8 @@ const style = {
 
 class Playing extends React.Component {
     constructor(props) {
-        super(props)
+        super(props);
+        this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
     }
 
     render() {

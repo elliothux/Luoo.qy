@@ -3,9 +3,17 @@ import Logo from './Logo';
 import Vol from './Vol';
 import Playing from './Playing';
 import VolView from './VolView';
+import Track from './Track';
 
 
 const style = {
+    appContainer: {
+        width: '100%',
+        height: '100%',
+        position: 'fixed',
+        overflow: 'auto'
+    },
+
     img: {
         width: '200%',
         height: '200%',
@@ -25,14 +33,20 @@ const style = {
 class App extends React.Component {
     constructor(props) {
         super(props);
-        this.showVol = this.showVol.bind(this);
+        this.getVolList = this.getVolList.bind(this);
+        this.showMoreVol = this.showMoreVol.bind(this);
         this.showVolView = this.showVolView.bind(this);
+        this.hiddenVolView = this.hiddenVolView.bind(this);
+
         this.state = {
+            background: '../static/pic/5877de4c96b3d.jpg',
             vol: [],
             volList: null,
+            trackList: null,
             showVolView: false,
-            volViewData: null
+            volViewData: null,
         };
+
         this.methods = {
             getVolList: props.getVolList,
             getTrackList: props.getTrackList
@@ -40,14 +54,18 @@ class App extends React.Component {
     }
 
     componentWillMount() {
+        this.getVolList()
+    }
+
+    getVolList() {
         this.methods.getVolList().then((data) => {
             this.setState((prevState, props) => {
                 return {volList: data}
             })
-        }).then(this.showVol)
+        }).then(this.showMoreVol)
     }
 
-    showVol() {
+    showMoreVol() {
         let prevLength = this.state.vol.length;
         let dataToAdd = this.state.volList.slice(prevLength, prevLength+10);
         let childrenToAdd = [];
@@ -63,20 +81,62 @@ class App extends React.Component {
 
     showVolView(data) {
         this.setState({
-            volViewData: data
+            volViewData: data,
+            background: data.cover,
+            showVolView: true
+        });
+        this.getTrackList(data.vol);
+    }
+
+    hiddenVolView() {
+        this.setState({
+            showVolView: false
+        })
+    }
+
+    getTrackList(vol) {
+        this.setState((prevState, porps) => {
+            return {
+                trackList: null
+            }
+        });
+        this.methods.getTrackList(vol).then((data) => {
+            let trackData = data.data;
+            let tracks = [];
+            for (let i=0, len=trackData.length; i<len; i++) {
+                tracks.push(<Track
+                    key={i}
+                    name={trackData[i].name}
+                    artist={trackData[i].artist}
+                    album={trackData[i].album}
+                    cover={trackData[i].cover}
+                    order={trackData[i].order}
+                    url={trackData[i].url}
+                    vol={trackData[i].vol}/>)
+            }
+            this.setState((prevState, props) => {
+                return {
+                    trackList: tracks
+                }
+            })
         })
     }
 
     render() {
         return(
             <div id="luoo">
-                <img src="../static/pic/5877de4c96b3d.jpg" style={style.img}/>
-                <Logo/>
-                <div style={style.volContainer}>
-                    {this.state.vol}
+                <div style={Object.assign(style.appContainer, {top: (this.state.showVolView ? '100%' : '0%')})}>
+                    <img src={this.state.background} style={style.img}/>
+                    <Logo/>
+                    <div style={style.volContainer}>
+                        {this.state.vol}
+                    </div>
+                    {/*<Playing />*/}
                 </div>
-                {/*<Playing />*/}
-                <VolView data={this.state.volViewData} getTrackList={this.methods.getTrackList}/>
+                {this.state.showVolView ?
+                    <VolView data={this.state.volViewData} tracks={this.state.trackList} hiddenVolView={this.hiddenVolView}/> :
+                    false
+                }
             </div>
         )
     }

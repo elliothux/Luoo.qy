@@ -1,10 +1,12 @@
 import React from 'react';
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 
 
 const style = {
     div: {
         margin: '30px 0 15px 0',
-        filter: 'drop-shadow(rgba(34, 34, 34, 0.3) 2px 2px 2px)'
+        filter: 'drop-shadow(rgba(34, 34, 34, 0.3) 2px 2px 2px)',
+        cursor: 'pointer'
     },
 
     img: {
@@ -26,6 +28,11 @@ const style = {
 
 
 class Logo extends React.Component {
+    constructor(props) {
+        super(props);
+        this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
+    }
+
     render() {
         return(
             <div id="logo" style={style.div}>
