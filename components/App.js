@@ -1,7 +1,7 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 const An = ReactCSSTransitionGroup;
-import Lib from '../static/lib';
 
 
 import Logo from './Logo';
@@ -12,11 +12,18 @@ import Track from './Track';
 
 
 const style = {
+    root: {
+        display: 'flex',
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent: 'center'
+    },
+
     appContainer: {
         width: '100%',
         height: '100%',
         position: 'fixed',
-        overflow: 'auto'
+        overflow: 'auto',
     },
 
     logo: {
@@ -46,7 +53,14 @@ const style = {
     },
 
     volContainer: {
-        width: '100%'
+        width: '100%',
+        zIndex: 5
+    },
+
+    track: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'flex-center'
     }
 };
 
@@ -65,6 +79,11 @@ class App extends React.Component {
         this.showMoreVol = this.showMoreVol.bind(this);
         this.showVolView = this.showVolView.bind(this);
         this.hiddenVolView = this.hiddenVolView.bind(this);
+        this.showVolInViewport = this.showVolInViewport.bind(this);
+        this.playTrack = this.playTrack.bind(this);
+        this.togglePlay = this.togglePlay.bind(this);
+        this.playNextTrack = this.playNextTrack.bind(this);
+
 
         this.state = {
             background: '../static/pic/5877de4c96b3d.jpg',
@@ -73,16 +92,31 @@ class App extends React.Component {
             trackList: null,
             showVolView: false,
             volViewData: null,
+            wheelTimes: 0,
+            playingTrackData: null,
+            playingTrack: new Audio(),
+            playingList: null,
+            playingListData: null,
+            playingIndex: 0
         };
 
         this.methods = {
             getVolList: props.getVolList,
-            getTrackList: props.getTrackList
-        }
+            getTrackList: props.getTrackList,
+            isElementInViewport: props.isElementInViewport
+        };
     }
 
     componentWillMount() {
         this.getVolList()
+    }
+
+    componentDidUpdate() {
+        this.showVolInViewport()
+    }
+
+    componentDidMount() {
+        this.showVolInViewport()
     }
 
     getVolList() {
@@ -98,7 +132,7 @@ class App extends React.Component {
         let dataToAdd = this.state.volList.slice(prevLength, prevLength+10);
         let childrenToAdd = [];
         for (let i=0; i<10; i++)
-            childrenToAdd.push(<Vol ref={(index) => {this[`vol${prevLength+i}`] = index}} key={prevLength+i} index={i+1} data={dataToAdd[i]} showVolView={this.showVolView}/>)
+            childrenToAdd.push(<Vol ref={(index) => {this[`vol${prevLength+i}`] = index}} key={prevLength+i} index={i} data={dataToAdd[i]} showVolView={this.showVolView}/>)
 
         return this.setState((prevState, props) => {
             return {
@@ -108,12 +142,25 @@ class App extends React.Component {
     }
 
     showVolInViewport() {
-        for(let i=0, len=this.state.volList.length; i<len; i++) {
-            let vol = this[`vol${i}`];
-            if (Lib.isElementInViewport(vol)) {
-                vol.className += 'volInViewport'
+        if (this.state.wheelTimes <= 1000) {
+            this.setState((prevState, props) => {
+                return({wheelTimes: prevState++})
+            });
+            return;
+        }
+
+        let vols = this.state.vol;
+        for (let i=0, len=vols.length; i<len; i++) {
+            let vol = ReactDOM.findDOMNode(this[`vol${i}`]);
+            if (this.methods.isElementInViewport(vol) && vol.className.length<=8) {
+                vol.className += ' volInViewPort'
             }
         }
+
+        let button = ReactDOM.findDOMNode(this.loadMoreVolButton);
+        this.methods.isElementInViewport(button) && setTimeout(function () {
+            this.methods.isElementInViewport(button) && this.showMoreVol()
+        }.bind(this), 1000);
     }
 
     showVolView(data) {
@@ -122,13 +169,17 @@ class App extends React.Component {
             background: data.cover,
             showVolView: true
         });
+        ReactDOM.findDOMNode(this.volView).style.display = 'absolute';
         this.getTrackList(data.vol);
     }
 
     hiddenVolView() {
         this.setState({
             showVolView: false
-        })
+        });
+        setTimeout(function () {
+            ReactDOM.findDOMNode(this.volView).style.position = 'fixed';
+        }.bind(this), 1500)
     }
 
     getTrackList(vol) {
@@ -141,40 +192,60 @@ class App extends React.Component {
             let trackData = data.data;
             let tracks = [];
             for (let i=0, len=trackData.length; i<len; i++) {
-                tracks.push(<Track
-                    key={i}
-                    name={trackData[i].name}
-                    artist={trackData[i].artist}
-                    album={trackData[i].album}
-                    cover={trackData[i].cover}
-                    order={trackData[i].order}
-                    url={trackData[i].url}
-                    vol={trackData[i].vol}/>)
+                tracks.push(<Track key={i} data={trackData[i]} index={i} play={this.playTrack}/>)
             }
             this.setState((prevState, props) => {
                 return {
-                    trackList: tracks
+                    trackList: tracks,
+                    playingListData: trackData
                 }
             })
         })
     }
 
+    playTrack(data, index) {
+        this.setState((prevState, props) => {
+            return({
+                playingTrackData: data,
+                playingIndex: index
+            })
+        });
+        this.state.playingTrack.src = data.url;
+        this.state.playingTrack.play();
+    }
+
+    playNextTrack() {
+        if (this.state.playingIndex == this.state.playingListData.length - 1)
+            this.playTrack(this.state.playingListData[0], 0);
+        else {
+            this.playTrack(this.state.playingListData[this.state.playingIndex + 1], this.state.playingIndex + 1)
+            this.setState((prevState, props) => {
+                return({
+                    playingIndex: parseInt(prevState) + 1
+                })
+            })
+        }
+    }
+
+    togglePlay() {
+        this.state.playingTrack.paused ? this.state.playingTrack.play() : this.state.playingTrack.pause()
+    }
+
     render() {
         return(
             <div id="luoo">
-                <div style={Object.assign(style.appContainer, {top: (this.state.showVolView ? '100%' : '0%')})}>
+                <div style={style.appContainer}>
                     <img src={this.state.background} style={style.img}/>
                     <div style={style.logo} onClick={this.props.hiddenVolView}><Logo/></div>
-                    <div style={style.volContainer} onWheel={}>
-                        <An {...transition}>{this.state.vol}</An>>
+                    <div style={style.volContainer} onWheel={this.showVolInViewport}>
+                        {this.state.vol}
                     </div>
-                    <button onClick={this.showMoreVol} style={style.button}>更多</button>
-                    {/*<Playing />*/}
+                    <button ref={(button) => {this.loadMoreVolButton = button}} onClick={this.showMoreVol} style={style.button}>更多</button>
                 </div>
-                {this.state.showVolView ?
-                    <VolView data={this.state.volViewData} tracks={this.state.trackList} hiddenVolView={this.hiddenVolView}/> :
-                    false
-                }
+
+                <Playing data={this.state.playingTrackData} togglePlay={this.togglePlay} next={this.playNextTrack}/>
+
+                <VolView ref={(volView) => {this.volView = volView}} data={this.state.volViewData} tracks={this.state.trackList} hiddenVolView={this.hiddenVolView} show={this.state.showVolView}/> :
             </div>
         )
     }

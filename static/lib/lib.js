@@ -64,4 +64,4 @@ Object.defineProperty(Lib, 'isElementInViewport', {
 });
 
 
-export default Lib;
+module.export = Lib;

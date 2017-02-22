@@ -7,7 +7,7 @@ const devTools =  require('electron-devtools-installer');
 
 const getVolList = require('./static/lib/base').getVolList;
 const getTrackList = require('./static/lib/base').getTrackList;
-
+const Lib = require('./static/lib/lib');
 
 ///////////////// Window //////////////////
 

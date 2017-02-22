@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="104px" height="104px" viewBox="0 0 104 104" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 39.1 (31720) - http://www.bohemiancoding.com/sketch -->
+    <title>Untitled</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-1">
+            <stop stop-color="#FFFFFF" stop-opacity="0.5" offset="0%"></stop>
+            <stop stop-color="#000000" stop-opacity="0.5" offset="100%"></stop>
+        </linearGradient>
+        <path d="M104,52 C104,80.72 80.72,104 52,104 C23.28,104 0,80.72 0,52 C0,23.28 23.28,0 52,0 C80.72,0 104,23.28 104,52 L104,52 Z M40,68 L36,68 C33.8,68 32,66.2 32,64 L32,40 C32,37.8 33.8,36 36,36 L40,36 C42.2,36 44,37.8 44,40 L44,64 C44,66.2 42.2,68 40,68 L40,68 Z M68,68 L64,68 C61.8,68 60,66.2 60,64 L60,40 C60,37.8 61.8,36 64,36 L68,36 C70.2,36 72,37.8 72,40 L72,64 C72,66.2 70.2,68 68,68 L68,68 Z" id="path-2"></path>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Stroke-449">
+            <use fill="#D8D8D8" xlink:href="#path-2"></use>
+            <use fill="url(#linearGradient-1)" xlink:href="#path-2"></use>
+            <use fill="#E06979" xlink:href="#path-2"></use>
+        </g>
+    </g>
+</svg>

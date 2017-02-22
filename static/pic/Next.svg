@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="104px" height="104px" viewBox="0 0 104 104" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 39.1 (31720) - http://www.bohemiancoding.com/sketch -->
+    <title>Untitled</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group-454">
+            <path d="M104,52 C104,80.72 80.72,104 52,104 C23.28,104 0,80.72 0,52 C0,23.28 23.28,0 52,0 C80.72,0 104,23.28 104,52 L104,52 Z" id="Stroke-451" fill="#E06979"></path>
+            <polygon id="Stroke-453" fill="#FFFFFF" points="52 52 28 36 28 68"></polygon>
+            <path d="M68,68 L64,68 C61.8,68 60,66.2 60,64 L60,40 C60,37.8 61.8,36 64,36 L68,36 C70.2,36 72,37.8 72,40 L72,64 C72,66.2 70.2,68 68,68 L68,68 Z" id="Stroke-455" fill="#FFFFFF"></path>
+        </g>
+    </g>
+</svg>
