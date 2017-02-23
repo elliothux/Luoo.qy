@@ -12,6 +12,7 @@ const style = {
         lineHeight: '100%',
         fontFamily: 'Arial',
         fontWeight: 'bold',
+        borderRadius: '4px',
         zIndex: 5
     },
 
@@ -20,7 +21,7 @@ const style = {
         width: '50px',
         float: 'left',
         margin: '5px 30px 5px 10px',
-        borderRadius: '3px',
+        borderRadius: '4px',
         boxShadow: 'rgba(34, 34, 34, 0.3) 0px 0px 5px 2px',
         cursor: 'pointer'
     },

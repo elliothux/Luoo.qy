@@ -35,15 +35,61 @@
 .volView {
     position: fixed;
     top: 100%;
-    transition: all ease-out 500ms;
+    transition: all ease-out 400ms;
 }
 
 .volView.volViewUnactivated {
     position: fixed;
     top: 100%;
+    transition-duration: 400ms;
 }
 
 .volView.volViewActivated {
     position: absolute;
     top: 0;
+}
+
+.volViewCover, .volViewDetail, .volViewTracks {
+    transform: translateY(300px);
+    opacity: 0;
+}
+
+.volViewActivated .volViewCover, .volViewActivated .volViewDetail, .volViewActivated .volViewTracks {
+    transform: translateY(0);
+    opacity: 1;
+    transition: all 600ms ease;
+}
+
+.volViewActivated .volViewCover {transition-delay: 400ms}
+.volViewActivated .volViewDetail {transition-delay: 500ms}
+.volViewActivated .volViewTracks {transition-delay: 600ms}
+
+
+@keyframes volViewTrackHover {
+    0% {
+        transform: scale(1);
+        background-color: rgba(255, 255, 255, 0.8);
+    }
+    100% {
+        transform: scale(1.03);
+        background-color: rgba(255, 255, 255, 1);
+    }
+}
+
+@keyframes volViewTrackUnhover {
+    100% {
+        transform: scale(1);
+        background-color: rgba(255, 255, 255, 0.8);
+    }
+    0% {
+        transform: scale(1.03);
+        background-color: rgba(255, 255, 255, 1);
+    }
+}
+
+.volViewTrack {
+    animation: volViewTrackUnhover 600ms ease-out forwards;
+}
+.volViewTrack:hover {
+    animation: volViewTrackHover 400ms ease forwards;
 }

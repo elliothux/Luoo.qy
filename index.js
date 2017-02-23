@@ -11,7 +11,7 @@ const getTrackList = main.getTrackList;
 const isElementInViewport = function (el) {
     const rect = el.getBoundingClientRect();
     return (
-        el.getBoundingClientRect().bottom - window.innerHeight < -20
+        el.getBoundingClientRect().bottom - window.innerHeight < -50
     )
 };
 

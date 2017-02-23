@@ -8,7 +8,8 @@ const style = {
         display: 'inline-block',
         marginTop: '-10px',
         color: 'white',
-        cursor: 'pointer'
+        cursor: 'pointer',
+        overflow: 'hidden'
     },
 
     img: {
@@ -42,7 +43,7 @@ class Vol extends React.Component {
         return(
             <div className={`vol vol${this.props.index % 2}`} style={style.div} onClick={this.props.showVolView.bind(null, this.props.data)}>
                 <img src={this.props.data.cover || '../static/pic/5877de4c96b3d.jpg'} style={style.img}/>
-                <div style={style.detail}>
+                <div className="volDetail" style={style.detail}>
                     <p style={style.volNumber}>{'Vol. ' + (this.props.data.vol || '899')}</p>
                     <p>{this.props.data.title || '无心深究的生活庸常'}</p>
                 </div>
