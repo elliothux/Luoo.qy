@@ -21,7 +21,8 @@ const style = {
         float: 'left',
         margin: '5px 30px 5px 10px',
         borderRadius: '3px',
-        boxShadow: 'rgba(34, 34, 34, 0.3) 0px 0px 5px 2px'
+        boxShadow: 'rgba(34, 34, 34, 0.3) 0px 0px 5px 2px',
+        cursor: 'pointer'
     },
 
     detail: {
@@ -77,7 +78,10 @@ class Playing extends React.Component {
     render() {
         return(
             <div style={style.div}>
-                <img src={this.props.data ? this.props.data.cover : '../static/pic/cover.jpg'} style={style.img}/>
+                <img src={this.props.data ? this.props.data.cover : '../static/pic/cover.jpg'}
+                     style={style.img}
+                     onClick={this.props.showPlayingVolView}
+                />
 
                 <div style={style.detail}>
                     <p style={style.detailName}>{this.props.data ? this.props.data.name : 'Loading...'}</p>
@@ -89,7 +93,7 @@ class Playing extends React.Component {
                 </div>
 
                 <div style={style.controller}>
-                    <img src="../static/pic/Previous.svg" style={style.prevButton}/>
+                    <img src="../static/pic/Previous.svg" style={style.prevButton} onClick={this.props.prev}/>
                     <img src="../static/pic/Play.svg" style={style.playButton} onClick={this.props.togglePlay}/>
                     <img src="../static/pic/Next.svg" style={style.nextButton} onClick={this.props.next}/>
                 </div>

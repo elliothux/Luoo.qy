@@ -34,7 +34,7 @@ class Track extends React.Component {
 
     render() {
         return(
-            <div style={style.div} onClick={this.props.play.bind(null, this.props.data, this.props.index)}>
+            <div style={style.div} onClick={this.props.play.bind(null, this.props.index, this.props.volData)}>
                 <img src={this.props.data.cover || '../static/pic/cover.jpg'} style={style.img}/>
                 <span>{this.props.data.name || 'Loading...'}</span>
                 <span>{this.props.data.album || 'Album'}</span>

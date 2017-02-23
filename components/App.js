@@ -78,26 +78,26 @@ class App extends React.Component {
         this.getVolList = this.getVolList.bind(this);
         this.showMoreVol = this.showMoreVol.bind(this);
         this.showVolView = this.showVolView.bind(this);
+        this.showPlayingVolView = this.showPlayingVolView.bind(this);
         this.hiddenVolView = this.hiddenVolView.bind(this);
         this.showVolInViewport = this.showVolInViewport.bind(this);
         this.playTrack = this.playTrack.bind(this);
         this.togglePlay = this.togglePlay.bind(this);
         this.playNextTrack = this.playNextTrack.bind(this);
+        this.playPrevTrack = this.playPrevTrack.bind(this);
 
 
         this.state = {
             background: '../static/pic/5877de4c96b3d.jpg',
             vol: [],
             volList: null,
-            trackList: null,
+            trackListData: null,
             showVolView: false,
             volViewData: null,
-            wheelTimes: 0,
-            playingTrackData: null,
+            playingVolData: null,
             playingTrack: new Audio(),
-            playingList: null,
-            playingListData: null,
-            playingIndex: 0
+            playingIndex: 0,
+            wheelTimes: 0,
         };
 
         this.methods = {
@@ -144,7 +144,7 @@ class App extends React.Component {
     showVolInViewport() {
         if (this.state.wheelTimes <= 1000) {
             this.setState((prevState, props) => {
-                return({wheelTimes: prevState++})
+                return({wheelTimes: prevState.wheelTimes + 1})
             });
             return;
         }
@@ -164,13 +164,35 @@ class App extends React.Component {
     }
 
     showVolView(data) {
+        this.getTrackList(data.vol);
         this.setState({
             volViewData: data,
             background: data.cover,
             showVolView: true
         });
-        ReactDOM.findDOMNode(this.volView).style.display = 'absolute';
-        this.getTrackList(data.vol);
+    }
+
+    showPlayingVolView() {
+        if (this.state.playingVolData.vol == this.state.volViewData.vol &&
+            this.state.showVolView == true)
+            return;
+
+        const show = function (data) {
+            this.getTrackList(data.vol);
+            this.setState({
+                volViewData: data,
+                background: data.cover,
+                showVolView: true
+            });
+        }.bind(this);
+
+        const data = this.state.playingVolData;
+        if (this.state.showVolView == false) {
+            show(data)
+        } else {
+            this.hiddenVolView();
+            setTimeout(show.bind(null, data), 600);
+        }
     }
 
     hiddenVolView() {
@@ -183,48 +205,40 @@ class App extends React.Component {
     }
 
     getTrackList(vol) {
-        this.setState((prevState, porps) => {
-            return {
-                trackList: null
-            }
-        });
         this.methods.getTrackList(vol).then((data) => {
-            let trackData = data.data;
-            let tracks = [];
-            for (let i=0, len=trackData.length; i<len; i++) {
-                tracks.push(<Track key={i} data={trackData[i]} index={i} play={this.playTrack}/>)
-            }
             this.setState((prevState, props) => {
                 return {
-                    trackList: tracks,
-                    playingListData: trackData
+                    trackListData: data.data
                 }
             })
         })
     }
 
-    playTrack(data, index) {
+    playTrack(index, volData) {
         this.setState((prevState, props) => {
             return({
-                playingTrackData: data,
+                playingVolData: volData,
+                playingTrackData: this.state.trackListData[index],
                 playingIndex: index
             })
         });
-        this.state.playingTrack.src = data.url;
+        this.state.playingTrack.src = this.state.trackListData[index].url;
         this.state.playingTrack.play();
+        this.state.playingTrack.addEventListener('ended', this.playNextTrack)
     }
 
     playNextTrack() {
-        if (this.state.playingIndex == this.state.playingListData.length - 1)
-            this.playTrack(this.state.playingListData[0], 0);
-        else {
-            this.playTrack(this.state.playingListData[this.state.playingIndex + 1], this.state.playingIndex + 1)
-            this.setState((prevState, props) => {
-                return({
-                    playingIndex: parseInt(prevState) + 1
-                })
-            })
-        }
+        if (this.state.playingIndex == this.state.trackListData.length - 1)
+            this.playTrack(0);
+        else
+            this.playTrack(this.state.playingIndex + 1);
+    }
+
+    playPrevTrack() {
+        if (this.state.playingIndex == 0)
+            this.playTrack(this.state.trackListData.length - 1);
+        else
+            this.playTrack(this.state.playingIndex - 1)
     }
 
     togglePlay() {
@@ -243,9 +257,34 @@ class App extends React.Component {
                     <button ref={(button) => {this.loadMoreVolButton = button}} onClick={this.showMoreVol} style={style.button}>更多</button>
                 </div>
 
-                <Playing data={this.state.playingTrackData} togglePlay={this.togglePlay} next={this.playNextTrack}/>
+                {this.state.playingTrackData ?
+                    <Playing
+                        data={this.state.playingTrackData}
+                         togglePlay={this.togglePlay}
+                         next={this.playNextTrack}
+                         prev={this.playPrevTrack}
+                         showPlayingVolView={this.showPlayingVolView}
+                    /> :
+                    false
+                }
 
-                <VolView ref={(volView) => {this.volView = volView}} data={this.state.volViewData} tracks={this.state.trackList} hiddenVolView={this.hiddenVolView} show={this.state.showVolView}/> :
+                <VolView
+                    ref={(volView) => {this.volView = volView}}
+                     data={this.state.volViewData}
+                     tracks={this.state.trackListData && this.state.trackListData.map((data, index) => {
+                         return(
+                             <Track
+                                 key={index}
+                                 data={data}
+                                 index={index}
+                                 play={this.playTrack}
+                                 volData={this.state.volViewData}
+                             />
+                         )
+                     })}
+                     hiddenVolView={this.hiddenVolView}
+                     show={this.state.showVolView}
+                />
             </div>
         )
     }
