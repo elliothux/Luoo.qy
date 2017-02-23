@@ -8,7 +8,7 @@ const style = {
         height: '60px',
         position: 'fixed',
         top: 'calc(100% - 60px)',
-        backgroundColor: 'rgba(255, 255, 255, 0.8)',
+        backgroundColor: 'rgba(255, 255, 255, 0.85)',
         lineHeight: '100%',
         fontFamily: 'Arial',
         fontWeight: 'bold',
@@ -27,7 +27,7 @@ const style = {
 
     detail: {
         float: 'left',
-        color: 'black',
+        color: 'rgb(125, 125, 125)',
         height: '100%',
         marginTop: '2px',
         fontSize: '1em'
@@ -35,7 +35,8 @@ const style = {
 
     detailName: {
         fontSize: '1.3em',
-        lineHeight: '35px'
+        lineHeight: '35px',
+        color: '#E06979'
     },
 
     controller: {
@@ -94,7 +95,11 @@ class Playing extends React.Component {
 
                 <div style={style.controller}>
                     <img src="../static/pic/Previous.svg" style={style.prevButton} onClick={this.props.prev}/>
-                    <img src="../static/pic/Play.svg" style={style.playButton} onClick={this.props.togglePlay}/>
+                    <img
+                        src={!this.props.isPlaying ? "../static/pic/Play.svg" : "../static/pic/Pause.svg"}
+                        style={style.playButton}
+                        onClick={this.props.togglePlay}
+                    />
                     <img src="../static/pic/Next.svg" style={style.nextButton} onClick={this.props.next}/>
                 </div>
             </div>

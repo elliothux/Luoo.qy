@@ -80,7 +80,7 @@ const style = {
     tracks: {
         width: '92%',
         marginLeft: '4%',
-        marginBottom: '100px'
+        marginBottom: '80px'
     }
 };
 

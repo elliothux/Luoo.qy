@@ -44,11 +44,12 @@ const style = {
         width:'100px',
         height: '40px',
         borderRadius: '40px',
-        margin: '30px calc(50% - 50px)',
-        backgroundColor: 'white',
-        border: '1px solid gray',
+        margin: '30px calc(50% - 50px) 80px calc(50% - 50px)',
+        backgroundColor: 'rgba(255, 255, 255, 0.2)',
+        border: 'none',
         fontSize: '1.2em',
         fontWeight: 'bold',
+        color: 'white',
         cursor: 'pointer'
     },
 
@@ -94,6 +95,7 @@ class App extends React.Component {
             trackListData: null,
             showVolView: false,
             volViewData: null,
+            isPlaying: false,
             playingVolData: null,
             playingTrack: new Audio(),
             playingIndex: 0,
@@ -219,7 +221,8 @@ class App extends React.Component {
             return({
                 playingVolData: volData,
                 playingTrackData: this.state.trackListData[index],
-                playingIndex: index
+                playingIndex: index,
+                isPlaying: true
             })
         });
         this.state.playingTrack.src = this.state.trackListData[index].url;
@@ -242,7 +245,15 @@ class App extends React.Component {
     }
 
     togglePlay() {
-        this.state.playingTrack.paused ? this.state.playingTrack.play() : this.state.playingTrack.pause()
+        if (this.state.playingTrack.paused)
+            this.state.playingTrack.play();
+        else
+            this.state.playingTrack.pause();
+        this.setState((prevState, props) => {
+            return({
+                isPlaying: !prevState.isPlaying
+            })
+        })
     }
 
     render() {
@@ -254,16 +265,22 @@ class App extends React.Component {
                     <div style={style.volContainer} onWheel={this.showVolInViewport}>
                         {this.state.vol}
                     </div>
-                    <button ref={(button) => {this.loadMoreVolButton = button}} onClick={this.showMoreVol} style={style.button}>更多</button>
+                    <button
+                        ref={(button) => {this.loadMoreVolButton = button}}
+                        onClick={this.showMoreVol} style={style.button}
+                    >
+                        Loading
+                    </button>
                 </div>
 
                 {this.state.playingTrackData ?
                     <Playing
                         data={this.state.playingTrackData}
-                         togglePlay={this.togglePlay}
-                         next={this.playNextTrack}
-                         prev={this.playPrevTrack}
-                         showPlayingVolView={this.showPlayingVolView}
+                        togglePlay={this.togglePlay}
+                        next={this.playNextTrack}
+                        prev={this.playPrevTrack}
+                        showPlayingVolView={this.showPlayingVolView}
+                        isPlaying={this.state.isPlaying}
                     /> :
                     false
                 }
