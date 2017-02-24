@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 
 
@@ -52,6 +53,12 @@ class Track extends React.Component {
     }
 
     play() {
+        const track = ReactDOM.findDOMNode(this.track);
+        track.className = 'volViewTrack volViewTrackClicked';
+        setTimeout(() => {
+            track.className = 'volViewTrack'
+        }, 600);
+
         this.props.getPlayList(this.props.trackListData, this.props.volData);
         this.props.play(this.props.index);
         setTimeout(function () {
@@ -62,6 +69,7 @@ class Track extends React.Component {
     render() {
         return(
             <div
+                ref={(track) => {this.track = track}}
                 style={style.div}
                 onClick={this.play}
                 className="volViewTrack"
