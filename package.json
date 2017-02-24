@@ -2,7 +2,7 @@
   "name": "luoo.qy",
   "version": "1.0.0",
   "description": "luoo.qy",
-  "main": "index.js",
+  "main": "main.js",
   "dependencies": {
     "babel-core": "^6.23.1",
     "babel-loader": "^6.2.10",
@@ -25,7 +25,8 @@
   },
   "scripts": {
     "start": "electron-rebuild && electron main.js",
-    "rebuild": "electron-rebuild -f -w leveldown"
+    "rebuild": "electron-rebuild -f -w leveldown",
+    "build": "electron-packager . Luoo.qy --platform=darwin --arch=x64 --ignore=node_modules/electron-* --overwrite --rebuild"
   },
   "keywords": [
     "electron-demo"
@@ -34,5 +35,11 @@
   "license": "ISC",
   "ecmaFeatures": {
     "modules": true
+  },
+  "build": {
+    "appId": "your.id",
+    "mac": {
+      "category": "your.app.category.type"
+    }
   }
 }

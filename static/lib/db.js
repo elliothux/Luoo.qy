@@ -1,5 +1,10 @@
-const volLevel = require( 'levelup' )('./db/vol', {valueEncoding: 'json'});
-const trackLevel = require('levelup')('./db/track', {valueEncoding: 'json'});
+const path = require('path');
+const volPath = path.join(__dirname, '../../db/vol');
+const trackPath = path.join(__dirname, '../../db/track');
+
+
+const volLevel = require( 'levelup' )(volPath, {valueEncoding: 'json'});
+const trackLevel = require('levelup')(trackPath, {valueEncoding: 'json'});
 const volDB = require('level-promisify')(volLevel);
 const trackDB = require('level-promisify')(trackLevel);
 

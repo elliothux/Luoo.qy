@@ -18,12 +18,18 @@ const style = {
         color: 'rgb(125, 125, 125)',
     },
 
-    img: {
-        height: '90%',
-        width: 'auto',
+    coverContainer: {
+        width: '45px',
+        height: '45px',
         margin: '0 25px 0 4px',
-        boxShadow: 'rgba(34, 34, 34, 0.3) 0px 0px 5px 2px',
+        overflow: 'hidden',
         borderRadius: '4px',
+        boxShadow: 'rgba(34, 34, 34, 0.3) 0px 0px 5px 2px',
+    },
+
+    cover: {
+        height: '100%',
+        width: '100%',
     },
 
     name: {
@@ -60,7 +66,9 @@ class Track extends React.Component {
                 onClick={this.play}
                 className="volViewTrack"
             >
-                <img src={this.props.data.cover || '../static/pic/cover.jpg'} style={style.img}/>
+                <div style={style.coverContainer}>
+                    <img src={this.props.data.cover || '../static/pic/cover.jpg'} style={style.cover}/>
+                </div>
                 <span style={style.name}>{this.props.data.name || 'Loading...'}</span>
                 <span>{this.props.data.album || 'Album'}</span>
                 <span> - </span>

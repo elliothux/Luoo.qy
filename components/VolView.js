@@ -60,7 +60,12 @@ const style = {
             letterSpacing: '0.2em',
             lineHeight: '1.2em',
             textShadow: '0px 0px 5px rgba(34, 34, 34, 0.3)'
-},
+        },
+
+        volNumber: {
+            fontFamily: "Savoye LET",
+            fontSize: '1.4em'
+        },
 
         tag: {
             display: 'inline-block',
@@ -107,13 +112,24 @@ class VolView extends React.Component {
 
     render() {
         return(
-            <div style={style.div} className={`volView ${this.props.show ? ' volViewActivated' : ' volViewUnactivated'}`}>
+            <div
+                style={style.div}
+                className={`volView ${this.props.show ? ' volViewActivated' : ' volViewUnactivated'}`}
+            >
                 <div style={style.backgroundContainer}>
-                    <img src={this.props.data ? this.props.data.cover : '../static/pic/5877de4c96b3d.jpg'} style={style.background}/>
+                    <img
+                        src={this.props.data ? this.props.data.cover : '../static/pic/5877de4c96b3d.jpg'}
+                        style={style.background}
+                    />
                 </div>
 
                 <div style={style.container}>
-                    <div style={style.logo} onClick={this.props.hiddenVolView}><Logo/></div>
+                    <div
+                        style={style.logo}
+                        onClick={this.props.hiddenVolView}
+                    >
+                        <Logo/>
+                    </div>
 
                     <img
                         className="volViewCover"
@@ -121,14 +137,27 @@ class VolView extends React.Component {
                         src={this.props.data ? this.props.data.cover : '../static/pic/5877de4c96b3d.jpg'}
                         style={style.cover}
                     />
-                    <div className="volViewDetail" ref={(detail) => {this.detail = detail}} style={style.detail.container}>
-                        <span>{this.props.data ? `Vol.${this.props.data.vol}` : 'Vol.000'}</span>
-                        <span style={style.detail.tag}>{this.props.data ? this.props.data.tag : '#...'}</span>
-                        <p style={style.detail.title}>{this.props.data ? this.props.data.title  : 'Title'}</p>
+
+                    <div
+                        className="volViewDetail"
+                        ref={(detail) => {this.detail = detail}}
+                        style={style.detail.container}
+                    >
+                        <span style={style.detail.volNumber}>
+                            {this.props.data ? `Vol.${this.props.data.vol}` : 'Vol.000'}
+                        </span>
+                        <span style={style.detail.tag}>
+                            {this.props.data ? this.props.data.tag : '#...'}
+                        </span>
+                        <p style={style.detail.title}>
+                            {this.props.data ? this.props.data.title  : 'Title'}
+                        </p>
                         <p style={style.detail.description}>
                             {this.props.data ? this.props.data.description : '......'}
                         </p>
-                        <span style={style.detail.time}>{this.props.data ? this.props.data.time : '1995 / 10 / 05'}</span>
+                        <span style={style.detail.time}>
+                            {this.props.data ? this.props.data.time : '1995 / 10 / 05'}
+                        </span>
                     </div>
 
                     <div className="volViewTracks" style={style.tracks}>

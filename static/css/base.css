@@ -93,3 +93,15 @@
 .volViewTrack:hover {
     animation: volViewTrackHover 400ms ease forwards;
 }
+
+
+.playingCover {
+    box-shadow: rgba(34, 34, 34, 0.2) 0 0 10px 5px;
+    transform: scale(1);
+    transition: all ease-out 300ms;
+}
+
+.playingCover:hover {
+    box-shadow: none;
+    transform: scale(1.06);
+}

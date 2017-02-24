@@ -22,7 +22,6 @@ const style = {
         float: 'left',
         margin: '5px 30px 5px 10px',
         borderRadius: '4px',
-        boxShadow: 'rgba(34, 34, 34, 0.3) 0px 0px 5px 2px',
         cursor: 'pointer'
     },
 
@@ -80,9 +79,11 @@ class Playing extends React.Component {
     render() {
         return(
             <div style={style.div}>
-                <img src={this.props.data ? this.props.data.cover : '../static/pic/cover.jpg'}
-                     style={style.img}
-                     onClick={this.props.showPlayingVolView}
+                <img
+                    className="playingCover"
+                    src={this.props.data ? this.props.data.cover : '../static/pic/cover.jpg'}
+                    style={style.img}
+                    onClick={this.props.showPlayingVolView}
                 />
 
                 <div style={style.detail}>
