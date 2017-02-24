@@ -105,3 +105,19 @@
     box-shadow: none;
     transform: scale(1.06);
 }
+
+
+.volViewLogo {
+    transform: scale(1);
+    transition: all 400ms ease-out;
+}
+
+.volViewLogo:hover {
+    transform: scale(1.1);
+}
+
+
+.playing {
+    transform: translateY(-60px);
+    transition: all ease-out 300ms;
+}

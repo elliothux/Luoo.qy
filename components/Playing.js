@@ -7,7 +7,7 @@ const style = {
         width: '100%',
         height: '60px',
         position: 'fixed',
-        top: 'calc(100% - 60px)',
+        top: '100%',
         backgroundColor: 'rgba(255, 255, 255, 0.85)',
         lineHeight: '100%',
         fontFamily: 'Arial',

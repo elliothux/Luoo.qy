@@ -231,6 +231,10 @@ class App extends React.Component {
             this.state.playingTrack.play();
         }.bind(this);
 
+        if(!this.state.playingTrackData) {
+            ReactDOM.findDOMNode(this.playing).className = 'playing';
+        }
+
         return new Promise(function (resolve, reject) {
             this.setState((prevState, props) => {
                 return ({
@@ -283,7 +287,13 @@ class App extends React.Component {
             <div id="luoo">
                 <div style={style.appContainer}>
                     <img src={this.state.background} style={style.img}/>
-                    <div style={style.logo} onClick={this.props.hiddenVolView}><Logo/></div>
+                    <div
+                        style={style.logo}
+                        onClick={this.props.hiddenVolView}
+                    >
+                        <Logo/>
+                    </div>
+
                     <div style={style.volContainer} onWheel={this.showVolInViewport}>
                         {this.state.vol}
                     </div>
@@ -295,17 +305,15 @@ class App extends React.Component {
                     </button>
                 </div>
 
-                {this.state.playingTrackData ?
-                    <Playing
-                        data={this.state.playingTrackData}
-                        togglePlay={this.togglePlay}
-                        next={this.playNextTrack}
-                        prev={this.playPrevTrack}
-                        showPlayingVolView={this.showPlayingVolView}
-                        isPlaying={this.state.isPlaying}
-                    /> :
-                    false
-                }
+                <Playing
+                    ref={(playing) => {this.playing = playing}}
+                    data={this.state.playingTrackData}
+                    togglePlay={this.togglePlay}
+                    next={this.playNextTrack}
+                    prev={this.playPrevTrack}
+                    showPlayingVolView={this.showPlayingVolView}
+                    isPlaying={this.state.isPlaying}
+                />
 
                 <VolView
                     ref={(volView) => {this.volView = volView}}

@@ -128,7 +128,7 @@ class VolView extends React.Component {
                         style={style.logo}
                         onClick={this.props.hiddenVolView}
                     >
-                        <Logo/>
+                        <Logo logoClass="volViewLogo"/>
                     </div>
 
                     <img

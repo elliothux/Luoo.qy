@@ -6,7 +6,8 @@ const style = {
     div: {
         margin: '30px 0 15px 0',
         filter: 'drop-shadow(rgba(34, 34, 34, 0.3) 2px 2px 2px)',
-        cursor: 'pointer'
+        cursor: 'pointer',
+        width: '140px'
     },
 
     img: {
@@ -35,7 +36,7 @@ class Logo extends React.Component {
 
     render() {
         return(
-            <div id="logo" style={style.div}>
+            <div id="logo" className={this.props.logoClass} style={style.div}>
                 <img src="../static/pic/logo_white.png" style={style.img}/>
                 <span style={style.span}>Luoo.qy</span>
             </div>
