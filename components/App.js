@@ -1,7 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
-const An = ReactCSSTransitionGroup;
 
 
 import Logo from './Logo';
@@ -27,7 +25,7 @@ const style = {
     },
 
     logo: {
-        marginLeft: 'calc(50% - 60px)'
+        margin: '30px 0 20px calc(50% - 60px)'
     },
 
     img: {
@@ -66,13 +64,7 @@ const style = {
 };
 
 
-const transition = {
-    transitionName: "vol",
-    transitionEnterTimeout: 5000,
-    transitionLeave: false
-};
-
-
+// 定义 Root 组件
 class App extends React.Component {
     constructor(props) {
         super(props);
@@ -90,9 +82,13 @@ class App extends React.Component {
 
 
         this.state = {
+            // 主页背景
             background: '../static/pic/5877de4c96b3d.jpg',
+            // 存储所有的渲染到 DOM 的 vol DOM
             vol: [],
+            // 存储所有的 vol DOM
             volList: null,
+            // 存储当前渲染的 volView 中的所有的 Track 的数据
             trackListData: null,
             showVolView: false,
             volViewData: null,

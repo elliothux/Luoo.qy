@@ -33,14 +33,22 @@ const style = {
         width: '100%',
     },
 
+    detailContainer: {
+        width: 'calc(100% - 100px)',
+        position: 'relative',
+        top: '-1px',
+    },
+
     name: {
         display: 'inline-block',
         fontSize: '1.2em',
         fontWeight: 'bold',
         marginRight: '30px',
-        position: 'relative',
-        top: '-2px',
         color: '#E06979'
+    },
+
+    album: {
+        display: 'inline-block',
     }
 };
 
@@ -77,10 +85,14 @@ class Track extends React.Component {
                 <div style={style.coverContainer}>
                     <img src={this.props.data.cover || '../static/pic/cover.jpg'} style={style.cover}/>
                 </div>
-                <span style={style.name}>{this.props.data.name || 'Loading...'}</span>
-                <span>{this.props.data.album || 'Album'}</span>
-                <span> - </span>
-                <span>{this.props.data.artist || 'Artist'}</span>
+                <div style={style.detailContainer}>
+                    <span style={style.name}>{this.props.data.name || 'Loading...'}</span>
+                    <div style={style.album}>
+                        <span>{this.props.data.album || 'Album'}</span>
+                        <span> - </span>
+                        <span>{this.props.data.artist || 'Artist'}</span>
+                    </div>
+                </div>
             </div>
         )
     }

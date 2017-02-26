@@ -19,7 +19,7 @@ const style = {
     },
 
     logo: {
-        marginLeft: '4%'
+        margin: '20px 0px 5px 4%'
     },
 
     cover: {
@@ -81,7 +81,7 @@ const style = {
 
         description: {
             fontSize: '0.8em',
-            margin: '30px 0',
+            margin: '5px 0px 30px 0',
             fontWeight: 'bold'
         },
 
@@ -152,9 +152,10 @@ class VolView extends React.Component {
                         <p style={style.detail.title}>
                             {this.props.data ? this.props.data.title  : 'Title'}
                         </p>
-                        <p style={style.detail.description}>
-                            {this.props.data ? this.props.data.description : '......'}
-                        </p>
+                        <p
+                            style={style.detail.description}
+                            dangerouslySetInnerHTML={{__html: this.props.data ? this.props.data.description : '......'}}
+                        />
                         <span style={style.detail.time}>
                             {this.props.data ? this.props.data.time : '1995 / 10 / 05'}
                         </span>

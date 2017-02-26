@@ -10,8 +10,8 @@
     "level-promisify": "^2.0.1",
     "leveldown": "^1.6.0",
     "levelup": "^1.3.3",
+    "nedb": "^1.8.0",
     "react": "^15.4.2",
-    "react-addons-css-transition-group": "^15.4.2",
     "react-dom": "^15.4.2",
     "request": "*",
     "webpack": "^2.2.1"
@@ -26,20 +26,15 @@
   "scripts": {
     "start": "electron-rebuild && electron main.js",
     "rebuild": "electron-rebuild -f -w leveldown",
-    "build": "electron-packager . Luoo.qy --platform=darwin --arch=x64 --ignore=node_modules/electron-* --overwrite --rebuild"
+    "build": "electron-packager . Luoo.qy --platform=win32 --arch=x64 --ignore=node_modules/electron-* --overwrite --rebuild",
+    "build-all": "electron-packager . Luoo.qy --all --ignore=node_modules/electron-* --overwrite --rebuild"
   },
   "keywords": [
-    "electron-demo"
+    "luoo.qy"
   ],
   "author": "hu",
   "license": "ISC",
   "ecmaFeatures": {
     "modules": true
-  },
-  "build": {
-    "appId": "your.id",
-    "mac": {
-      "category": "your.app.category.type"
-    }
   }
 }

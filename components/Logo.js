@@ -4,7 +4,6 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 
 const style = {
     div: {
-        margin: '30px 0 15px 0',
         filter: 'drop-shadow(rgba(34, 34, 34, 0.3) 2px 2px 2px)',
         cursor: 'pointer',
         width: '140px'

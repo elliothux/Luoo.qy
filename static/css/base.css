@@ -138,11 +138,11 @@
 }
 
 .detailContainer.next {
-    animation: nextDetailContainer ease-out 600ms;
+    animation: nextDetailContainer ease-in-out 500ms;
 }
 
 .detailContainer.prev {
-    animation: nextDetailContainer ease-out 600ms reverse;
+    animation: nextDetailContainer ease-in-out 500ms reverse;
 }
 
 @keyframes toggleDetailContainer {

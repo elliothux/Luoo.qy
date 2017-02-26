@@ -13,7 +13,6 @@ const style = {
         lineHeight: '100%',
         fontFamily: 'Arial',
         fontWeight: 'bold',
-        borderRadius: '4px',
         zIndex: 5
     },
 
