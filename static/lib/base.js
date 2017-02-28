@@ -1,84 +1,83 @@
-const request = require('request');
-const db = require('./db');
+const request = require('request-promise');
+const db = require('./_db');
 
 
 module.exports.getVolList = getVolList;
-module.exports.getTrackList = getTrackList;
+module.exports.getData = getData;
+module.exports.updateVolList = updateVolList;
 
 
-///////////////// VOL API ///////////////
+const DISAPPEAR_VOL = [544, 566, 567, 568];
 
-// 获取 Vol 列表
-function getVolList() {
-    getData('http://127.0.0.1:5000/api/latestVol').then(data => {
-        const latestVol = parseInt(data);
-        return db.isVolExist(latestVol).then(exist => {
-            if (!exist)
-                getVolFromServer(latestVol);
+///////////////// Base functions /////////////////
+
+async function getData(url) {
+    return request(url)
+        .then(data => {
+            return JSON.parse(data)
         })
-    }).catch(error => {
-        console.log(error)
-    });
+        .catch(error => console.log(error))
+}
+
+
+///////////////// Vol Api /////////////////
+
+function getVolList() {
+    updateVolList();
     return db.getVolList();
 }
 
 
-// 从服务器获取 Vol
+function updateVolList() {
+    const url = 'http://127.0.0.1:5000/api/latestVol';
+    return getData(url)
+        .then(latestVol => {
+            latestVol = parseInt(latestVol);
+            db.isVolExist(latestVol).then(exist => {
+                if (!exist)
+                    startGetVolFromServer(latestVol)
+            })
+        })
+        .catch(error => console.log(error))
+}
+
+
+function startGetVolFromServer(index) {
+    index = parseInt(index);
+    if (index <= 0)
+        return;
+    if (index in DISAPPEAR_VOL)
+        return startGetVolFromServer(index -1);
+    return db.isVolExist(index)
+        .then(exist => {
+            if (!exist) {
+                getVolFromServer(index)
+                    .then(data => {
+                        startGetVolFromServer(index-1)
+                    })
+            }
+            else console.log(`All vol add success.`)
+        })
+        .catch(error => console.log(error))
+}
+
+
+
 function getVolFromServer(index) {
-    if ([544, 566, 567, 568].indexOf(index) !== -1)
-        return getVolFromServer(index-1);
-    getData('http://127.0.0.1:5000/api/vol/' + index).then(data => {
-        data = JSON.parse(data);
-        // 将 Vol 数据添加到数据库
-        db.addVol(data).then(success => {
-            // 添加成功, 继续获取下一个 Vol 数据
-            if (success && index>0)
-                return getVolFromServer(index-1);
+    return getData(`http://127.0.0.1:5000/api/vol/${index}`)
+        .then(data => {
+            data.tracks = JSON.parse(data.tracks);
+            db.addVol(data);
+            console.log(`Add vol${data.vol} success.`);
+            return(data)
         })
-    })
+        .catch(error => console.log(error))
 }
 
 
-///////////////// TRACK API ///////////////
-
-// 获取 Track 列表
-function getTrackList(index) {
-    return db.isTrackExist(index).then(exist => {
-        if (!exist)
-            getTrackFromServer(index);
-        return db.getTrackList(index);
-    })
+async function test() {
+    // const data = await getData('http://127.0.0.1:5000/api/vol/862');
+    // console.log(data)
 }
 
-// 从服务器获取 Track
-function getTrackFromServer(index) {
-    if ([544, 566, 567, 568].indexOf(index) !== -1)
-        return getTrackFromServer(index-1);
-    getData('http://127.0.0.1:5000/api/track/' + index).then(trackData => {
-        const data = {
-            vol: index,
-            data: JSON.parse(trackData),
-            length: JSON.parse(trackData).length
-        };
-        // 将 Track 数据添加到数据库
-        db.addTrackList(data).then(success => {
-            // 添加成功, 继续获取下一个 Track 数据
-            if (success && index>0)
-                return getTrackFromServer(index-1);
-        })
-    })
-}
-
-
-///////////////// Other functions /////////////////
-
-function getData(url) {
-    return new Promise((resolve, reject) => {
-        request(url, function (error, response, body) {
-            if (!error && response.statusCode == 200)
-                resolve(body);
-            else if (error)
-                reject(error)
-        })
-    })
-}
+test()
