@@ -88,28 +88,35 @@ class App extends React.Component {
             vol: [],
             // 存储所有的 vol DOM
             volList: null,
-            // 存储当前渲染的 volView 中的所有的 Track 的数据
-            trackListData: null,
+            // 是否显示 volView
             showVolView: false,
+            // 存储 volView 的数据
             volViewData: null,
+            // 是否正在播放
             isPlaying: false,
+            // 正在播放的 vol 的数据
             playingVolData: null,
+            // 正在播放的 track 的数据
             playingTrackData: null,
+            // 正在播放的列表的数据
             playingTrackListData: null,
+            // 正在播放的 track
             playingTrack: new Audio(),
+            // 正在播放的 track 在列表的位置索引
             playingIndex: 0,
+            // 滚动屏幕的次数
             wheelTimes: 0,
         };
 
+        // 从 electron 主进程 remote 而来的方法
         this.methods = {
             getVolList: props.getVolList,
-            getTrackList: props.getTrackList,
             isElementInViewport: props.isElementInViewport
         };
     }
 
-    componentWillMount() {
-        this.getVolList()
+    async componentWillMount() {
+        await this.getVolList()
     }
 
     componentDidUpdate() {
@@ -120,14 +127,16 @@ class App extends React.Component {
         this.showVolInViewport()
     }
 
-    getVolList() {
-        this.methods.getVolList().then((data) => {
-            this.setState((prevState, props) => {
-                return {volList: data}
-            })
-        }).then(this.showMoreVol)
+    // 从数据库获得所有 vol 的数据并存储在 this.state.volList
+    async getVolList() {
+        const data = await this.methods.getVolList();
+        this.setState((prevState, props) => {
+            return {volList: data}
+        });
+        this.showMoreVol()
     }
 
+    // 渲染更多 vol 到 DOM
     showMoreVol() {
         let prevLength = this.state.vol.length;
         let dataToAdd = this.state.volList.slice(prevLength, prevLength+10);
@@ -142,6 +151,7 @@ class App extends React.Component {
         })
     }
 
+    // 为首次出现在 violView 的 vol 设置 class 用来设置动画
     showVolInViewport() {
         if (this.state.wheelTimes <= 1000) {
             this.setState((prevState, props) => {
@@ -164,6 +174,7 @@ class App extends React.Component {
         }.bind(this), 1000);
     }
 
+    // 显示 volView
     showVolView(data) {
         this.getTrackList(data.vol);
         this.setState({
@@ -173,6 +184,7 @@ class App extends React.Component {
         });
     }
 
+    // 显示正在播放的 volView
     showPlayingVolView(introduction) {
         if (this.state.playingVolData.vol == this.state.volViewData.vol &&
             this.state.showVolView == true)
@@ -180,7 +192,6 @@ class App extends React.Component {
 
         ReactDOM.findDOMNode(this.volView).scrollTop = 0;
         const show = function (data) {
-            this.getTrackList(data.vol);
             this.setState({
                 volViewData: data,
                 background: data.cover,
@@ -197,31 +208,24 @@ class App extends React.Component {
         }
     }
 
+    // 隐藏 volView
     hiddenVolView() {
         this.setState({
             showVolView: false
         });
     }
 
-    getTrackList(vol) {
-        this.methods.getTrackList(vol).then((data) => {
-            this.setState((prevState, props) => {
-                return {
-                    trackListData: data.data
-                }
-            })
-        })
-    }
-
-    getPlayList(data, volData) {
+    // 传入 volData, 设置播放列表
+    getPlayList(volData) {
         this.setState((prevState, props) => {
             return({
-                playingTrackListData: data,
+                playingTrackListData: volData.tracks,
                 playingVolData: volData
             })
         })
     }
 
+    // 传入 index ,播放指定 index 的 track
     playTrack(index) {
         const play = function () {
             this.state.playingTrack.play();
@@ -246,7 +250,7 @@ class App extends React.Component {
             resolve(this.state.playingTrack)
         }.bind(this)).then(function (track) {
             if (!track.src)
-                this.playTrack(index, volData);
+                this.playTrack(index);
             else
                 track.play()
         }.bind(this))

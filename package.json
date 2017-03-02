@@ -7,13 +7,11 @@
     "babel-core": "^6.23.1",
     "babel-loader": "^6.2.10",
     "electron": "^1.4.15",
-    "level-promisify": "^2.0.1",
-    "leveldown": "^1.6.0",
-    "levelup": "^1.3.3",
     "nedb": "^1.8.0",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
-    "request": "*",
+    "react-redux": "^5.0.3",
+    "redux": "^3.6.0",
     "request-promise": "^4.1.1",
     "webpack": "^2.2.1"
   },
@@ -27,7 +25,7 @@
   "scripts": {
     "start": "electron-rebuild && electron main.js",
     "rebuild": "electron-rebuild -f -w leveldown",
-    "build": "electron-packager . Luoo.qy --platform=win32 --arch=x64 --ignore=node_modules/electron-* --overwrite --rebuild",
+    "build": "electron-packager . Luoo.qy --platform=drawin --arch=x64 --ignore=node_modules/electron-* --overwrite --rebuild",
     "build-all": "electron-packager . Luoo.qy --all --ignore=node_modules/electron-* --overwrite --rebuild"
   },
   "keywords": [

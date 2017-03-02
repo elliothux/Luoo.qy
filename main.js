@@ -3,10 +3,7 @@ const path = require('path');
 const url = require('url');
 const {app, BrowserWindow} = electron;
 // const devTools =  require('electron-devtools-installer');
-
-
 const getVolList = require('./static/lib/base').getVolList;
-const getTrackList = require('./static/lib/base').getTrackList;
 
 
 ///////////////// Window //////////////////
@@ -53,7 +50,6 @@ app.on('activate', () => {
         createWindiw()
 });
 
-///////////////// REMOTE FUNCTION /////////////////
+///////////////// Remote Functions /////////////////
 
 exports.getVolList = getVolList;
-exports.getTrackList = getTrackList;

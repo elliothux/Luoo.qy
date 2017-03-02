@@ -1,143 +1,133 @@
+const Datastore = require('nedb');
 const path = require('path');
+
+
 const volPath = path.join(__dirname, '../../db/vol');
-const trackPath = path.join(__dirname, '../../db/track');
-
-
-const volLevel = require( 'levelup' )(volPath, {valueEncoding: 'json'});
-const trackLevel = require('levelup')(trackPath, {valueEncoding: 'json'});
-const volDB = require('level-promisify')(volLevel);
-const trackDB = require('level-promisify')(trackLevel);
+const vol = new Datastore({ filename: volPath, autoload: true });
 
 
 module.exports.addVol = addVol;
 module.exports.getVolList = getVolList;
-module.exports.addTrackList = addTrackList;
-module.exports.getTrackList = getTrackList;
 module.exports.isVolExist = isVolExist;
-module.exports.isTrackExist = isTrackExist;
-module.exports._deleteVol = _deleteVol;
-module.exports._deleteTrack = _deleteTrack;
 
-///////////////// VOL API ///////////////
 
-// 添加 Vol
-function addVol(vol) {
-    return isVolExist(vol.vol).then((exist) => {
-        // 添加成功
-        if (!exist)
-            return volDB.put(vol.vol, vol).then(() => {
-                console.log(`Add success: Vol${vol.vol}`);
-                return true
-            });
-        // 添加失败
-        else {
-            console.log(`Failed to add: Vol${vol.vol} exist`);
-            return new Promise((resolve, reject) => {
-                resolve(false)
-            })
-        }
-    })
-}
+///////////////// Base Database Method /////////////////
 
-// 获取 Vol 列表
-function getVolList() {
+// Rewrite insert method of database to async / await
+async function insert(arg) {
+    // Arguments must be an object
+    if (!arg || typeof arg !== 'object') {
+        console.error(`Function insert except an object not ${typeof arg} as the argument.`);
+        return false;
+    }
+
     return new Promise((resolve, reject) => {
-        const list = [];
-        volLevel.createReadStream()
-            .on('data', function (data) {
-                list.push(data.value);
-            })
-            .on('error', function (err) {
-                reject(`Oh my! ${err}`)
-            })
-            .on('close', function () {})
-            .on('end', function () {
-                resolve(list.sort(sortVolList));
-            })
-    })
-}
-
-function sortVolList(a, b) {
-    return parseInt(b.vol) - parseInt(a.vol)
-}
-
-// 传入 Vol 数目, 将其 Vol 删除
-function _deleteVol(vol) {
-    vol = parseInt(vol);
-    return isVolExist(vol).then(exist => {
-        if (exist)
-            return volDB.del(vol).then(() => {
-                console.log(`Delete Vol${vol} success!`);
-                return true
-            });
-        return new Promise((resolve, reject) => {
-            console.log(`Delete Vol${vol} failed cause it's not exist!`);
-            reject(false)
+        vol.insert(arg, (error, doc) => {
+            error && reject(`An error happened whiling handling database: ${error}`);
+            resolve(doc);
         })
     })
 }
 
-// 传入 Vol 数目, 判断是否存在 Vol
-function isVolExist(vol) {
-    return volDB.get(vol).then(() => {
-        return true
-    }).catch(() => {
-        return false
-    })
-}
 
+// Rewrite find method of database to async / await
+async function find(arg) {
+    !arg && (arg = {});
+    if (typeof arg !== 'object') {
+        arg = {};
+        console.error(`Function find except an object not ${typeof arg} as the argument.`)
+    }
 
-///////////////// TRACK API ///////////////
-
-// 添加 Track
-function addTrackList(trackList) {
-    return isTrackExist(trackList.vol).then((exist) => {
-        // 添加成功
-        if (!exist)
-            return trackDB.put(trackList.vol, trackList).then(() => {
-                console.log(`Add success: Track${trackList.vol}`);
-                return true
-            });
-        // 添加失败
-        else {
-            console.log(`Failed to add: Track${trackList.vol} exist`);
-            return new Promise((resolve, reject) => {
-                resolve(false)
-            })
-        }
-    })
-}
-
-// 传入 Vol 数目, 获取 Track 列表
-function getTrackList(vol) {
-    return trackDB.get(vol).then(data => {
-        return data
-    }).catch(error => {
-        return { error: error }
-    })
-}
-
-// 传入 Vol 数目, 判断 trackList 是否存在
-function isTrackExist(vol) {
-    return trackDB.get(vol).then(() => {
-        return true
-    }).catch(() => {
-        return false
-    })
-}
-
-// 传入 Vol 数目, 将其 Track 删除
-function _deleteTrack(vol) {
-    vol = parseInt(vol);
-    return isTrackExist(vol).then(exist => {
-        if (exist)
-            return trackDB.del(vol).then(() => {
-                console.log(`Delete Track${vol} success!`);
-                return true
-            });
-        return new Promise((resolve, reject) => {
-            console.log(`Delete Track${vol} failed cause it's not exist!`);
-            reject(false)
+    return new Promise((resolve, reject) => {
+        vol.find(arg).exec(function (error, docs) {
+            if (error)
+                reject(new Error(`Get vol list failed.`));
+            if (docs)
+                resolve(docs);
         })
     })
+}
+
+
+// Rewrite unset method of database to async / await
+async function remove(arg) {
+    if (!arg || typeof arg !== 'object') {
+        console.error(`Function find except an object not ${typeof arg} as the argument.`);
+        return false;
+    }
+
+    return new Promise((resolve, reject) => {
+        vol.update(arg, {$unset: {vol: arg.vol}}, {}, function (error) {
+            error && reject(`An error happened while handling unset: ${error}`);
+            resolve()
+        })
+    })
+}
+
+///////////////// Vol Api /////////////////
+
+// Passing data to add a vol and return data of this new vol
+async function addVol(data) {
+    // This function expect an object as it's argument
+    typeof data !== 'object' &&
+        console.error(`Function addVol expect an object arguments, not ${typeof data}.`);
+
+    // Check all required data in the argument
+    if (!'title' in data ||
+        !'vol' in data ||
+        !'cover' in data ||
+        !'date' in data ||
+        !'length' in data ||
+        ! 'tracks' in data) {
+        console.error('Add vol failed with invalid arguments.');
+        return false;
+    }
+
+    // Parse data
+    data.vol = parseInt(data.vol);
+    const exist = await isVolExist(data.vol);
+
+    // If the vol is already exist, do not add and return
+    if (exist) {
+        console.error(`Add vol failed for vol${data.vol} already exist`);
+        return false;
+    }
+
+    // Add vol if it's not exist
+    const newDoc = await insert(data);
+    console.log(`Add success: Vol ${data.vol}`);
+    return newDoc;
+}
+
+
+// Pass index of vol and delete this vol
+async function deleteVol(volIndex) {
+    // This function expect an int type as it's argument
+    if (!volIndex || !parseInt(volIndex)) {
+        console.error(`Function deleteVol expect an valid arguments which is or can be convert to an int type.`);
+        return false;
+    }
+    volIndex = parseInt(volIndex);
+    await remove({vol: volIndex});
+    console.log(`Delete success: Vol ${volIndex}`);
+}
+
+
+// Return all vol data as a list
+async function getVolList() {
+    return (await find())
+        // Sort all vol data by their vol index
+        .sort((a, b) => parseInt(b.vol) - parseInt(a.vol));
+}
+
+
+// Passing an int type to detect is a vol exist
+async function isVolExist(volIndex) {
+    // This function expect an int type as it's argument
+    if (!volIndex || !parseInt(volIndex))
+        console.error(`Function isVolExist expect an valid arguments which is or can be convert to an int type.`);
+
+    volIndex = parseInt(volIndex);
+    const doc = await find({vol: volIndex});
+    return doc.length > 0;
 }

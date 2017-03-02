@@ -6,7 +6,7 @@ import { remote } from 'electron';
 
 const main = remote.require('./main');
 const getVolList = main.getVolList;
-const getTrackList = main.getTrackList;
+
 
 const isElementInViewport = function (el) {
     const rect = el.getBoundingClientRect();
@@ -18,7 +18,7 @@ const isElementInViewport = function (el) {
 
 ReactDOM.render(
     <div>
-        <App getVolList={getVolList} getTrackList={getTrackList} isElementInViewport={isElementInViewport}/>
+        <App getVolList={getVolList} isElementInViewport={isElementInViewport}/>
     </div>,
     document.getElementById('root')
 );
