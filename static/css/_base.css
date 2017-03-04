@@ -1,0 +1,187 @@
+@font-face {
+    font-family: ms;
+    src: url('../fonts/ms.ttf')
+}
+
+@font-face {
+    font-family: hanyi90;
+    src: url('../fonts/hanyi90.ttf')
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: hanyi90, ms, Arial;
+}
+
+
+/********************** Animation *********************/
+
+.vol{
+    opacity: 0;
+    transform: translateX(-100%);
+    transition: all ease-out;
+}
+
+.vol.volInViewPort{
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.vol0 {transition-duration: 800ms}
+.vol1 {transition-delay: 200ms; transition-duration: 500ms}
+
+
+.volView {
+    position: fixed;
+    top: 100%;
+    transition: all ease-out 400ms;
+}
+
+.volView.volViewUnactivated {
+    position: fixed;
+    top: 100%;
+    transition-duration: 400ms;
+}
+
+.volView.volViewActivated {
+    position: absolute;
+    top: 0;
+}
+
+.volViewCover, .volViewDetail, .volViewTracks {
+    transform: translateY(300px);
+    opacity: 0;
+}
+
+.volViewActivated .volViewCover, .volViewActivated .volViewDetail, .volViewActivated .volViewTracks {
+    transform: translateY(0);
+    opacity: 1;
+    transition: all 600ms ease;
+}
+
+.volViewActivated .volViewCover {transition-delay: 400ms}
+.volViewActivated .volViewDetail {transition-delay: 500ms}
+.volViewActivated .volViewTracks {transition-delay: 600ms}
+
+
+.volViewTrack {
+    background-color: rgba(255, 255, 255, 0.8);
+    transform: scale(1);
+    transition: all 400ms ease-out;
+}
+
+.volViewTrack:hover {
+    background-color: rgba(255, 255, 255, 1);
+    transform: scale(1.03);
+}
+
+
+@keyframes clickTrack {
+    0%, 100% {
+        opacity: 1;
+        transform: scale(1.03);
+        background-color: rgba(255, 255, 255, 0.8);
+    }
+    50% {
+        opacity: 0.7;
+        transform: scale(1);
+    }
+}
+
+.volViewTrack.volViewTrackClicked {
+    animation: clickTrack ease-out 600ms;
+}
+
+
+.playingCover {
+    box-shadow: rgba(34, 34, 34, 0.2) 0 0 10px 5px;
+    transform: scale(1);
+    transition: all ease-out 300ms;
+}
+
+.playingCover:hover {
+    box-shadow: none;
+    transform: scale(1.06);
+}
+
+
+.volViewLogo {
+    transform: scale(1);
+    transition: all 400ms ease-out;
+}
+
+.volViewLogo:hover {
+    transform: scale(1.1);
+}
+
+
+.playing {
+    transform: translateY(-60px);
+    transition: all ease-out 300ms;
+}
+
+
+@keyframes nextDetailContainer {
+    0%, 100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    50% {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    51% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+}
+
+.detailContainer.next {
+    animation: nextDetailContainer ease-in-out 500ms;
+}
+
+.detailContainer.prev {
+    animation: nextDetailContainer ease-in-out 500ms reverse;
+}
+
+@keyframes toggleDetailContainer {
+    0%, 100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.5;
+        transform: scale(0.98);
+    }
+}
+
+.detailContainer.toggle {
+    animation: toggleDetailContainer ease-out 600ms;
+}
+
+
+.prevButton, .toggleButton, .nextButton {
+    transform: scale(1);
+    transition: all ease-out 600ms;
+}
+
+.prevButton:hover, .toggleButton:hover, .nextButton:hover {
+    transform: scale(1.1);
+}
+
+@keyframes clickButton {
+    0%, 100% {
+        opacity: 1;
+        transform: scale(1.1);
+    }
+    50% {
+        opacity: 0.6;
+        transform: scale(1);
+    }
+}
+
+.clicked {
+    animation: clickButton ease-out 600ms;
+}
+
