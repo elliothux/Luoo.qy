@@ -1,182 +1,116 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import reactCSS from 'reactcss';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 
 
-const style = {
-    div: {
-        width: '100%',
-        height: '60px',
-        position: 'fixed',
-        top: '100%',
-        backgroundColor: 'rgba(255, 255, 255, 0.85)',
-        lineHeight: '100%',
-        fontFamily: 'Arial',
-        fontWeight: 'bold',
-        zIndex: 5
-    },
-
-    img: {
-        height: '50px',
-        width: '50px',
-        float: 'left',
-        margin: '5px 30px 5px 10px',
-        borderRadius: '4px',
-        cursor: 'pointer'
-    },
-
-    detail: {
-        float: 'left',
-        color: 'rgb(125, 125, 125)',
-        height: '100%',
-        width: 'calc(100% - 280px)',
-        marginTop: '2px',
-        fontSize: '1em'
-    },
-
-    detailName: {
-        fontSize: '1.3em',
-        margin: '10px 0 5px 0',
-        color: '#E06979'
-    },
-
-    detailAlbum: {
-        lineHeight: '1.5em'
-    },
-
-    controller: {
-        float: 'right',
-        color: 'gray',
-        marginRight: '20px',
-        position: 'relative',
-    },
-
-    playButton: {
-        position: 'relative',
-        top: '5px',
-        width: '48px',
-        height: 'auto',
-        cursor: 'pointer',
-        margin: '0 20px',
-    },
-
-    nextButton: {
-        width: '35px',
-        height: 'auto',
-        cursor: 'pointer'
-    },
-
-    prevButton: {
-        width: '35px',
-        height: 'auto',
-        cursor: 'pointer'
-    }
-
-};
-
-
-class Playing extends React.Component {
+export default class Playing extends React.Component {
     constructor(props) {
         super(props);
-        this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
-        this.next = this.next.bind(this);
-        this.prev = this.prev.bind(this);
-        this.toggle = this.toggle.bind(this);
+        this.style = this.style.bind(this)
     }
 
-    next() {
-        const detailContainer = ReactDOM.findDOMNode(this.detailContainer);
-        const nextButton = ReactDOM.findDOMNode(this.nextButton);
-
-        detailContainer.className = 'detailContainer next';
-        nextButton.className = 'nextButton clicked';
-
-        setTimeout(() => {
-            detailContainer.className = 'detailContainer';
-            nextButton.className = 'nextButton';
-        }, 600);
-        this.props.next();
-    }
-
-    prev() {
-        const detailContainer = ReactDOM.findDOMNode(this.detailContainer);
-        const prevButton = ReactDOM.findDOMNode(this.prevButton);
-
-        detailContainer.className = 'detailContainer prev';
-        prevButton.className = 'prevButton clicked';
-
-        setTimeout(() => {
-            detailContainer.className = 'detailContainer';
-            prevButton.className = 'prevButton';
-        }, 600);
-        this.props.prev();
-    }
-
-    toggle() {
-        const detailContainer = ReactDOM.findDOMNode(this.detailContainer);
-        const toggleButton = ReactDOM.findDOMNode(this.toggleButton);
-
-        detailContainer.className = 'detailContainer toggle';
-        toggleButton.className = 'toggleButton clicked';
-
-        setTimeout(() => {
-            detailContainer.className = 'detailContainer';
-            toggleButton.className = 'toggleButton';
-        }, 600);
-        this.props.togglePlay();
-    }
-
-    render() {
-        return(
-            <div style={style.div}>
-                <div
-                    className="detailContainer"
-                    ref={(detailContainer) => {this.detailContainer = detailContainer}}
-                >
-                    <img
-                        className="playingCover"
-                        src={this.props.data ? this.props.data.cover : '../static/pic/cover.jpg'}
-                        style={style.img}
-                        onClick={this.props.showPlayingVolView}
-                    />
-
-                    <div style={style.detail}>
-                        <p style={style.detailName}>{this.props.data ? this.props.data.name : 'Loading...'}</p>
-                        <p style={style.detailAlbum}>
-                            <span>{this.props.data ? this.props.data.album : 'Album'}</span>
-                            <span>  -  </span>
-                            <span>{this.props.data ? this.props.data.artist : 'Artist'}</span>
-                        </p>
-                    </div>
-                </div>
-
-                <div style={style.controller}>
-                    <img
-                        className="prevButton"
-                        ref={(prevButton) => {this.prevButton = prevButton}}
-                        src="../static/pic/Previous.svg"
-                        style={style.prevButton}
-                        onClick={this.prev}
-                    />
-                    <img
-                        className="toggleButton"
-                        ref={(toggleButton) => {this.toggleButton = toggleButton}}
-                        src={!this.props.isPlaying ? "../static/pic/Play.svg" : "../static/pic/Pause.svg"}
-                        style={style.playButton}
-                        onClick={this.toggle}
-                    />
-                    <img
-                        className="nextButton"
-                        ref={(nextButton) => {this.nextButton = nextButton}}
-                        src="../static/pic/Next.svg"
-                        style={style.nextButton}
-                        onClick={this.next}
-                    />
+    render() {return(
+        <div style={this.style().playing}>
+            <div>
+                <img
+                    src={this.props.data ? this.props.data.cover : '../static/pic/cover.jpg'}
+                    style={this.style().cover}
+                />
+                <div style={this.style().detail}>
+                    <p style={this.style().detailName}>{this.props.data ? this.props.data.name : 'Loading...'}</p>
+                    <p style={this.style().detailAlbum}>
+                        <span>{this.props.data ? this.props.data.album : 'Album'}</span>
+                        <span>  -  </span>
+                        <span>{this.props.data ? this.props.data.artist : 'Artist'}</span>
+                    </p>
                 </div>
             </div>
-        )
-    }
+
+            <div style={this.style().controller}>
+                <img
+                    src="../static/pic/Previous.svg"
+                    style={this.style().prevButton}
+                />
+                <img
+                    src={!this.props.isPlaying ? "../static/pic/Play.svg" : "../static/pic/Play.svg"}
+                    style={this.style().playButton}
+                />
+                <img
+                    src="../static/pic/Next.svg"
+                    style={this.style().nextButton}
+                />
+            </div>
+        </div>
+    )}
+
+    style() {return(reactCSS({
+        default: {
+            playing: {
+                position: 'fixed',
+                width: 'calc(100% - 80px)',
+                height: '60px',
+                top: 'calc(100% - 60px)',
+                left: '80px',
+                backgroundColor: 'rgba(255, 255, 255, 0.6)',
+                lineHeight: '100%',
+                fontFamily: 'Arial',
+                fontWeight: 'bold',
+                zIndex: 5
+            },
+            cover: {
+                height: '75px',
+                width: '75px',
+                float: 'left',
+                margin: '5px 30px 5px 10px',
+                borderRadius: '4px',
+                cursor: 'pointer',
+                position: 'relative',
+                top: '-28px',
+                boxShadow: '0px 2px 5px 2px rgba(0,0,0,0.31)'
+            },
+            detail: {
+                float: 'left',
+                color: 'rgb(125, 125, 125)',
+                height: '100%',
+                width: 'calc(100% - 280px)',
+                marginTop: '2px',
+            },
+            detailName: {
+                fontSize: '1.3em',
+                margin: '10px 0 5px 0',
+                color: '#E06979',
+                fontWeight: 'bold'
+            },
+            detailAlbum: {
+                lineHeight: '1.5em',
+                fontSize: '0.9em'
+            },
+            controller: {
+                float: 'right',
+                color: 'gray',
+                marginRight: '30px',
+                position: 'relative',
+                top: '-50px',
+                filter: 'drop-shadow(rgba(190, 93, 99, 0.8) 0 5px 5px)',
+
+            },
+            playButton: {
+                position: 'relative',
+                width: '50px',
+                height: 'auto',
+                cursor: 'pointer',
+                margin: '0 20px',
+            },
+            nextButton: {
+                width: '42px',
+                height: 'auto',
+                cursor: 'pointer'
+            },
+            prevButton: {
+                width: '42px',
+                height: 'auto',
+                cursor: 'pointer'
+            }
+        }
+    }, this.props, this.state))}
 }
-
-
-export default Playing;

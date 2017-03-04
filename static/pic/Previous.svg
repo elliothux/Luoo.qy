@@ -1,14 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="104px" height="104px" viewBox="0 0 104 104" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg width="68px" height="68px" viewBox="0 0 68 68" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <!-- Generator: Sketch 39.1 (31720) - http://www.bohemiancoding.com/sketch -->
-    <title>Untitled</title>
+    <title>Previous</title>
     <desc>Created with Sketch.</desc>
     <defs></defs>
-    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="Group">
-            <path d="M0,52 C0,80.72 23.28,104 52,104 C80.72,104 104,80.72 104,52 C104,23.28 80.72,0 52,0 C23.28,0 0,23.28 0,52 L0,52 Z" id="Stroke-456" fill="#E06979"></path>
-            <polygon id="Stroke-458" fill="#FFFFFF" points="52 52 76 36 76 68"></polygon>
-            <path d="M44,40 C44,37.79 42.21,36 40,36 L36,36 C33.79,36 32,37.79 32,40 L32,64 C32,66.21 33.79,68 36,68 L40,68 C42.21,68 44,66.21 44,64 L44,40 L44,40 Z" id="Stroke-459" fill="#FFFFFF"></path>
+    <g id="Welcome" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Luoo.qy-0.0.3-Vol-View" transform="translate(-1121.000000, -942.000000)">
+            <g id="playing" transform="translate(130.000000, 888.000000)">
+                <g id="controlor" transform="translate(991.000000, 47.000000)">
+                    <g id="Previous" transform="translate(0.000000, 7.578947)">
+                        <g id="Untitled">
+                            <g id="Page-1">
+                                <g id="Group">
+                                    <path d="M0,33.6842105 C0,52.2882591 15.0668119,67.3684211 33.6543909,67.3684211 C52.2419699,67.3684211 67.3087819,52.2882591 67.3087819,33.6842105 C67.3087819,15.0801619 52.2419699,0 33.6543909,0 C15.0668119,0 0,15.0801619 0,33.6842105 L0,33.6842105 L0,33.6842105 Z" id="Stroke-456" fill="#E06979"></path>
+                                    <polygon id="Stroke-458" fill="#FFFFFF" points="33.6543909 33.6842105 49.1871868 23.3198381 49.1871868 44.048583"></polygon>
+                                    <path d="M28.4767923,25.9109312 C28.4767923,24.4793522 27.3183046,23.3198381 25.887993,23.3198381 L23.2991937,23.3198381 C21.8688821,23.3198381 20.7103944,24.4793522 20.7103944,25.9109312 L20.7103944,41.4574899 C20.7103944,42.8890688 21.8688821,44.048583 23.2991937,44.048583 L25.887993,44.048583 C27.3183046,44.048583 28.4767923,42.8890688 28.4767923,41.4574899 L28.4767923,25.9109312 L28.4767923,25.9109312 L28.4767923,25.9109312 Z" id="Stroke-459" fill="#FFFFFF"></path>
+                                </g>
+                            </g>
+                        </g>
+                    </g>
+                </g>
+            </g>
         </g>
     </g>
 </svg>

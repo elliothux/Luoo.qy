@@ -1,56 +1,58 @@
 import React from 'react';
+import reactCSS from 'reactcss';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 
 
-const style = {
-    div: {
-        width: '50%',
-        display: 'inline-block',
-        marginTop: '-10px',
-        color: 'white',
-        cursor: 'pointer',
-        overflow: 'hidden'
-    },
 
-    img: {
-        width: '100%',
-        height: 'auto',
-    },
-
-    detail: {
-        height: '60px',
-        marginTop: '-60px',
-        marginLeft: '15px',
-        textShadow: 'rgba(34, 34, 34, 0.8) 2px 2px 2px',
-        lineHeight: '18px'
-    },
-
-    volNumber: {
-        fontFamily: 'Savoye LET',
-        fontSize: '1.6em'
-    }
-};
-
-
-class Vol extends React.Component {
+export default class Vol extends React.Component {
     constructor(props) {
         super(props);
         this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
+        this.style = this.style.bind(this);
     }
 
-
-    render() {
-        return(
-            <div className={`vol vol${this.props.index % 2}`} style={style.div} onClick={this.props.showVolView.bind(null, this.props.data)}>
-                <img src={this.props.data.cover || '../static/pic/5877de4c96b3d.jpg'} style={style.img}/>
-                <div className="volDetail" style={style.detail}>
-                    <p style={style.volNumber}>{'Vol. ' + (this.props.data.vol || '899')}</p>
-                    <p>{this.props.data.title || '无心深究的生活庸常'}</p>
-                </div>
+    render() {return(
+        <div style={this.style().vol} onClick={this.props.showVolView.bind(null, this.props.data)}>
+            <div style={this.style().desc}>
+                <p style={this.style().volNum}>
+                    Vol.{this.props.data ? this.props.data.vol : 'Loading...'}
+                </p>
+                <p>
+                    {this.props.data ? this.props.data.title : 'Loading...'}
+                </p>
             </div>
-        )
-    }
+        </div>
+    )}
+
+    style() {return(reactCSS({
+        default: {
+            vol: {
+                width: '47%',
+                height: 0,
+                paddingBottom: '30%',
+                backgroundImage: `url(${this.props.data ? 
+                    this.props.data.cover : 
+                    '../static/pic/bg.jpg'})`,
+                backgroundSize: 'cover',
+                marginBottom: '20px',
+                boxShadow: 'rgba(0, 0, 0, 0.4) 0px 8px 15px 2px)',
+                borderRadius: '8px',
+                cursor: 'pointer',
+                position: 'relative'
+            },
+            desc: {
+                position: 'absolute',
+                left: '15px',
+                bottom: '10px',
+                color: 'white',
+                textShadow: '0 5px 5px rgba(0, 0, 0, 0.4)'
+            },
+            volNum: {
+                fontSize: '1.6em',
+                letterSpacing: '1px',
+                fontFamily: 'Savoye LET',
+                lineHeight: '0.5em',
+            }
+        }
+    }, this.props, this.state))}
 }
-
-
-export default Vol;

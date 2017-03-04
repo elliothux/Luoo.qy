@@ -6,25 +6,24 @@
   "dependencies": {
     "babel-core": "^6.23.1",
     "babel-loader": "^6.2.10",
-    "electron": "^1.4.15",
+    "electron": "^1.6.1",
     "nedb": "^1.8.0",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
-    "react-redux": "^5.0.3",
-    "redux": "^3.6.0",
+    "reactcss": "^1.1.1",
     "request-promise": "^4.1.1",
     "webpack": "^2.2.1"
   },
   "devDependencies": {
     "babel-preset-es2015": "^6.22.0",
     "babel-preset-react": "^6.22.0",
+    "babel-preset-stage-0": "^6.22.0",
     "electron-devtools-installer": "^2.1.0",
     "electron-rebuild": "^1.5.7",
     "react-addons-pure-render-mixin": "^15.4.2"
   },
   "scripts": {
     "start": "electron-rebuild && electron main.js",
-    "rebuild": "electron-rebuild -f -w leveldown",
     "build": "electron-packager . Luoo.qy --platform=drawin --arch=x64 --ignore=node_modules/electron-* --overwrite --rebuild",
     "build-all": "electron-packager . Luoo.qy --all --ignore=node_modules/electron-* --overwrite --rebuild"
   },

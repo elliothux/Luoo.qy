@@ -1,8 +1,10 @@
 module.exports = {
-    entry: require('path').join(__dirname, './index'),
+    entry: {
+        index: require('path').join(__dirname, './index.js'),
+    },
     output: {
         path: require('path').join(__dirname),
-        filename: 'index.build.js'
+        filename: '[name].build.js'
     },
     module: {
         loaders: [{
