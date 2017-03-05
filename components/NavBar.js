@@ -8,6 +8,14 @@ export default class NavBar extends React.Component {
         super(props);
         this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
         this.style = this.style.bind(this);
+        this.toggle = this.toggle.bind(this);
+    }
+
+    toggle(menu) {
+        if (this.props.menu === 'vol' && this.props.menu === menu)
+            this.props.hideVolView();
+        if (this.props.menu !== menu)
+            this.props.toggle(menu);
     }
 
     render() {return(
@@ -18,12 +26,26 @@ export default class NavBar extends React.Component {
             </div>
             <div style={this.style().button}>
                 <img
+                    onClick={this.toggle.bind(null, 'vol')}
                     style={this.style().buttonImg}
-                    src="../static/pic/cd.svg"
-                    onClick={this.props.hideVolView}
+                    src={this.props.menu === 'vol' ?
+                        "../static/pic/acd.svg" :
+                        "../static/pic/cd.svg"}
                 />
-                <img style={this.style().buttonImg} src="../static/pic/link.svg"/>
-                <img style={this.style().buttonImg}  src="../static/pic/star.svg"/>
+                <img
+                    onClick={this.toggle.bind(null, 'single')}
+                    style={this.style().buttonImg}
+                    src={this.props.menu === 'single' ?
+                        "../static/pic/alink.svg" :
+                        "../static/pic/link.svg"}
+                />
+                <img
+                    onClick={this.toggle.bind(null, 'user')}
+                    style={this.style().buttonImg}
+                    src={this.props.menu === 'user' ?
+                        "../static/pic/astar.svg" :
+                        "../static/pic/star.svg"}
+                />
             </div>
             <div style={this.style().volume}>
                 <p>+</p>

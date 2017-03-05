@@ -7,28 +7,24 @@ export default class Playing extends React.Component {
     constructor(props) {
         super(props);
         this.style = this.style.bind(this);
-        this.toggle = this.toggle.bind(this);
 
         this.state = {
             isPlaying: true
         }
     }
 
-    toggle() {
-        this.props.toggle();
-        this.setState((prevState, props) => ({
-            isPlaying: !prevState.isPlaying
-        }))
-    }
-
     render() {return(
         <div style={this.style().playing}>
             <div>
-                <img
-                    onClick={this.props.showPlayingVolView}
-                    src={this.props.data ? this.props.data.cover : '../static/pic/cover.jpg'}
-                    style={this.style().cover}
-                />
+                <div style={this.style().coverContainer}>
+                    <img
+                        onClick={this.props.showPlayingVolView}
+                        style={this.style().cover}
+                        src={this.props.data ?
+                            this.props.data.cover :
+                            '../static/pic/cover.jpg'}
+                    />
+                </div>
                 <div style={this.style().detail}>
                     <p style={this.style().detailName}>{this.props.data ? this.props.data.name : 'Loading...'}</p>
                     <p style={this.style().detailAlbum}>
@@ -46,8 +42,10 @@ export default class Playing extends React.Component {
                     style={this.style().prevButton}
                 />
                 <img
-                    onClick={this.toggle}
-                    src={this.state.isPlaying ? "../static/pic/Pause.svg" : "../static/pic/Play.svg"}
+                    onClick={this.props.toggle}
+                    src={this.props.isPlaying ?
+                        "../static/pic/Pause.svg" :
+                        "../static/pic/Play.svg"}
                     style={this.style().playButton}
                 />
                 <img
@@ -65,24 +63,34 @@ export default class Playing extends React.Component {
                 position: 'fixed',
                 width: 'calc(100% - 80px)',
                 height: '60px',
-                top: 'calc(100% - 60px)',
+                top: 'calc(100% + 17px)',
                 left: '80px',
                 backgroundColor: 'rgba(255, 255, 255, 0.75)',
                 lineHeight: '100%',
                 fontFamily: 'Arial',
                 fontWeight: 'bold',
+                transform: `${this.props.data ? 'translateY(-77px)' : 'none'}`,
+                transition: 'all ease-out 300ms',
                 zIndex: 5
             },
-            cover: {
-                height: '65px',
-                width: '65px',
+            coverContainer: {
+                height: '62px',
+                width: '62px',
                 float: 'left',
                 margin: '5px 30px 5px 10px',
-                borderRadius: '4px',
+                borderRadius: '6px',
                 cursor: 'pointer',
+                overflow: 'hidden',
                 position: 'relative',
-                top: '-22px',
+                top: '-16px',
                 boxShadow: '0px 2px 5px 2px rgba(0,0,0,0.31)'
+            },
+            cover: {
+                height: 'calc(100% + 10px)',
+                width: 'calc(100% + 10px)',
+                position: 'relative',
+                top: '-5px',
+                left: '-5px'
             },
             detail: {
                 float: 'left',

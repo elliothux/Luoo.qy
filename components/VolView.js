@@ -10,10 +10,15 @@ export default class VolView extends React.Component {
         this.style = this.style.bind(this);
     }
 
+    componentWillReceiveProps() {
+        if (!this.props.show)
+            this.refs.content.scrollTop = 0;
+    }
+
     render() {return(
         <div style={this.style().volView} className="volView hide">
             <div style={this.style().background}/>
-            <div style={this.style().content}>
+            <div ref={'content'} style={this.style().content}>
                 <p style={this.style().volNum}>Vol.{this.props.data ? this.props.data.vol : '000'}</p>
                 <img
                     src={this.props.data ? this.props.data.cover : '../static/pic/bg.jpg'}
@@ -50,7 +55,7 @@ export default class VolView extends React.Component {
                 height: '100%',
                 overflow: 'hidden',
                 position: 'absolute',
-                transition: 'all ease-out 300ms',
+                transition: 'all ease-out',
                 top: 0,
                 color: 'white'
             },
@@ -90,6 +95,8 @@ export default class VolView extends React.Component {
                 marginRight: '2%',
                 boxShadow: 'rgba(34, 34, 34, 0.3) 0px 0px 5px 2px',
                 borderRadius: '4px',
+                position: 'relative',
+                top: '300px',
             },
             detailContainer: {
                 color: 'white',
@@ -101,7 +108,9 @@ export default class VolView extends React.Component {
                 marginRight: '4%',
                 letterSpacing: '0.2em',
                 lineHeight: '1.2em',
-                textShadow: '0px 0px 5px rgba(34, 34, 34, 0.3)'
+                textShadow: '0px 0px 5px rgba(34, 34, 34, 0.3)',
+                position: 'relative',
+                top: '300px'
             },
             detail: {
                 color: 'white',
@@ -139,17 +148,48 @@ export default class VolView extends React.Component {
             tracks: {
                 width: '92%',
                 marginLeft: '4%',
-                marginBottom: '80px'
+                marginBottom: '80px',
+                position: 'relative',
+                top: '300px'
             }
         },
         'show-true': {
             volView: {
-                transform: 'translateY(0)'
-            }
+                transform: 'translateY(0)',
+                transitionDuration: '450ms'
+            },
+            cover: {
+                opacity: 1,
+                transform: 'translateY(-300px)',
+                transition: 'all 400ms ease-out',
+                transitionDelay: '350ms'
+            },
+            detailContainer: {
+                opacity: 1,
+                transform: 'translateY(-300px)',
+                transition: 'all 400ms ease-out',
+                transitionDelay: '450ms'
+            },
+            tracks: {
+                opacity: 1,
+                transform: 'translateY(-300px)',
+                transition: 'all 400ms ease-out',
+                transitionDelay: '550ms'
+            },
         },
         'show-false': {
             volView: {
-                transform: 'translateY(100%)'
+                transform: 'translateY(100%)',
+                transitionDuration: '400ms'
+            },
+            cover: {
+                opacity: 0
+            },
+            detailContainer: {
+                opacity: 0
+            },
+            tracks: {
+                opacity: 0
             }
         }
     }, this.props, this.state))}
