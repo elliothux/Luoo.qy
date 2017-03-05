@@ -11,7 +11,7 @@ class Track extends React.Component {
 
     render() {
         return(
-            <div style={this.style().track}>
+            <div onClick={this.props.play.bind(null, this.props.volData, this.props.index)} style={this.style().track}>
                 <div style={this.style().coverContainer}>
                     <img
                         src={this.props.data.cover || '../static/pic/cover.jpg'}
@@ -73,6 +73,7 @@ class Track extends React.Component {
             },
             album: {
                 display: 'inline-block',
+                fontSize: '0.85em'
             }
         }
     }, this.props, this.state))}
