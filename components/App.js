@@ -157,7 +157,7 @@ export default class App extends React.Component {
                         }
                     />
                 </div>
-                <Singles menu={this.state.activateMenu}/>
+                <Singles menu={this.state.activateMenu} singles={this.props.getSingleList}/>
                 <User menu={this.state.activateMenu}/>
             </div>
             <Playing

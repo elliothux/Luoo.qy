@@ -17,7 +17,7 @@ const main = remote.require('./main');
 
 ReactDOM.render(
     <div>
-        <App getVolList={main.getVolList()}/>
+        <App getVolList={main.getVolList()} getSingleList={main.getSingleList()}/>
     </div>,
     document.getElementById('root')
 );

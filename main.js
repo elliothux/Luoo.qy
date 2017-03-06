@@ -3,6 +3,7 @@ const path = require('path');
 const url = require('url');
 const {app, BrowserWindow} = electron;
 const getVolList = require('./static/lib/base').getVolList;
+const getSingleList = require('./static/lib/base').getSingleList;
 
 
 ///////////////// Window //////////////////
@@ -41,3 +42,4 @@ app.on('activate', () => {
 ///////////////// Remote Functions /////////////////
 
 exports.getVolList = getVolList;
+exports.getSingleList = getSingleList;

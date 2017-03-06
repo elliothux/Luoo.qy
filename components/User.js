@@ -2,7 +2,7 @@ import React from 'react';
 import reactCSS from 'reactcss';
 
 
-export default class Singles extends React.Component {
+export default class User extends React.Component {
     constructor(props) {
         super(props);
         this.style = this.style.bind(this);

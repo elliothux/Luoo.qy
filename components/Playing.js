@@ -7,6 +7,7 @@ export default class Playing extends React.Component {
     constructor(props) {
         super(props);
         this.style = this.style.bind(this);
+        this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
 
         this.state = {
             isPlaying: true

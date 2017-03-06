@@ -56,14 +56,8 @@ async function find(arg, db) {
 
 // Rewrite unset method of database to async / await
 async function remove(arg, db) {
-    let com;
-    if (db === vol)
-        com = {vol: true};
-    else if (db === single)
-        com = {date: true};
-
     return new Promise((resolve, reject) => {
-        db.update(arg, {$unset: com}, {}, function (error) {
+        db.remove(arg, {}, function (error) {
             error && reject(`An error happened while handling unset: ${error}`);
             resolve()
         })
@@ -145,7 +139,7 @@ async function isVolExist(volIndex) {
 async function addSingle(data) {
     // This function expect an object as it's argument
     typeof data !== 'object' &&
-    console.error(`Function addVol expect an object arguments, not ${typeof data}.`);
+    console.error(`Function addSingle expect an object arguments, not ${typeof data}.`);
 
     // Check all required data in the argument
     if (!'name' in data ||
@@ -159,7 +153,7 @@ async function addSingle(data) {
         return false;
     }
 
-    const exist = await isVolExist(data.date, single);
+    const exist = await isSingleExist(data.date, single);
 
     // If the single is already exist, do not add and return
     if (exist) {
@@ -204,11 +198,11 @@ async function test1() {
         "length" : 10,
         "tag" : "#氛围"
     };
-    console.log(await isVolExist(data.vol));
+    console.log(await getVolList());
     console.log(await addVol(data));
-    console.log(await isVolExist(data.vol));
+    console.log(await getVolList());
     await deleteVol(data.vol);
-    console.log(await isVolExist(data.vol));
+    console.log(await getVolList())
 }
 
 async function test2() {
@@ -221,9 +215,9 @@ async function test2() {
         "date" : "2017-03-03",
         "recommender" : "推荐人： LUO"
     };
-    console.log(await isSingleExist(data.date));
+    console.log(await getSingleList());
     console.log(await addSingle(data));
-    console.log(await isSingleExist(data.date));
+    console.log(await getSingleList());
     await deleteSingle(data.date);
-    console.log(await isSingleExist(data.date));
+    console.log(await getSingleList());
 }
