@@ -31,6 +31,8 @@ export default class Singles extends React.Component {
                 <Single
                     data={this.state.singleListData[i]}
                     key={i}
+                    index={i}
+                    play={this.props.play.bind(null, this.state.singleListData, i)}
                 />
             )
         }
@@ -53,7 +55,12 @@ export default class Singles extends React.Component {
             <div style={this.style().background}/>
             <div style={this.style().content}>
                 {this.state.singleListDom}
-                <button style={this.style().loadMoreButton}>More</button>
+                <button
+                    onClick={this.showMoreSingle}
+                    style={this.style().loadMoreButton}
+                >
+                    More
+                </button>
             </div>
         </div>
     )}

@@ -21,14 +21,20 @@ export default class App extends React.Component {
         this.togglePlay = this.togglePlay.bind(this);
         this.next = this.next.bind(this);
         this.prev = this.prev.bind(this);
+        this.playSingle = this.playSingle.bind(this);
+        this.nextSingle = this.nextSingle.bind(this);
+        this.prevSingle = this.prevSingle.bind(this);
 
         this.state = {
             activateMenu: 'vol',
             showVolView: false,
             displayVolData: null,
+            playingMenu: 'vol',
             playingIndex: 0,
             playingVolData: null,
-            playingTrack: new Audio()
+            playingSinglesData: null,
+            playingSingleIndex: 0,
+            playingTrack: new Audio(),
         };
     }
 
@@ -74,6 +80,7 @@ export default class App extends React.Component {
     play(playingVolData, playingIndex) {
         const next = this.next;
         this.setState((prevState, props) => ({
+            playingMenu: 'vol',
             playingVolData: playingVolData,
             playingIndex: playingIndex,
             playingTrack: (() => {
@@ -101,6 +108,7 @@ export default class App extends React.Component {
                 0 : this.state.playingIndex + 1;
 
         this.setState((prevState, props) => ({
+            playingMenu: 'vol',
             playingIndex: playingIndex,
             playingTrack: (() => {
                 prevState.playingTrack.src = prevState.playingVolData.tracks[playingIndex].url;
@@ -117,9 +125,57 @@ export default class App extends React.Component {
                 this.state.playingIndex - 1;
 
         this.setState((prevState, props) => ({
+            playingMenu: 'vol',
             playingIndex: playingIndex,
             playingTrack: (() => {
                 prevState.playingTrack.src = prevState.playingVolData.tracks[playingIndex].url;
+                prevState.playingTrack.play();
+                return prevState.playingTrack;
+            })()
+        }))
+    }
+
+    playSingle(playingSinglesData, playingSingleIndex) {
+        const next = this.nextSingle;
+        this.setState((prevState, props) => ({
+            playingMenu: 'single',
+            playingSinglesData: playingSinglesData,
+            playingSingleIndex: playingSingleIndex,
+            playingTrack: (() => {
+                prevState.playingTrack.src = playingSinglesData[playingSingleIndex].url;
+                prevState.playingTrack.addEventListener('ended', next);
+                prevState.playingTrack.play();
+                return prevState.playingTrack;
+            })()
+        }))
+    }
+
+    nextSingle() {
+        const playingSingleIndex =
+            this.state.playingSingleIndex === this.state.playingSinglesData.length-1 ?
+                0 : this.state.playingSingleIndex+1;
+
+        this.setState((prevState, props) => ({
+            playingMenu: 'single',
+            playingSingleIndex: playingSingleIndex,
+            playingTrack: (() => {
+                prevState.playingTrack.src = prevState.playingSinglesData[playingSingleIndex].url;
+                prevState.playingTrack.play();
+                return prevState.playingTrack;
+            })()
+        }))
+    }
+
+    prevSingle() {
+        const playingSingleIndex =
+            this.state.playingSingleIndex === 0 ?
+                this.state.playingSinglesData.length-1 : this.state.playingSingleIndex-1;
+
+        this.setState((prevState, props) => ({
+            playingMenu: 'single',
+            playingSingleIndex: playingSingleIndex,
+            playingTrack: (() => {
+                prevState.playingTrack.src = prevState.playingSinglesData[playingSingleIndex].url;
                 prevState.playingTrack.play();
                 return prevState.playingTrack;
             })()
@@ -158,7 +214,11 @@ export default class App extends React.Component {
                     />
                 </div>
                 <div style={this.style().singlesContainer}>
-                    <Singles menu={this.state.activateMenu} singles={this.props.getSingleList}/>
+                    <Singles
+                        menu={this.state.activateMenu}
+                        singles={this.props.getSingleList}
+                        play={this.playSingle}
+                    />
                 </div>
                 <div style={this.style().userContainer}>
                     <User menu={this.state.activateMenu}/>
@@ -166,11 +226,20 @@ export default class App extends React.Component {
                 </div>
             <Playing
                 isPlaying={!this.state.playingTrack.paused}
-                data={this.state.playingVolData ?
-                    this.state.playingVolData.tracks[this.state.playingIndex] :
-                    null}
-                next={this.next}
-                prev={this.prev}
+                playingMenu={this.state.playingMenu}
+                data={(function() {
+                    if (this.state.playingMenu === 'vol')
+                        return (this.state.playingVolData ?
+                            this.state.playingVolData.tracks[this.state.playingIndex] : null
+                        );
+                    else if (this.state.playingMenu === 'single')
+                        return(
+                            this.state.playingSinglesData ?
+                                this.state.playingSinglesData[this.state.playingSingleIndex] : null
+                        );
+                }).bind(this)()}
+                next={this.props.playingMenu==='vol' ? this.next : this.nextSingle}
+                prev={this.props.playingMenu==='vol' ? this.prev : this.prevSingle}
                 toggle={this.togglePlay}
                 showPlayingVolView={this.showPlayingVolView}
             /> : false

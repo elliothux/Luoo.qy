@@ -88,7 +88,8 @@ export default class Playing extends React.Component {
             },
             cover: {
                 height: 'calc(100% + 10px)',
-                width: 'calc(100% + 10px)',
+                width: this.props.playingMenu==='vol' ?
+                    'calc(100% + 10px)' : 'auto',
                 position: 'relative',
                 top: '-5px',
                 left: '-5px'
