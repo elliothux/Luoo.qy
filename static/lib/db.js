@@ -183,9 +183,12 @@ async function deleteSingle(date) {
 
 // Return all vol data as a list
 async function getSingleList() {
-    return (await find({}, single));
+    return (await find({}, single))
     // Sort all vol data by their vol index
-    //     .sort((a, b) => parseInt(b.vol) - parseInt(a.vol));
+        .sort((a, b)  =>
+            parseInt(b.date.split('-').join('')) -
+            parseInt(a.date.split('-').join(''))
+        );
 }
 
 async function test1() {

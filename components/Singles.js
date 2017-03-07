@@ -26,7 +26,6 @@ export default class Singles extends React.Component {
         const max = this.state.singleListDom.length+10 >= this.state.singleListData.length ?
             this.state.singleListData.length :
             this.state.singleListDom.length+10;
-        console.log(this.state.singleListData[0]);
         for (let i=this.state.singleListDom.length; i<max; i++) {
             singleListDom.push(
                 <Single
@@ -41,8 +40,7 @@ export default class Singles extends React.Component {
     }
 
     async getSingleList() {
-        const data = await this.props.singles;
-        // console.log(data);
+        let data = await this.props.singles;
         this.setState((prevState, props) => ({
             singleListData: data,
             background: data[0].cover
@@ -52,21 +50,55 @@ export default class Singles extends React.Component {
 
     render() {return(
         <div style={this.style().singles}>
-            {this.state.singleListDom}
+            <div style={this.style().background}/>
+            <div style={this.style().content}>
+                {this.state.singleListDom}
+                <button style={this.style().loadMoreButton}>More</button>
+            </div>
         </div>
     )}
 
     style() {return(reactCSS({
         default: {
             singles: {
-                width: 'calc(100% - 80px)',
+                width: '100%',
                 height: '100%',
-                position: 'fixed',
-                overflow: 'auto',
-                backgroundImage: this.state.background,
-                backgroundSize: 'cover',
-                top: '0',
+                position: 'absolute',
+                overflow: 'hidden',
+                top: 0,
                 transition: 'all ease-out 400ms'
+            },
+            background: {
+                width: '120%',
+                height: '120%',
+                overflow: 'hidden',
+                position: 'relative',
+                backgroundImage: `url(${this.state.background})`,
+                backgroundSize: 'cover',
+                filter: 'blur(10px)',
+                margin: '-20px',
+                zIndex: 1
+            },
+            content: {
+                zIndex: 2,
+                width: '100%',
+                height: '100%',
+                overflow: 'auto',
+                position: 'absolute',
+                top: 0
+            },
+            loadMoreButton: {
+                width:'100px',
+                height: '40px',
+                borderRadius: '40px',
+                margin: '30px calc(50% - 50px) 80px calc(50% - 50px)',
+                backgroundColor: 'rgba(255, 255, 255, 0.2)',
+                border: 'none',
+                fontSize: '1.2em',
+                fontWeight: 'bold',
+                color: 'white',
+                cursor: 'pointer',
+                zIndex: 2
             }
         },
         'menu-vol': {

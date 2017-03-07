@@ -157,9 +157,13 @@ export default class App extends React.Component {
                         }
                     />
                 </div>
-                <Singles menu={this.state.activateMenu} singles={this.props.getSingleList}/>
-                <User menu={this.state.activateMenu}/>
-            </div>
+                <div style={this.style().singlesContainer}>
+                    <Singles menu={this.state.activateMenu} singles={this.props.getSingleList}/>
+                </div>
+                <div style={this.style().userContainer}>
+                    <User menu={this.state.activateMenu}/>
+                </div>
+                </div>
             <Playing
                 isPlaying={!this.state.playingTrack.paused}
                 data={this.state.playingVolData ?
@@ -202,7 +206,13 @@ export default class App extends React.Component {
             },
             volViewContainer: {
                 position: 'static'
-            }
+            },
+            singlesContainer: {
+                position: 'static'
+            },
+            userContainer: {
+                position: 'static'
+            },
         }
     }, this.props, this.state))}
 }

@@ -6,10 +6,15 @@ export default class User extends React.Component {
     constructor(props) {
         super(props);
         this.style = this.style.bind(this);
+
+        this.state = {
+            background: '../static/pic/singleCover.jpg'
+        }
     }
 
     render() {return(
         <div style={this.style().user}>
+            <div style={this.style().background}/>
 
         </div>
     )}
@@ -17,14 +22,25 @@ export default class User extends React.Component {
     style() {return(reactCSS({
         default: {
             user: {
-                width: 'calc(100% - 80px)',
+                width: '100%',
                 height: '100%',
-                position: 'fixed',
-                overflow: 'auto',
-                backgroundColor: 'blue',
-                top: '0',
-                transition: 'all ease-out 400ms'
-            }
+                position: 'absolute',
+                overflow: 'hidden',
+                top: 0,
+                transition: 'all ease-out 400ms',
+                zIndex: 3
+            },
+            background: {
+                width: '120%',
+                height: '120%',
+                overflow: 'hidden',
+                position: 'relative',
+                backgroundImage: `url(${this.state.background})`,
+                backgroundSize: 'cover',
+                filter: 'blur(10px)',
+                margin: '-20px',
+                zIndex: 2
+            },
         },
         'menu-vol': {
             user: {
