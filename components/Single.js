@@ -8,13 +8,25 @@ export default class Single extends React.Component {
         super(props);
         this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
         this.style = this.style.bind(this);
+        this.handleClick = this.handleClick.bind(this);
+    }
+
+    handleClick() {
+        const playButton = this.refs.playButton;
+        playButton.className = 'playSingleButton clicked';
+        setTimeout(() => {
+            playButton.className = 'playSingleButton';
+        }, 600);
+        this.props.play();
     }
 
     render() {return(
         <div style={this.style().single} id={`single${this.props.index}`}>
             <div style={this.style().playContainer}>
                 <img
-                    onClick={this.props.play}
+                    ref={'playButton'}
+                    className="playSingleButton"
+                    onClick={this.handleClick}
                     style={this.style().playButton}
                     src="../static/pic/Play.svg"
                 />
@@ -25,7 +37,13 @@ export default class Single extends React.Component {
                     {this.props.data ? this.props.data.artist : 'Loading...'}
                 </p>
             </div>
-            <img style={this.style().cover} src={this.props.data ? this.props.data.cover : '../static/pic/singleCover.jpg'}/>
+            <img
+                className="singleCover"
+                style={this.style().cover}
+                src={this.props.data ?
+                    this.props.data.cover :
+                    '../static/pic/singleCover.jpg'}
+            />
             <div style={this.style().desc}>
                 <p>{this.props.data ? this.props.data.description : 'Loading...'}</p>
                 <img style={this.style().logo} src="../static/pic/logo_white.png"/>
@@ -64,7 +82,8 @@ export default class Single extends React.Component {
                 height: '100%',
                 float: 'left',
                 marginRight: '15px',
-                cursor: 'pointer'
+                cursor: 'pointer',
+
             },
             name: {
                 fontSize: '1.5em',
@@ -77,7 +96,7 @@ export default class Single extends React.Component {
                 width: '45%',
                 height: 'auto',
                 display: 'inline-block',
-                borderRadius: '8px'
+                borderRadius: '8px',
             },
             desc: {
                 width: '50%',

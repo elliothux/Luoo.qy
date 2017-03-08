@@ -8,16 +8,57 @@ export default class Playing extends React.Component {
         super(props);
         this.style = this.style.bind(this);
         this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
+        this.prev = this.prev.bind(this);
+        this.toggle = this.toggle.bind(this);
+        this.next = this.next.bind(this);
 
         this.state = {
             isPlaying: true
         }
     }
 
+    prev() {
+        const prevButton = this.refs.prevButton;
+        const detail = this.refs.detail;
+        prevButton.className = 'prevButton clicked';
+        detail.className = 'detail prev';
+        setTimeout(() => {
+            prevButton.className = 'prevButton';
+            detail.className = 'detail';
+        }, 600);
+        this.props.playingMenu === 'vol' ?
+            this.props.prevTrack() : this.props.prevSingle();
+    }
+
+    toggle() {
+        const toggleButton = this.refs.toggleButton;
+        const detail = this.refs.detail;
+        toggleButton.className = 'toggleButton clicked';
+        detail.className = 'detail toggle';
+        setTimeout(() => {
+            toggleButton.className = 'toggleButton';
+            detail.className = 'detail';
+        }, 600);
+        this.props.toggle();
+    }
+
+    next() {
+        const nextButton = this.refs.nextButton;
+        const detail = this.refs.detail;
+        nextButton.className = 'nextButton clicked';
+        detail.className = 'detail next';
+        setTimeout(() => {
+            nextButton.className = 'nextButton';
+            detail.className = 'detail';
+        }, 600);
+        this.props.playingMenu === 'vol' ?
+            this.props.nextTrack() : this.props.nextSingle();
+    }
+
     render() {return(
         <div style={this.style().playing}>
-            <div>
-                <div style={this.style().coverContainer}>
+            <div ref={'detail'} className="detail">
+                <div className="playingCover" style={this.style().coverContainer}>
                     <img
                         onClick={this.props.playingMenu === 'vol' ?
                             this.props.showPlayingVolView :
@@ -29,7 +70,9 @@ export default class Playing extends React.Component {
                     />
                 </div>
                 <div style={this.style().detail}>
-                    <p style={this.style().detailName}>{this.props.data ? this.props.data.name : 'Loading...'}</p>
+                    <p style={this.style().detailName}>
+                        {this.props.data ? this.props.data.name : 'Loading...'}
+                    </p>
                     <p style={this.style().detailAlbum}>
                         <span>{this.props.data ? this.props.data.album : 'Album'}</span>
                         <span>  -  </span>
@@ -40,19 +83,25 @@ export default class Playing extends React.Component {
 
             <div style={this.style().controller}>
                 <img
-                    onClick={this.props.prev}
+                    ref={'prevButton'}
+                    className="prevButton"
+                    onClick={this.prev}
                     src="../static/pic/Previous.svg"
                     style={this.style().prevButton}
                 />
                 <img
-                    onClick={this.props.toggle}
+                    ref={'toggleButton'}
+                    className="toggleButton"
+                    onClick={this.toggle}
                     src={this.props.isPlaying ?
                         "../static/pic/Pause.svg" :
                         "../static/pic/Play.svg"}
                     style={this.style().playButton}
                 />
                 <img
-                    onClick={this.props.next}
+                    ref={'nextButton'}
+                    className="nextButton"
+                    onClick={this.next}
                     src="../static/pic/Next.svg"
                     style={this.style().nextButton}
                 />
@@ -86,7 +135,6 @@ export default class Playing extends React.Component {
                 overflow: 'hidden',
                 position: 'relative',
                 top: '-16px',
-                boxShadow: '0px 2px 5px 2px rgba(0,0,0,0.31)'
             },
             cover: {
                 height: 'calc(100% + 10px)',
@@ -94,7 +142,8 @@ export default class Playing extends React.Component {
                     'calc(100% + 10px)' : 'auto',
                 position: 'relative',
                 top: '-5px',
-                left: '-5px'
+                left: '-5px',
+                cursor: 'pointer'
             },
             detail: {
                 float: 'left',
@@ -118,9 +167,7 @@ export default class Playing extends React.Component {
                 color: 'gray',
                 marginRight: '30px',
                 position: 'relative',
-                top: '7px',
-                filter: 'drop-shadow(rgba(190, 93, 99, 0.8) 0 5px 5px)',
-
+                top: '7px'
             },
             playButton: {
                 position: 'relative',

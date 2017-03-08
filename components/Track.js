@@ -7,11 +7,26 @@ class Track extends React.Component {
     constructor(props) {
         super(props);
         this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
+        this.handleClick = this.handleClick.bind(this);
+    }
+
+    handleClick() {
+        const track = this.refs.track;
+        track.className = 'track clicked';
+        setTimeout(() => {
+            track.className = 'track';
+        }, 600);
+        this.props.play(this.props.volData, this.props.index);
     }
 
     render() {
         return(
-            <div onClick={this.props.play.bind(null, this.props.volData, this.props.index)} style={this.style().track}>
+            <div
+                ref={'track'}
+                className="track"
+                onClick={this.handleClick}
+                style={this.style().track}
+            >
                 <div style={this.style().coverContainer}>
                     <img
                         src={this.props.data.cover || '../static/pic/cover.jpg'}
@@ -41,8 +56,6 @@ class Track extends React.Component {
                 justifyContent: 'flex-center',
                 alignItems: 'center',
                 fontWeight: 'bold',
-                backgroundColor: 'white',
-                boxShadow: 'rgba(34, 34, 34, 0.3) 0px 0px 5px 2px',
                 borderRadius: '4px',
                 cursor: 'pointer',
                 color: 'rgb(125, 125, 125)',
@@ -58,6 +71,7 @@ class Track extends React.Component {
             cover: {
                 height: '100%',
                 width: '100%',
+                cursor: 'pointer'
             },
             detailContainer: {
                 width: 'calc(100% - 100px)',
@@ -69,11 +83,13 @@ class Track extends React.Component {
                 fontSize: '1.2em',
                 fontWeight: 'bold',
                 marginRight: '30px',
-                color: '#E06979'
+                color: '#E06979',
+                cursor: 'pointer'
             },
             album: {
                 display: 'inline-block',
-                fontSize: '0.85em'
+                fontSize: '0.85em',
+                cursor: 'pointer'
             }
         }
     }, this.props, this.state))}

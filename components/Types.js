@@ -10,7 +10,7 @@ export default class Types extends React.Component {
         this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
         this.style = this.style.bind(this);
         this.toggleType = this.toggleType.bind(this);
-        this.typeList = ['全部','摇滚','另类','民谣','流行','电子','古典','爵士','金属','朋克','说唱','世界音乐','氛围','原声','雷鬼','乡村','蓝调','实验','英伦','后摇','迷幻','暗潮','华语','流行','硬核','后朋克']
+        this.typeList = ['全部','摇滚','另类','民谣','流行','电子','古典','爵士','金属','朋克','说唱','世界音乐','氛围','原声','雷鬼','乡村','蓝调','实验','英伦','后摇','迷幻','暗潮','硬核','后朋克'];
 
         this.state = {
             type: '全部'
@@ -50,7 +50,7 @@ export default class Types extends React.Component {
                 margin: 0
             },
             types: {
-                width: '2357px',
+                width: '2180px',
                 height: '70%',
                 marginTop: '10px'
             }
@@ -68,6 +68,8 @@ class Type extends React.Component {
 
     render() {return(
         <div
+            ref={type => this.type = type}
+            className="type"
             onClick={this.props.toggle.bind(null, this.props.type)}
             style={this.style().type}
         >
@@ -88,7 +90,6 @@ class Type extends React.Component {
                 textAlign: 'center',
                 verticalAlign: 'middle',
                 lineHeight: '40px',
-                boxShadow: 'rgba(0, 0, 0, 0.2) 0px 2px 10px 1px'
             }
         },
         'chosen-false': {

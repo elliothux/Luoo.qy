@@ -12,8 +12,10 @@ let win;
 
 function createWindiw() {
     win = new BrowserWindow({
-        width: 800,
-        height: 600,
+        width: 850,
+        height: 620,
+        center: true,
+        // titleBarStyle: 'hidden'
 });
 
     win.loadURL(url.format({

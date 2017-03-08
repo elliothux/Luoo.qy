@@ -18,10 +18,10 @@
 /********************** Animation *********************/
 
 .vol{
-    opacity: 0;
-    transform: translateX(-100%);
-    transition: all ease-out;
-}
+     opacity: 0;
+     transform: translateX(-100%);
+     transition: all ease-out;
+ }
 
 .vol.volInViewPort{
     opacity: 1;

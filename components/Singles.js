@@ -13,7 +13,6 @@ export default class Singles extends React.Component {
         this.state = {
             singleListData: [],
             singleListDom: [],
-            background: null
         }
     }
 
@@ -65,6 +64,7 @@ export default class Singles extends React.Component {
                 <button
                     onClick={this.showMoreSingle}
                     style={this.style().loadMoreButton}
+                    className="loadMore"
                 >
                     More
                 </button>
@@ -87,11 +87,12 @@ export default class Singles extends React.Component {
                 height: '120%',
                 overflow: 'hidden',
                 position: 'relative',
-                backgroundImage: `url(${this.state.background})`,
+                backgroundImage: `url('${this.props.background}')`,
                 backgroundSize: 'cover',
                 filter: 'blur(10px)',
                 margin: '-20px',
-                zIndex: 1
+                zIndex: 1,
+                transition: 'background-image 1.2s ease-in-out'
             },
             content: {
                 zIndex: 2,
@@ -112,7 +113,7 @@ export default class Singles extends React.Component {
                 fontWeight: 'bold',
                 color: 'white',
                 cursor: 'pointer',
-                zIndex: 2
+                zIndex: 2,
             }
         },
         'menu-vol': {

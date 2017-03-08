@@ -34,6 +34,7 @@ export default class Vols extends React.Component {
                 <Vol
                     data={volListData[i]}
                     key={i}
+                    index={i%10}
                     showVolView={this.props.showVolView}
                 />
             )
@@ -64,6 +65,8 @@ export default class Vols extends React.Component {
         for (let i=this.state.volListDom.length; i<max; i++) {
             volListDom.push(
                 <Vol
+                    index={i%10}
+                    setBackground={this.props.setBackground}
                     data={this.state.volListData[i]}
                     key={i}
                     showVolView={this.props.showVolView}
@@ -82,6 +85,7 @@ export default class Vols extends React.Component {
             allTypesVolListData: data
         }));
         this.showMoreVol();
+        this.props.setBackground(data[0].cover)
     }
 
     render() {return(
@@ -90,7 +94,13 @@ export default class Vols extends React.Component {
             <div style={this.style().vols}>
                 {this.state.volListDom}
             </div>
-            <button style={this.style().loadMoreButton} onClick={this.showMoreVol}>More</button>
+            <button
+                style={this.style().loadMoreButton}
+                onClick={this.showMoreVol}
+                className="loadMore"
+            >
+                More
+            </button>
         </div>
     )}
 

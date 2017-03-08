@@ -9,10 +9,20 @@ export default class Vol extends React.Component {
         super(props);
         this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
         this.style = this.style.bind(this);
+        this.handleClick = this.handleClick.bind(this);
+    }
+
+    handleClick() {
+        this.props.showVolView(this.props.data);
+        this.props.setBackground(this.props.data.cover)
     }
 
     render() {return(
-        <div style={this.style().vol} onClick={this.props.showVolView.bind(null, this.props.data)}>
+        <div
+            className={`vol vol${this.props.index}`}
+            style={this.style().vol}
+            onClick={this.handleClick}
+        >
             <div style={this.style().desc}>
                 <p style={this.style().volNum}>
                     Vol.{this.props.data ? this.props.data.vol : 'Loading...'}
@@ -35,10 +45,9 @@ export default class Vol extends React.Component {
                     '../static/pic/bg.jpg'})`,
                 backgroundSize: 'cover',
                 marginBottom: '20px',
-                boxShadow: 'rgba(0, 0, 0, 0.4) 0px 8px 15px 2px)',
                 borderRadius: '8px',
                 cursor: 'pointer',
-                position: 'relative'
+                position: 'relative',
             },
             desc: {
                 position: 'absolute',

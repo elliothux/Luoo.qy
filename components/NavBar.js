@@ -48,9 +48,21 @@ export default class NavBar extends React.Component {
                 />
             </div>
             <div style={this.style().volume}>
-                <p>+</p>
-                <img style={this.style().volumeImg} src="../static/pic/volum.svg"/>
-                <p>-</p>
+                <p
+                    onClick={this.props.up}
+                    style={this.style().volumeUp}
+                >+</p>
+                <div>
+                    <img
+                        style={this.style().volumeImg}
+                        src="../static/pic/volum.svg"
+                    />
+                    <span style={this.style().volumeNum}>{this.props.volume}</span>
+                </div>
+                <p
+                    onClick={this.props.down}
+                    style={this.style().volumeDown}
+                >-</p>
             </div>
         </div>
     )}
@@ -69,13 +81,11 @@ export default class NavBar extends React.Component {
                 flexWrap: 'wrap',
                 justifyContent: 'space-between'
             },
-
             logo: {
                 width: '100%',
                 height: '100px',
                 textAlign: 'center'
             },
-
             button: {
                 width: '100%',
                 height: '250px',
@@ -84,9 +94,13 @@ export default class NavBar extends React.Component {
                 flexWrap: 'wrap',
                 justifyContent: 'space-between',
                 alignItems: 'center',
+            },
+            buttonImg: {
+                width: '30px',
+                height: 'auto',
+                alignItems: 'center',
                 cursor: 'pointer'
             },
-
             volume: {
                 width: '100%',
                 height: '100px',
@@ -94,15 +108,32 @@ export default class NavBar extends React.Component {
                 flexDirection: 'column',
                 flexWrap: 'wrap',
                 justifyContent: 'space-between',
-                alignItems: 'center'
+                alignItems: 'center',
+                fontSize: '1.2em',
+                fontWeight: 'bold'
             },
-
+            volumeDown: {
+                cursor: 'pointer',
+                position: 'relative',
+                top: '-8px'
+            },
+            volumeUp: {
+                cursor: 'pointer',
+            },
+            volumeNum: {
+                marginLeft: '8px',
+                position: 'relative',
+                top: '-6px'
+            },
+            volumeImg: {
+                width: '30px',
+                height: 'auto',
+            },
             logoImg: {
                 width: '35px',
                 height: 'auto',
                 margin: '30px 0 10px 0'
             },
-
             logoText: {
                 fontSize: '1.3em',
                 fontWeight: 'normal',
@@ -111,18 +142,6 @@ export default class NavBar extends React.Component {
                 position: 'relative',
                 top: '-6px',
                 color: 'black'
-            },
-
-            buttonImg: {
-                width: '30px',
-                height: 'auto',
-                alignItems: 'center'
-            },
-
-            volumeImg: {
-                width: '30px',
-                height: 'auto',
-
             }
         }
     }, this.props, this.state))}

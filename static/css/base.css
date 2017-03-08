@@ -20,6 +20,17 @@
     display: none;
 }
 
+:not(input):not(textarea),
+:not(input):not(textarea)::after,
+:not(input):not(textarea)::before {
+    -webkit-user-select: none;
+    user-select: none;
+    cursor: default;
+}
+input, button, textarea, :focus {
+    outline: none; // You should add some other style for :focus to help UX/a11y
+}
+
 
 #background {
     width: 50%;
@@ -39,4 +50,213 @@
     filter: blur(20px);
     margin: -30px;
     background: rgba(255, 0, 0, 0.5);
+}
+
+
+/**************** Anim ****************/
+
+.clicked {
+    opacity: 0.8;
+    transform: scale(0.8);
+}
+
+.loadMore, .type {
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 10px 1px;
+    transition: all ease 0.3s
+}
+
+.loadMore:hover, .type:hover, .vol:hover {
+    box-shadow: rgba(0, 0, 0, 0.2) 0 0 0 0;
+    transform: scale(1.05);
+}
+
+.vol {
+    box-shadow: rgba(0, 0, 0, 0.4) 0 8px 15px 2px;
+    transition: all 0.3s ease-out
+}
+
+.vol:hover {
+    box-shadow: rgba(0, 0, 0, 0.2) 0 0 0 0;
+    transform: scale(1.02);
+    opacity: 0.9;
+}
+
+.track {
+    background-color: rgba(255, 255, 255, 0.75);
+    box-shadow: rgba(34, 34, 34, 0.3) 0 5px 15px 2px;
+    transition: all 400ms ease-out;
+    transform: scale(1);
+}
+
+
+.track:hover {
+    background-color: rgba(255, 255, 255, 1);
+    transform: scale(1.01);
+    box-shadow: rgba(0, 0, 0, 0.2) 0 0 0 0;
+}
+
+.track.clicked {
+    animation: clickTrack ease-out 600ms;
+}
+
+@keyframes clickTrack {
+    0%, 100% {
+        opacity: 1;
+        transform: scale(1.01);
+        background-color: rgba(255, 255, 255, 0.8);
+    }
+    50% {
+        opacity: 0.5;
+        transform: scale(1);
+    }
+}
+
+.prevButton, .toggleButton, .nextButton {
+    transform: scale(1);
+    transition: all ease-out 300ms;
+    filter: drop-shadow(rgba(190, 93, 99, 0.8) 0px 5px 5px);
+}
+
+.prevButton:hover, .toggleButton:hover, .nextButton:hover {
+    filter: drop-shadow(rgba(190, 93, 99, 0.8) 0 0 0);
+}
+
+.prevButton.clicked, .toggleButton.clicked, .nextButton.clicked {
+    animation: clickButton ease-out 600ms;
+}
+
+@keyframes clickButton {
+    0%, 100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.6;
+        transform: scale(0.9);
+    }
+}
+
+
+.volCover {
+    box-shadow: rgba(34, 34, 34, 0.3) 0 5px 15px 2px
+}
+
+.volCover:hover {
+    transition: all 300ms ease;
+    box-shadow: rgba(34, 34, 34, 0.3) 0 0 0 0;
+}
+
+
+@keyframes playingDetail {
+    0%, 100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    50% {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    51% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+}
+
+.detail.next {
+    animation: playingDetail ease-in-out 500ms;
+}
+
+.detail.prev {
+    animation: playingDetail ease-in-out 500ms reverse;
+}
+
+.detail.toggle {
+    animation: toggleDetail 600ms ease-out;
+}
+
+@keyframes toggleDetail {
+    0%, 100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.6;
+        transform: scale(0.98);
+    }
+}
+
+
+.playingCover {
+    box-shadow: 0 4px 8px 2px rgba(0,0,0,0.31);
+    transition: all 300ms ease-out;
+}
+
+.playingCover:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 0 0 rgba(0,0,0,0.31);
+}
+
+
+.vol {
+    transform: scale(0.5);
+    opacity: 0;
+    animation: showVol 600ms ease-out forwards;
+}
+
+.vol.vol0 {animation-delay: 0ms}
+.vol.vol1 {animation-delay: 100ms}
+.vol.vol2 {animation-delay: 200ms}
+.vol.vol3 {animation-delay: 300ms}
+.vol.vol4 {animation-delay: 400ms}
+.vol.vol5 {animation-delay: 500ms}
+.vol.vol6 {animation-delay: 600ms}
+.vol.vol7 {animation-delay: 700ms}
+.vol.vol8 {animation-delay: 800ms}
+.vol.vol9 {animation-delay: 900ms}
+
+@keyframes showVol {
+    0% {
+        opacity: 0;
+        transform: scale(0.5);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+
+.playSingleButton {
+    filter: drop-shadow(rgba(190, 93, 99, 0.8) 0px 7px 10px);
+    transition: all 300ms ease;
+}
+
+.playSingleButton:hover {
+    transform: scale(1.05);
+    filter: drop-shadow(rgba(190, 93, 99, 0.8) 0 0 0);
+}
+
+.playSingleButton.clicked {
+    animation: clickSingleButton ease-out 600ms;
+}
+
+@keyframes clickSingleButton {
+    0%, 100% {
+        opacity: 1;
+        transform: scale(1.05);
+    }
+    50% {
+        opacity: 0.6;
+        transform: scale(0.98);
+    }
+}
+
+
+.singleCover {
+    box-shadow: rgba(34, 34, 34, 0.3) 0 5px 15px 2px;
+    transition: all ease-out 300ms;
+}
+
+.singleCover:hover {
+    box-shadow: rgba(34, 34, 34, 0.3) 0 0 0 0;
 }

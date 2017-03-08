@@ -27,6 +27,9 @@ export default class App extends React.Component {
         this.prevSingle = this.prevSingle.bind(this);
         this.showPlayingSingle = this.showPlayingSingle.bind(this);
         this.getSinglesContainerDom = this.getSinglesContainerDom.bind(this);
+        this.setBackground = this.setBackground.bind(this);
+        this.volumeUp = this.volumeUp.bind(this);
+        this.volumeDown = this.volumeDown.bind(this);
 
         this.state = {
             activateMenu: 'vol',
@@ -38,8 +41,15 @@ export default class App extends React.Component {
             playingSinglesData: null,
             playingSingleIndex: 0,
             playingTrack: new Audio(),
-            singlesContainerDom: null
+            singlesContainerDom: null,
+            backgroundImage: '../static/pic/cover.jpg',
         };
+    }
+
+    setBackground(background) {
+       this.setState((prevState, props) => ({
+           backgroundImage: background
+       }))
     }
 
     toggleActivateMenu(menu) {
@@ -194,19 +204,54 @@ export default class App extends React.Component {
 
     showPlayingSingle() {
         this.toggleActivateMenu('single');
-        this.state.singlesContainerDom.scrollTop = 335.5 * this.state.playingSingleIndex;
+        this.state.singlesContainerDom.scrollTop = 350 * this.state.playingSingleIndex;
+    }
+
+    volumeUp() {
+        let volume = (this.state.playingTrack.src && typeof this.state.playingTrack.volume === 'number') ?
+            this.state.playingTrack.volume : 1.0;
+        if (volume >= 0.8)
+            volume = 1.0;
+        else
+            volume += 0.2;
+        this.setState((prevState, props) => ({
+            playingTrack: (() => {
+                prevState.playingTrack.volume = volume;
+                return prevState.playingTrack;
+            })()
+        }))
+    }
+
+    volumeDown() {
+        let volume = (this.state.playingTrack.src && typeof this.state.playingTrack.volume === 'number') ?
+            this.state.playingTrack.volume : 0.0;
+        if (volume <= 0.21)
+            volume = 0.0;
+        else
+            volume -= 0.2;
+        this.setState((prevState, props) => ({
+            playingTrack: (() => {
+                prevState.playingTrack.volume = volume;
+                return prevState.playingTrack;
+            })()
+        }))
     }
 
     render() {return(
         <div style={this.style().app}>
             <div style={this.style().background}/>
             <NavBar
+                track={this.state.playingTrack}
                 hideVolView={this.hideVolView}
                 menu={this.state.activateMenu}
                 toggle={this.toggleActivateMenu}
+                up={this.volumeUp}
+                down={this.volumeDown}
+                volume={parseInt(this.state.playingTrack.volume * 10)}
             />
             <div style={this.style().content}>
                 <Vols
+                    setBackground={this.setBackground}
                     getVolList={this.props.getVolList}
                     showVolView={this.showVolView}
                     menu={this.state.activateMenu}
@@ -230,6 +275,8 @@ export default class App extends React.Component {
                 </div>
                 <div style={this.style().singlesContainer}>
                     <Singles
+                        background={this.state.playingSinglesData ?
+                            this.state.playingSinglesData[this.state.playingSingleIndex].cover : '../static/pic/singleCover.jpg'}
                         menu={this.state.activateMenu}
                         singles={this.props.getSingleList}
                         play={this.playSingle}
@@ -254,8 +301,10 @@ export default class App extends React.Component {
                                 this.state.playingSinglesData[this.state.playingSingleIndex] : null
                         );
                 }).bind(this)()}
-                next={this.props.playingMenu==='vol' ? this.next : this.nextSingle}
-                prev={this.props.playingMenu==='vol' ? this.prev : this.prevSingle}
+                nextTrack={this.next}
+                prevTrack={this.prev}
+                nextSingle={this.nextSingle}
+                prevSingle={this.prevSingle}
                 toggle={this.togglePlay}
                 showPlayingVolView={this.showPlayingVolView}
                 showPlayingSingle={this.showPlayingSingle}
@@ -277,10 +326,11 @@ export default class App extends React.Component {
                 height: '120%',
                 overflow: 'hidden',
                 position: 'relative',
-                backgroundImage: `url('../static/pic/bg.jpg')`,
+                backgroundImage: `url('${this.state.backgroundImage}')`,
                 backgroundSize: 'cover',
                 filter: 'blur(10px)',
-                margin: '-20px'
+                margin: '-20px',
+                transition: 'background-image 1.2s ease-in-out'
             },
             content: {
                 width: 'calc(100% - 80px)',
