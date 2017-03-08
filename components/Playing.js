@@ -19,7 +19,9 @@ export default class Playing extends React.Component {
             <div>
                 <div style={this.style().coverContainer}>
                     <img
-                        onClick={this.props.showPlayingVolView}
+                        onClick={this.props.playingMenu === 'vol' ?
+                            this.props.showPlayingVolView :
+                            this.props.showPlayingSingle.bind(null, this.container)}
                         style={this.style().cover}
                         src={this.props.data ?
                             this.props.data.cover :

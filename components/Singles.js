@@ -21,6 +21,10 @@ export default class Singles extends React.Component {
         this.getSingleList();
     }
 
+    componentDidMount() {
+        this.props.getSinglesContainerDom(this.container)
+    }
+
     showMoreSingle() {
         const singleListDom = this.state.singleListDom;
         const max = this.state.singleListDom.length+10 >= this.state.singleListData.length ?
@@ -53,7 +57,10 @@ export default class Singles extends React.Component {
     render() {return(
         <div style={this.style().singles}>
             <div style={this.style().background}/>
-            <div style={this.style().content}>
+            <div
+                ref={container => this.container = container}
+                style={this.style().content}
+            >
                 {this.state.singleListDom}
                 <button
                     onClick={this.showMoreSingle}

@@ -11,12 +11,13 @@ export default class Single extends React.Component {
     }
 
     render() {return(
-        <div
-            style={this.style().single}
-            onClick={this.props.play}
-        >
+        <div style={this.style().single} id={`single${this.props.index}`}>
             <div style={this.style().playContainer}>
-                <img style={this.style().playButton} src="../static/pic/Play.svg"/>
+                <img
+                    onClick={this.props.play}
+                    style={this.style().playButton}
+                    src="../static/pic/Play.svg"
+                />
                 <p style={this.style().name}>
                     {this.props.data ? this.props.data.name : 'Loading...'}
                 </p>

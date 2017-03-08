@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import reactCSS from 'reactcss';
 import NavBar from './NavBar';
 import Vols from './Vols';
@@ -24,6 +25,8 @@ export default class App extends React.Component {
         this.playSingle = this.playSingle.bind(this);
         this.nextSingle = this.nextSingle.bind(this);
         this.prevSingle = this.prevSingle.bind(this);
+        this.showPlayingSingle = this.showPlayingSingle.bind(this);
+        this.getSinglesContainerDom = this.getSinglesContainerDom.bind(this);
 
         this.state = {
             activateMenu: 'vol',
@@ -35,6 +38,7 @@ export default class App extends React.Component {
             playingSinglesData: null,
             playingSingleIndex: 0,
             playingTrack: new Audio(),
+            singlesContainerDom: null
         };
     }
 
@@ -182,6 +186,17 @@ export default class App extends React.Component {
         }))
     }
 
+    getSinglesContainerDom(container) {
+        this.setState((prevState, props) => ({
+            singlesContainerDom: ReactDOM.findDOMNode(container)
+        }))
+    }
+
+    showPlayingSingle() {
+        this.toggleActivateMenu('single');
+        this.state.singlesContainerDom.scrollTop = 335.5 * this.state.playingSingleIndex;
+    }
+
     render() {return(
         <div style={this.style().app}>
             <div style={this.style().background}/>
@@ -218,6 +233,7 @@ export default class App extends React.Component {
                         menu={this.state.activateMenu}
                         singles={this.props.getSingleList}
                         play={this.playSingle}
+                        getSinglesContainerDom={this.getSinglesContainerDom}
                     />
                 </div>
                 <div style={this.style().userContainer}>
@@ -242,6 +258,7 @@ export default class App extends React.Component {
                 prev={this.props.playingMenu==='vol' ? this.prev : this.prevSingle}
                 toggle={this.togglePlay}
                 showPlayingVolView={this.showPlayingVolView}
+                showPlayingSingle={this.showPlayingSingle}
             /> : false
         </div>
     )}
