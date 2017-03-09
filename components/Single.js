@@ -21,7 +21,10 @@ export default class Single extends React.Component {
     }
 
     render() {return(
-        <div style={this.style().single} id={`single${this.props.index}`}>
+        <div
+            className={`single single${this.props.index}`}
+            style={this.style().single}
+        >
             <div style={this.style().playContainer}>
                 <img
                     ref={'playButton'}

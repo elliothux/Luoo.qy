@@ -74,8 +74,8 @@ export default class Playing extends React.Component {
                         {this.props.data ? this.props.data.name : 'Loading...'}
                     </p>
                     <p style={this.style().detailAlbum}>
-                        <span>{this.props.data ? this.props.data.album : 'Album'}</span>
-                        <span>  -  </span>
+                        {this.props.data&&this.props.data.album ?
+                            <span>{this.props.data.album} - </span>: false}
                         <span>{this.props.data ? this.props.data.artist : 'Artist'}</span>
                     </p>
                 </div>

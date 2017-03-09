@@ -34,7 +34,7 @@ export default class Singles extends React.Component {
                 <Single
                     data={this.state.singleListData[i]}
                     key={i}
-                    index={i}
+                    index={i%10}
                     play={this.props.play.bind(null, this.state.singleListData, i)}
                 />
             )

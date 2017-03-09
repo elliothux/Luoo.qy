@@ -83,16 +83,21 @@ async function getSingleList() {
 // Update the data of singles in database from server
 async function updateSingleList() {
     const url = `${IP}/api/singlesList`;
-    const list = JSON.parse(await getData(url));
+    let list = JSON.parse(await getData(url)).sort(sort);
     const latestSingle = list[0];
     const exist = await db.isSingleExist(latestSingle);
     // If the latest single is already in database, just do nothing
     if (exist) {
-        console.log(`All vol data updated at ${new Date()}.`)
+        console.log(`All singles data updated at ${new Date()}.`)
     }
     // Else, start update single data from server
     else
         getSingleFromServer(list);
+
+    function sort(a, b) {
+        return  parseInt(b.split('-').join('')) -
+            parseInt(a.split('-').join(''))
+    }
 }
 
 
@@ -101,6 +106,7 @@ async function updateSingleList() {
 async function getSingleFromServer(list, index=0) {
     // Single index must smaller than the length of list
     if (index >= list.length) return false;
+    if (await db.isSingleExist(list[index])) return false;
     const url = `${IP}/api/single/${list[index]}`;
     // Get data of the single from server
     let data = await getData(url);

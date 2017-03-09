@@ -197,22 +197,22 @@ input, button, textarea, :focus {
 }
 
 
-.vol {
+.vol, .single {
     transform: scale(0.5);
     opacity: 0;
     animation: showVol 600ms ease-out forwards;
 }
 
-.vol.vol0 {animation-delay: 0ms}
-.vol.vol1 {animation-delay: 100ms}
-.vol.vol2 {animation-delay: 200ms}
-.vol.vol3 {animation-delay: 300ms}
-.vol.vol4 {animation-delay: 400ms}
-.vol.vol5 {animation-delay: 500ms}
-.vol.vol6 {animation-delay: 600ms}
-.vol.vol7 {animation-delay: 700ms}
-.vol.vol8 {animation-delay: 800ms}
-.vol.vol9 {animation-delay: 900ms}
+.vol.vol0, .single.single0 {animation-delay: 0ms}
+.vol.vol1, .single.single1 {animation-delay: 100ms}
+.vol.vol2, .single.single2 {animation-delay: 200ms}
+.vol.vol3, .single.single3 {animation-delay: 300ms}
+.vol.vol4, .single.single4 {animation-delay: 400ms}
+.vol.vol5, .single.single5 {animation-delay: 500ms}
+.vol.vol6, .single.single6 {animation-delay: 600ms}
+.vol.vol7, .single.single7 {animation-delay: 700ms}
+.vol.vol8, .single.single8 {animation-delay: 800ms}
+.vol.vol9, .single.single9 {animation-delay: 900ms}
 
 @keyframes showVol {
     0% {
@@ -227,13 +227,13 @@ input, button, textarea, :focus {
 
 
 .playSingleButton {
-    filter: drop-shadow(rgba(190, 93, 99, 0.8) 0px 7px 10px);
+    filter: drop-shadow(rgba(146, 73, 73, 1) 0px 7px 10px);
     transition: all 300ms ease;
 }
 
 .playSingleButton:hover {
-    transform: scale(1.05);
-    filter: drop-shadow(rgba(190, 93, 99, 0.8) 0 0 0);
+    transform: scale(1.1);
+    filter: drop-shadow(rgba(190, 93, 99, 1) 0 0 0);
 }
 
 .playSingleButton.clicked {
