@@ -13,6 +13,7 @@ export default class VolView extends React.Component {
     componentWillReceiveProps() {
         if (!this.props.show)
             this.refs.content.scrollTop = 0;
+            this.refs.detail.scrollTop = 0;
     }
 
     render() {return(
@@ -25,7 +26,7 @@ export default class VolView extends React.Component {
                     src={this.props.data ? this.props.data.cover : '../static/pic/bg.jpg'}
                     style={this.style().cover}
                 />
-                <div style={this.style().detailContainer}>
+                <div ref={'detail'} style={this.style().detailContainer}>
                     <div style={this.style().detail}>
                         <p style={this.style().title}>
                             {this.props.data ? this.props.data.title : 'Loading...'}
