@@ -23,6 +23,7 @@ export default class Vol extends React.Component {
             style={this.style().vol}
             onClick={this.handleClick}
         >
+            <div className="volCover" style={this.style().cover}/>
             <div style={this.style().desc}>
                 <p style={this.style().volNum}>
                     Vol.{this.props.data ? this.props.data.vol : 'Loading...'}
@@ -40,14 +41,20 @@ export default class Vol extends React.Component {
                 width: '47%',
                 height: 0,
                 paddingBottom: '30%',
-                backgroundImage: `url(${this.props.data ? 
-                    this.props.data.cover : 
-                    '../static/pic/bg.jpg'})`,
-                backgroundSize: 'cover',
                 marginBottom: '20px',
                 borderRadius: '8px',
-                cursor: 'pointer',
                 position: 'relative',
+                overflow: 'hidden'
+            },
+            cover: {
+                width: '100%',
+                height: '100%',
+                backgroundImage: `url(${this.props.data ?
+                    this.props.data.cover :
+                    '../static/pic/bg.jpg'})`,
+                backgroundSize: 'cover',
+                position: 'absolute',
+                cursor: 'pointer',
             },
             desc: {
                 position: 'absolute',
@@ -59,7 +66,7 @@ export default class Vol extends React.Component {
             volNum: {
                 fontSize: '1.6em',
                 letterSpacing: '1px',
-                fontFamily: 'Savoye LET',
+                fontFamily: 'SavoyeLetPlain',
                 lineHeight: '0.5em',
             }
         }

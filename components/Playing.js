@@ -119,7 +119,6 @@ export default class Playing extends React.Component {
                 left: '80px',
                 backgroundColor: 'rgba(255, 255, 255, 0.75)',
                 lineHeight: '100%',
-                fontFamily: 'Arial',
                 fontWeight: 'bold',
                 transform: `${this.props.data ? 'translateY(-77px)' : 'none'}`,
                 transition: 'all ease-out 300ms',

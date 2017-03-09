@@ -1,19 +1,9 @@
 /**************** Common ****************/
 
-@font-face {
-    font-family: ms;
-    src: url('../fonts/ms.ttf')
-}
-
-@font-face {
-    font-family: hanyi90;
-    src: url('../fonts/hanyi90.ttf')
-}
-
 * {
     margin: 0;
     padding: 0;
-    font-family: hanyi90, ms, Arial;
+    font-family: PingFangSC-Regular, Arial;
 }
 
 *::-webkit-scrollbar {
@@ -68,17 +58,6 @@ input, button, textarea, :focus {
 .loadMore:hover, .type:hover, .vol:hover {
     box-shadow: rgba(0, 0, 0, 0.2) 0 0 0 0;
     transform: scale(1.05);
-}
-
-.vol {
-    box-shadow: rgba(0, 0, 0, 0.4) 0 8px 15px 2px;
-    transition: all 0.3s ease-out
-}
-
-.vol:hover {
-    box-shadow: rgba(0, 0, 0, 0.2) 0 0 0 0;
-    transform: scale(1.02);
-    opacity: 0.9;
 }
 
 .track {
@@ -137,13 +116,13 @@ input, button, textarea, :focus {
 }
 
 
-.volCover {
-    box-shadow: rgba(34, 34, 34, 0.3) 0 5px 15px 2px
+.volViewCover {
+    box-shadow: rgba(0, 0, 0, 0.6) 0 8px 15px 2px;
 }
 
-.volCover:hover {
+.volViewCover:hover {
     transition: all 300ms ease;
-    box-shadow: rgba(34, 34, 34, 0.3) 0 0 0 0;
+    box-shadow: rgba(0, 0, 0, 0.6) 0 0 0 0;
 }
 
 
@@ -197,9 +176,28 @@ input, button, textarea, :focus {
 }
 
 
+.vol {
+    box-shadow: rgba(0, 0, 0, 0.6) 0 8px 15px 2px;
+    transition: all 0.3s ease-out
+}
+
+.vol:hover {
+    box-shadow: rgba(0, 0, 0, 0.2) 0 0 0 0;
+}
+
+.volCover {
+    transition: all 300ms ease-out;
+    transform: scale(1);
+}
+
+.volCover:hover {
+    transform: scale(1.1);
+    opacity: 0.9;
+}
+
 .vol, .single {
-    transform: scale(0.5);
     opacity: 0;
+    transform: scale(0.5);
     animation: showVol 600ms ease-out forwards;
 }
 
@@ -253,10 +251,10 @@ input, button, textarea, :focus {
 
 
 .singleCover {
-    box-shadow: rgba(34, 34, 34, 0.3) 0 5px 15px 2px;
+    box-shadow: rgba(0, 0, 0, 0.5) 0 8px 15px 2px;
     transition: all ease-out 300ms;
 }
 
 .singleCover:hover {
-    box-shadow: rgba(34, 34, 34, 0.3) 0 0 0 0;
+    box-shadow: rgba(0, 0, 0, 0.6) 0 0 0 0;
 }

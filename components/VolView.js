@@ -21,7 +21,7 @@ export default class VolView extends React.Component {
             <div ref={'content'} style={this.style().content}>
                 <p style={this.style().volNum}>Vol.{this.props.data ? this.props.data.vol : '000'}</p>
                 <img
-                    className="volCover"
+                    className="volViewCover"
                     src={this.props.data ? this.props.data.cover : '../static/pic/bg.jpg'}
                     style={this.style().cover}
                 />
@@ -84,7 +84,7 @@ export default class VolView extends React.Component {
             volNum: {
                 fontSize: '3em',
                 letterSpacing: '2px',
-                fontFamily: 'Savoye LET',
+                fontFamily: 'SavoyeLetPlain',
                 alignSelf: 'flex-start',
                 margin: '20px 0px 5px 4%'
             },
@@ -94,7 +94,7 @@ export default class VolView extends React.Component {
                 display: 'inline-block',
                 marginLeft: '4%',
                 marginRight: '2%',
-                borderRadius: '4px',
+                borderRadius: '10px',
                 position: 'relative',
                 top: '300px',
             },
@@ -120,7 +120,7 @@ export default class VolView extends React.Component {
             title: {
                 fontSize: '2em',
                 marginTop: '20px',
-                fontWeight: 'bold',
+                fontWeight: 'normal',
                 lineHeight: '1.3em',
                 position: 'relative',
                 top: '-26px'
@@ -143,7 +143,7 @@ export default class VolView extends React.Component {
             desc: {
                 fontSize: '0.8em',
                 margin: '0px 0px 30px 0',
-                fontWeight: 'bold'
+                fontWeight: 'normal'
             },
             tracks: {
                 width: '92%',

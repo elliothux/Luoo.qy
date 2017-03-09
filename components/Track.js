@@ -55,7 +55,7 @@ class Track extends React.Component {
                 flexDirection: 'row',
                 justifyContent: 'flex-center',
                 alignItems: 'center',
-                fontWeight: 'bold',
+                fontWeight: 'normal',
                 borderRadius: '4px',
                 cursor: 'pointer',
                 color: 'rgb(125, 125, 125)',
@@ -81,7 +81,7 @@ class Track extends React.Component {
             name: {
                 display: 'inline-block',
                 fontSize: '1.2em',
-                fontWeight: 'bold',
+                fontWeight: 'normal',
                 marginRight: '30px',
                 color: '#E06979',
                 cursor: 'pointer'

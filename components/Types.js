@@ -89,7 +89,7 @@ class Type extends React.Component {
                 fontSize: '1.2em',
                 textAlign: 'center',
                 verticalAlign: 'middle',
-                lineHeight: '40px',
+                lineHeight: '43px',
             }
         },
         'chosen-false': {

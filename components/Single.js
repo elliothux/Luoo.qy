@@ -115,6 +115,8 @@ export default class Single extends React.Component {
                 top: '3px'
             },
             date: {
+                fontWeight: 'normal',
+                fontFamily: 'STSongti-SC-Regular',
                 display: 'inline-block'
             }
         }

@@ -94,6 +94,7 @@ export default class NavBar extends React.Component {
                 flexWrap: 'wrap',
                 justifyContent: 'space-between',
                 alignItems: 'center',
+                opacity: 0.85
             },
             buttonImg: {
                 width: '30px',
@@ -110,7 +111,8 @@ export default class NavBar extends React.Component {
                 justifyContent: 'space-between',
                 alignItems: 'center',
                 fontSize: '1.2em',
-                fontWeight: 'bold'
+                fontWeight: 'normal',
+                color: 'rgba(35, 31, 31, 0.9)'
             },
             volumeDown: {
                 cursor: 'pointer',
@@ -138,7 +140,7 @@ export default class NavBar extends React.Component {
                 fontSize: '1.3em',
                 fontWeight: 'normal',
                 letterSpacing: '1px',
-                fontFamily: 'Savoye LET',
+                fontFamily: 'SavoyeLetPlain, Arial',
                 position: 'relative',
                 top: '-6px',
                 color: 'black'
