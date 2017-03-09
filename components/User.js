@@ -15,7 +15,11 @@ export default class User extends React.Component {
     render() {return(
         <div style={this.style().user}>
             <div style={this.style().background}/>
-
+            <div style={this.style().content}>
+                <img style={this.style().logo} src="../static/pic/logo_black.png"/>
+                <h1 style={this.style().title}>Luoo.qy</h1>
+                <h3>此功能正在开发中...</h3>
+            </div>
         </div>
     )}
 
@@ -35,12 +39,31 @@ export default class User extends React.Component {
                 height: '120%',
                 overflow: 'hidden',
                 position: 'relative',
-                backgroundImage: `url(${this.state.background})`,
+                // backgroundImage: `url(${this.state.background})`,
+                backgroundColor: 'white',
                 backgroundSize: 'cover',
                 filter: 'blur(10px)',
                 margin: '-20px',
                 zIndex: 2
             },
+            content: {
+                zIndex: 2,
+                width: '100%',
+                height: '100%',
+                overflow: 'auto',
+                position: 'absolute',
+                top: 0,
+                fontWeight: 'normal',
+                textAlign: 'center'
+            },
+            title: {
+                fontFamily: 'SavoyeLetPlain',
+            },
+            logo: {
+                width: '60px',
+                height: 'auto',
+                margin: '80px 0 20px 0px'
+            }
         },
         'menu-vol': {
             user: {

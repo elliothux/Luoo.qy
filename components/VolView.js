@@ -33,8 +33,9 @@ export default class VolView extends React.Component {
                         <span style={this.style().date}>
                             落在低处·{this.props.data ? this.props.data.date : '1995-10-05'}
                         </span>
-                        {this.props.data ?
-                            (<span style={this.style().tag}>{this.props.data.tag}</span> || false)  :
+                        {this.props.data && this.props.data.tag ?
+                            this.props.data.tag.map(
+                                (tag, index) => <span key={index} style={this.style().tag}>{tag}</span>) :
                             false}
                         <p
                             style={this.style().desc}
@@ -86,7 +87,8 @@ export default class VolView extends React.Component {
                 letterSpacing: '2px',
                 fontFamily: 'SavoyeLetPlain',
                 alignSelf: 'flex-start',
-                margin: '20px 0px 5px 4%'
+                margin: '20px 0px 5px 4%',
+                textShadow: 'rgba(34, 34, 34, 0.298039) 0px 0px 5px'
             },
             cover: {
                 width: '50%',
@@ -138,7 +140,8 @@ export default class VolView extends React.Component {
                 fontSize: '0.8em',
                 float: 'right',
                 position: 'relative',
-                top: '-5px'
+                top: '-5px',
+                marginLeft: '8px'
             },
             desc: {
                 fontSize: '0.8em',

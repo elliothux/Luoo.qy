@@ -86,7 +86,7 @@ input, button, textarea, :focus {
     }
     50% {
         opacity: 0.5;
-        transform: scale(1);
+        transform: scale(0.99);
     }
 }
 

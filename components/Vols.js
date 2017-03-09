@@ -50,7 +50,7 @@ export default class Vols extends React.Component {
                 return data;
             const filterData = [];
             for (let volData of data) {
-                if (volData.tag === `#${type}`)
+                if (volData.tag.includes(`#${type}`))
                     filterData.push(volData)
             }
             return filterData

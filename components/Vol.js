@@ -61,13 +61,15 @@ export default class Vol extends React.Component {
                 left: '15px',
                 bottom: '10px',
                 color: 'white',
-                textShadow: '0 5px 5px rgba(0, 0, 0, 0.4)'
+                textShadow: '0 5px 5px rgba(0, 0, 0, 0.4)',
+                cursor: 'pointer',
             },
             volNum: {
                 fontSize: '1.6em',
                 letterSpacing: '1px',
                 fontFamily: 'SavoyeLetPlain',
                 lineHeight: '0.5em',
+                cursor: 'pointer',
             }
         }
     }, this.props, this.state))}
