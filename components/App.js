@@ -298,7 +298,10 @@ export default class App extends React.Component {
                     />
                 </div>
                 <div style={this.style().userContainer}>
-                    <User menu={this.state.activateMenu}/>
+                    <User
+                        menu={this.state.activateMenu}
+                        openExternal={this.props.openExternal}
+                    />
                 </div>
                 </div>
             <Playing

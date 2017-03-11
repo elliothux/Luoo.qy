@@ -111,7 +111,7 @@ export default class Vols extends React.Component {
                 width: '100%',
                 height: '100%',
                 overflow: 'auto',
-                display: 'fixed'
+                display: 'fixed',
             },
             vols: {
                 position: 'relative',
