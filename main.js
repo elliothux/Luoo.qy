@@ -19,7 +19,7 @@ function createWindiw() {
 });
 
     win.loadURL(url.format({
-        pathname: path.join(__dirname, '/static/index.html'),
+        pathname: path.join(__dirname, './static/html/index.html'),
         protocol: 'file',
         slashes: true
     }));

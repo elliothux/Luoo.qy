@@ -42,7 +42,7 @@ export default class App extends React.Component {
             playingSingleIndex: 0,
             playingTrack: new Audio(),
             singlesContainerDom: null,
-            backgroundImage: '../static/pic/cover.jpg',
+            backgroundImage: '../pic/cover.jpg',
         };
     }
 
@@ -290,7 +290,7 @@ export default class App extends React.Component {
                 <div style={this.style().singlesContainer}>
                     <Singles
                         background={this.state.playingSinglesData ?
-                            this.state.playingSinglesData[this.state.playingSingleIndex].cover : '../static/pic/singleCover.jpg'}
+                            this.state.playingSinglesData[this.state.playingSingleIndex].cover : '../pic/singleCover.jpg'}
                         menu={this.state.activateMenu}
                         singles={this.props.getSingleList}
                         play={this.playSingle}

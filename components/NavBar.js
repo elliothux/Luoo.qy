@@ -21,7 +21,7 @@ export default class NavBar extends React.Component {
     render() {return(
         <div style={this.style().navContainer}>
             <div style={this.style().logo}>
-                <img style={this.style().logoImg} src="../static/pic/logo_black.png"/>
+                <img style={this.style().logoImg} src="../pic/logo_black.png"/>
                 <p style={this.style().logoText}>Luoo.qy</p>
             </div>
             <div style={this.style().button}>
@@ -29,22 +29,22 @@ export default class NavBar extends React.Component {
                     onClick={this.toggle.bind(null, 'vol')}
                     style={this.style().buttonImg}
                     src={this.props.menu === 'vol' ?
-                        "../static/pic/acd.svg" :
-                        "../static/pic/cd.svg"}
+                        "../pic/acd.svg" :
+                        "../pic/cd.svg"}
                 />
                 <img
                     onClick={this.toggle.bind(null, 'single')}
                     style={this.style().buttonImg}
                     src={this.props.menu === 'single' ?
-                        "../static/pic/alink.svg" :
-                        "../static/pic/link.svg"}
+                        "../pic/alink.svg" :
+                        "../pic/link.svg"}
                 />
                 <img
                     onClick={this.toggle.bind(null, 'user')}
                     style={this.style().buttonImg}
                     src={this.props.menu === 'user' ?
-                        "../static/pic/astar.svg" :
-                        "../static/pic/star.svg"}
+                        "../pic/astar.svg" :
+                        "../pic/star.svg"}
                 />
             </div>
             <div style={this.style().volume}>
@@ -55,7 +55,7 @@ export default class NavBar extends React.Component {
                 <div>
                     <img
                         style={this.style().volumeImg}
-                        src="../static/pic/volum.svg"
+                        src="../pic/volum.svg"
                     />
                     <span style={this.style().volumeNum}>{this.props.volume}</span>
                 </div>

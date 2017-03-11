@@ -34,7 +34,7 @@ class Track extends React.Component {
             >
                 <div style={this.style().coverContainer}>
                     <img
-                        src={this.props.data.cover || '../static/pic/cover.jpg'}
+                        src={this.props.data.cover || '../pic/cover.jpg'}
                         style={this.style().cover}
                     />
                 </div>

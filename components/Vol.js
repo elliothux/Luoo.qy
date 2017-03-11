@@ -51,7 +51,7 @@ export default class Vol extends React.Component {
                 height: '100%',
                 backgroundImage: `url(${this.props.data ?
                     this.props.data.cover :
-                    '../static/pic/bg.jpg'})`,
+                    '../pic/bg.jpg'})`,
                 backgroundSize: 'cover',
                 position: 'absolute',
                 cursor: 'pointer',

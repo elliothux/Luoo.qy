@@ -23,7 +23,7 @@ export default class VolView extends React.Component {
                 <p style={this.style().volNum}>Vol.{this.props.data ? this.props.data.vol : '000'}</p>
                 <img
                     className="volViewCover"
-                    src={this.props.data ? this.props.data.cover : '../static/pic/bg.jpg'}
+                    src={this.props.data ? this.props.data.cover : '../pic/bg.jpg'}
                     style={this.style().cover}
                 />
                 <div ref={'detail'} style={this.style().detailContainer}>
@@ -70,7 +70,7 @@ export default class VolView extends React.Component {
                 position: 'relative',
                 backgroundImage: `url(${this.props.data ?
                     this.props.data.cover :
-                    '../static/pic/bg.jpg'})`,
+                    '../pic/bg.jpg'})`,
                 backgroundSize: 'cover',
                 filter: 'blur(10px)',
                 margin: '-20px',

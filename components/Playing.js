@@ -71,7 +71,7 @@ export default class Playing extends React.Component {
                         style={this.style().cover}
                         src={this.props.data ?
                             this.props.data.cover :
-                            '../static/pic/cover.jpg'}
+                            '../pic/cover.jpg'}
                     />
                 </div>
                 <div style={this.style().detail}>
@@ -91,7 +91,7 @@ export default class Playing extends React.Component {
                     ref={'prevButton'}
                     className="prevButton"
                     onClick={this.prev}
-                    src="../static/pic/Previous.svg"
+                    src="../pic/Previous.svg"
                     style={this.style().prevButton}
                 />
                 <img
@@ -99,15 +99,15 @@ export default class Playing extends React.Component {
                     className="toggleButton"
                     onClick={this.toggle}
                     src={this.props.isPlaying ?
-                        "../static/pic/Pause.svg" :
-                        "../static/pic/Play.svg"}
+                        "../pic/Pause.svg" :
+                        "../pic/Play.svg"}
                     style={this.style().playButton}
                 />
                 <img
                     ref={'nextButton'}
                     className="nextButton"
                     onClick={this.next}
-                    src="../static/pic/Next.svg"
+                    src="../pic/Next.svg"
                     style={this.style().nextButton}
                 />
             </div>

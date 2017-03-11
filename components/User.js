@@ -8,17 +8,38 @@ export default class User extends React.Component {
         this.style = this.style.bind(this);
 
         this.state = {
-            background: '../static/pic/singleCover.jpg'
+            background: '../pic/singleCover.jpg'
         }
     }
 
     render() {return(
         <div style={this.style().user}>
-            <div style={this.style().background}/>
-            <div style={this.style().content}>
-                <img style={this.style().logo} src="../static/pic/logo_black.png"/>
-                <h1 style={this.style().title}>Luoo.qy</h1>
-                <h3>此功能正在开发中...</h3>
+            <line type="text/css" src="../css/about.css"/>
+            <div id="background"></div>
+            <div id="content">
+                <div id="logo" className="unloaded" >
+                    <img id="logoImg" src="http://ojt6rsn4s.bkt.clouddn.com/logo.png"/>
+                        <p id="versionText">V0.0.3 (2017/03/10)</p>
+                </div>
+                <div id="button" className="unloaded">
+                    <a className="button" id="github">
+                        GitHub
+                    </a>
+                    <a className="button" id="download">下载</a>
+                    <div className="download">
+                        <a className="button downloadLinux hide" id="linux">Linux</a>
+                        <a className="button downloadMac hide" id="mac">macOS</a>
+                        <a className="button downloadWin hide" id="win">Windows</a>
+                    </div>
+                </div>
+                <div className="unloaded" id="desc">
+                    该软件内的所有内容均来自
+                    <a href="http://www.luoo.net/" target="_blank">落网</a>
+                    , 本版本将持续开发, 欢迎关注我的
+                    <a href="http://weibo.com/u/6166194900" target="_blank">微博</a>
+                    <span> / </span>
+                    <a href="https://www.zhihu.com/people/hu-qing-yang-67" target="_blank">知乎</a>
+                </div>
             </div>
         </div>
     )}
@@ -33,36 +54,6 @@ export default class User extends React.Component {
                 top: 0,
                 transition: 'all ease-out 400ms',
                 zIndex: 3
-            },
-            background: {
-                width: '120%',
-                height: '120%',
-                overflow: 'hidden',
-                position: 'relative',
-                // backgroundImage: `url(${this.state.background})`,
-                backgroundColor: 'white',
-                backgroundSize: 'cover',
-                filter: 'blur(10px)',
-                margin: '-20px',
-                zIndex: 2
-            },
-            content: {
-                zIndex: 2,
-                width: '100%',
-                height: '100%',
-                overflow: 'auto',
-                position: 'absolute',
-                top: 0,
-                fontWeight: 'normal',
-                textAlign: 'center'
-            },
-            title: {
-                fontFamily: 'SavoyeLetPlain',
-            },
-            logo: {
-                width: '60px',
-                height: 'auto',
-                margin: '80px 0 20px 0px'
             }
         },
         'menu-vol': {

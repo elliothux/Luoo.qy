@@ -31,7 +31,7 @@ export default class Single extends React.Component {
                     className="playSingleButton"
                     onClick={this.handleClick}
                     style={this.style().playButton}
-                    src="../static/pic/Play.svg"
+                    src="../pic/Play.svg"
                 />
                 <p style={this.style().name}>
                     {this.props.data ? this.props.data.name : 'Loading...'}
@@ -45,11 +45,11 @@ export default class Single extends React.Component {
                 style={this.style().cover}
                 src={this.props.data ?
                     this.props.data.cover :
-                    '../static/pic/singleCover.jpg'}
+                    '../pic/singleCover.jpg'}
             />
             <div style={this.style().desc}>
                 <p>{this.props.data ? this.props.data.description : 'Loading...'}</p>
-                <img style={this.style().logo} src="../static/pic/logo_white.png"/>
+                <img style={this.style().logo} src="../pic/logo_white.png"/>
                 <p style={this.style().date}>
                     {this.props.data ?
                         `${this.props.data.recommender} · ${this.props.data.date}` :
