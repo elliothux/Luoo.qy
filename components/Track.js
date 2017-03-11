@@ -10,6 +10,11 @@ class Track extends React.Component {
         this.handleClick = this.handleClick.bind(this);
     }
 
+    componentDidMount() {
+        this.refs.name.style.webkitLineClamp = 1;
+        this.refs.album.style.webkitLineClamp = 1;
+    }
+
     handleClick() {
         const track = this.refs.track;
         track.className = 'track clicked';
@@ -34,8 +39,8 @@ class Track extends React.Component {
                     />
                 </div>
                 <div style={this.style().detailContainer}>
-                    <span style={this.style().name}>{this.props.data.name || 'Loading...'}</span>
-                    <div style={this.style().album}>
+                    <span ref={"name"} style={this.style().name}>{this.props.data.name || 'Loading...'}</span>
+                    <div ref={"album"} style={this.style().album}>
                         <span>{this.props.data.album || 'Album'}</span>
                         <span> - </span>
                         <span>{this.props.data.artist || 'Artist'}</span>
@@ -59,6 +64,7 @@ class Track extends React.Component {
                 borderRadius: '4px',
                 cursor: 'pointer',
                 color: 'rgb(125, 125, 125)',
+                overflow: 'hidden'
             },
             coverContainer: {
                 width: '45px',
@@ -79,17 +85,31 @@ class Track extends React.Component {
                 top: '-1px',
             },
             name: {
-                display: 'inline-block',
                 fontSize: '1.2em',
                 fontWeight: 'normal',
                 marginRight: '30px',
                 color: '#E06979',
-                cursor: 'pointer'
+                cursor: 'pointer',
+                display: '-webkit-inline-box',
+                webkitBoxOrient: 'block-axis',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                width: 'auto',
+                height: 'auto',
+                position: 'relative',
+                top: '4px'
             },
             album: {
-                display: 'inline-block',
                 fontSize: '0.85em',
-                cursor: 'pointer'
+                cursor: 'pointer',
+                display: '-webkit-inline-box',
+                webkitBoxOrient: 'block-axis',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                width: 'auto',
+                height: 'auto',
+                position: 'relative',
+                top: '1px'
             }
         }
     }, this.props, this.state))}

@@ -17,6 +17,11 @@ export default class Playing extends React.Component {
         }
     }
 
+    componentDidMount() {
+        this.refs.detailAlbum.style.webkitLineClamp = 1;
+        this.refs.detailName.style.webkitLineClamp = 1;
+    }
+
     prev() {
         const prevButton = this.refs.prevButton;
         const detail = this.refs.detail;
@@ -70,10 +75,10 @@ export default class Playing extends React.Component {
                     />
                 </div>
                 <div style={this.style().detail}>
-                    <p style={this.style().detailName}>
+                    <p ref={"detailName"} style={this.style().detailName}>
                         {this.props.data ? this.props.data.name : 'Loading...'}
                     </p>
-                    <p style={this.style().detailAlbum}>
+                    <p ref={"detailAlbum"} style={this.style().detailAlbum}>
                         {this.props.data&&this.props.data.album ?
                             <span>{this.props.data.album} - </span>: false}
                         <span>{this.props.data ? this.props.data.artist : 'Artist'}</span>
