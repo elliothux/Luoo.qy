@@ -18,6 +18,8 @@ export default class Playing extends React.Component {
     }
 
     componentDidMount() {
+        this.refs.detailAlbum.style.webkitBoxOrient= 'block-axis';
+        this.refs.detailName.style.webkitBoxOrient= 'block-axis';
         this.refs.detailAlbum.style.webkitLineClamp = 1;
         this.refs.detailName.style.webkitLineClamp = 1;
     }
@@ -163,7 +165,6 @@ export default class Playing extends React.Component {
                 color: '#E06979',
                 fontWeight: 'bold',
                 display: '-webkit-box',
-                webkitBoxOrient: 'block-axis',
                 width: '100%',
                 height: '20px',
                 overflow: 'hidden',
@@ -173,7 +174,6 @@ export default class Playing extends React.Component {
                 fontSize: '0.9em',
                 lineHeight: '20px',
                 display: '-webkit-box',
-                webkitBoxOrient: 'block-axis',
                 width: '100%',
                 height: '20px',
                 overflow: 'hidden',

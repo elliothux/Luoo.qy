@@ -39,11 +39,13 @@ class Track extends React.Component {
                     />
                 </div>
                 <div style={this.style().detailContainer}>
-                    <span ref={"name"} style={this.style().name}>{this.props.data.name || 'Loading...'}</span>
+                    <span ref={"name"} style={this.style().name}>
+                        {this.props.data.name || 'Loading...'}
+                    </span>
                     <div ref={"album"} style={this.style().album}>
-                        <span>{this.props.data.album || 'Album'}</span>
-                        <span> - </span>
-                        <span>{this.props.data.artist || 'Artist'}</span>
+                        <span style={this.style().albumText}>{this.props.data.album || 'Album'}</span>
+                        <span style={this.style().albumText}> - </span>
+                        <span style={this.style().albumText}>{this.props.data.artist || 'Artist'}</span>
                     </div>
                 </div>
             </div>
@@ -109,7 +111,10 @@ class Track extends React.Component {
                 width: 'auto',
                 height: 'auto',
                 position: 'relative',
-                top: '1px'
+                top: '1px',
+            },
+            albumText: {
+                cursor: 'pointer',
             }
         }
     }, this.props, this.state))}

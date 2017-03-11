@@ -1,6 +1,6 @@
 {
   "name": "luoo.qy",
-  "version": "1.0.0",
+  "version": "0.0.3",
   "description": "luoo.qy",
   "main": "main.js",
   "dependencies": {
@@ -24,13 +24,13 @@
   },
   "scripts": {
     "start": "electron-rebuild && electron main.js",
-    "build": "electron-packager . Luoo.qy --platform=drawin --arch=x64 --ignore=node_modules/electron-* --overwrite --rebuild",
+    "build": "electron-packager . Luoo.qy --platform=darwin --arch=x64 --ignore=node_modules/electron-* --overwrite --rebuild",
     "build-all": "electron-packager . Luoo.qy --all --ignore=node_modules/electron-* --overwrite --rebuild"
   },
   "keywords": [
     "luoo.qy"
   ],
-  "author": "hu",
+  "author": "https://github.com/HuQingyang",
   "license": "ISC",
   "ecmaFeatures": {
     "modules": true
