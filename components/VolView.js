@@ -60,7 +60,8 @@ export default class VolView extends React.Component {
                 position: 'absolute',
                 transition: 'all ease-out',
                 top: 0,
-                color: 'white'
+                color: 'white',
+                backgroundColor: 'black'
             },
             background: {
                 width: '120%',
@@ -73,7 +74,8 @@ export default class VolView extends React.Component {
                 backgroundSize: 'cover',
                 filter: 'blur(10px)',
                 margin: '-20px',
-                zIndex: 1
+                zIndex: 1,
+                opacity: 0.9
             },
             content: {
                 zIndex: 2,

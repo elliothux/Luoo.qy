@@ -97,6 +97,7 @@ input, button, textarea, :focus {
 }
 
 .prevButton:hover, .toggleButton:hover, .nextButton:hover {
+    transform: scale(1.05);
     filter: drop-shadow(rgba(190, 93, 99, 0.8) 0 0 0);
 }
 

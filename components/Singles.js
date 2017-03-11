@@ -80,7 +80,8 @@ export default class Singles extends React.Component {
                 position: 'absolute',
                 overflow: 'hidden',
                 top: 0,
-                transition: 'all ease-out 400ms'
+                transition: 'all ease-out 400ms',
+                backgroundColor: 'black'
             },
             background: {
                 width: '120%',
@@ -92,7 +93,8 @@ export default class Singles extends React.Component {
                 filter: 'blur(10px)',
                 margin: '-20px',
                 zIndex: 1,
-                transition: 'background-image 1.2s ease-in-out'
+                transition: 'background-image 1.2s ease-in-out',
+                opacity: 0.9
             },
             content: {
                 zIndex: 2,

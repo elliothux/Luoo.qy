@@ -32,6 +32,7 @@ export default class Vols extends React.Component {
         for (let i=0; i<max; i++) {
             volListDom.push(
                 <Vol
+                    setBackground={this.props.setBackground}
                     data={volListData[i]}
                     key={i}
                     index={i%10}

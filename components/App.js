@@ -92,14 +92,15 @@ export default class App extends React.Component {
     }
 
     play(playingVolData, playingIndex) {
-        const next = this.next;
         this.setState((prevState, props) => ({
             playingMenu: 'vol',
             playingVolData: playingVolData,
             playingIndex: playingIndex,
             playingTrack: (() => {
                 prevState.playingTrack.src = playingVolData.tracks[playingIndex].url;
-                prevState.playingTrack.addEventListener('ended', next);
+                prevState.playingTrack.removeEventListener('ended', this.next);
+                prevState.playingTrack.removeEventListener('ended', this.nextSingle);
+                prevState.playingTrack.addEventListener('ended', this.next);
                 prevState.playingTrack.play();
                 return prevState.playingTrack;
             })()
@@ -126,6 +127,9 @@ export default class App extends React.Component {
             playingIndex: playingIndex,
             playingTrack: (() => {
                 prevState.playingTrack.src = prevState.playingVolData.tracks[playingIndex].url;
+                prevState.playingTrack.removeEventListener('ended', this.next);
+                prevState.playingTrack.removeEventListener('ended', this.nextSingle);
+                prevState.playingTrack.addEventListener('ended', this.next);
                 prevState.playingTrack.play();
                 return prevState.playingTrack;
             })()
@@ -143,6 +147,9 @@ export default class App extends React.Component {
             playingIndex: playingIndex,
             playingTrack: (() => {
                 prevState.playingTrack.src = prevState.playingVolData.tracks[playingIndex].url;
+                prevState.playingTrack.removeEventListener('ended', this.next);
+                prevState.playingTrack.removeEventListener('ended', this.nextSingle);
+                prevState.playingTrack.addEventListener('ended', this.next);
                 prevState.playingTrack.play();
                 return prevState.playingTrack;
             })()
@@ -150,14 +157,15 @@ export default class App extends React.Component {
     }
 
     playSingle(playingSinglesData, playingSingleIndex) {
-        const next = this.nextSingle;
         this.setState((prevState, props) => ({
             playingMenu: 'single',
             playingSinglesData: playingSinglesData,
             playingSingleIndex: playingSingleIndex,
             playingTrack: (() => {
                 prevState.playingTrack.src = playingSinglesData[playingSingleIndex].url;
-                prevState.playingTrack.addEventListener('ended', next);
+                prevState.playingTrack.removeEventListener('ended', this.next);
+                prevState.playingTrack.removeEventListener('ended', this.nextSingle);
+                prevState.playingTrack.addEventListener('ended', this.next);
                 prevState.playingTrack.play();
                 return prevState.playingTrack;
             })()
@@ -174,6 +182,9 @@ export default class App extends React.Component {
             playingSingleIndex: playingSingleIndex,
             playingTrack: (() => {
                 prevState.playingTrack.src = prevState.playingSinglesData[playingSingleIndex].url;
+                prevState.playingTrack.removeEventListener('ended', this.next);
+                prevState.playingTrack.removeEventListener('ended', this.nextSingle);
+                prevState.playingTrack.addEventListener('ended', this.next);
                 prevState.playingTrack.play();
                 return prevState.playingTrack;
             })()
@@ -190,6 +201,9 @@ export default class App extends React.Component {
             playingSingleIndex: playingSingleIndex,
             playingTrack: (() => {
                 prevState.playingTrack.src = prevState.playingSinglesData[playingSingleIndex].url;
+                prevState.playingTrack.removeEventListener('ended', this.next);
+                prevState.playingTrack.removeEventListener('ended', this.nextSingle);
+                prevState.playingTrack.addEventListener('ended', this.next);
                 prevState.playingTrack.play();
                 return prevState.playingTrack;
             })()
@@ -319,7 +333,8 @@ export default class App extends React.Component {
                 height: '100%',
                 overflow: 'hidden',
                 position: 'fixed',
-                top: 0
+                top: 0,
+                backgroundColor: 'black'
             },
             background: {
                 width: '120%',
@@ -330,7 +345,8 @@ export default class App extends React.Component {
                 backgroundSize: 'cover',
                 filter: 'blur(10px)',
                 margin: '-20px',
-                transition: 'background-image 1.2s ease-in-out'
+                transition: 'background-image 1.2s ease-in-out',
+                opacity: 0.9
             },
             content: {
                 width: 'calc(100% - 80px)',
