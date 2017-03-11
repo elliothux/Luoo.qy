@@ -153,13 +153,26 @@ export default class Playing extends React.Component {
             },
             detailName: {
                 fontSize: '1.3em',
-                margin: '10px 0 5px 0',
+                lineHeight: '20px',
+                margin: '8px 0 5px 0',
                 color: '#E06979',
-                fontWeight: 'bold'
+                fontWeight: 'bold',
+                display: '-webkit-box',
+                webkitBoxOrient: 'block-axis',
+                width: '100%',
+                height: '20px',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis'
             },
             detailAlbum: {
-                lineHeight: '1.5em',
-                fontSize: '0.9em'
+                fontSize: '0.9em',
+                lineHeight: '20px',
+                display: '-webkit-box',
+                webkitBoxOrient: 'block-axis',
+                width: '100%',
+                height: '20px',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis'
             },
             controller: {
                 float: 'right',
