@@ -1,9 +1,9 @@
 module.exports = {
     entry: {
-        index: require('path').join(__dirname, './index.js'),
+        index: require('path').join(__dirname, './static/js/index.js'),
     },
     output: {
-        path: require('path').join(__dirname),
+        path: require('path').join(__dirname, './static/js/'),
         filename: '[name].build.js'
     },
     module: {
@@ -11,7 +11,7 @@ module.exports = {
             test: /\.js|jsx$/,
             loader: 'babel-loader',
             query: {
-                presets: ['react', 'es2015']
+                presets: ['react', 'es2015'],
             }
         }]
     },

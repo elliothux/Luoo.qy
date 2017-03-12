@@ -109,9 +109,10 @@ export default class Vols extends React.Component {
         default: {
             volsContainer: {
                 width: '100%',
-                height: '100%',
+                height: 'calc(100% - 20px)',
                 overflow: 'auto',
                 display: 'fixed',
+                paddingTop: '20px'
             },
             vols: {
                 position: 'relative',

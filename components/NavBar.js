@@ -71,7 +71,8 @@ export default class NavBar extends React.Component {
         'default': {
             navContainer: {
                 width: '80px',
-                height: '100%',
+                height: 'calc(100% - 20px)',
+                paddingTop: '20px',
                 position: 'fixed',
                 top: 0,
                 left: 0,
@@ -134,13 +135,13 @@ export default class NavBar extends React.Component {
             logoImg: {
                 width: '35px',
                 height: 'auto',
-                margin: '30px 0 10px 0'
+                margin: '20px 0 10px 0'
             },
             logoText: {
-                fontSize: '1.3em',
+                fontSize: '1.6em',
                 fontWeight: 'normal',
                 letterSpacing: '1px',
-                fontFamily: 'SavoyeLetPlain, Arial',
+                fontFamily: 'SavoyeLetPlain',
                 position: 'relative',
                 top: '-6px',
                 color: 'black'

@@ -20,12 +20,14 @@
     "babel-preset-stage-0": "^6.22.0",
     "electron-devtools-installer": "^2.1.0",
     "electron-rebuild": "^1.5.7",
+    "electron-winstaller": "^2.5.2",
     "react-addons-pure-render-mixin": "^15.4.2"
   },
   "scripts": {
     "start": "electron-rebuild && electron main.js",
-    "build": "electron-packager . Luoo.qy --platform=darwin --arch=x64 --ignore=node_modules/electron-* --overwrite --rebuild",
-    "build-all": "electron-packager . Luoo.qy --all --ignore=node_modules/electron-* --overwrite --rebuild"
+    "build-all": "electron-packager . Luoo.qy --all --ignore=node_modules/electron-* --overwrite --rebuild",
+    "build-mac": "electron-packager . Luoo.qy --platform=darwin --arch=x64 --icon=static/pic/macOS.icns --ignore=node_modules/electron-* --overwrite --rebuild",
+    "build-win": "electron-packager . Luoo.qy --platform=win32 --arch=x64 --icon=static/pic/win.ico --ignore=node_modules/electron-* --overwrite --rebuild"
   },
   "keywords": [
     "luoo.qy"

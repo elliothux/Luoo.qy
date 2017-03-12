@@ -98,7 +98,7 @@ export default class User extends React.Component {
                 fontSize: '3em',
                 fontWeight: 'normal',
                 letterSpacing: '1px',
-                fontFamily: 'SavoyeLetPlain, Arial',
+                fontFamily: 'SavoyeLetPlain',
                 marginTop: '2%'
             },
             versionText: {
@@ -108,7 +108,7 @@ export default class User extends React.Component {
                 fontSize: '1em',
                 fontWeight: 'lighter',
                 letterSpacing: '1px',
-                fontFamily: `"Helvetica Neue", Helvetica, Arial, sans-serif`,
+                // fontFamily: `"Helvetica Neue", Helvetica, Arial, sans-serif`,
             },
             button: {
                 display: 'block',
@@ -123,7 +123,7 @@ export default class User extends React.Component {
                 zIndex: 3,
                 letterSpacing: '2px',
                 fontWeight: 'lighter',
-                fontFamily: `"Helvetica Neue", Helvetica, Arial, sans-serif`,
+                // fontFamily: `"Helvetica Neue", Helvetica, Arial, sans-serif`,
             }
         },
         'menu-vol': {

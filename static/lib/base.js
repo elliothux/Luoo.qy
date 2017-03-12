@@ -7,7 +7,7 @@ module.exports.getVolList = getVolList;
 module.exports.getSingleList = getSingleList;
 
 
-const IP = 'http://127.0.0.1:5000';
+const IP = 'http://123.206.79.159:5000';
 
 
 ///////////////// Base functions /////////////////

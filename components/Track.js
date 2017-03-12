@@ -13,6 +13,8 @@ class Track extends React.Component {
     componentDidMount() {
         this.refs.name.style.webkitLineClamp = 1;
         this.refs.album.style.webkitLineClamp = 1;
+        this.refs.name.style.webkitBoxOrient = 'block-axis';
+        this.refs.album.style.webkitBoxOrient = 'block-axis';
     }
 
     handleClick() {
@@ -82,9 +84,7 @@ class Track extends React.Component {
                 cursor: 'pointer'
             },
             detailContainer: {
-                width: 'calc(100% - 100px)',
-                position: 'relative',
-                top: '-1px',
+                width: 'calc(100% - 100px)'
             },
             name: {
                 fontSize: '1.2em',
@@ -93,25 +93,20 @@ class Track extends React.Component {
                 color: '#E06979',
                 cursor: 'pointer',
                 display: '-webkit-inline-box',
-                webkitBoxOrient: 'block-axis',
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
                 width: 'auto',
-                height: 'auto',
                 position: 'relative',
-                top: '4px'
+                top: '3px'
             },
             album: {
                 fontSize: '0.85em',
                 cursor: 'pointer',
                 display: '-webkit-inline-box',
-                webkitBoxOrient: 'block-axis',
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
                 width: 'auto',
-                height: 'auto',
-                position: 'relative',
-                top: '1px',
+                margin: '-5px 0 -1px 0'
             },
             albumText: {
                 cursor: 'pointer',

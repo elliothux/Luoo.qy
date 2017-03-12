@@ -1,9 +1,21 @@
+/**************** Fonts ****************/
+@font-face {
+    font-family: SavoyeLetPlain;
+    src: url('../fonts/Savoye.ttf')
+}
+
+@font-face {
+    font-family: AppleBraille;
+    src: url('../fonts/apple.otf')
+}
+
+
 /**************** Common ****************/
 
 * {
     margin: 0;
     padding: 0;
-    font-family: PingFangSC-Regular, Arial;
+    font-family: AppleBraille;
 }
 
 *::-webkit-scrollbar {

@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import reactCSS from 'reactcss';
 import NavBar from './NavBar';
+import TitleBar from './TitleBar';
 import Vols from './Vols';
 import VolView from './VolView';
 import Singles from './Singles';
@@ -254,6 +255,7 @@ export default class App extends React.Component {
     render() {return(
         <div style={this.style().app}>
             <div style={this.style().background}/>
+            <TitleBar/>
             <NavBar
                 track={this.state.playingTrack}
                 hideVolView={this.hideVolView}
@@ -337,7 +339,7 @@ export default class App extends React.Component {
                 overflow: 'hidden',
                 position: 'fixed',
                 top: 0,
-                backgroundColor: 'black'
+                backgroundColor: 'black',
             },
             background: {
                 width: '120%',

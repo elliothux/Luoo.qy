@@ -50,7 +50,6 @@ export default class Types extends React.Component {
                 overflow: 'auto',
                 padding: '10px 20px',
                 position: 'relative',
-                margin: 0
             },
             types: {
                 width: '2310px',
