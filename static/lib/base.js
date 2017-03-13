@@ -7,7 +7,7 @@ module.exports.getVolList = getVolList;
 module.exports.getSingleList = getSingleList;
 
 
-const IP = 'http://123.206.79.159:5000';
+const IP = 'http://123.206.79.159:80';
 
 
 ///////////////// Base functions /////////////////
@@ -38,7 +38,7 @@ async function updateVolList() {
     const exist = await db.isVolExist(latestVol);
     // If the latest vol is already in database, just do nothing
     if (exist) {
-        console.log(`All vol data updated at ${new Date()}.`)
+        return console.log(`All vol data updated at ${new Date()}.`)
     }
     // Else, start update vol data from server
     else
@@ -50,6 +50,10 @@ async function updateVolList() {
 async function getVolFromServer(index) {
     // Vol index must greater than 0
     if (index <= 0) return false;
+    const exist = await db.isVolExist(index);
+    // If the latest vol is already in database, just do nothing
+    if (exist)
+        return console.log(`All vol data updated at ${new Date()}.`)
     const url = `${IP}/api/vol/${index}`;
     // Get data of the vol from server
     let data = await getData(url);
