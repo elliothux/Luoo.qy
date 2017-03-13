@@ -1,3 +1,5 @@
+// 从服务器获取数据, 更新数据库等操作
+
 const request = require('request-promise');
 const db = require('./db');
 
@@ -7,12 +9,14 @@ module.exports.getVolList = getVolList;
 module.exports.getSingleList = getSingleList;
 
 
+// 服务器 IP
 const IP = 'http://123.206.79.159:80';
 
 
-///////////////// Base functions /////////////////
+///////////////// 实用函数 /////////////////
 
-// Passing an url to get data of the url
+
+// 传入 URL, 以 GET 方法从服务器获取数据
 async function getData(url) {
     return request(url)
         .then(data => {
@@ -24,52 +28,54 @@ async function getData(url) {
 
 ///////////////// Vol Api /////////////////
 
-// Get data of all vol as a list
+
+// 以数组的形式从数据库获取并返回所有 vol 的数据, 并开始更新 vol
 async function getVolList() {
     updateVolList();
     return await db.getVolList();
 }
 
 
-// Update the data of vol in database from server
+// 开始从服务器检测 vol 的数据是否有更新
 async function updateVolList() {
     const url = `${IP}/api/latestVol`;
+    // 获取最新一期的 vol 的编号
     const latestVol = parseInt(await getData(url));
     const exist = await db.isVolExist(latestVol);
-    // If the latest vol is already in database, just do nothing
+    // 如果最新一期的 vol 已经存在于数据库, 直接返回
     if (exist) {
         return console.log(`All vol data updated at ${new Date()}.`)
     }
-    // Else, start update vol data from server
+    // 否则开始从服务器获取数据
     else
         getVolFromServer(latestVol);
 }
 
 
-// Passing the index of vol to start update vol data from server
+// 传入 vol 的编号, 开始从服务器获取 vol 的数据
 async function getVolFromServer(index) {
-    // Vol index must greater than 0
+    // vol 的编号必须大于 0
     if (index <= 0) return false;
     const exist = await db.isVolExist(index);
-    // If the latest vol is already in database, just do nothing
+    // 如果该 vol 已经存在于数据库, 直接返回
     if (exist)
-        return console.log(`All vol data updated at ${new Date()}.`)
+        return console.log(`All vol data updated at ${new Date()}.`);
     const url = `${IP}/api/vol/${index}`;
-    // Get data of the vol from server
+    // 否则从服务器获取该 vol 的数据
     let data = await getData(url);
     data = JSON.parse(data);
 
-    // If vol is not exist,
-    // server will return data which contains property 'error
+    // 如果该 vol 不存在, 服务器将会返回一个带有 'error' 的 JSON 数据
     if ('error' in data)
+        // 这时直接跳过该 vol, 开始获取下一期 vol 的数据
         return getVolFromServer(index-1);
 
-    // Parse data of tracks in vol and sort it by it's order
+    // 解析 vol 中的 tracks 数据, 并根据其顺序由小到大进行排序
     data.tracks = JSON.parse(data.tracks).map(track => JSON.parse(track))
         .sort((a, b) => parseInt(a.order) - parseInt(b.order));
     db.addVol(data);
 
-    // Start get data of next vol
+    // 该 vol 数据获取完毕, 开始获取下一期 vol
     await getVolFromServer(index-1)
 }
 
@@ -77,24 +83,27 @@ async function getVolFromServer(index) {
 
 ///////////////// Single Api /////////////////
 
-// Get data of all singles as a list
+
+// 以数组的形式从数据库获取并返回所有 single 的数据, 并开始更新 single
 async function getSingleList() {
     updateSingleList();
     return await db.getSingleList();
 }
 
 
-// Update the data of singles in database from server
+// 开始从服务器检测 single 的数据是否有更新
 async function updateSingleList() {
     const url = `${IP}/api/singlesList`;
+    // 从服务器获取一个包含所有 single 的日期的数组
+    // 并按照日期由进到远进行排序
     let list = JSON.parse(await getData(url)).sort(sort);
     const latestSingle = list[0];
     const exist = await db.isSingleExist(latestSingle);
-    // If the latest single is already in database, just do nothing
+    // 如果最新一期的 single 已经存在于数据库, 直接返回
     if (exist) {
         console.log(`All singles data updated at ${new Date()}.`)
     }
-    // Else, start update single data from server
+    // 否则开始从服务器获取数据
     else
         getSingleFromServer(list);
 
@@ -105,24 +114,24 @@ async function updateSingleList() {
 }
 
 
-// Passing the list of singles and the index of single
-// to update singles data from server
+// 传入包含所有 single 的日期的数组和序号, 开始从服务器获取该 single 的数据
 async function getSingleFromServer(list, index=0) {
-    // Single index must smaller than the length of list
+    // 传入的序号的值必须小于传入的数组的长度
     if (index >= list.length) return false;
+    // 如果该 track 已经存在于数据库, 直接返回
     if (await db.isSingleExist(list[index])) return false;
     const url = `${IP}/api/single/${list[index]}`;
-    // Get data of the single from server
+    // 否则开始从服务器获取数据
     let data = await getData(url);
     data = JSON.parse(data);
 
-    // If the single is not exist,
-    // server will return data which contains property 'error'
+    // 如果该 single 不存在, 服务器将会返回一个带有 'error' 的 JSON 数据
     if ('error' in data)
+        // 这时直接跳过该 single, 开始获取下一期 single 的数据
         return getSingleFromServer(list, index+1);
 
     db.addSingle(data);
 
-    // Start get data of next vol
+    // 该 track 数据获取完毕, 开始获取下一期 track
     await getSingleFromServer(list, index+1);
 }
