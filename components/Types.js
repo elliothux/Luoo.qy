@@ -73,24 +73,27 @@ export default class Types extends React.Component {
             ref={'types'}
             style={this.style().container}
         >
-            <div style={this.style().controllerContainer}>
-                {this.state.translateX === 0 ?
-                    false :
-                    <span
-                        className="typesController"
-                        style={this.style().controllerLeft}
-                        onClick={this.prev}
-                    >◀</span>
-                }
-                {this.state.translateX === -this.state.translateMax ?
-                    false :
-                    <span
-                        className="typesController"
-                        style={this.style().controllerRight}
-                        onClick={this.next}
-                    >▶</span>
-                }
-            </div>
+            {this.props.platform === 'darwin' ?
+                false :
+                <div style={this.style().controllerContainer}>
+                    {this.state.translateX === 0 ?
+                        false :
+                        <span
+                            className="typesController"
+                            style={this.style().controllerLeft}
+                            onClick={this.prev}
+                        >◀</span>
+                    }
+                    {this.state.translateX === -this.state.translateMax ?
+                        false :
+                        <span
+                            className="typesController"
+                            style={this.style().controllerRight}
+                            onClick={this.next}
+                        >▶</span>
+                    }
+                </div>
+            }
             <div style={this.style().typesContainer}>
                 <div style={this.style().types}>
                     {this.typeList.map((type, index) => (

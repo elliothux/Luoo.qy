@@ -76,3 +76,4 @@ app.on('will-quit', function () {
 
 exports.getVolList = getVolList;
 exports.getSingleList = getSingleList;
+exports.platform = os.platform();

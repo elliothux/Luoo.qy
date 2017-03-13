@@ -15,6 +15,7 @@ ReactDOM.render(
             getVolList={main.getVolList()}
             getSingleList={main.getSingleList()}
             openExternal={openExternal}
+            platform={main.platform}
         />
     </div>,
     document.getElementById('root')

@@ -76,7 +76,7 @@ export default class Vols extends React.Component {
         }
         this.setState((prevState, props) => ({
             volListDom: volListDom
-        }))
+        }));
     }
 
     async getVolList() {
@@ -91,7 +91,10 @@ export default class Vols extends React.Component {
 
     render() {return(
         <div style={this.style().volsContainer}>
-            <Types update={this.updateVolListDate}/>
+            <Types
+                platform={this.props.platform}
+                update={this.updateVolListDate}
+            />
             <div style={this.style().vols}>
                 {this.state.volListDom}
             </div>
@@ -100,7 +103,10 @@ export default class Vols extends React.Component {
                 onClick={this.showMoreVol}
                 className="loadMore"
             >
-                More
+                {this.state.volListData.length ===
+                    this.state.volListDom.length ?
+                        'No More' : 'More'
+                }
             </button>
         </div>
     )}

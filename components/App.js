@@ -271,6 +271,7 @@ export default class App extends React.Component {
                     getVolList={this.props.getVolList}
                     showVolView={this.showVolView}
                     menu={this.state.activateMenu}
+                    platform={this.props.platform}
                 />
                 <div style={this.style().volViewContainer}>
                     <VolView
