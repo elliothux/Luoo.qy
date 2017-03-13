@@ -125,7 +125,7 @@ export default class Types extends React.Component {
             controllerLeft: {
                 fontSize: '1.5em',
                 textAlign: 'center',
-                transform: 'scale(0.7, 1.7)',
+                transform: 'scale(0.7, 1.6)',
                 position: 'relative',
                 top: '5px',
                 cursor: 'pointer',
@@ -135,9 +135,9 @@ export default class Types extends React.Component {
             controllerRight: {
                 fontSize: '1.5em',
                 textAlign: 'center',
-                transform: 'scale(0.7, 1.8)',
+                transform: 'scale(0.7, 1.7)',
                 position: 'relative',
-                top: '7px',
+                top: '6px',
                 cursor: 'pointer',
                 float: 'right',
                 textShadow: 'rgba(0, 0, 0, 0.2) 0px 2px 10px 1px'
