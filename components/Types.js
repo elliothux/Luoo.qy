@@ -45,16 +45,17 @@ export default class Types extends React.Component {
     style() {return(reactCSS({
         default: {
             typesContainer: {
-                width: 'calc(100% - 70px)',
+                width: '93.5%',
                 height: '60px',
                 overflow: 'auto',
-                padding: '10px 20px',
-                position: 'relative',
+                margin: '0 auto'
             },
             types: {
                 width: '2310px',
                 height: '70%',
-                marginTop: '10px'
+                marginTop: '10px',
+                transition: 'all ease 0.5s',
+                transform: 'translateX(0px)'
             }
         }
     }, this.props, this.state))}
@@ -85,7 +86,7 @@ class Type extends React.Component {
                 height: '100%',
                 padding: '0 15px',
                 display: 'inline-block',
-                margin: '0 10px',
+                margin: '0 20px 0 0',
                 borderRadius: '3px',
                 cursor: 'pointer',
                 fontSize: '1.2em',

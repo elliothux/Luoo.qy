@@ -27,7 +27,8 @@
     "start": "electron-rebuild && electron main.js",
     "build-all": "electron-packager . Luoo.qy --all --ignore=node_modules/electron-* --overwrite --rebuild",
     "build-mac": "electron-packager . Luoo.qy --platform=darwin --arch=x64 --icon=static/pic/macOS.icns --ignore=node_modules/electron-* --overwrite --rebuild",
-    "build-win": "electron-packager . Luoo.qy --platform=win32 --arch=x64 --icon=static/pic/win.ico --ignore=node_modules/electron-* --overwrite --rebuild"
+    "build-win": "electron-packager . Luoo.qy --platform=win32 --arch=x64 --icon=static/pic/win.ico --ignore=node_modules/electron-* --overwrite --rebuild",
+    "build-linux": "electron-packager . Luoo.qy --platform=linux --arch=x64 --icon=static/pic/win.ico --ignore=node_modules/electron-* --overwrite --rebuild"
   },
   "keywords": [
     "luoo.qy"

@@ -24,28 +24,43 @@ export default class NavBar extends React.Component {
                 <img style={this.style().logoImg} src="../pic/logo_black.png"/>
                 <p style={this.style().logoText}>Luoo.qy</p>
             </div>
-            <div style={this.style().button}>
-                <img
+            <div style={this.style().buttons}>
+                <div
                     onClick={this.toggle.bind(null, 'vol')}
-                    style={this.style().buttonImg}
-                    src={this.props.menu === 'vol' ?
+                    style={this.style().buttonItem}
+                >
+                    <img
+                        style={this.style().buttonImg}
+                        src={this.props.menu === 'vol' ?
                         "../pic/acd.svg" :
                         "../pic/cd.svg"}
-                />
-                <img
+                    />
+                    <span>期刊</span>
+                </div>
+                <div
                     onClick={this.toggle.bind(null, 'single')}
-                    style={this.style().buttonImg}
-                    src={this.props.menu === 'single' ?
+                    style={this.style().buttonItem}
+                >
+                    <img
+                        style={this.style().buttonImg}
+                        src={this.props.menu === 'single' ?
                         "../pic/alink.svg" :
                         "../pic/link.svg"}
-                />
-                <img
+                    />
+                    <span>单曲</span>
+                </div>
+                <div
                     onClick={this.toggle.bind(null, 'user')}
-                    style={this.style().buttonImg}
-                    src={this.props.menu === 'user' ?
+                    style={this.style().buttonItem}
+                >
+                    <img
+                        style={this.style().buttonImg}
+                        src={this.props.menu === 'user' ?
                         "../pic/astar.svg" :
                         "../pic/star.svg"}
-                />
+                    />
+                    <span>我的</span>
+                </div>
             </div>
             <div style={this.style().volume}>
                 <p
@@ -87,21 +102,35 @@ export default class NavBar extends React.Component {
                 height: '100px',
                 textAlign: 'center'
             },
-            button: {
+            buttons: {
                 width: '100%',
-                height: '250px',
+                height: '320px',
                 display: 'flex',
                 flexDirection: 'column',
                 flexWrap: 'wrap',
                 justifyContent: 'space-between',
                 alignItems: 'center',
-                opacity: 0.85
+                opacity: 0.85,
+                position: 'relative',
+                top: '15px'
+            },
+            buttonItem: {
+                width: '100%',
+                textAlign: 'center',
+                fontSize: '0.9em',
+                fontWeight: 'bold',
+                display: 'block',
+                marginBottom: '30px',
+                cursor: 'pointer',
             },
             buttonImg: {
                 width: '30px',
                 height: 'auto',
-                alignItems: 'center',
-                cursor: 'pointer'
+                cursor: 'pointer',
+                display: 'block',
+                margin: '0 auto 8px auto',
+                position: 'relative',
+                left: '-1px'
             },
             volume: {
                 width: '100%',
