@@ -54,6 +54,13 @@ input, button, textarea, :focus {
     background: rgba(255, 0, 0, 0.5);
 }
 
+.typesController {
+    color: rgba(255, 255, 255, 0.7)
+}
+
+.typesController:hover {
+    color: rgba(255, 255, 255, 1)
+}
 
 /**************** Anim ****************/
 
