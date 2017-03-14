@@ -1,3 +1,5 @@
+// Root 组件
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import reactCSS from 'reactcss';
@@ -33,26 +35,39 @@ export default class App extends React.Component {
         this.volumeDown = this.volumeDown.bind(this);
 
         this.state = {
+            // 激活的功能版块
             activateMenu: 'vol',
+            // 是否显示 VolView
             showVolView: false,
+            // 显示的 vol 的数据
             displayVolData: null,
+            // 正在播放的版块
             playingMenu: 'vol',
+            // 正在播放的 track 的序号
             playingIndex: 0,
+            // 正在播放的 vol 的数据
             playingVolData: null,
+            // 正在播放的所有 singles 的数据
             playingSinglesData: null,
+            // 正在播放的 single 的序号
             playingSingleIndex: 0,
+            // 正在播放的音频的容器
             playingTrack: new Audio(),
+            // 容纳所有 singles 的 DOM
             singlesContainerDom: null,
+            // 全局背景
             backgroundImage: '../pic/cover.jpg',
         };
     }
 
+    // 设置全局背景
     setBackground(background) {
        this.setState((prevState, props) => ({
            backgroundImage: background
        }))
     }
 
+    // 切换功能版块
     toggleActivateMenu(menu) {
         if (menu === this.state.activateMenu)
             return;
@@ -61,6 +76,7 @@ export default class App extends React.Component {
         }))
     }
 
+    // 显示 volView
     showVolView(data) {
         this.setState((prevState, props) => ({
             showVolView: true,
@@ -68,46 +84,62 @@ export default class App extends React.Component {
         }))
     }
 
+    // 隐藏 volView
     hideVolView() {
         this.setState((prevState, props) => ({
             showVolView: false
         }))
     }
 
+    // 显示正在播放的 volView
     showPlayingVolView() {
+        // 如果显示的 vol 与正在播放的 vol 为同一期且 volView 未被隐藏
+        // 且当前激活的功能板块为 'vol' 板块, 不做任何操作直接返回
         if (this.state.displayVolData === this.state.playingVolData &&
             this.state.showVolView === true &&
             this.state.activateMenu === 'vol')
             return;
+        // 如果当前激活的功能板块不为 'vol' 板块
         if (this.state.activateMenu !== 'vol')
+            // 先切换到 'vol' 功能板块
             this.toggleActivateMenu('vol');
+        // 如果显示的 vol 与正在播放的 vol 不是同一期且 volView 为显示状态
         if (this.state.displayVolData !== this.state.playingVolData &&
             this.state.showVolView === true) {
+            // 先隐藏 volView
             this.hideVolView();
+            // 300ms 后显示正在播放的 volView
             setTimeout((function () {
                 this.showVolView(this.state.playingVolData);
             }).bind(this), 300)
         } else {
+            // 除此之外, 直接显示 正在播放的 volView
             this.showVolView(this.state.playingVolData);
         }
     }
 
+    // 传入要播放的 vol 的数据及要播放的 track 的序号, 播放 track
     play(playingVolData, playingIndex) {
         this.setState((prevState, props) => ({
             playingMenu: 'vol',
             playingVolData: playingVolData,
             playingIndex: playingIndex,
             playingTrack: (() => {
+                // 设置音频源
                 prevState.playingTrack.src = playingVolData.tracks[playingIndex].url;
+                // 移除所有用于自动播放下一 track 或 single 的事件监听
                 prevState.playingTrack.removeEventListener('ended', this.next);
                 prevState.playingTrack.removeEventListener('ended', this.nextSingle);
+                // 添加用于自动播放下一 track 的事件监听
                 prevState.playingTrack.addEventListener('ended', this.next);
+                // 播放音频
                 prevState.playingTrack.play();
                 return prevState.playingTrack;
             })()
         }))
     }
 
+    // 切换暂停 / 播放
     togglePlay() {
         this.setState((prevState, props) => ({
             playingTrack: (() => {
@@ -118,6 +150,7 @@ export default class App extends React.Component {
         }))
     }
 
+    // 播放下一 track
     next() {
         const playingIndex =
             this.state.playingIndex >= this.state.playingVolData.tracks.length-1 ?
@@ -137,6 +170,7 @@ export default class App extends React.Component {
         }))
     }
 
+    // 播放上一 track
     prev() {
         const playingIndex =
             this.state.playingIndex <= 0 ?
@@ -157,22 +191,28 @@ export default class App extends React.Component {
         }))
     }
 
+    // 传入要播放的所有 singles 的数据以要播放的 single 的序号, 播放 single
     playSingle(playingSinglesData, playingSingleIndex) {
         this.setState((prevState, props) => ({
             playingMenu: 'single',
             playingSinglesData: playingSinglesData,
             playingSingleIndex: playingSingleIndex,
             playingTrack: (() => {
+                // 设置音频源
                 prevState.playingTrack.src = playingSinglesData[playingSingleIndex].url;
+                // 移除所有用于自动播放下一 track 或 single 的事件监听
                 prevState.playingTrack.removeEventListener('ended', this.next);
                 prevState.playingTrack.removeEventListener('ended', this.nextSingle);
+                // 添加用于自动播放下一 single 的事件监听
                 prevState.playingTrack.addEventListener('ended', this.next);
+                // 播放音频
                 prevState.playingTrack.play();
                 return prevState.playingTrack;
             })()
         }))
     }
 
+    // 播放下一 single
     nextSingle() {
         const playingSingleIndex =
             this.state.playingSingleIndex === this.state.playingSinglesData.length-1 ?
@@ -192,6 +232,7 @@ export default class App extends React.Component {
         }))
     }
 
+    // 播放上一 single
     prevSingle() {
         const playingSingleIndex =
             this.state.playingSingleIndex === 0 ?
@@ -211,17 +252,20 @@ export default class App extends React.Component {
         }))
     }
 
+    // 获取容纳所有 singles 的 DOM, 用于跳转到当前播放的 single 的位置
     getSinglesContainerDom(container) {
         this.setState((prevState, props) => ({
             singlesContainerDom: ReactDOM.findDOMNode(container)
         }))
     }
 
+    // 跳转到正在播放的 single 的位置
     showPlayingSingle() {
         this.toggleActivateMenu('single');
         this.state.singlesContainerDom.scrollTop = 350 * this.state.playingSingleIndex;
     }
 
+    // 增大音量
     volumeUp() {
         let volume = (this.state.playingTrack.src && typeof this.state.playingTrack.volume === 'number') ?
             this.state.playingTrack.volume : 1.0;
@@ -237,6 +281,7 @@ export default class App extends React.Component {
         }))
     }
 
+    // 降低音量
     volumeDown() {
         let volume = (this.state.playingTrack.src && typeof this.state.playingTrack.volume === 'number') ?
             this.state.playingTrack.volume : 0.0;

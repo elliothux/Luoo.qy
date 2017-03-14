@@ -1,3 +1,5 @@
+// 导航栏
+
 import React from 'react';
 import reactCSS from 'reactcss';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
@@ -11,6 +13,7 @@ export default class NavBar extends React.Component {
         this.toggle = this.toggle.bind(this);
     }
 
+    // 切换激活的功能板块
     toggle(menu) {
         if (this.props.menu === 'vol' && this.props.menu === menu)
             this.props.hideVolView();

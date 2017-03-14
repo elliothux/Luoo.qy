@@ -1,3 +1,5 @@
+// 单曲
+
 import React from 'react';
 import reactCSS from 'reactcss';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
@@ -13,10 +15,12 @@ export default class Single extends React.Component {
 
     handleClick() {
         const playButton = this.refs.playButton;
+        // 切换 button 的 class 以显示动画
         playButton.className = 'playSingleButton clicked';
         setTimeout(() => {
             playButton.className = 'playSingleButton';
         }, 600);
+        // 播放该single
         this.props.play();
     }
 

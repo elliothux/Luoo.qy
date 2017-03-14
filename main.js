@@ -7,10 +7,9 @@ const getVolList = require('./static/lib/base').getVolList;
 const getSingleList = require('./static/lib/base').getSingleList;
 
 
-///////////////// Window //////////////////
-
 let win;
 
+// 创建程序窗口
 function createWindiw() {
     win = new BrowserWindow({
         width: 850,
@@ -38,12 +37,14 @@ function createWindiw() {
     });
 }
 
+// 注册快捷键
 function shortCutRegister() {
     globalShortcut.register('CommandOrControl+W', () => {
         os.platform() === 'darwin' ?
             win.hide() : win.minimize();
     });
 }
+
 
 app.on('ready', () => {
     createWindiw();
@@ -72,7 +73,8 @@ app.on('will-quit', function () {
     globalShortcut.unregisterAll();
 });
 
-///////////////// Remote Functions /////////////////
+
+///////////////// 供渲染进程调用的方法 /////////////////
 
 exports.getVolList = getVolList;
 exports.getSingleList = getSingleList;

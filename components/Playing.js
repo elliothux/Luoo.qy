@@ -1,3 +1,5 @@
+// 正在播放的曲目信息和控制器
+
 import React from 'react';
 import reactCSS from 'reactcss';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
@@ -18,28 +20,35 @@ export default class Playing extends React.Component {
     }
 
     componentDidMount() {
+        // 设置 reactCSS 不支持的 CSS 属性
         this.refs.detailAlbum.style.webkitBoxOrient= 'block-axis';
         this.refs.detailName.style.webkitBoxOrient= 'block-axis';
         this.refs.detailAlbum.style.webkitLineClamp = 1;
         this.refs.detailName.style.webkitLineClamp = 1;
     }
 
+    // 播放上一曲目
     prev() {
         const prevButton = this.refs.prevButton;
         const detail = this.refs.detail;
+        // 切换 button 和 detail 的 class 以显示动画
         prevButton.className = 'prevButton clicked';
         detail.className = 'detail prev';
         setTimeout(() => {
             prevButton.className = 'prevButton';
             detail.className = 'detail';
         }, 600);
+        // 如果正在播放的板块为 'vol' 板块, 播放上一 track
+        // 否则播放上一 single
         this.props.playingMenu === 'vol' ?
             this.props.prevTrack() : this.props.prevSingle();
     }
 
+    // 切换播放 / 暂停
     toggle() {
         const toggleButton = this.refs.toggleButton;
         const detail = this.refs.detail;
+        // 切换 button 和 detail 的 class 以显示动画
         toggleButton.className = 'toggleButton clicked';
         detail.className = 'detail toggle';
         setTimeout(() => {
@@ -49,15 +58,19 @@ export default class Playing extends React.Component {
         this.props.toggle();
     }
 
+    // 播放下一曲目
     next() {
         const nextButton = this.refs.nextButton;
         const detail = this.refs.detail;
+        // 切换 button 和 detail 的 class 以显示动画
         nextButton.className = 'nextButton clicked';
         detail.className = 'detail next';
         setTimeout(() => {
             nextButton.className = 'nextButton';
             detail.className = 'detail';
         }, 600);
+        // 如果正在播放的板块为 'vol' 板块, 播放下一 track
+        // 否则播放下一 single
         this.props.playingMenu === 'vol' ?
             this.props.nextTrack() : this.props.nextSingle();
     }

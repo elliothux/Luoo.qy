@@ -1,11 +1,13 @@
 import React from 'react';
 import reactCSS from 'reactcss';
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 
 
 export default class User extends React.Component {
     constructor(props) {
         super(props);
         this.style = this.style.bind(this);
+        this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
 
         this.state = {
             background: '../pic/bg1.jpg'
@@ -108,7 +110,6 @@ export default class User extends React.Component {
                 fontSize: '1em',
                 fontWeight: 'lighter',
                 letterSpacing: '1px',
-                // fontFamily: `"Helvetica Neue", Helvetica, Arial, sans-serif`,
             },
             button: {
                 display: 'block',
@@ -123,7 +124,6 @@ export default class User extends React.Component {
                 zIndex: 3,
                 letterSpacing: '2px',
                 fontWeight: 'lighter',
-                // fontFamily: `"Helvetica Neue", Helvetica, Arial, sans-serif`,
             }
         },
         'menu-vol': {

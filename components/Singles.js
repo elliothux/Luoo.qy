@@ -1,5 +1,8 @@
+// 所有的 single
+
 import React from 'react';
 import reactCSS from 'reactcss';
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 import Single from './Single';
 
 
@@ -7,6 +10,7 @@ export default class Singles extends React.Component {
     constructor(props) {
         super(props);
         this.style = this.style.bind(this);
+        this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
         this.getSingleList = this.getSingleList.bind(this);
         this.showMoreSingle = this.showMoreSingle.bind(this);
 
@@ -17,10 +21,13 @@ export default class Singles extends React.Component {
     }
 
     componentWillMount() {
+        // 渲染前先获取所有的 singles
         this.getSingleList();
     }
 
     componentDidMount() {
+        // 渲染后将容纳所有 singles 的 DOM 传回 Root 组件
+        // 用于跳转到当前播放的 single 的位置
         this.props.getSinglesContainerDom(this.container)
     }
 

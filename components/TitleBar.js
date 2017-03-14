@@ -10,8 +10,12 @@ export default class TitleBar extends React.Component {
         this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
     }
 
+    componentDidMount() {
+        this.refs.titleBar.style.WebkitAppRegion = 'drag';
+    }
+
     render() {return(
-        <div style={this.style().titleBar}/>
+        <div ref={"titleBar"} style={this.style().titleBar}/>
     )}
 
     style() {return(reactCSS({
@@ -22,7 +26,6 @@ export default class TitleBar extends React.Component {
                 position: 'fixed',
                 top: 0,
                 left: 0,
-                webkitAppRegion: 'drag',
             }
         }
     }, this.props, this.state))}
