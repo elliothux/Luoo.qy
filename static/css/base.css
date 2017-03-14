@@ -56,11 +56,11 @@ input, button, textarea, :focus {
 }
 
 .typesController {
-    color: rgba(255, 255, 255, 0.7)
+    opacity: 0.4
 }
 
 .typesController:hover {
-    color: rgba(255, 255, 255, 1)
+    opacity: 1
 }
 
 

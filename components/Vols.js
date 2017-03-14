@@ -1,3 +1,5 @@
+// 所有的 vol
+
 import React from 'react';
 import reactCSS from 'reactcss';
 import Types from './Types';
@@ -20,13 +22,16 @@ export default class Vols extends React.Component {
     }
 
     componentWillMount() {
+        // 渲染之前先获取所有的 vol 的数据
         this.getVolList();
     }
 
+    // 根据不同的 vol 类型切换显示的 vol
     updateVolListDate(type) {
         if (type == undefined) return;
 
         const volListDom = [];
+        // 根据不同的 type 过滤 vol 的数据
         const volListData = filter(this.state.allTypesVolListData, type);
         const max = volListData.length >= 10 ? 10 : volListData.length;
         for (let i=0; i<max; i++) {
@@ -58,6 +63,7 @@ export default class Vols extends React.Component {
         }
     }
 
+    // 渲染更多的 vol
     showMoreVol() {
         const volListDom = this.state.volListDom;
         const max = this.state.volListDom.length+10 >= this.state.volListData.length ?
@@ -79,6 +85,7 @@ export default class Vols extends React.Component {
         }));
     }
 
+    // 获取所有的 vol 的数据
     async getVolList() {
         const data = await this.props.getVolList;
         this.setState((prevState, props) => ({

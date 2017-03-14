@@ -31,6 +31,7 @@ export default class Singles extends React.Component {
         this.props.getSinglesContainerDom(this.container)
     }
 
+    // 渲染更多的 single 到 DOM
     showMoreSingle() {
         const singleListDom = this.state.singleListDom;
         const max = this.state.singleListDom.length+10 >= this.state.singleListData.length ?
@@ -51,6 +52,7 @@ export default class Singles extends React.Component {
         }))
     }
 
+    // 获取所有的 singles
     async getSingleList() {
         let data = await this.props.singles;
         this.setState((prevState, props) => ({

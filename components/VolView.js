@@ -1,3 +1,5 @@
+// vol 的详细视图
+
 import React from 'react';
 import reactCSS from 'reactcss';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
@@ -11,6 +13,7 @@ export default class VolView extends React.Component {
     }
 
     componentWillReceiveProps() {
+        // 切换 vol 的时候自动滚动到页面顶部
         if (!this.props.show)
             this.refs.content.scrollTop = 0;
             this.refs.detail.scrollTop = 0;

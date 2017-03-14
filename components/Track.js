@@ -1,3 +1,5 @@
+// vol 中的 track
+
 import React from 'react';
 import reactCSS from 'reactcss';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
@@ -11,6 +13,7 @@ class Track extends React.Component {
     }
 
     componentDidMount() {
+        // 设置 reactCSS 不支持的 CSS 属性
         this.refs.name.style.webkitLineClamp = 1;
         this.refs.album.style.webkitLineClamp = 1;
         this.refs.name.style.webkitBoxOrient = 'block-axis';
@@ -19,10 +22,12 @@ class Track extends React.Component {
 
     handleClick() {
         const track = this.refs.track;
+        // 切换 track 的 class 以显示动画
         track.className = 'track clicked';
         setTimeout(() => {
             track.className = 'track';
         }, 600);
+        // 播放该 track
         this.props.play(this.props.volData, this.props.index);
     }
 

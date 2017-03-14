@@ -1,3 +1,5 @@
+// 按分类筛选 vol
+
 import React from 'react';
 import reactCSS from 'reactcss';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
@@ -28,6 +30,7 @@ export default class Types extends React.Component {
         }
     }
 
+    // 设置用于 Windows 和 Linux 的横向滚动的最远距离
     setMax() {
         this.setState((prevState, props) => ({
             translateMax: 2290 - (window.innerWidth - 80) * 0.935
@@ -36,11 +39,13 @@ export default class Types extends React.Component {
 
     componentDidMount() {
         this.setMax();
+        // 缩放窗口时重新设置最远滚动距离
         window.addEventListener('resize', this.setMax);
         this.refs.types.addEventListener('mouseover', this.toggleController.bind(null, true));
         this.refs.types.addEventListener('mouseout', this.toggleController.bind(null, false));
     }
 
+    // 切换 vol 的分类
     toggleType(type) {
         this.props.update(type);
         this.setState((prevState, props) => ({
@@ -48,12 +53,14 @@ export default class Types extends React.Component {
         }))
     }
 
+    // 切换用于 Windows 和 Linux 的横向滚动控制器的显示和隐藏
     toggleController(show) {
         this.setState((prevSTate, props) => ({
             showController: !!show
         }))
     }
 
+    // 用于 Windows 和 Linux 的向后滚动
     next() {
         this.setState((prevState, props) => ({
             translateX: prevState.translateX-530 <= -this.state.translateMax ?
@@ -61,6 +68,7 @@ export default class Types extends React.Component {
         }))
     }
 
+    // 用于 Windows 和 Linux 的向前滚动
     prev() {
         this.setState((prevState, props) => ({
             translateX: prevState.translateX+530 >= 0 ?
@@ -73,24 +81,26 @@ export default class Types extends React.Component {
             ref={'types'}
             style={this.style().container}
         >
-            {this.props.platform === 'darwin' ?
+            {this.props.platform !== 'darwin' ?
                 false :
                 <div style={this.style().controllerContainer}>
                     {this.state.translateX === 0 ?
                         false :
-                        <span
+                        <img
                             className="typesController"
+                            src="../pic/Triangle.svg"
                             style={this.style().controllerLeft}
                             onClick={this.prev}
-                        >◀</span>
+                        />
                     }
                     {this.state.translateX === -this.state.translateMax ?
                         false :
-                        <span
+                        <img
                             className="typesController"
+                            src="../pic/Triangle.svg"
                             style={this.style().controllerRight}
                             onClick={this.next}
-                        >▶</span>
+                        />
                     }
                 </div>
             }
@@ -123,24 +133,21 @@ export default class Types extends React.Component {
                 position: 'absolute',
             },
             controllerLeft: {
-                fontSize: '1.5em',
-                textAlign: 'center',
-                transform: 'scale(0.7, 1.6)',
                 position: 'relative',
-                top: '5px',
                 cursor: 'pointer',
                 float: 'left',
-                textShadow: 'rgba(0, 0, 0, 0.2) 0px 2px 10px 1px'
+                transform: 'rotate(180deg)',
+                marginLeft: '5px',
+                height: '100%',
+                width: 'auto'
             },
             controllerRight: {
-                fontSize: '1.5em',
-                textAlign: 'center',
-                transform: 'scale(0.7, 1.7)',
                 position: 'relative',
-                top: '6px',
                 cursor: 'pointer',
                 float: 'right',
-                textShadow: 'rgba(0, 0, 0, 0.2) 0px 2px 10px 1px'
+                marginRight: '5px',
+                height: '100%',
+                width: 'auto'
             },
             typesContainer: {
                 width: '93.5%',
@@ -161,6 +168,7 @@ export default class Types extends React.Component {
 }
 
 
+// 每一个分类
 class Type extends React.Component {
     constructor(props) {
         super(props);

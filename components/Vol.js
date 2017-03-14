@@ -1,7 +1,8 @@
+// 单个 vol
+
 import React from 'react';
 import reactCSS from 'reactcss';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
-
 
 
 export default class Vol extends React.Component {
