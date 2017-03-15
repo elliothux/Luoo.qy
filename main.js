@@ -5,6 +5,7 @@ const url = require('url');
 const {app, BrowserWindow, globalShortcut} = electron;
 const getVolList = require('./static/lib/base').getVolList;
 const getSingleList = require('./static/lib/base').getSingleList;
+const checkUpdate = require('./static/lib/autoUpdater').checkUpdate;
 
 
 let win;
@@ -72,6 +73,11 @@ app.on('browser-window-focus', shortCutRegister);
 app.on('will-quit', function () {
     globalShortcut.unregisterAll();
 });
+
+
+// 自动更新
+checkUpdate(require('./package.json').version)
+    .then((updated) => updated && console.log('自动更新完成!'));
 
 
 ///////////////// 供渲染进程调用的方法 /////////////////

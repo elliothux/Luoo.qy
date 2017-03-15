@@ -81,7 +81,7 @@ export default class Types extends React.Component {
             ref={'types'}
             style={this.style().container}
         >
-            {this.props.platform === 'darwin' ?
+            {this.props.platform !== 'darwin' ?
                 false :
                 <div style={this.style().controllerContainer}>
                     {this.state.translateX === 0 ?

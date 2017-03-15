@@ -1,28 +1,47 @@
 // 从服务器获取数据, 更新数据库等操作
 
 const request = require('request-promise');
+const download = require('download-file');
 const db = require('./db');
 
 
 module.exports.getData = getData;
+module.exports.downloadFile = downloadFile;
 module.exports.getVolList = getVolList;
 module.exports.getSingleList = getSingleList;
 
 
 // 服务器 IP
-export const IP = 'http://123.206.79.159:80';
+const IP = 'http://127.0.0.1:5000';
+module.exports.IP = IP;
 
 
 ///////////////// 实用函数 /////////////////
 
 
 // 传入 URL, 以 GET 方法从服务器获取数据
-export async function getData(url) {
+async function getData(url) {
     return request(url)
         .then(data => {
             return data;
         })
         .catch(error => console.log(error))
+}
+
+
+// 传入 URL 、路径及文件名, 下载文件, 并返回文件路径
+async function downloadFile(url, dirName, fileName) {
+    return new Promise((resolve, reject) => {
+        const options = {
+            directory: dirName,
+            filename: fileName
+        };
+
+        download(url, options, (error) => {
+            if (error) reject(`Download file failed: ${error}`);
+            resolve(`${options.directory}/${fileName}`);
+        })
+    })
 }
 
 
