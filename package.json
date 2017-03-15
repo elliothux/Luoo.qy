@@ -1,20 +1,25 @@
 {
   "name": "luoo.qy",
-  "version": "0.0.4",
+  "version": "0.0.6",
   "description": "luoo.qy",
   "main": "main.js",
   "dependencies": {
     "babel-core": "^6.23.1",
     "babel-loader": "^6.2.10",
+    "download-file": "^0.1.5",
     "electron": "^1.6.1",
+    "extract-zip": "^1.6.0",
+    "http": "^0.0.0",
     "nedb": "^1.8.0",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
     "reactcss": "^1.1.1",
     "request-promise": "^4.1.1",
+    "walk": "^2.3.9",
     "webpack": "^2.2.1"
   },
   "devDependencies": {
+    "babel-cli": "^6.24.0",
     "babel-preset-es2015": "^6.22.0",
     "babel-preset-react": "^6.22.0",
     "babel-preset-stage-0": "^6.22.0",
