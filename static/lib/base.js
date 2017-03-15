@@ -10,14 +10,14 @@ module.exports.getSingleList = getSingleList;
 
 
 // 服务器 IP
-const IP = 'http://123.206.79.159:80';
+export const IP = 'http://123.206.79.159:80';
 
 
 ///////////////// 实用函数 /////////////////
 
 
 // 传入 URL, 以 GET 方法从服务器获取数据
-async function getData(url) {
+export async function getData(url) {
     return request(url)
         .then(data => {
             return data;
