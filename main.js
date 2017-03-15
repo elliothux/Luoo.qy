@@ -75,13 +75,13 @@ app.on('will-quit', function () {
 });
 
 
-// 自动更新
-checkUpdate(require('./package.json').version)
-    .then((updated) => updated && console.log('自动更新完成!'));
-
-
 ///////////////// 供渲染进程调用的方法 /////////////////
 
 exports.getVolList = getVolList;
 exports.getSingleList = getSingleList;
 exports.platform = os.platform();
+
+
+// 自动更新
+checkUpdate(require('./package.json').version)
+    .then((updated) => updated && console.log('自动更新完成!'));
