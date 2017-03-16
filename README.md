@@ -3,10 +3,10 @@
 
 
 ## 关于 / About
-[落网 ( luoo.net )](http://www.luoo.net/) 一直是我很喜欢的一个音乐社区, 其中大量优质的独立音乐推荐很和合的口味, 他们十多年对音乐的坚持也让我充满敬意。落网是我手机上使用频率仅次于网易云的音乐软件, 但是电脑端却只能使用网页来听落网, 因此便想给落网写电脑客户端。
+[落网 ( luoo.net )](http://www.luoo.net/) 一直是我很喜欢的一个音乐社区, 其中大量优质的独立音乐推荐很合我的口味, 他们十多年对音乐的坚持也让我充满敬意。落网是我手机上使用频率仅次于网易云的音乐软件, 但是电脑端却只能使用网页来听落网, 因此便想给落网写电脑客户端。
 
-客户端可以在[luoo.huqingyang.top](http://luoo.huqingyang.top)下载。
-后端项目地址为[Luoo](https://github.com/HuQingyang/Luoo)
+* 客户端可以在[luoo.huqingyang.top](http://luoo.huqingyang.top)下载
+* 后端项目地址为[Luoo(GitHub)](https://github.com/HuQingyang/Luoo)
 
 
 ## 预览 / Preview
@@ -59,7 +59,7 @@
 
 * 每次更新都需要重新下载整个安装文件, 即不够方便也不够优雅; 于是后来增加了自动更新模块: 每次启动软件后, 从服务器获取最新的版本号, 如果有更新则下载更新文件然后解压后热替换, 重启软件更新生效。这样每次都只需要下载极小的更新文件后台静默更新;
 
-* Electron 在 Windows 上打包出的是一个文件夹而不是单个的 exe 文件, Google 之后找到了一个解决方案: 使用 Inno Script Studio 将 打包出的 exe 文件和所有的依赖项一起打包为单个 exe 安装文件; (但是 Inno Script Studio 打包出的安装向导不支持中文, 谁有更好的解决方案请告诉我☺️十分感谢~)
+* Electron 在 Windows 上打包出的是一个文件夹而不是单个的 exe 文件, Google 之后找到了一个解决方案: 使用 Inno Script Studio 将打包出的 exe 文件和所有的依赖项一起打包为单个 exe 安装文件; (但是 Inno Script Studio 打包出的安装向导不支持中文, 谁有更好的解决方案请告诉我☺️十分感谢~)
 
 * Windows 上 exe 如果安装到 Program Files 目录下会导致没有权限无法读取数据库文件, 除非以管理员身份运行, 暂时没有找到更合适的解决方法, 只能将默认安装目录设置为根目录; (谁有更好的解决方案请告诉我☺️再次感谢~)
 
