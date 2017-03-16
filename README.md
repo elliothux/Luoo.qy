@@ -1,5 +1,6 @@
 # Luoo.qy
-## 基于 Elctron 与 React 的落网第三方客户端
+一个基于 Elctron 与 React 的落网第三方客户端
+
 
 ## 关于 / About
 [落网 ( luoo.net )](http://www.luoo.net/) 一直是我很喜欢的一个音乐社区, 其中大量优质的独立音乐推荐很和合的口味, 他们十多年对音乐的坚持也让我充满敬意。落网是我手机上使用频率仅次于网易云的音乐软件, 但是电脑端却只能使用网页来听落网, 因此便想给落网写电脑客户端。
@@ -7,10 +8,12 @@
 客户端可以在[luoo.huqingyang.top](http://luoo.huqingyang.top)下载。
 后端项目地址为[Luoo](https://github.com/HuQingyang/Luoo)
 
+
 ## 预览 / Preview
-![https://github.com/HuQingyang/Luoo.qy/blob/master/static/pic/screenShot01.png?raw=true](Luoo.qy/screenShot01.png)
-![https://github.com/HuQingyang/Luoo.qy/blob/master/static/pic/screenShot02.png?raw=true](Luoo.qy/screenShot02.png)
-![https://github.com/HuQingyang/Luoo.qy/blob/master/static/pic/screenShot03.png?raw=true](Luoo.qy/screenShot03.png)
+![http://ojt6rsn4s.bkt.clouddn.com/screenShot01.png](Luoo.qy/screenShot01.png)
+![http://ojt6rsn4s.bkt.clouddn.com/screenShot02.png](Luoo.qy/screenShot02.png)
+![http://ojt6rsn4s.bkt.clouddn.com/screenShot03.png](Luoo.qy/screenShot03.png)
+
 
 ## 开发 / Development
 * 设计工具: Sketch
@@ -40,6 +43,7 @@
 		/pic		(图片资源文件目录)
 ```
 
+
 ## 一些问题 / Some Issues
 这是我第一次写 Electron, 整个项目的 0.0.1 版本是在我寒假开学之前花了大概一个星期写出来的。其中花了一个下午设计好了原型, 然后花了一天时间用 Python 写好了爬虫与后台 API, 之后剩下的时间一直在折腾 Electron。
 
@@ -59,10 +63,12 @@
 
 * Windows 上 exe 如果安装到 Program Files 目录下会导致没有权限无法读取数据库文件, 除非以管理员身份运行, 暂时没有找到更合适的解决方法, 只能将默认安装目录设置为根目录; (谁有更好的解决方案请告诉我☺️再次感谢~)
 
+
 ## 总结 / Summary
 到目前为止, Luoo.qy 已经更新到 0.0.6 版本, 实现了期刊和单曲功能。未来计划加入用户登录与收藏等更多功能。喜欢的朋友欢迎下载体验, 因为是早期版本, 难免有 Bug, 欢迎大家给我提 issue 或建议~
 
 开学之后因为课比较多, 只能晚上抽时间写, 可能会更新比较慢, 但是 Luoo.qy 不会短时间内停止更新。因为内心对音乐与编程的热爱, 让我对生活充满热情, 就算码到深夜也感到很开心~ 就酱
+
 
 ### #EOF
 
