@@ -8,7 +8,7 @@
 后端项目地址为[Luoo](https://github.com/HuQingyang/Luoo)
 
 ## 预览 / Preview
-![https://github.com/HuQingyang/Luoo.qy/blob/master/static/pic/screenShot01.png?raw=true](Luoo.qy/screenShot01.png)
+![https://github.com/HuQingyang/Luoo.qy/blob/master/static/pic/screenShot01.png](Luoo.qy/screenShot01.png)
 ![https://github.com/HuQingyang/Luoo.qy/blob/master/static/pic/screenShot02.png?raw=true](Luoo.qy/screenShot02.png)
 ![https://github.com/HuQingyang/Luoo.qy/blob/master/static/pic/screenShot03.png?raw=true](Luoo.qy/screenShot03.png)
 
