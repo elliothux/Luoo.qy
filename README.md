@@ -10,9 +10,9 @@
 
 
 ## 预览 / Preview
-![http://ojt6rsn4s.bkt.clouddn.com/screenShot01.png](Luoo.qy/screenShot01.png)
-![http://ojt6rsn4s.bkt.clouddn.com/screenShot02.png](Luoo.qy/screenShot02.png)
-![http://ojt6rsn4s.bkt.clouddn.com/screenShot03.png](Luoo.qy/screenShot03.png)
+![preview-1](http://ojt6rsn4s.bkt.clouddn.com/screenShot01.png)
+![preview-2](http://ojt6rsn4s.bkt.clouddn.com/screenShot02.png)
+![preview-3](http://ojt6rsn4s.bkt.clouddn.com/screenShot03.png)
 
 
 ## 开发 / Development
