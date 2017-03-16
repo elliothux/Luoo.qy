@@ -84,4 +84,4 @@ exports.platform = os.platform();
 
 // 自动更新
 checkUpdate(require('./package.json').version)
-    .then((updated) => updated && console.log('自动更新完成!'));
+    .then((updated) => updated && console.log('Update success!'));

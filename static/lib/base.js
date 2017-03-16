@@ -12,7 +12,7 @@ module.exports.getSingleList = getSingleList;
 
 
 // 服务器 IP
-const IP = 'http://127.0.0.1:5000';
+const IP = 'http://123.206.79.159:80';
 module.exports.IP = IP;
 
 

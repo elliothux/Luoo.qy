@@ -1,9 +1,7 @@
 // 自动更新模块
 
-const fs = require('fs');
+const fs = require('fs-extra');
 const path = require('path');
-const exec = require('child_process').execSync;
-const platform = require('os').platform();
 const extract = require('extract-zip');
 const walk = require('walk');
 const getDate = require('./base').getData;
@@ -52,32 +50,28 @@ function getInstallPath(dirPath, fileList=[]) {
     });
     return(fileList).map(filePath => ({
         filePath: filePath,
-        installPath: path.join(__dirname, '../../', filePath.split('.upgrade')[1])
+        installPath: path.join(__dirname, '../../', filePath.split('_upgrade')[1])
     }))
 }
 
 
+// 传入更新包文件路径与目标路径, 安装更新
 function installUpdate(data) {
     const filePath = data.filePath;
     const installPath = data.installPath;
-    exec(`rm -rf ${path.join(__dirname, installPath)}`);
-    exec(`cp ${filePath} ${installPath}`)
+    fs.copySync(filePath, installPath, {overwrite: true});
 }
 
 
 // 开始检查更新
 async function checkUpdate(prevVersion) {
-    platform === 'win32' ?
-        exec(`rm ${path.join(__dirname, "../../.upgrade")}`) :
-        exec(`rm -rf ${path.join(__dirname, "../../.upgrade")}`);
+    if (fs.existsSync(path.join(__dirname, "../../_upgrade")))
+        fs.removeSync(path.join(__dirname, "../../_upgrade"));
     const info = await getUpdatedInfo();
-    if (info.version === prevVersion) {
-        console.log('已经是最新版本!');
-        return false;
-    }
-    console.log('开始更新...');
+    if (info.version === prevVersion) return false;
+    console.log('Start updating...');
     let filePath = await downloadFile(info.url,
-        path.join(__dirname, "../../.upgrade"),
+        path.join(__dirname, "../../_upgrade"),
         `v${info.version}.zip`);
     filePath = await extractUpdateFile(filePath);
     getInstallPath(filePath).map(each => installUpdate(each));
