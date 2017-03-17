@@ -20,7 +20,7 @@
 * 开发平台: macOS
 * 开发工具: WebStorm、PyCharm、SublimeText
 * 前端技术栈: Electron、React、NeDB、ES6、Webpack、reactCSS 等
-* 后端技术栈: Python、Flask、MondoDB、Urllib、BeautifulSoup 等
+* 后端技术栈: Python、Flask、MongoDB、Urllib、BeautifulSoup 等
 
 前端项目结构:
 ```
