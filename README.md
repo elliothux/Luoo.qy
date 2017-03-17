@@ -1,5 +1,5 @@
 # Luoo.qy
-一个基于 Elctron 与 React 的落网第三方客户端
+一个基于 Electron 与 React 的落网第三方客户端
 
 
 ## 关于 / About
