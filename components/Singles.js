@@ -2,7 +2,6 @@
 
 import React from 'react';
 import reactCSS from 'reactcss';
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 import Single from './Single';
 
 
@@ -10,7 +9,6 @@ export default class Singles extends React.Component {
     constructor(props) {
         super(props);
         this.style = this.style.bind(this);
-        this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
         this.getSingleList = this.getSingleList.bind(this);
         this.showMoreSingle = this.showMoreSingle.bind(this);
 

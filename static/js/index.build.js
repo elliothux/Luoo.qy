@@ -611,7 +611,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 var _prodInvariant = __webpack_require__(23);
 
-var ReactCurrentOwner = __webpack_require__(15);
+var ReactCurrentOwner = __webpack_require__(14);
 
 var invariant = __webpack_require__(0);
 var warning = __webpack_require__(1);
@@ -1116,15 +1116,6 @@ module.exports = root;
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
-
-module.exports = __webpack_require__(343);
-
-/***/ }),
-/* 14 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -1377,7 +1368,7 @@ var ReactUpdates = {
 module.exports = ReactUpdates;
 
 /***/ }),
-/* 15 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1412,6 +1403,15 @@ var ReactCurrentOwner = {
 };
 
 module.exports = ReactCurrentOwner;
+
+/***/ }),
+/* 15 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = __webpack_require__(343);
 
 /***/ }),
 /* 16 */
@@ -2137,7 +2137,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 var _assign = __webpack_require__(3);
 
-var ReactCurrentOwner = __webpack_require__(15);
+var ReactCurrentOwner = __webpack_require__(14);
 
 var warning = __webpack_require__(1);
 var canDefineProperty = __webpack_require__(80);
@@ -6284,10 +6284,10 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 var _prodInvariant = __webpack_require__(2);
 
-var ReactCurrentOwner = __webpack_require__(15);
+var ReactCurrentOwner = __webpack_require__(14);
 var ReactInstanceMap = __webpack_require__(33);
 var ReactInstrumentation = __webpack_require__(8);
-var ReactUpdates = __webpack_require__(14);
+var ReactUpdates = __webpack_require__(13);
 
 var invariant = __webpack_require__(0);
 var warning = __webpack_require__(1);
@@ -9286,7 +9286,7 @@ var _assign = __webpack_require__(3);
 
 var LinkedValueUtils = __webpack_require__(66);
 var ReactDOMComponentTree = __webpack_require__(4);
-var ReactUpdates = __webpack_require__(14);
+var ReactUpdates = __webpack_require__(13);
 
 var warning = __webpack_require__(1);
 
@@ -9757,7 +9757,7 @@ var DOMLazyTree = __webpack_require__(25);
 var DOMProperty = __webpack_require__(17);
 var React = __webpack_require__(27);
 var ReactBrowserEventEmitter = __webpack_require__(44);
-var ReactCurrentOwner = __webpack_require__(15);
+var ReactCurrentOwner = __webpack_require__(14);
 var ReactDOMComponentTree = __webpack_require__(4);
 var ReactDOMContainerInfo = __webpack_require__(283);
 var ReactDOMFeatureFlags = __webpack_require__(285);
@@ -9767,7 +9767,7 @@ var ReactInstrumentation = __webpack_require__(8);
 var ReactMarkupChecksum = __webpack_require__(305);
 var ReactReconciler = __webpack_require__(26);
 var ReactUpdateQueue = __webpack_require__(69);
-var ReactUpdates = __webpack_require__(14);
+var ReactUpdates = __webpack_require__(13);
 
 var emptyObject = __webpack_require__(28);
 var instantiateReactComponent = __webpack_require__(134);
@@ -10817,7 +10817,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 var _prodInvariant = __webpack_require__(2);
 
-var ReactCurrentOwner = __webpack_require__(15);
+var ReactCurrentOwner = __webpack_require__(14);
 var REACT_ELEMENT_TYPE = __webpack_require__(299);
 
 var getIteratorFn = __webpack_require__(333);
@@ -11030,7 +11030,7 @@ module.exports = REACT_ELEMENT_TYPE;
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-var ReactCurrentOwner = __webpack_require__(15);
+var ReactCurrentOwner = __webpack_require__(14);
 var ReactComponentTreeHook = __webpack_require__(7);
 var ReactElement = __webpack_require__(22);
 
@@ -11849,7 +11849,7 @@ var _reactcss = __webpack_require__(9);
 
 var _reactcss2 = _interopRequireDefault(_reactcss);
 
-var _reactAddonsPureRenderMixin = __webpack_require__(13);
+var _reactAddonsPureRenderMixin = __webpack_require__(15);
 
 var _reactAddonsPureRenderMixin2 = _interopRequireDefault(_reactAddonsPureRenderMixin);
 
@@ -12114,7 +12114,7 @@ var _reactcss = __webpack_require__(9);
 
 var _reactcss2 = _interopRequireDefault(_reactcss);
 
-var _reactAddonsPureRenderMixin = __webpack_require__(13);
+var _reactAddonsPureRenderMixin = __webpack_require__(15);
 
 var _reactAddonsPureRenderMixin2 = _interopRequireDefault(_reactAddonsPureRenderMixin);
 
@@ -12400,7 +12400,7 @@ var _reactcss = __webpack_require__(9);
 
 var _reactcss2 = _interopRequireDefault(_reactcss);
 
-var _reactAddonsPureRenderMixin = __webpack_require__(13);
+var _reactAddonsPureRenderMixin = __webpack_require__(15);
 
 var _reactAddonsPureRenderMixin2 = _interopRequireDefault(_reactAddonsPureRenderMixin);
 
@@ -12584,10 +12584,6 @@ var _reactcss = __webpack_require__(9);
 
 var _reactcss2 = _interopRequireDefault(_reactcss);
 
-var _reactAddonsPureRenderMixin = __webpack_require__(13);
-
-var _reactAddonsPureRenderMixin2 = _interopRequireDefault(_reactAddonsPureRenderMixin);
-
 var _Single = __webpack_require__(145);
 
 var _Single2 = _interopRequireDefault(_Single);
@@ -12609,7 +12605,6 @@ var Singles = function (_React$Component) {
         var _this = _possibleConstructorReturn(this, (Singles.__proto__ || Object.getPrototypeOf(Singles)).call(this, props));
 
         _this.style = _this.style.bind(_this);
-        _this.shouldComponentUpdate = _reactAddonsPureRenderMixin2.default.shouldComponentUpdate.bind(_this);
         _this.getSingleList = _this.getSingleList.bind(_this);
         _this.showMoreSingle = _this.showMoreSingle.bind(_this);
 
@@ -12794,7 +12789,7 @@ var _reactcss = __webpack_require__(9);
 
 var _reactcss2 = _interopRequireDefault(_reactcss);
 
-var _reactAddonsPureRenderMixin = __webpack_require__(13);
+var _reactAddonsPureRenderMixin = __webpack_require__(15);
 
 var _reactAddonsPureRenderMixin2 = _interopRequireDefault(_reactAddonsPureRenderMixin);
 
@@ -12872,7 +12867,7 @@ var _reactcss = __webpack_require__(9);
 
 var _reactcss2 = _interopRequireDefault(_reactcss);
 
-var _reactAddonsPureRenderMixin = __webpack_require__(13);
+var _reactAddonsPureRenderMixin = __webpack_require__(15);
 
 var _reactAddonsPureRenderMixin2 = _interopRequireDefault(_reactAddonsPureRenderMixin);
 
@@ -13058,7 +13053,7 @@ var _reactcss = __webpack_require__(9);
 
 var _reactcss2 = _interopRequireDefault(_reactcss);
 
-var _reactAddonsPureRenderMixin = __webpack_require__(13);
+var _reactAddonsPureRenderMixin = __webpack_require__(15);
 
 var _reactAddonsPureRenderMixin2 = _interopRequireDefault(_reactAddonsPureRenderMixin);
 
@@ -13364,7 +13359,7 @@ var _reactcss = __webpack_require__(9);
 
 var _reactcss2 = _interopRequireDefault(_reactcss);
 
-var _reactAddonsPureRenderMixin = __webpack_require__(13);
+var _reactAddonsPureRenderMixin = __webpack_require__(15);
 
 var _reactAddonsPureRenderMixin2 = _interopRequireDefault(_reactAddonsPureRenderMixin);
 
@@ -13574,7 +13569,7 @@ var _reactcss = __webpack_require__(9);
 
 var _reactcss2 = _interopRequireDefault(_reactcss);
 
-var _reactAddonsPureRenderMixin = __webpack_require__(13);
+var _reactAddonsPureRenderMixin = __webpack_require__(15);
 
 var _reactAddonsPureRenderMixin2 = _interopRequireDefault(_reactAddonsPureRenderMixin);
 
@@ -13702,7 +13697,7 @@ var _reactcss = __webpack_require__(9);
 
 var _reactcss2 = _interopRequireDefault(_reactcss);
 
-var _reactAddonsPureRenderMixin = __webpack_require__(13);
+var _reactAddonsPureRenderMixin = __webpack_require__(15);
 
 var _reactAddonsPureRenderMixin2 = _interopRequireDefault(_reactAddonsPureRenderMixin);
 
@@ -19150,7 +19145,7 @@ var EventPluginHub = __webpack_require__(31);
 var EventPropagators = __webpack_require__(32);
 var ExecutionEnvironment = __webpack_require__(5);
 var ReactDOMComponentTree = __webpack_require__(4);
-var ReactUpdates = __webpack_require__(14);
+var ReactUpdates = __webpack_require__(13);
 var SyntheticEvent = __webpack_require__(16);
 
 var getEventTarget = __webpack_require__(73);
@@ -20179,7 +20174,7 @@ var _prodInvariant = __webpack_require__(2),
 
 var React = __webpack_require__(27);
 var ReactComponentEnvironment = __webpack_require__(67);
-var ReactCurrentOwner = __webpack_require__(15);
+var ReactCurrentOwner = __webpack_require__(14);
 var ReactErrorUtils = __webpack_require__(68);
 var ReactInstanceMap = __webpack_require__(33);
 var ReactInstrumentation = __webpack_require__(8);
@@ -21087,7 +21082,7 @@ var ReactDOMComponentTree = __webpack_require__(4);
 var ReactDefaultInjection = __webpack_require__(298);
 var ReactMount = __webpack_require__(126);
 var ReactReconciler = __webpack_require__(26);
-var ReactUpdates = __webpack_require__(14);
+var ReactUpdates = __webpack_require__(13);
 var ReactVersion = __webpack_require__(313);
 
 var findDOMNode = __webpack_require__(330);
@@ -22377,7 +22372,7 @@ var _prodInvariant = __webpack_require__(2),
 var DOMPropertyOperations = __webpack_require__(119);
 var LinkedValueUtils = __webpack_require__(66);
 var ReactDOMComponentTree = __webpack_require__(4);
-var ReactUpdates = __webpack_require__(14);
+var ReactUpdates = __webpack_require__(13);
 
 var invariant = __webpack_require__(0);
 var warning = __webpack_require__(1);
@@ -23319,7 +23314,7 @@ var _prodInvariant = __webpack_require__(2),
 
 var LinkedValueUtils = __webpack_require__(66);
 var ReactDOMComponentTree = __webpack_require__(4);
-var ReactUpdates = __webpack_require__(14);
+var ReactUpdates = __webpack_require__(13);
 
 var invariant = __webpack_require__(0);
 var warning = __webpack_require__(1);
@@ -24107,7 +24102,7 @@ module.exports = ReactDebugTool;
 
 var _assign = __webpack_require__(3);
 
-var ReactUpdates = __webpack_require__(14);
+var ReactUpdates = __webpack_require__(13);
 var Transaction = __webpack_require__(46);
 
 var emptyFunction = __webpack_require__(10);
@@ -24338,7 +24333,7 @@ var EventListener = __webpack_require__(84);
 var ExecutionEnvironment = __webpack_require__(5);
 var PooledClass = __webpack_require__(21);
 var ReactDOMComponentTree = __webpack_require__(4);
-var ReactUpdates = __webpack_require__(14);
+var ReactUpdates = __webpack_require__(13);
 
 var getEventTarget = __webpack_require__(73);
 var getUnboundedScrollPosition = __webpack_require__(160);
@@ -24538,7 +24533,7 @@ var ReactComponentEnvironment = __webpack_require__(67);
 var ReactEmptyComponent = __webpack_require__(122);
 var ReactBrowserEventEmitter = __webpack_require__(44);
 var ReactHostComponent = __webpack_require__(124);
-var ReactUpdates = __webpack_require__(14);
+var ReactUpdates = __webpack_require__(13);
 
 var ReactInjection = {
   Component: ReactComponentEnvironment.injection,
@@ -24673,7 +24668,7 @@ var ReactComponentEnvironment = __webpack_require__(67);
 var ReactInstanceMap = __webpack_require__(33);
 var ReactInstrumentation = __webpack_require__(8);
 
-var ReactCurrentOwner = __webpack_require__(15);
+var ReactCurrentOwner = __webpack_require__(14);
 var ReactReconciler = __webpack_require__(26);
 var ReactChildReconciler = __webpack_require__(278);
 
@@ -27246,7 +27241,7 @@ module.exports = dangerousStyleValue;
 
 var _prodInvariant = __webpack_require__(2);
 
-var ReactCurrentOwner = __webpack_require__(15);
+var ReactCurrentOwner = __webpack_require__(14);
 var ReactDOMComponentTree = __webpack_require__(4);
 var ReactInstanceMap = __webpack_require__(33);
 
@@ -29813,7 +29808,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 var _prodInvariant = __webpack_require__(23);
 
-var ReactCurrentOwner = __webpack_require__(15);
+var ReactCurrentOwner = __webpack_require__(14);
 var REACT_ELEMENT_TYPE = __webpack_require__(138);
 
 var getIteratorFn = __webpack_require__(81);
