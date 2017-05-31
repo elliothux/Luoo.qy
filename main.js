@@ -11,7 +11,7 @@ let mainWindow = null;
 
 // App events
 app.on('ready', () => {
-    mainWindow = openWindow(null, null, true);
+    mainWindow = openWindow(null, null, false);
     Menu.setApplicationMenu(Menu.buildFromTemplate(menuTemplate(app, win)));
 });
 
@@ -21,7 +21,7 @@ app.on('window-all-closed', () => {
 
 app.on('activate', () => {
     if (!mainWindow)
-        mainWindow = openWindow(null, null, true);
+        mainWindow = openWindow(null, null, false);
     mainWindow.show();
 });
 
