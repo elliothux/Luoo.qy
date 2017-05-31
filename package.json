@@ -1,7 +1,7 @@
 {
-  "name": "luoo.qy",
+  "name": "Luoo.qy",
   "version": "0.0.9",
-  "description": "luoo.qy",
+  "description": "Luoo.qy",
   "main": "main.js",
   "dependencies": {
     "babel-core": "^6.23.1",
@@ -36,7 +36,8 @@
     "build-linux": "electron-packager . Luoo.qy --platform=linux --arch=x64 --icon=static/pic/win.ico --ignore=node_modules/electron-* --overwrite --rebuild"
   },
   "keywords": [
-    "luoo.qy"
+    "Luoo.qy",
+    "Music"
   ],
   "author": "https://github.com/HuQingyang",
   "license": "ISC",
