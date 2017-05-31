@@ -1,19 +1,46 @@
+const path = require('path');
+
 module.exports = {
     entry: {
-        index: require('path').join(__dirname, './static/js/index.js'),
+        index: path.join(__dirname, './src/index.js')
     },
     output: {
-        path: require('path').join(__dirname, './static/js/'),
-        filename: '[name].build.js'
+        path: path.join(__dirname, './static/dist/'),
+        filename: '[name].build.js',
+        publicPath: '/assets/'
+    },
+    resolve: {
+        alias: {
+            vue: 'vue/dist/vue.js'
+        }
     },
     module: {
-        loaders: [{
-            test: /\.js|jsx$/,
-            loader: 'babel-loader',
-            query: {
-                presets: ['react', 'es2015'],
+        loaders: [
+            {
+                test: /\.vue$/,
+                loader: 'vue-loader',
+                query: {
+                    presets: ['vue', 'es2015'],
+                },
+                exclude: /node_modules/
+            },
+            {
+                test: /\.css$/,
+                loader: 'style-loader!css-loader'
+            },
+            {
+                test: /\.(gif|jpg|png|woff|svg|eot|ttf)\??.*$/,
+                loader: 'url-loader?limit=50000&name=[path][name].[ext]'
+            },
+            {
+                test: /\.(jpe?g|png|gif|svg)$/i,
+                loader: "file-loader?name=/public/icons/[name].[ext]"
+            },
+            {
+                test: /\.s[a|c]ss$/,
+                loader: 'style!css!sass'
             }
-        }]
+        ]
     },
-    target: "electron",
+    target: 'electron'
 };
