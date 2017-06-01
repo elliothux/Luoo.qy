@@ -1,25 +1,44 @@
 <template>
     <div id="app">
-        <h1>Hello</h1>
+        <div id="background" :style="{ backgroundImage: 'url(../pic/background.jpg)' }"/>
+        <HeadBar :viewStatus="viewStatus"/>
     </div>
 </template>
 
 <script>
+    import HeadBar from './HeadBar.vue';
 
     export default {
         name: 'app',
-        components: {
-
-        }
+        components: { HeadBar },
+        data: () => ({
+            viewStatus: 'vols'
+        })
     }
 </script>
 
 <style lang="sass" scoped>
     #app
-        font-family: 'Avenir', Helvetica, Arial, sans-serif
-        -webkit-font-smoothing: antialiased
-        -moz-osx-font-smoothing: grayscale
         text-align: center
-        color: #2c3e50
-        margin-top: 60px
+        position: fixed
+        width: 100%
+        height: 100%
+        top: 0
+        left: 0
+        background-color: #000000
+        color: white
+
+        &>*
+            z-index: 1
+
+    #background
+        width: calc(100% + 200px)
+        height: calc(100% + 200px)
+        position: fixed
+        top: -100px
+        left: -100px
+        background-size: cover
+        filter: blur(50px)
+        z-index: -1
+
 </style>

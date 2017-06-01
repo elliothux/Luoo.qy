@@ -9818,6 +9818,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -9834,7 +9835,7 @@ exports = module.exports = __webpack_require__(5)(undefined);
 
 
 // module
-exports.push([module.i, "\n#app[data-v-4f944103] {\n  font-family: 'Avenir', Helvetica, Arial, sans-serif;\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale;\n  text-align: center;\n  color: #2c3e50;\n  margin-top: 60px;\n}\n", ""]);
+exports.push([module.i, "\n#app[data-v-4f944103] {\n  font-family: 'Avenir', Helvetica, Arial, sans-serif;\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale;\n  text-align: center;\n  position: fixed;\n  width: 100%;\n  height: 100%;\n  background-color: red;\n}\n", ""]);
 
 // exports
 
@@ -10029,7 +10030,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "id": "app"
     }
-  }, [_c('h1', [_vm._v("Hello")])])
+  }, [_c('img', {
+    attrs: {
+      "id": "background",
+      "src": "/static/pic/background.jpg"
+    }
+  }), _vm._v(" "), _c('h1', [_vm._v("Hello")])])
 }]}
 module.exports.render._withStripped = true
 if (false) {
