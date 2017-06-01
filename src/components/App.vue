@@ -1,7 +1,7 @@
 <template>
     <div id="app">
         <div id="background" :style="{ backgroundImage: 'url(../pic/background.jpg)' }"/>
-        <HeadBar :viewStatus="viewStatus"/>
+        <HeadBar/>
     </div>
 </template>
 
@@ -11,13 +11,24 @@
     import HeadBar from './HeadBar.vue';
 
     Vue.use(Vuex);
+    const store = new Vuex.Store({
+        state: {
+            viewStatus: 'vols',
+        },
+        mutations: {
+            changeView: (state, viewStatus) => {
+                state.viewStatus = viewStatus
+            }
+        }
+    });
 
     export default {
         name: 'app',
         components: { HeadBar },
         data: () => ({
-            viewStatus: 'vols'
-        })
+
+        }),
+        store
     }
 </script>
 

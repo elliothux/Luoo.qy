@@ -1,27 +1,24 @@
 const BrowserWindow = require('electron').BrowserWindow;
 const platform = require('os').platform();
-const config = () => ({
-    language: 'zh'
-});
 
 
 
 module.exports = (app, window, ipcMain) => [
     {
-        label: "Page.qy",
+        label: "Luoo.qy",
         submenu: [
             {
-                label: config().language === 'zh' ? '关于Page.qy' : "About Application",
+                label: '关于Page.qy',
                 selector: "orderFrontStandardAboutPanel:"
             },
             {type: "separator"},
             {
-                label: config().language === 'zh' ? "退出" : "Quit",
+                label: "退出",
                 accelerator: "CmdOrCtrl+Q",
                 click: app.quit
             },
             {
-                label: config().language === 'zh' ? "关闭" : "Close",
+                label: "关闭",
                 accelerator: "CmdOrCtrl+W",
                 click: () => {
                     BrowserWindow.getFocusedWindow() === window ?
@@ -30,33 +27,34 @@ module.exports = (app, window, ipcMain) => [
                 }
             },
             {
-                label: config().language === 'zh' ? "刷新" : "Reload",
+                label:"刷新",
                 accelerator: "CmdOrCtrl+R",
                 click: () => { BrowserWindow.getFocusedWindow().webContents.reload() }
             },
         ]
     },
     {
-        label: config.language === 'zh' ? "编辑" : "Edit",
+        label: "播放",
         submenu: [
-            {label: config().language === 'zh' ? "撤销" : "Undo", accelerator: "CmdOrCtrl+Z", selector: "undo:"},
-            {label: config().language === 'zh' ? "重做" : "Redo", accelerator: "Shift+CmdOrCtrl+Z", selector: "redo:"},
-            {type: "separator"},
-            {label: config().language === 'zh' ? "剪切" : "Cut", accelerator: "CmdOrCtrl+X", selector: "cut:"},
-            {label: config().language === 'zh' ? "复制" : "Copy", accelerator: "CmdOrCtrl+C", selector: "copy:"},
-            {label: config().language === 'zh' ? "粘贴" : "Paste", accelerator: "CmdOrCtrl+V", selector: "paste:"},
             {
-                label: config().language === 'zh' ? "全选" : "Select All",
-                accelerator: "CmdOrCtrl+A",
-                selector: "selectAll:"
-            }
+                label:"播放",
+            },
+            {
+                label:"暂停",
+            },
+            {
+                label:"上一曲",
+            },
+            {
+                label:"下一曲",
+            },
         ]
     },
     {
-        label: config.language === 'zh' ? "开发者选项" : "Development",
+        label: "开发者选项",
         submenu: [
             {
-                label: config().language === 'zh' ? '打开DevTools' : "Open DevTools",
+                label: '打开DevTools',
                 accelerator: "CmdOrCtrl+Alt+i",
                 click: () => { BrowserWindow.getFocusedWindow().webContents.openDevTools() }
             }

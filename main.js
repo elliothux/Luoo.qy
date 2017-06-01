@@ -64,7 +64,10 @@ function openWindow(filePath, options, isMax) {
         win.show()
     });
 
-    const devToolsPath = `/Users/huqingyang/Library/Application Support/Google/Chrome/Default/Extensions/nhdogjmejiglipccpnnnanhbledajbpd/3.1.3_0`;
+    const devToolsPath = {
+        darwin: `/Users/huqingyang/Library/Application Support/Google/Chrome/Default/Extensions/nhdogjmejiglipccpnnnanhbledajbpd/3.1.3_0`,
+        win32: `C:\\Users\\HuQingyang\\AppData\\Local\\Google\\Chrome\\User Data\\Profile 1\\Extensions\\nhdogjmejiglipccpnnnanhbledajbpd\\3.1.2_0`
+    }[platform];
     BrowserWindow.addDevToolsExtension(devToolsPath);
 
     return win;

@@ -1,22 +1,22 @@
 <template>
     <div id="headBar">
-        <div id="left">
+        <div id="headBarLeft">
             <div>
                 <img :src="'../pic/head-vol-solid.svg'"/>
-                <span>期刊</span>
+                <p>期刊</p>
             </div>
             <div>
                 <img :src="'../pic/head-track-stroked.svg'"/>
-                <span>单曲</span>
+                <p>单曲</p>
             </div>
         </div>
-        <div id="logo">
-            <img :src="'../pic/logo.png'"/>
-            <img :src="'../pic/logoText.svg'"/>
+        <div>
+            <img id="headBarLogoImg" :src="'../pic/logo.png'"/>
+            <img id="headBarLogoText" :src="'../pic/logoText.svg'"/>
         </div>
-        <div id="right">
-            <img :src="'../pic/head-track-stroked.svg'"/>
-            <span>抖腿侠</span>
+        <div id="headBarRight">
+            <img :src="'../pic/avatar.png'"/>
+            <p>抖腿侠</p>
         </div>
     </div>
 </template>
@@ -30,7 +30,6 @@
 
     export default {
         name: 'heaBar',
-        props: ['viewStatus'],
         data: () => ({
 
         })
@@ -39,5 +38,31 @@
 
 
 <style lang="sass">
+    #headBar
+        width: 80%
+        height: 60px
+        position: fixed
+        padding: 10px 10%
+        top: 0
+        display: flex
+        flex-direction: row
+        justify-content: space-between
+
+        & > div
+            height: 100%
+
+    #headBarLeft
+        & > div
+            display: inline-block
+
+    #headBarRight
+        & > img
+            height: 60%
+            width: auto
+            border-radius: 100%
+
+    #headBarLogoImg
+        height: 100%
+        width: auto
 
 </style>
