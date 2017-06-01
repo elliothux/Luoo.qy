@@ -6,7 +6,11 @@
 </template>
 
 <script>
+    import Vue from 'vue';
+    import Vuex from 'vuex';
     import HeadBar from './HeadBar.vue';
+
+    Vue.use(Vuex);
 
     export default {
         name: 'app',
