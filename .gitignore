@@ -105,5 +105,3 @@ crashlytics.properties
 crashlytics-build.properties
 fabric.properties
 
-/db/vol
-/db/single
