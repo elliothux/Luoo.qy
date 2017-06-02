@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="30px" height="25px" viewBox="0 0 30 25" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 39.1 (31720) - http://www.bohemiancoding.com/sketch -->
+    <title>Group</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="vol" transform="translate(-310.000000, -948.000000)" stroke-width="2" stroke="#FFFFFF">
+            <g id="playing" transform="translate(28.000000, 919.000000)">
+                <g id="time-and-operate" transform="translate(274.326293, 11.231579)">
+                    <g id="Group" transform="translate(8.128186, 19.400000)">
+                        <polyline id="Shape" points="24.520663 0.0201542513 28.1346584 3.39004521 24.520663 6.75993616"></polyline>
+                        <path d="M28.1346584,3.39004521 L21.4052702,3.39004521 C17.2082294,3.39004521 13.8059455,7.02682352 13.8059455,10.9403785 L13.8059455,10.9403785 L13.8059455,11.3792655 C13.8059455,15.2928205 10.4036615,18.4653 6.20662082,18.4653 L0.0338308628,18.4653" id="Shape"></path>
+                        <polyline id="Shape" points="24.520663 21.8351909 28.1346584 18.4653 24.520663 15.095409"></polyline>
+                        <path d="M28.1346584,18.4653 L21.4052702,18.4653 C19.4879194,18.4653 17.7414683,17.7980816 16.404478,16.7057462" id="Shape"></path>
+                        <path d="M11.207413,5.14959897 C9.87042271,4.05726359 8.1238373,3.39004521 6.20662082,3.39004521 L0.0338308628,3.39004521" id="Shape"></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

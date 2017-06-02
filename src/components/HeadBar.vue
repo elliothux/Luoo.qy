@@ -37,7 +37,7 @@
 </script>
 
 
-<style lang="sass">
+<style lang="sass" scoped>
     #headBar
         width: 90%
         height: 40px

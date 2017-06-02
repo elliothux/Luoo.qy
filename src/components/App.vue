@@ -2,6 +2,7 @@
     <div id="app">
         <div id="background" :style="{ backgroundImage: 'url(../pic/background.jpg)' }"/>
         <HeadBar/>
+        <Playing/>
     </div>
 </template>
 
@@ -9,6 +10,7 @@
     import Vue from 'vue';
     import Vuex from 'vuex';
     import HeadBar from './HeadBar.vue';
+    import Playing from './Playing.vue';
 
     Vue.use(Vuex);
     const store = new Vuex.Store({
@@ -24,7 +26,7 @@
 
     export default {
         name: 'app',
-        components: { HeadBar },
+        components: { HeadBar, Playing },
         data: () => ({
 
         }),
