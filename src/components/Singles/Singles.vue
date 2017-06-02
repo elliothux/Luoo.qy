@@ -1,5 +1,5 @@
 <template>
-    <div id="tracks">
+    <div id="tracks" :style="singlesStyle()">
         <Single
             v-for="single in this.$store.state.singles"
             :data="single"
@@ -18,7 +18,13 @@
 
     export default {
         name: 'singles',
-        components: { Single }
+        components: { Single },
+        data: function () { return {
+            singlesStyle: function () { return {
+                display: this.$store.state.viewStatus === 'singles' ?
+                    'flex' : 'none'
+            }}
+        }}
     }
 </script>
 

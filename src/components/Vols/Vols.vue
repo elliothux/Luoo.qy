@@ -1,5 +1,5 @@
 <template>
-    <div id="vols">
+    <div id="vols" :style="volsStyle()">
         <Vol
             v-for="vol in this.$store.state.vols"
             :data="vol"
@@ -18,7 +18,13 @@
 
     export default {
         name: 'vols',
-        components: { Vol }
+        components: { Vol },
+        data: function () { return {
+            volsStyle: function () { return {
+                display: this.$store.state.viewStatus === 'vols' ?
+                    'flex' : 'none'
+            }}
+        }}
     }
 </script>
 

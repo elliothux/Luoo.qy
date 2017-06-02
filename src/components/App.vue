@@ -1,10 +1,13 @@
 <template>
     <div id="app">
-        <div id="background" :style="backgroundStyle"/>
+        <div
+            id="background"
+            :style="backgroundStyle()"
+        />
         <HeadBar/>
-        <Playing/>
-        <!--<Vols/>-->
+        <Vols/>
         <Singles/>
+        <Playing/>
     </div>
 </template>
 
@@ -21,7 +24,8 @@
         state: {
             viewStatus: 'vols',
             vols: [],
-            singles: []
+            singles: [],
+            background: '../pic/background.jpg'
         },
         mutations: {
             changeView: (state, viewStatus) => {
@@ -32,6 +36,9 @@
             },
             updateSinglesData: (state, data) => {
                 state.singles = data
+            },
+            setBackground: (state, background) => {
+                state.background = background
             }
         }
     });
@@ -41,17 +48,21 @@
         components: { HeadBar, Playing, Vols, Singles },
         props: ['db'],
         store,
-        data: () => ({
-            backgroundStyle: {
-                backgroundImage: 'url(../pic/background.jpg)'
-            }
-        }),
+        data: function () { return {
+            backgroundStyle: function () { return {
+                backgroundImage: `url(${this.$store.state.background})`
+            }}
+        }},
         created: function() {
             this.db.getVolList().then(function (data) {
                 this.$store.commit(
                     'updateVolsData',
                     data.slice(0, 50)
-                )
+                );
+                this.$store.commit(
+                    'setBackground',
+                    data[0].cover
+                );
             }.bind(this));
             this.db.getSingleList().then(function (data) {
                 this.$store.commit(

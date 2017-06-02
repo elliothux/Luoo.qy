@@ -1,12 +1,20 @@
 <template>
     <div id="headBar">
         <div id="headBarLeft">
-            <div>
-                <img :src="'../pic/head-vol-solid.svg'"/>
+            <div v-on:click="changeView('vols')">
+                <img
+                    :src="this.$store.state.viewStatus === 'vols' ?
+                        '../pic/head-vol-solid.svg' :
+                        '../pic/head-vol-stroked.svg'"
+                />
                 <p>期刊</p>
             </div>
-            <div>
-                <img :src="'../pic/head-track-stroked.svg'"/>
+            <div v-on:click="changeView('singles')">
+                <img
+                    :src="this.$store.state.viewStatus === 'singles' ?
+                        '../pic/head-single-solid.svg' :
+                        '../pic/head-single-stroked.svg'"
+                />
                 <p>单曲</p>
             </div>
         </div>
@@ -30,9 +38,14 @@
 
     export default {
         name: 'headBar',
-        data: () => ({
-
-        })
+        methods: {
+            changeView: function (view) {
+                this.$store.commit(
+                    'changeView',
+                    view
+                )
+            }
+        }
     }
 </script>
 
