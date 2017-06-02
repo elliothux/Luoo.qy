@@ -8,3 +8,15 @@
 body
   font-family: "PingFang SC", "Microsoft YaHei UI", Helvetica, Arial, sans-serif
   font-weight: 300
+
+*::-webkit-scrollbar
+  display: none
+
+
+*:not(input):not(textarea), *:not(input):not(textarea)::after, *:not(input):not(textarea)::before
+  -webkit-user-select: none
+  user-select: none
+  cursor: default
+
+input, button, textarea, :focus
+  outline: none

@@ -1,0 +1,12 @@
+@charset "UTF-8";
+
+@font-face {
+    font-family: 'PingFang SC';
+    font-style: normal;
+    src: url(../fonts/PingFangSC.ttf);
+}
+@font-face {
+    font-family: 'Savoye LET';
+    font-style: normal;
+    src: url(../fonts/SavoyeLET.ttf);
+}
