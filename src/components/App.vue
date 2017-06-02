@@ -21,7 +21,7 @@
         state: {
             viewStatus: 'vols',
             vols: [],
-            tracks: []
+            singles: []
         },
         mutations: {
             changeView: (state, viewStatus) => {
@@ -30,8 +30,8 @@
             updateVolsData: (state, data) => {
                 state.vols = data
             },
-            updateTracksData: (state, data) => {
-                state.tracks = data
+            updateSinglesData: (state, data) => {
+                state.singles = data
             }
         }
     });
@@ -55,7 +55,7 @@
             }.bind(this));
             this.db.getSingleList().then(function (data) {
                 this.$store.commit(
-                    'updateTracksData',
+                    'updateSinglesData',
                     data.slice(0, 50)
                 )
             }.bind(this));

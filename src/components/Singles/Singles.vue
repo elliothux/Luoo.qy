@@ -1,6 +1,10 @@
 <template>
     <div id="tracks">
-        <Single/>
+        <Single
+            v-for="single in this.$store.state.singles"
+            :data="single"
+            :key="single.date"
+        />
     </div>
 </template>
 
@@ -32,6 +36,6 @@
         flex-direction: row
         flex-wrap: wrap
         justify-content: space-between
-        background-color: red
+        /*background-color: red*/
 
 </style>

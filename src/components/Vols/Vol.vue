@@ -21,7 +21,7 @@
         name: 'vol',
         data: () => ({
             volStyle: {
-                backgroundColor: 'rgb(255, 255, 255)'
+                backgroundColor: 'rgba(255, 255, 255, 0.55)'
             }
         }),
         props: ['data'],
@@ -30,7 +30,7 @@
             cover.src = this.data.cover;
             cover.onload = function () {
                 const color = getAverageColor(cover);
-                this.volStyle.backgroundColor = `rgba(${color.r}, ${color.g}, ${color.b}, 0.4)`
+                this.volStyle.backgroundColor = `rgba(${color.r}, ${color.g}, ${color.b}, 0.55)`
             }.bind(this)
         }
     }
