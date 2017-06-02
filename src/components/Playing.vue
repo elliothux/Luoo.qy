@@ -53,13 +53,12 @@
         width: calc(100% - 20px)
         height: 55px
         position: fixed
-        left: 10px
-        bottom: 4px
+        padding: 0 10px 4px 10px
+        bottom: 0
         display: flex
         flex-direction: row
         justify-content: space-between
         align-items: center
-        /*background-color: red*/
 
     #playingController
         height: 100%
