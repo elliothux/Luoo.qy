@@ -12,7 +12,7 @@ const single = new Datastore({ filename: singlePath, autoload: true });
 
 module.exports = {
     getVolList: getVolList,
-    getSingle: getSingleList,
+    getSingleList: getSingleList,
     isVolExist: isVolExist,
     isSingleExist: isSingleExist,
     addVol: addVol,

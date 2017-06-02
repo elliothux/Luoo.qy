@@ -3,7 +3,8 @@
         <div id="background" :style="backgroundStyle"/>
         <HeadBar/>
         <Playing/>
-        <Vols/>
+        <!--<Vols/>-->
+        <Singles/>
     </div>
 </template>
 
@@ -13,12 +14,14 @@
     import HeadBar from './HeadBar.vue';
     import Playing from './Playing.vue';
     import Vols from './Vols/Vols.vue';
+    import Singles from './Singles/Singles.vue';
 
     Vue.use(Vuex);
     const store = new Vuex.Store({
         state: {
             viewStatus: 'vols',
-            vols: []
+            vols: [],
+            tracks: []
         },
         mutations: {
             changeView: (state, viewStatus) => {
@@ -26,13 +29,16 @@
             },
             updateVolsData: (state, data) => {
                 state.vols = data
+            },
+            updateTracksData: (state, data) => {
+                state.tracks = data
             }
         }
     });
 
     export default {
         name: 'app',
-        components: { HeadBar, Playing, Vols },
+        components: { HeadBar, Playing, Vols, Singles },
         props: ['db'],
         store,
         data: () => ({
@@ -46,7 +52,13 @@
                     'updateVolsData',
                     data.slice(0, 50)
                 )
-            }.bind(this))
+            }.bind(this));
+            this.db.getSingleList().then(function (data) {
+                this.$store.commit(
+                    'updateTracksData',
+                    data.slice(0, 50)
+                )
+            }.bind(this));
         }
     }
 </script>

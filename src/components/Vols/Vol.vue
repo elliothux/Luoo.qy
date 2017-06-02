@@ -46,7 +46,6 @@
         box-shadow: 0 10px 50px 0 rgba(0,0,0,0.50)
         text-align: left
         transition: all ease 600ms
-        border-radius: 6px
         overflow: hidden
 
         &:hover

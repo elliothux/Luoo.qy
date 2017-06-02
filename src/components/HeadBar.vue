@@ -29,7 +29,7 @@
     Vue.use(Vuex);
 
     export default {
-        name: 'heaBar',
+        name: 'headBar',
         data: () => ({
 
         })

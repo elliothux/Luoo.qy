@@ -84,7 +84,7 @@ export function HEX2RGB(hex) {
 
 
 export function getAverageColor (img) {
-    var canvas = document.createElement('canvas'),
+    let canvas = document.createElement('canvas'),
         context = canvas.getContext && canvas.getContext('2d'),
         rgb = {r:102,g:102,b:102}, // Set a base colour as a fallback for non-compliant browsers
         pixelInterval = 5, // Rather than inspect every single pixel in the image inspect every 5th pixel
@@ -96,7 +96,7 @@ export function getAverageColor (img) {
     if (!context) { return rgb; }
 
     // set the height and width of the canvas element to that of the image
-    var height = canvas.height = img.naturalHeight || img.offsetHeight || img.height,
+    let height = canvas.height = img.naturalHeight || img.offsetHeight || img.height,
         width = canvas.width = img.naturalWidth || img.offsetWidth || img.width;
 
     context.drawImage(img, 0, 0);
