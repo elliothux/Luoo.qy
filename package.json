@@ -4,6 +4,7 @@
   "description": "Luoo.qy",
   "main": "main.js",
   "dependencies": {
+    "nedb": "^1.8.0",
     "node-fs-extra": "^0.8.2"
   },
   "devDependencies": {

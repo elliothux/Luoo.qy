@@ -7,11 +7,14 @@ import { remote, webFrame } from 'electron';
 Vue.use(Vuex);
 Vue.config.productionTip = false;
 webFrame.setVisualZoomLevelLimits(1, 1);
-const main = remote.require('./main.js');
+const remoteMain = remote.require('./main.js');
 
 
 new Vue({
     el: '#root',
-    template: `<App/>`,
+    template: `<App :db="db"/>`,
     components: { App },
+    data: () => ({
+        db: remoteMain.db
+    })
 });

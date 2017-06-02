@@ -1,6 +1,6 @@
 <template>
     <div id="app">
-        <div id="background" :style="{ backgroundImage: 'url(../pic/background.jpg)' }"/>
+        <div id="background" :style="backgroundStyle"/>
         <HeadBar/>
         <Playing/>
         <Vols/>
@@ -12,16 +12,20 @@
     import Vuex from 'vuex';
     import HeadBar from './HeadBar.vue';
     import Playing from './Playing.vue';
-    import Vols from './Vols.vue';
+    import Vols from './Vols/Vols.vue';
 
     Vue.use(Vuex);
     const store = new Vuex.Store({
         state: {
             viewStatus: 'vols',
+            vols: []
         },
         mutations: {
             changeView: (state, viewStatus) => {
                 state.viewStatus = viewStatus
+            },
+            updateVolsData: (state, data) => {
+                state.vols = data
             }
         }
     });
@@ -29,10 +33,21 @@
     export default {
         name: 'app',
         components: { HeadBar, Playing, Vols },
+        props: ['db'],
+        store,
         data: () => ({
-
+            backgroundStyle: {
+                backgroundImage: 'url(../pic/background.jpg)'
+            }
         }),
-        store
+        created: function() {
+            this.db.getVolList().then(function (data) {
+                this.$store.commit(
+                    'updateVolsData',
+                    data.slice(0, 50)
+                )
+            }.bind(this))
+        }
     }
 </script>
 

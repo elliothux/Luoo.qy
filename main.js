@@ -3,6 +3,7 @@ const path = require('path');
 const url = require('url');
 const platform = require('os').platform();
 const menuTemplate = require('./static/js/menuTemplate');
+const db = require('./static/js/db');
 const {app, BrowserWindow, Menu } = electron;
 
 
@@ -12,7 +13,7 @@ let mainWindow = null;
 // App events
 app.on('ready', () => {
     mainWindow = openWindow(null, null, false);
-    Menu.setApplicationMenu(Menu.buildFromTemplate(menuTemplate(app, win)));
+    // Menu.setApplicationMenu(Menu.buildFromTemplate(menuTemplate(app, win)));
 });
 
 app.on('window-all-closed', () => {
@@ -27,7 +28,8 @@ app.on('activate', () => {
 
 
 exports = Object.assign(exports, {
-    mainPath: path.join(__dirname)
+    mainPath: path.join(__dirname),
+    db: db
 });
 
 
@@ -37,8 +39,8 @@ function openWindow(filePath, options, isMax) {
     !options && (options = {});
     options = Object.assign(
         {
-            width: 850,
-            height: 620,
+            width: 950,
+            height: 700,
             minWidth: 700,
             minHeight: 550,
             center: true,

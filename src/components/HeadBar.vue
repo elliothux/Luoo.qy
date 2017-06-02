@@ -47,6 +47,7 @@
         display: flex
         flex-direction: row
         justify-content: space-between
+        z-index: 2
 
         & > div
             height: 100%
@@ -80,7 +81,7 @@
         align-items: center
         cursor: pointer
         position: relative
-        top: 8px
+        top: 5px
 
     #headBarLogoImg
         height: 90%
