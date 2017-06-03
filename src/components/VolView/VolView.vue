@@ -27,7 +27,11 @@
                 </div>
             </div>
             <div id="tracks">
-                <VolTrack/>
+                <VolTrack
+                    v-for="track in $store.state.volViewData.tracks"
+                    :data="track"
+                    :key="`${track.vol}-${track.order}`"
+                />
             </div>
         </template>
     </div>
@@ -155,5 +159,13 @@
 
         #volViewOperateLike
             margin-right: 15px
+
+    #tracks
+        width: 100%
+        height: auto
+        margin: 30px 0
+        display: flex
+        flex-direction: row
+        flex-wrap: wrap
 
 </style>
