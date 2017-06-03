@@ -1,0 +1,159 @@
+<template>
+    <div
+        id="volView"
+        :class="this.$store.state.viewStatus === 'volView' ?
+            'volViewShow' : 'volViewHidden'"
+        style="z-index: -2;"
+    >
+        <template v-if="this.$store.state.volViewData">
+            <div id="volViewInfo" :style="volViewInfoStyle()">
+                <div id="volViewCover" :style="volViewCoverStyle()"></div>
+                <div id="volViewIntro">
+                    <div id="volViewIntroContainer">
+                        <div id="volViewOperate">
+                            <div>
+                                <img id="volViewOperateLike" :src="'../pic/like.svg'"/>
+                                <img id="volViewToggle" :src="'../pic/controller-play.svg'"/>
+                            </div>
+                            <p><span v-for="tag in $store.state.volViewData.tag">{{ tag }}&nbsp;&nbsp;&nbsp;</span></p>
+                        </div>
+                        <p id="volViewIntroTitle">{{ $store.state.volViewData.title }}</p>
+                        <p id="volViewIntroDesc" v-html="$store.state.volViewData.description.slice(4)"/>
+                        <p id="volViewIntroDate">
+                            <img :src="'../pic/logo.png'"/>
+                            落在低处・{{ $store.state.volViewData.date }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div id="tracks">
+                <VolTrack/>
+            </div>
+        </template>
+    </div>
+</template>
+
+
+<script>
+    import Vue from 'vue';
+    import Vuex from 'vuex';
+    import VolTrack from './VolTrack.vue';
+
+    Vue.use(Vuex);
+
+    export default {
+        name: 'volView',
+        components: { VolTrack },
+        data: function () { return {
+            volViewInfoStyle: function () { return {
+                backgroundColor: this.$store.state.volViewData ?
+                    this.$store.state.volViewData.backgroundColor :
+                    'rgba(255, 255, 255, 0.55)'
+            }},
+            volViewCoverStyle: function () { return {
+                backgroundImage: `url(${this.$store.state.volViewData ?
+                    this.$store.state.volViewData.cover :
+                    'rgba(255, 255, 255, 0.55)'
+                })`
+            }}
+        }}
+    }
+</script>
+
+
+<style lang="sass" scoped>
+    #volView
+        position: fixed
+        width: 90%
+        height: calc(100% - 180px)
+        top: 80px
+        left: 0
+        padding: 25px 5% 0 5%
+        overflow-y: auto
+
+    .volViewShow
+        transform: scale(1)
+        opacity: 1
+        transition: all ease 500ms 350ms
+
+    .volViewHidden
+            transform: scale(0.9)
+            opacity: 0
+            transition: all ease 500ms 0ms
+
+    #volViewInfo
+        width: 100%
+        height: 0
+        padding-bottom: 31.8%
+        display: flex
+        flex-direction: row
+        justify-content: space-between
+        text-align: left
+        box-shadow: 0 10px 50px 0 rgba(0,0,0,0.50)
+        overflow: hidden
+
+    #volViewCover
+        width: 44%
+        height: 0
+        padding-bottom: 31.8%
+        background-size: cover
+        box-shadow: 10px 0 50px 0 rgba(0,0,0,0.50)
+
+    #volViewIntro
+        width: 48%
+        height: 0
+        padding-bottom: 31.8%
+        padding-right: 3%
+        overflow-y: auto
+
+    #volViewIntroContainer
+        margin-bottom: -100%
+
+    #volViewIntroTitle
+        font-size: 1.5em
+        margin: 10px 0
+
+    #volViewIntroDesc
+        font-size: 0.8em
+        margin-bottom: 15px
+
+    #volViewIntroDate
+        font-size: 0.7em
+        font-weight: 400
+        margin-bottom: 15px
+
+        & > img
+            width: 3%
+            height: auto
+            position: relative
+            top: 3px
+            margin-right: 2px
+
+    #volViewOperate
+        margin-top: 15px
+        display: flex
+        flex-direction: row
+        justify-content: space-between
+        align-items: center
+
+        p
+            font-size: 0.8em
+
+        & > div
+            width: 40%
+
+        img
+            width: 10%
+            height: auto
+            cursor: pointer
+            transition: all ease 300ms
+            opacity: 0.8
+
+            &:hover
+                transform: scale(1)
+                opacity: 1
+
+        #volViewOperateLike
+            margin-right: 15px
+
+</style>

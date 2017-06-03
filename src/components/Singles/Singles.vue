@@ -3,6 +3,7 @@
         id="singles"
         :class="this.$store.state.viewStatus === 'singles' ?
             'singlesShow show' : 'singlesHidden hidden'"
+        style="z-index: -2;"
     >
         <Single
             v-for="single in this.$store.state.singles"
@@ -47,7 +48,7 @@
     .singlesShow
         transform: scale(1)
         opacity: 1
-        transition: all ease 500ms 300ms
+        transition: all ease 500ms 350ms
 
     .singlesHidden
         transform: scale(0.9)

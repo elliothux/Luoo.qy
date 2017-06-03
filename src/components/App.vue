@@ -8,6 +8,7 @@
         <Playing/>
         <Vols/>
         <Singles/>
+        <VolView/>
     </div>
 </template>
 
@@ -18,6 +19,8 @@
     import Playing from './Playing.vue';
     import Vols from './Vols/Vols.vue';
     import Singles from './Singles/Singles.vue';
+    import VolView from './VolView/VolView.vue';
+
 
     Vue.use(Vuex);
     const store = new Vuex.Store({
@@ -25,43 +28,53 @@
             viewStatus: 'vols',
             vols: [],
             singles: [],
-            background: '../pic/background.jpg'
+            volViewData: null
         },
         mutations: {
             changeView: (state, viewStatus) => {
-                state.viewStatus = viewStatus
+                const preView = state.viewStatus;
+                state.viewStatus = viewStatus;
+                setTimeout(function () {
+                    document.getElementById(preView).style.zIndex = -2
+                }, 500);
+                document.getElementById(viewStatus).style.zIndex = 1;
+            },
+            changeVolViewData: (state, data) => {
+                state.volViewData = data
             },
             updateVolsData: (state, data) => {
                 state.vols = data
             },
             updateSinglesData: (state, data) => {
                 state.singles = data
-            },
-            setBackground: (state, background) => {
-                state.background = background
             }
         }
     });
 
     export default {
         name: 'app',
-        components: { HeadBar, Playing, Vols, Singles },
+        components: { HeadBar, Playing, Vols, Singles, VolView },
         props: ['db'],
         store,
         data: function () { return {
-            backgroundStyle: function () { return {
-                backgroundImage: `url(${this.$store.state.background})`
-            }}
+            backgroundStyle: function () {
+                let background;
+                if (this.$store.state.vols.length === 0)
+                    background = '../pic/background.jpg';
+                else if (this.$store.state.volViewData)
+                    background = this.$store.state.volViewData.cover;
+                else
+                    background = this.$store.state.vols[0].cover;
+                return {
+                    backgroundImage: `url(${background})`
+                }
+            }
         }},
         created: function() {
             this.db.getVolList().then(function (data) {
                 this.$store.commit(
                     'updateVolsData',
                     data.slice(0, 20)
-                );
-                this.$store.commit(
-                    'setBackground',
-                    data[0].cover
                 );
             }.bind(this));
             this.db.getSingleList().then(function (data) {
@@ -97,5 +110,6 @@
         background-size: cover
         filter: blur(50px)
         z-index: -1
+        transition: all ease 850ms
 
 </style>

@@ -41,11 +41,6 @@
         methods: {
             changeView: function (view) {
                 if (view === this.$store.state.viewStatus) return;
-                const preView = this.$store.state.viewStatus;
-                setTimeout(function () {
-                    document.getElementById(preView).style.zIndex = -10
-                }, 500);
-                document.getElementById(view).style.zIndex = 1;
                 this.$store.commit(
                     'changeView',
                     view

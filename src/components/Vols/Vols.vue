@@ -47,7 +47,7 @@
     .volsShow
         transform: scale(1)
         opacity: 1
-        transition: all ease 500ms 300ms
+        transition: all ease 500ms 350ms
 
     .volsHidden
         transform: scale(0.9)

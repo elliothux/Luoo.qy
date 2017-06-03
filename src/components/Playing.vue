@@ -137,6 +137,8 @@
         background-size: cover
         box-shadow: 0 0 30px 5px rgba(0,0,0,0.35)
         cursor: pointer
+        position: relative
+        top: -4px
 
 
 </style>

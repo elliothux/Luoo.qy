@@ -1,5 +1,9 @@
 <template>
-    <div class="vol" :style="volStyle">
+    <div
+        class="vol"
+        :style="volStyle"
+        v-on:click="showVolView"
+    >
         <img :src="data.cover" class="volCover"/>
         <div class="volInfo">
             <p class="volInfoNum">vol.<span>{{ data.vol }}</span></p>
@@ -19,12 +23,12 @@
 
     export default {
         name: 'vol',
+        props: ['data'],
         data: () => ({
             volStyle: {
                 backgroundColor: 'rgba(255, 255, 255, 0.55)'
             }
         }),
-        props: ['data'],
         created: function () {
             const cover = new Image();
             cover.src = this.data.cover;
@@ -32,6 +36,18 @@
                 const color = getAverageColor(cover);
                 this.volStyle.backgroundColor = `rgba(${color.r}, ${color.g}, ${color.b}, 0.55)`
             }.bind(this)
+        },
+        methods: {
+            showVolView: function () {
+                this.$store.commit(
+                    'changeVolViewData',
+                    Object.assign({}, this.volStyle, this.data)
+                );
+                this.$store.commit(
+                    'changeView',
+                    'volView'
+                );
+            }
         }
     }
 </script>
@@ -55,6 +71,7 @@
     .volCover
         width: 100%
         height: auto
+        box-shadow: 0 10px 50px 0 rgba(0,0,0,0.50)
 
     .volInfo
         width: calc(100% - 36px)

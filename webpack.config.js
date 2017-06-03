@@ -2,7 +2,8 @@ const path = require('path');
 
 module.exports = {
     entry: {
-        index: path.join(__dirname, './src/index.js')
+        index: path.join(__dirname, './src/index.js'),
+        common: path.join(__dirname, './src/common.js')
     },
     output: {
         path: path.join(__dirname, './static/dist/'),
