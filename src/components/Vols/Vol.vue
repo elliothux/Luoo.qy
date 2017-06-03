@@ -69,7 +69,6 @@
         .volInfoTitle
             font-size: 1.3em
             position: relative
-            top: -5px
 
         .volPlay
             width: 18px

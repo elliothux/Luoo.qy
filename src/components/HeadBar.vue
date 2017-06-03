@@ -40,10 +40,14 @@
         name: 'headBar',
         methods: {
             changeView: function (view) {
+                const preView = this.$store.state.viewStatus;
+                setTimeout(function () {
+                    document.getElementById(preView).style.zIndex = -1
+                }, 500);
                 this.$store.commit(
                     'changeView',
                     view
-                )
+                );
             }
         }
     }

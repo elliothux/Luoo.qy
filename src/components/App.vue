@@ -5,9 +5,9 @@
             :style="backgroundStyle()"
         />
         <HeadBar/>
+        <Playing/>
         <Vols/>
         <Singles/>
-        <Playing/>
     </div>
 </template>
 
@@ -57,7 +57,7 @@
             this.db.getVolList().then(function (data) {
                 this.$store.commit(
                     'updateVolsData',
-                    data.slice(0, 50)
+                    data.slice(0, 20)
                 );
                 this.$store.commit(
                     'setBackground',
@@ -67,7 +67,7 @@
             this.db.getSingleList().then(function (data) {
                 this.$store.commit(
                     'updateSinglesData',
-                    data.slice(0, 50)
+                    data.slice(0, 20)
                 )
             }.bind(this));
         }

@@ -8,5 +8,5 @@
 @font-face {
     font-family: 'Savoye LET';
     font-style: normal;
-    src: url(../fonts/SavoyeLET.ttf);
+    src: url(../fonts/SavoyeStd.otf) format('truetype');
 }

@@ -1,5 +1,9 @@
 <template>
-    <div id="vols" :style="volsStyle()">
+    <div
+        id="vols"
+        :class="this.$store.state.viewStatus === 'vols' ?
+            'volsShow show' : 'volsHidden hidden'"
+    >
         <Vol
             v-for="vol in this.$store.state.vols"
             :data="vol"
@@ -42,5 +46,15 @@
         flex-direction: row
         flex-wrap: wrap
         justify-content: space-between
+
+    .volsShow
+        transform: scale(1)
+        opacity: 1
+        transition: all ease 500ms 300ms
+
+    .volsHidden
+        transform: scale(0.8)
+        opacity: 0
+        transition: all ease 500ms 0ms
 
 </style>

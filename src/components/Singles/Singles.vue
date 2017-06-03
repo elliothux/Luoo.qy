@@ -1,5 +1,9 @@
 <template>
-    <div id="tracks" :style="singlesStyle()">
+    <div
+        id="singles"
+        :class="this.$store.state.viewStatus === 'singles' ?
+            'singlesShow show' : 'singlesHidden hidden'"
+    >
         <Single
             v-for="single in this.$store.state.singles"
             :data="single"
@@ -29,7 +33,7 @@
 </script>
 
 
-<style lang="sass">
+<style lang="sass" scoped>
     #tracks
         position: fixed
         width: 90%
@@ -42,6 +46,15 @@
         flex-direction: row
         flex-wrap: wrap
         justify-content: space-between
-        /*background-color: red*/
+
+    .singlesShow
+        transform: scale(1)
+        opacity: 1
+        transition: all ease 500ms 300ms
+
+    .singlesHidden
+        transform: scale(0.8)
+        opacity: 0
+        transition: all ease 500ms 0ms
 
 </style>
