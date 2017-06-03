@@ -24,10 +24,7 @@
         name: 'vols',
         components: { Vol },
         data: function () { return {
-            volsStyle: function () { return {
-                display: this.$store.state.viewStatus === 'vols' ?
-                    'flex' : 'none'
-            }}
+
         }}
     }
 </script>
@@ -53,7 +50,7 @@
         transition: all ease 500ms 300ms
 
     .volsHidden
-        transform: scale(0.8)
+        transform: scale(0.9)
         opacity: 0
         transition: all ease 500ms 0ms
 

@@ -24,17 +24,14 @@
         name: 'singles',
         components: { Single },
         data: function () { return {
-            singlesStyle: function () { return {
-                display: this.$store.state.viewStatus === 'singles' ?
-                    'flex' : 'none'
-            }}
+
         }}
     }
 </script>
 
 
 <style lang="sass" scoped>
-    #tracks
+    #singles
         position: fixed
         width: 90%
         height: calc(100% - 180px)
@@ -53,7 +50,7 @@
         transition: all ease 500ms 300ms
 
     .singlesHidden
-        transform: scale(0.8)
+        transform: scale(0.9)
         opacity: 0
         transition: all ease 500ms 0ms
 
