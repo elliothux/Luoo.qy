@@ -4,6 +4,7 @@
         :class="this.$store.state.viewStatus === 'playingTrack' ?
             'playingTrackShow' : 'playingTrackHidden'"
         style="z-index: -2;"
+        v-if="$store.state.playingData"
     >
         <div
             id="playingTrackBackground"
@@ -26,7 +27,20 @@
             </div>
         </div>
         <div id="playingTrackRight">
-
+            <div id="playingTrackInfo">
+                <p id="playingTrackTitle">
+                    {{ $store.state.playingData.name }}
+                </p>
+                <p id="playingTrackAlbum">
+                    {{ $store.state.playingData.album }}
+                </p>
+                <p
+                    id="playingTrackArtist"
+                    v-if="$store.state.playingData.artist !== $store.state.playingData.album"
+                >
+                    {{ $store.state.playingData.artist }}
+                </p>
+            </div>
         </div>
         <div id="playingTrackBottom">
             <span>00:48</span>
@@ -143,6 +157,15 @@
     #playingTrackRight
         width: 55%
         height: 80%
+        display: flex
+        flex-direction: column
+        justify-content: center
+
+        #playingTrackTitle
+            font-size: 2em
+
+        #playingTrackAlbum,#playingTrackArtist
+            font-size: 1.4em
 
     #playingTrackBottom
         width: 94%
