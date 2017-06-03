@@ -9,6 +9,7 @@
         <Vols/>
         <Singles/>
         <VolView/>
+        <PlayingTrack/>
     </div>
 </template>
 
@@ -20,6 +21,7 @@
     import Vols from './Vols/Vols.vue';
     import Singles from './Singles/Singles.vue';
     import VolView from './VolView/VolView.vue';
+    import PlayingTrack from './PlayingTrack.vue';
 
 
     Vue.use(Vuex);
@@ -53,7 +55,7 @@
 
     export default {
         name: 'app',
-        components: { HeadBar, Playing, Vols, Singles, VolView },
+        components: { HeadBar, Playing, Vols, Singles, VolView, PlayingTrack },
         props: ['db'],
         store,
         data: function () { return {

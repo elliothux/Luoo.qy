@@ -1,5 +1,9 @@
 <template>
-    <div class="track" :style="trackStyle">
+    <div
+        class="track"
+        :style="trackStyle"
+        v-on:click="showPlayingTrack"
+    >
         <div class="trackCoverContainer">
             <img class="trackOperateLike" :src="'../pic/like.svg'"/>
             <img class="trackOperateToggle" :src="'../pic/controller-play.svg'"/>
@@ -31,7 +35,15 @@
             trackCoverStyle: {
                 backgroundImage: `url(${this.data.cover})`
             }
-        }}
+        }},
+        methods: {
+            showPlayingTrack: function () {
+                this.$store.commit(
+                    'changeView',
+                    'playingTrack'
+                )
+            }
+        }
     }
 
 </script>
