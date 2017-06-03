@@ -1,5 +1,8 @@
-<template>
-    <div id="playing">
+K<template>
+    <div
+        id="playing"
+        :style="playingStyle()"
+    >
         <div id="playingController">
             <img id="playingControllerPre" :src="'../pic/controller-pre.svg'"/>
             <img id="playingControllerToggle" :src="'../pic/controller-play.svg'"/>
@@ -41,9 +44,13 @@
 
     export default {
         name: 'playing',
-        data: () => ({
-
-        })
+        data: function () { return {
+            playingStyle: function () { return {
+                transform: `translateY(${
+                    this.$store.state.viewStatus === 'playingTrack' ?
+                        '63px' : '0'}`
+            }}.bind(this)
+        }}
     }
 </script>
 
@@ -59,6 +66,7 @@
         flex-direction: row
         justify-content: space-between
         align-items: center
+        transition: all ease 600ms
 
     #playingController
         height: 100%

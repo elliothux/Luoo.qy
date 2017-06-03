@@ -30,7 +30,9 @@
             viewStatus: 'vols',
             vols: [],
             singles: [],
-            volViewData: null
+            volViewData: null,
+            playingData: null,
+            playingType: null
         },
         mutations: {
             changeView: (state, viewStatus) => {
@@ -40,6 +42,12 @@
                     document.getElementById(preView).style.zIndex = -2
                 }, 500);
                 document.getElementById(viewStatus).style.zIndex = 1;
+            },
+            changePlayingType: (state, type) => {
+                state.playingType = type
+            },
+            changePlayingData: (state, data) => {
+                state.playingData = data
             },
             changeVolViewData: (state, data) => {
                 state.volViewData = data

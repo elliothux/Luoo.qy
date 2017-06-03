@@ -20,7 +20,7 @@
         </div>
         <div id="headBarLogo">
             <img id="headBarLogoImg" :src="'../pic/logo.png'"/>
-            <img id="headBarLogoText" :src="'../pic/logoText.svg'"/>
+            <p id="headBarLogoText">Luoo.qy</p>
         </div>
         <div id="headBarRight">
             <img :src="'../pic/avatar.png'"/>
@@ -76,7 +76,7 @@
             font-size: 0.9em
             cursor: pointer
 
-            & *
+            *
                 cursor: pointer
 
             & > img
@@ -87,7 +87,7 @@
         font-size: 0.9em
         cursor: pointer
 
-        & *
+        *
             cursor: pointer
 
         & > img
@@ -103,7 +103,7 @@
         position: relative
         top: 5px
 
-        & *
+        *
             cursor: pointer
 
     #headBarLogoImg
@@ -112,9 +112,10 @@
         margin-right: 10px
 
     #headBarLogoText
-        height: 60%
-        width: auto
+        font-size: 1.5em
+        letter-spacing: 0.05em
+        font-family: "Savoye LET", sans-serif
         position: relative
-        top: 4px
+        top: 3px
 
 </style>

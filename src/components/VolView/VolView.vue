@@ -81,9 +81,9 @@
         transition: all ease 500ms 350ms
 
     .volViewHidden
-            transform: scale(0.9)
-            opacity: 0
-            transition: all ease 500ms 0ms
+        transform: scale(0.9)
+        opacity: 0
+        transition: all ease 500ms 0ms
 
     #volViewInfo
         width: 100%

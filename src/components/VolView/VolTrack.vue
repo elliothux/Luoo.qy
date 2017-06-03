@@ -39,8 +39,16 @@
         methods: {
             showPlayingTrack: function () {
                 this.$store.commit(
+                    'changePlayingData',
+                    this.data
+                );
+                this.$store.commit(
                     'changeView',
                     'playingTrack'
+                );
+                this.$store.commit(
+                    'changePlayingType',
+                    'vol'
                 )
             }
         }
