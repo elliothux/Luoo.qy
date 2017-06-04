@@ -31,8 +31,8 @@
             preViewStatus: null,
             vols: [],
             singles: [],
-            volsShowIndex: 21,
-            singlesShowIndex: 20,
+            volsShowIndex: 30,
+            singlesShowIndex: 30,
             volViewData: null,
             playingData: null,
             playingType: null,
@@ -71,6 +71,18 @@
             },
             updateSinglesData: (state, data) => {
                 state.singles = data
+            },
+            loadMoreVols: (state) => {
+                const preIndex = state.volsShowIndex;
+                if (preIndex + 30 >= state.vols.length-1)
+                    state.volsShowIndex = state.vols.length;
+                else state.volsShowIndex = preIndex + 30
+            },
+            loadMoreSingles: (state) => {
+                const preIndex = state.singlesShowIndex;
+                if (preIndex + 30 >= state.singles.length-1)
+                    state.singlesShowIndex = state.singles.length;
+                else state.singlesShowIndex = preIndex + 30
             }
         }
     });

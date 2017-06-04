@@ -10,6 +10,15 @@
             :index="index"
             :key="vol.vol"
         />
+        <div
+            id="loadMoreVols"
+            v-if="this.$store.state.vols.length !== this.$store.state.volsShowIndex"
+        >
+            <div v-on:click="loadMore">
+                <img :src="'../pic/loadMore-stroked.svg'"/>
+                <p>更多</p>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -24,9 +33,11 @@
     export default {
         name: 'vols',
         components: { Vol },
-        data: function () { return {
-
-        }}
+        methods: {
+            loadMore: function () {
+                this.$store.commit('loadMoreVols')
+            }
+        }
     }
 </script>
 
@@ -54,5 +65,25 @@
         transform: scale(0.9)
         opacity: 0
         transition: all ease 500ms 0ms
+
+    #loadMoreVols
+        width: 100%
+
+        & > div
+            margin-left: 47%
+            cursor: pointer
+            font-size: 0.9em
+            opacity: 0.8
+            width: 6%
+
+            &:hover
+                opacity: 1
+
+            img
+                height: 50%
+
+            *
+                cursor: pointer
+
 
 </style>

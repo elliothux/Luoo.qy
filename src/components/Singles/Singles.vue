@@ -11,6 +11,15 @@
             :index="index"
             :key="single.date"
         />
+        <div
+            id="loadMoreSingles"
+            v-if="this.$store.state.singles.length !== this.$store.state.singlesShowIndex"
+        >
+            <div v-on:click="loadMore">
+                <img :src="'../pic/loadMore-stroked.svg'"/>
+                <p>更多</p>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -25,9 +34,11 @@
     export default {
         name: 'singles',
         components: { Single },
-        data: function () { return {
-
-        }}
+        methods: {
+            loadMore: function () {
+                this.$store.commit('loadMoreSingles')
+            }
+        }
     }
 </script>
 
@@ -55,5 +66,24 @@
         transform: scale(0.9)
         opacity: 0
         transition: all ease 500ms 0ms
+
+    #loadMoreSingles
+        width: 100%
+
+        & > div
+            margin-left: 47%
+            cursor: pointer
+            font-size: 0.9em
+            opacity: 0.8
+            width: 6%
+
+            &:hover
+                opacity: 1
+
+            img
+                height: 50%
+
+            *
+                cursor: pointer
 
 </style>
