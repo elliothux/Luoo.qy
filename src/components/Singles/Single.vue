@@ -13,7 +13,11 @@
                     <img class="singleOperateLike" :src="'../pic/like.svg'"/>
                     <img
                         class="singleOperateToggle"
-                        :src="'../pic/controller-play.svg'"
+                        :src="(this.$store.state.playing &&
+                            this.$store.state.playingType === 'single' &&
+                            this.$store.state.playingIndex === this.index) ?
+                                '../pic/controller-pause.svg' :
+                                '../pic/controller-play.svg'"
                         v-on:click.stop="playSingle"
                     />
                 </div>
@@ -61,6 +65,9 @@
                 this.$store.commit('changeView', 'playingTrack');
             },
             playSingle: function () {
+                if (this.$store.state.playingType === 'single' &&
+                    this.$store.state.playingIndex === this.index)
+                        return this.$store.commit('togglePlay');
                 this.$store.commit('changePlayingData', this.data);
                 this.$store.commit('changePlayingType', 'single');
                 this.$store.commit('play', {

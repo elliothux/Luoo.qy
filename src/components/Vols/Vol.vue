@@ -10,9 +10,11 @@
             <p class="volInfoTitle">{{ data.title }}</p>
             <img
                 class="volPlay"
-                :src="($store.state.playingVolIndex === index &&
+                :src="(this.$store.state.playingType === 'vol' &&
+                    this.$store.state.playingVolIndex === index &&
                     this.$store.state.playing) ?
-                        '../pic/controller-pause.svg' : '../pic/controller-play.svg'"
+                        '../pic/controller-pause.svg' :
+                        '../pic/controller-play.svg'"
                 v-on:click.stop="playVol"
             />
         </div>
@@ -61,8 +63,9 @@
                     (document.getElementById('volViewIntro').scrollTop = 0);
             },
             playVol: function () {
-                if (this.$store.state.playingVolIndex === this.index)
-                    return this.$store.commit('togglePlay');
+                if (this.$store.state.playingType === 'vol' &&
+                    this.$store.state.playingVolIndex === this.index)
+                        return this.$store.commit('togglePlay');
                 this.$store.commit('play', {
                     type: 'vol',
                     volIndex: this.index,

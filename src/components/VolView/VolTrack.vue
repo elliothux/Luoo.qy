@@ -8,10 +8,12 @@
             <img class="trackOperateLike" :src="'../pic/like.svg'"/>
             <img
                 class="trackOperateToggle"
-                :src="(this.$store.state.playingVolIndex === this.$store.state.volViewData.index &&
+                :src="(this.$store.state.playingType === 'vol' &&
+                    this.$store.state.playingVolIndex === this.$store.state.volViewData.index &&
                     this.$store.state.playingIndex === this.data.order - 1 &&
                     this.$store.state.playing) ?
-                        '../pic/controller-pause.svg' : '../pic/controller-play.svg'"
+                        '../pic/controller-pause.svg' :
+                        '../pic/controller-play.svg'"
                 v-on:click.stop="playTrack"
             />
             <div class="trackCover" :style="trackCoverStyle"/>
@@ -49,9 +51,10 @@
                 this.$store.commit('changeView', 'playingTrack');
             },
             playTrack: function () {
-                if (this.$store.state.playingVolIndex === this.$store.state.volViewData.index &&
+                if (this.$store.state.playingType === 'vol' &&
+                    this.$store.state.playingVolIndex === this.$store.state.volViewData.index &&
                     this.$store.state.playingIndex === this.data.order - 1)
-                    return this.$store.commit('togglePlay');
+                        return this.$store.commit('togglePlay');
                 this.$store.commit('changePlayingData', this.data);
                 this.$store.commit('changePlayingType', 'vol');
                 this.$store.commit('play', {
