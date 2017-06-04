@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg width="30px" height="33px" viewBox="0 0 30 33" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <!-- Generator: Sketch 39.1 (31720) - http://www.bohemiancoding.com/sketch -->
-    <title>Stroke-460</title>
+    <title>Combined Shape</title>
     <desc>Created with Sketch.</desc>
     <defs></defs>
     <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="buttons" transform="translate(-320.000000, -655.000000)" fill="#FFFFFF">
-            <polygon id="Stroke-460" points="350 671.180427 320 655 320 687.360854"></polygon>
+        <g id="buttons" transform="translate(-276.000000, -655.000000)" fill="#FFFFFF">
+            <path d="M276,655 L285.120728,655 L285.120728,687.360001 L276,687.360001 L276,655 Z M296.879272,655 L306,655 L306,687.360001 L296.879272,687.360001 L296.879272,655 Z" id="Combined-Shape"></path>
         </g>
     </g>
 </svg>

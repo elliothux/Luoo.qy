@@ -39,7 +39,8 @@
             playingVolIndex: 0,
             playingIndex: 0,
             playingMode: 0,
-            playing: false
+            playingAudio: null,
+            playing: false,
         },
         mutations: {
             changeView: (state, viewStatus) => {
@@ -83,6 +84,47 @@
                 if (preIndex + 30 >= state.singles.length-1)
                     state.singlesShowIndex = state.singles.length;
                 else state.singlesShowIndex = preIndex + 30
+            },
+            play: (state, options) => {
+                state.playing = true;
+                options.type && (state.playingType = options.type);
+                options.type === 'vol' && (state.playingVolIndex = options.volIndex);
+                state.playingIndex = options.index;
+                if (!state.playingAudio) {
+                    state.playingAudio = new Audio();
+                }
+                state.playingAudio.src = null;
+                state.playingAudio.src = options.url;
+                state.playingAudio.play();
+                state.playingAudio.addEventListener('ended', function () {
+                    this.default.store.commit('control', 'next')
+                }.bind(this));
+            },
+            togglePlay: (state) => {
+                if (state.playing) {
+                    state.playingAudio.pause();
+                    state.playing = false;
+                }
+                else {
+                    state.playingAudio.play();
+                    state.playing = true;
+                }
+            },
+            control: (state, operate) => {
+                if (state.playingType === 'vol') {
+                    const playingVolTracks = state.vols[state.playingVolIndex].tracks;
+                    let index;
+                    if (operate === 'next')
+                        index = state.playingIndex + 1 === playingVolTracks.length ?
+                            0 : state.playingIndex + 1;
+                    else index = state.playingIndex === 0 ?
+                        playingVolTracks.length-1 : state.playingIndex - 1;
+                    this.default.store.commit('play', {
+                        index: index,
+                        url: playingVolTracks[index].url
+                    });
+                    state.playingData = playingVolTracks[index]
+                }
             }
         }
     });
@@ -108,10 +150,10 @@
         }},
         created: function() {
             this.db.getVolList().then(function (data) {
-                this.$store.commit('updateVolsData', Object.freeze(data));
+                this.$store.commit('updateVolsData', Object.freeze(data.slice(0, 30)));
             }.bind(this));
             this.db.getSingleList().then(function (data) {
-                this.$store.commit('updateSinglesData', Object.freeze(data))
+                this.$store.commit('updateSinglesData', Object.freeze(data.slice(0, 30)))
             }.bind(this));
         }
     }

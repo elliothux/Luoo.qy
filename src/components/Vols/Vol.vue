@@ -51,7 +51,7 @@
                     'volView'
                 );
                 document.getElementById('volView').scrollTop = 0;
-                this.$store.state.volViewData &&
+                document.getElementById('volViewIntro') &&
                     (document.getElementById('volViewIntro').scrollTop = 0);
             }
         }

@@ -4,9 +4,23 @@ K<template>
         :style="playingStyle()"
     >
         <div id="playingController">
-            <img id="playingControllerPre" :src="'../pic/controller-pre.svg'"/>
-            <img id="playingControllerToggle" :src="'../pic/controller-play.svg'"/>
-            <img id="playingControllerNext" :src="'../pic/controller-next.svg'"/>
+            <img
+                id="playingControllerPre"
+                :src="'../pic/controller-pre.svg'"
+                v-on:click="control('pre')"
+            />
+            <img
+                id="playingControllerToggle"
+                :src="this.$store.state.playing ?
+                    '../pic/controller-pause.svg' :
+                    '../pic/controller-play.svg'"
+                v-on:click="control('toggle')"
+            />
+            <img
+                id="playingControllerNext"
+                :src="'../pic/controller-next.svg'"
+                v-on:click="control('next')"
+            />
         </div>
         <div id="playingOperate">
             <div id="playingOperateLeft">
@@ -27,7 +41,7 @@ K<template>
                     <span>
                         {{ $store.state.playingData ? $store.state.playingData.album : '' }}
                     </span>
-                    <span> - </span>
+                    <span v-if="this.$store.state.playingType !== 'single'"> - </span>
                     <span>
                         {{ $store.state.playingData ? $store.state.playingData.artist : '' }}
                     </span>
@@ -76,6 +90,14 @@ K<template>
             showPlayingTrack: function () {
                 if (!this.$store.state.playingData) return;
                 this.$store.commit('changeView', 'playingTrack');
+            },
+            control: function(operate) {
+                if (operate === 'toggle')
+                    return this.$store.commit('togglePlay');
+                else if (operate === 'next')
+                    return this.$store.commit('control', 'next');
+                else if (operate === 'pre')
+                    return this.$store.commit('control', 'pre');
             }
         }
     }

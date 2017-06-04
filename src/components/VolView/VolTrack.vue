@@ -38,18 +38,18 @@
         }},
         methods: {
             showPlayingTrack: function () {
-                this.$store.commit(
-                    'changePlayingData',
-                    this.data
-                );
-                this.$store.commit(
-                    'changeView',
-                    'playingTrack'
-                );
-                this.$store.commit(
-                    'changePlayingType',
-                    'vol'
-                )
+                this.$store.commit('changePlayingData', this.data);
+                this.$store.commit('changeView', 'playingTrack');
+                this.$store.commit('changePlayingType', 'vol');
+                this.playTrack();
+            },
+            playTrack: function () {
+                this.$store.commit('play', {
+                    type: 'vol',
+                    volIndex: this.$store.state.volViewData.index,
+                    index: this.data.order - 1,
+                    url: this.data.url
+                })
             }
         }
     }
@@ -74,8 +74,6 @@
 
             .trackOperateToggle
                 display: block
-
-
 
     .trackCoverContainer
         width: 100%

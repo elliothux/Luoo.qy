@@ -16,9 +16,23 @@
                     :style="playingCoverStyle()"
                 />
                 <div id="playingTrackController">
-                    <img id="playingTrackControllerPre" :src="'../pic/controller-pre.svg'"/>
-                    <img id="playingTrackControllerToggle" :src="'../pic/controller-play.svg'"/>
-                    <img id="playingTrackControllerNext" :src="'../pic/controller-next.svg'"/>
+                    <img
+                        id="playingTrackControllerPre"
+                        :src="'../pic/controller-pre.svg'"
+                        v-on:click="control('pre')"
+                    />
+                    <img
+                        id="playingTrackControllerToggle"
+                        :src="this.$store.state.playing ?
+                            '../pic/controller-pause.svg' :
+                            '../pic/controller-play.svg'"
+                        v-on:click="control('toggle')"
+                    />
+                    <img
+                        id="playingTrackControllerNext"
+                        :src="'../pic/controller-next.svg'"
+                        v-on:click="control('next')"
+                    />
                 </div>
                 <div id="playingTrackOperate">
                     <div>
@@ -91,6 +105,14 @@
             }},
             changePlayingMode: function () {
                 this.$store.commit('changePlayingMode');
+            },
+            control: function(operate) {
+                if (operate === 'toggle')
+                    return this.$store.commit('togglePlay');
+                else if (operate === 'next')
+                    return this.$store.commit('control', 'next');
+                else if (operate === 'pre')
+                    return this.$store.commit('control', 'pre');
             }
         }
     }
@@ -161,9 +183,7 @@
 
             #playingTrackControllerToggle
                 height: auto
-                width: 8%
-                position: relative
-                left: 3px
+                width: 7.5%
                 cursor: pointer
 
         #playingTrackOperate
