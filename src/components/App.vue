@@ -31,6 +31,8 @@
             preViewStatus: null,
             vols: [],
             singles: [],
+            volsShowIndex: 21,
+            singlesShowIndex: 20,
             volViewData: null,
             playingData: null,
             playingType: null,
@@ -92,16 +94,10 @@
         }},
         created: function() {
             this.db.getVolList().then(function (data) {
-                this.$store.commit(
-                    'updateVolsData',
-                    data.slice(0, 20)
-                );
+                this.$store.commit('updateVolsData', data);
             }.bind(this));
             this.db.getSingleList().then(function (data) {
-                this.$store.commit(
-                    'updateSinglesData',
-                    data.slice(0, 20)
-                )
+                this.$store.commit('updateSinglesData', data)
             }.bind(this));
         }
     }

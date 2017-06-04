@@ -5,7 +5,7 @@
             'volsShow show' : 'volsHidden hidden'"
     >
         <Vol
-            v-for="vol in this.$store.state.vols"
+            v-for="vol in this.$store.state.vols.slice(0, this.$store.state.volsShowIndex)"
             :data="vol"
             :key="vol.vol"
         />
