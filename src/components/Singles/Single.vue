@@ -53,12 +53,12 @@
         },
         methods: {
             showPlayingTrack: function () {
-                this.$store.commit('changePlayingData', this.data);
-                this.$store.commit('changeView', 'playingTrack');
-                this.$store.commit('changePlayingType', 'single');
                 this.playSingle();
+                this.$store.commit('changeView', 'playingTrack');
             },
             playSingle: function () {
+                this.$store.commit('changePlayingData', this.data);
+                this.$store.commit('changePlayingType', 'single');
                 this.$store.commit('play', {
                     type: 'single',
                     index: this.index,

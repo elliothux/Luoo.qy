@@ -38,12 +38,12 @@
         }},
         methods: {
             showPlayingTrack: function () {
-                this.$store.commit('changePlayingData', this.data);
-                this.$store.commit('changeView', 'playingTrack');
-                this.$store.commit('changePlayingType', 'vol');
                 this.playTrack();
+                this.$store.commit('changeView', 'playingTrack');
             },
             playTrack: function () {
+                this.$store.commit('changePlayingData', this.data);
+                this.$store.commit('changePlayingType', 'vol');
                 this.$store.commit('play', {
                     type: 'vol',
                     volIndex: this.$store.state.volViewData.index,

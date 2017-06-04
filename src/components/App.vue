@@ -133,7 +133,8 @@
                     this.default.store.commit('play', {
                         index: index,
                         url: state.singles[index].url
-                    })
+                    });
+                    state.playingData = state.singles[index]
                 }
             }
         }

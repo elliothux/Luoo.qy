@@ -151,6 +151,7 @@
         background-size: cover
         filter: blur(25px)
         z-index: -1
+        transition: all ease 1200ms
 
     #playingTrackLeft
         width: 35%
@@ -166,6 +167,7 @@
             box-shadow: 0 10px 50px 0 rgba(0,0,0,0.50)
             margin-bottom: 15%
             background-size: cover
+            transition: all ease 1200ms
 
         #playingTrackController
             height: auto
