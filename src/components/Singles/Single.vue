@@ -2,7 +2,7 @@
     <div
         class="single"
         :style="singleStyle"
-        v-on:click="showPlayingTrack"
+        v-on:click.stop="showPlayingTrack"
     >
         <div class="singleTop">
             <div class="singleCover">
@@ -11,7 +11,11 @@
             <div class="singleInfo">
                 <div class="singleOperate">
                     <img class="singleOperateLike" :src="'../pic/like.svg'"/>
-                    <img class="singleOperateToggle" :src="'../pic/controller-play.svg'"/>
+                    <img
+                        class="singleOperateToggle"
+                        :src="'../pic/controller-play.svg'"
+                        v-on:click.stop="playSingle"
+                    />
                 </div>
                 <p class="singleInfoName">{{ data.name }}</p>
                 <p class="singleInfoArtist">{{ data.artist }}</p>
