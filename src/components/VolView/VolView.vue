@@ -13,7 +13,15 @@
                         <div id="volViewOperate">
                             <div>
                                 <img id="volViewOperateLike" :src="'../pic/like.svg'"/>
-                                <img id="volViewToggle" :src="'../pic/controller-play.svg'"/>
+                                <img
+                                    id="volViewToggle"
+                                    :src="(this.$store.state.playingType === 'vol' &&
+                                        this.$store.state.playingVolIndex === this.$store.state.volViewData.index &&
+                                        this.$store.state.playing) ?
+                                            '../pic/controller-pause.svg' :
+                                            '../pic/controller-play.svg'"
+                                    v-on:click.stop="playVol"
+                                />
                             </div>
                             <p><span v-for="tag in $store.state.volViewData.tag">{{ tag }}&nbsp;&nbsp;&nbsp;</span></p>
                         </div>
@@ -48,7 +56,7 @@
     export default {
         name: 'volView',
         components: { VolTrack },
-        data: function () { return {
+        methods: {
             volViewInfoStyle: function () { return {
                 backgroundColor: this.$store.state.volViewData ?
                     this.$store.state.volViewData.backgroundColor :
@@ -58,9 +66,22 @@
                 backgroundImage: `url(${this.$store.state.volViewData ?
                     this.$store.state.volViewData.cover :
                     'rgba(255, 255, 255, 0.55)'
-                })`
-            }}
-        }}
+                    })`
+            }},
+            playVol: function () {
+                const data = this.$store.state.volViewData;
+                if (this.$store.state.playingType === 'vol' &&
+                    this.$store.state.playingVolIndex === data.index)
+                    return this.$store.commit('togglePlay');
+                this.$store.commit('play', {
+                    type: 'vol',
+                    volIndex: data.index,
+                    index: 0,
+                    url: data.tracks[0].url
+                });
+                this.$store.commit('changePlayingData', data.tracks[0])
+            }
+        }
     }
 </script>
 
