@@ -47,8 +47,13 @@
         }},
         methods: {
             showPlayingTrack: function () {
-                this.playTrack();
                 this.$store.commit('changeView', 'playingTrack');
+                if (this.$store.state.playingType === 'vol' &&
+                    this.$store.state.playing &&
+                    this.$store.state.playingVolIndex === this.$store.state.volViewData.index &&
+                    this.$store.state.playingIndex === this.data.order - 1)
+                    return;
+                this.playTrack();
             },
             playTrack: function () {
                 if (this.$store.state.playingType === 'vol' &&

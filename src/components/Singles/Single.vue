@@ -61,8 +61,12 @@
         },
         methods: {
             showPlayingTrack: function () {
-                this.playSingle();
                 this.$store.commit('changeView', 'playingTrack');
+                if (this.$store.state.playingType === 'single' &&
+                    this.$store.state.playing &&
+                    this.$store.state.playingIndex === this.index)
+                    return;
+                this.playSingle();
             },
             playSingle: function () {
                 if (this.$store.state.playingType === 'single' &&
