@@ -68,6 +68,9 @@
             transform: scale(1.05)
             box-shadow: none
 
+        *
+            cursor: pointer
+
     .volCover
         width: 100%
         height: auto

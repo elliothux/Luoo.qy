@@ -21,9 +21,18 @@
                     <img id="playingTrackControllerNext" :src="'../pic/controller-next.svg'"/>
                 </div>
                 <div id="playingTrackOperate">
-                    <img :src="'../pic/play-shuffle.svg'"/>
-                    <img :src="'../pic/liked.svg'"/>
-                    <img :src="'../pic/volume-on.svg'"/>
+                    <div>
+                        <img :src="'../pic/play-shuffle.svg'"/>
+                        <p>随机</p>
+                    </div>
+                    <div>
+                        <img :src="'../pic/liked.svg'"/>
+                        <p>已喜欢</p>
+                    </div>
+                    <div>
+                        <img :src="'../pic/volume-on.svg'"/>
+                        <p>30</p>
+                    </div>
                 </div>
             </div>
             <div id="playingTrackRight">
@@ -77,10 +86,10 @@
     #playingTrack
         position: fixed
         width: 90%
-        height: calc(100% - 40px)
+        height: calc(100% - 23px)
         top: 0
         left: 0
-        padding: 40px 5% 0 5%
+        padding: 25px 5% 0 5%
         display: flex
         flex-direction: row
         justify-content: space-between
@@ -118,7 +127,7 @@
             height: 0
             padding-bottom: 100%
             box-shadow: 0 10px 50px 0 rgba(0,0,0,0.50)
-            margin-bottom: 10%
+            margin-bottom: 15%
             background-size: cover
 
         #playingTrackController
@@ -128,7 +137,7 @@
             flex-direction: row
             justify-content: space-around
             align-items: center
-            margin-bottom: 8%
+            margin-bottom: 7%
 
             #playingTrackControllerPre, #playingTrackControllerNext
                 height: auto
@@ -137,7 +146,7 @@
 
             #playingTrackControllerToggle
                 height: auto
-                width: 7%
+                width: 8%
                 position: relative
                 left: 3px
                 cursor: pointer
@@ -150,9 +159,15 @@
             justify-content: space-around
             align-items: center
 
-            img
-                width: 6%
-                cursor: pointer
+            & > div
+                width: 30%
+
+                img
+                    width: 20%
+                    cursor: pointer
+
+                p
+                    font-size: 0.7em
 
 
     #playingTrackRight

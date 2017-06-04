@@ -1,13 +1,25 @@
 <template>
     <div id="headBar">
         <div id="headBarLeft">
+            <div
+                :style="backStyle()"
+                v-on:click="changeView('volView')"
+            >
+                <img
+                    :src="'../pic/head-back.svg'"
+                />
+                <p>返回</p>
+            </div>
             <div v-on:click="changeView('vols')">
                 <img
                     :src="this.$store.state.viewStatus === 'vols' ?
                         '../pic/head-vol-solid.svg' :
                         '../pic/head-vol-stroked.svg'"
                 />
-                <p>期刊</p>
+                <p>
+                    {{ ($store.state.viewStatus === 'vols' || $store.state.viewStatus === 'singles') ?
+                            '期刊' : '首页' }}
+                </p>
             </div>
             <div v-on:click="changeView('singles')">
                 <img
@@ -45,7 +57,12 @@
                     'changeView',
                     view
                 );
-            }
+            },
+            backStyle: function () { return {
+                display: (this.$store.state.viewStatus === 'playingTrack' ||
+                    this.$store.state.viewStatus === 'user') ?
+                        'inline-block' : 'none'
+            }}
         }
     }
 </script>
@@ -72,9 +89,10 @@
         & > div
             height: 100%
             display: inline-block
-            margin-right: 15px
+            margin-right: 20px
             font-size: 0.9em
             cursor: pointer
+            transition: all ease 300ms
 
             *
                 cursor: pointer
@@ -99,23 +117,25 @@
         display: flex
         flex-direction: row
         align-items: center
+        justify-content: center
         cursor: pointer
-        position: relative
-        top: 5px
+        position: absolute
+        left: 40%
+        width: 20%
 
         *
             cursor: pointer
 
-    #headBarLogoImg
-        height: 90%
-        width: auto
-        margin-right: 10px
+        #headBarLogoImg
+            height: 55%
+            width: auto
+            margin-right: 10px
 
-    #headBarLogoText
-        font-size: 1.5em
-        letter-spacing: 0.05em
-        font-family: "Savoye LET", sans-serif
-        position: relative
-        top: 3px
+        #headBarLogoText
+            font-size: 1.5em
+            letter-spacing: 0.05em
+            font-family: "Savoye LET", sans-serif
+            position: relative
+            top: 3px
 
 </style>
