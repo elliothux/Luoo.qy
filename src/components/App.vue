@@ -111,19 +111,29 @@
                 }
             },
             control: (state, operate) => {
+                let index;
                 if (state.playingType === 'vol') {
                     const playingVolTracks = state.vols[state.playingVolIndex].tracks;
-                    let index;
                     if (operate === 'next')
                         index = state.playingIndex + 1 === playingVolTracks.length ?
                             0 : state.playingIndex + 1;
                     else index = state.playingIndex === 0 ?
-                        playingVolTracks.length-1 : state.playingIndex - 1;
+                        playingVolTracks.length - 1 : state.playingIndex - 1;
                     this.default.store.commit('play', {
                         index: index,
                         url: playingVolTracks[index].url
                     });
                     state.playingData = playingVolTracks[index]
+                } else if (state.playingType === 'single') {
+                    if (operate === 'next')
+                        index = state.playingIndex + 1 === state.singles.length ?
+                            0 : state.playingIndex + 1;
+                    else index = state.playingIndex === 0 ?
+                        state.singles.length - 1 : state.playingIndex - 1;
+                    this.default.store.commit('play', {
+                        index: index,
+                        url: state.singles[index].url
+                    })
                 }
             }
         }

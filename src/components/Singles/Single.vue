@@ -55,7 +55,15 @@
             showPlayingTrack: function () {
                 this.$store.commit('changePlayingData', this.data);
                 this.$store.commit('changeView', 'playingTrack');
-                this.$store.commit('changePlayingType', 'single')
+                this.$store.commit('changePlayingType', 'single');
+                this.playSingle();
+            },
+            playSingle: function () {
+                this.$store.commit('play', {
+                    type: 'single',
+                    index: this.index,
+                    url: this.data.url
+                })
             }
         }
     }
