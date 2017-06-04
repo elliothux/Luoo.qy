@@ -4,51 +4,52 @@
         :class="this.$store.state.viewStatus === 'playingTrack' ?
             'playingTrackShow' : 'playingTrackHidden'"
         style="z-index: -2;"
-        v-if="$store.state.playingData"
     >
-        <div
-            id="playingTrackBackground"
-            :style="playingBackgroundStyle()"
-        />
-        <div id="playingTrackLeft">
+        <template v-if="$store.state.playingData">
             <div
-                id="playingTrackCover"
+                id="playingTrackBackground"
                 :style="playingBackgroundStyle()"
             />
-            <div id="playingTrackController">
-                <img id="playingTrackControllerPre" :src="'../pic/controller-pre.svg'"/>
-                <img id="playingTrackControllerToggle" :src="'../pic/controller-play.svg'"/>
-                <img id="playingTrackControllerNext" :src="'../pic/controller-next.svg'"/>
+            <div id="playingTrackLeft">
+                <div
+                    id="playingTrackCover"
+                    :style="playingBackgroundStyle()"
+                />
+                <div id="playingTrackController">
+                    <img id="playingTrackControllerPre" :src="'../pic/controller-pre.svg'"/>
+                    <img id="playingTrackControllerToggle" :src="'../pic/controller-play.svg'"/>
+                    <img id="playingTrackControllerNext" :src="'../pic/controller-next.svg'"/>
+                </div>
+                <div id="playingTrackOperate">
+                    <img :src="'../pic/play-shuffle.svg'"/>
+                    <img :src="'../pic/liked.svg'"/>
+                    <img :src="'../pic/volume-on.svg'"/>
+                </div>
             </div>
-            <div id="playingTrackOperate">
-                <img :src="'../pic/play-shuffle.svg'"/>
-                <img :src="'../pic/liked.svg'"/>
-                <img :src="'../pic/volume-on.svg'"/>
+            <div id="playingTrackRight">
+                <div id="playingTrackInfo">
+                    <p id="playingTrackTitle">
+                        {{ $store.state.playingData.name }}
+                    </p>
+                    <p id="playingTrackAlbum">
+                        {{ $store.state.playingData.album }}
+                    </p>
+                    <p
+                        id="playingTrackArtist"
+                        v-if="$store.state.playingData.artist !== $store.state.playingData.album"
+                    >
+                        {{ $store.state.playingData.artist }}
+                    </p>
+                </div>
             </div>
-        </div>
-        <div id="playingTrackRight">
-            <div id="playingTrackInfo">
-                <p id="playingTrackTitle">
-                    {{ $store.state.playingData.name }}
-                </p>
-                <p id="playingTrackAlbum">
-                    {{ $store.state.playingData.album }}
-                </p>
-                <p
-                    id="playingTrackArtist"
-                    v-if="$store.state.playingData.artist !== $store.state.playingData.album"
-                >
-                    {{ $store.state.playingData.artist }}
-                </p>
+            <div id="playingTrackBottom">
+                <span>00:48</span>
+                <div id="playingTrackTimer">
+                    <div></div>
+                </div>
+                <span>03:37</span>
             </div>
-        </div>
-        <div id="playingTrackBottom">
-            <span>00:48</span>
-            <div id="playingTrackTimer">
-                <div></div>
-            </div>
-            <span>03:37</span>
-        </div>
+        </template>
     </div>
 </template>
 
@@ -160,12 +161,19 @@
         display: flex
         flex-direction: column
         justify-content: center
+        position: relative
+        left: -3%
 
-        #playingTrackTitle
-            font-size: 2em
+        #playingTrackInfo
+            position: relative
+            top: -10%
 
-        #playingTrackAlbum,#playingTrackArtist
-            font-size: 1.4em
+            #playingTrackTitle
+                font-size: 2em
+
+            #playingTrackAlbum,#playingTrackArtist
+                font-size: 1em
+                opacity: 0.9
 
     #playingTrackBottom
         width: 94%
