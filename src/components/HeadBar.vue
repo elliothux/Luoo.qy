@@ -3,7 +3,7 @@
         <div id="headBarLeft">
             <div
                 :style="backStyle()"
-                v-on:click="changeView('volView')"
+                v-on:click="changeView($store.state.preViewStatus)"
             >
                 <img
                     :src="'../pic/head-back.svg'"
@@ -53,10 +53,7 @@
         methods: {
             changeView: function (view) {
                 if (view === this.$store.state.viewStatus) return;
-                this.$store.commit(
-                    'changeView',
-                    view
-                );
+                this.$store.commit('changeView', view);
             },
             backStyle: function () { return {
                 display: (this.$store.state.viewStatus === 'playingTrack' ||

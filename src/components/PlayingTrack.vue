@@ -13,7 +13,7 @@
             <div id="playingTrackLeft">
                 <div
                     id="playingTrackCover"
-                    :style="playingBackgroundStyle()"
+                    :style="playingCoverStyle()"
                 />
                 <div id="playingTrackController">
                     <img id="playingTrackControllerPre" :src="'../pic/controller-pre.svg'"/>
@@ -22,8 +22,13 @@
                 </div>
                 <div id="playingTrackOperate">
                     <div>
-                        <img :src="'../pic/play-shuffle.svg'"/>
-                        <p>随机</p>
+                        <img
+                            v-on:click="changePlayingMode"
+                            :src="`../pic/play-${['order', 'loop', 'shuffle'][this.$store.state.playingMode]}.svg`"
+                        />
+                        <p>
+                            {{ ['顺序', '循环', '随机'][$store.state.playingMode] }}
+                        </p>
                     </div>
                     <div>
                         <img :src="'../pic/liked.svg'"/>
@@ -40,7 +45,7 @@
                     <p id="playingTrackTitle">
                         {{ $store.state.playingData.name }}
                     </p>
-                    <p id="playingTrackAlbum">
+                    <p id="playingTrackAlbum" v-if="$store.state.playingType === 'vol'">
                         {{ $store.state.playingData.album }}
                     </p>
                     <p
@@ -76,7 +81,17 @@
                 backgroundImage: `url(${this.$store.state.playingData ?
                     this.$store.state.playingData.cover : ''
                 })`
-            }}
+            }},
+            playingCoverStyle: function () { return {
+                backgroundImage: `url(${this.$store.state.playingData ?
+                    this.$store.state.playingData.cover : ''
+                    })`,
+                paddingBottom: this.$store.state.playingType === 'single' ?
+                    '70%' : '100%'
+            }},
+            changePlayingMode: function () {
+                this.$store.commit('changePlayingMode');
+            }
         }
     }
 </script>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="80px" height="62px" viewBox="0 0 80 62" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 39.1 (31720) - http://www.bohemiancoding.com/sketch -->
+    <title>Group</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Picons" transform="translate(-1741.000000, -1897.000000)" stroke-width="4" stroke="#FFFFFF">
+            <g id="thin-0146_arrows_fast_forward" transform="translate(1732.000000, 1880.000000)">
+                <g id="Group" transform="translate(9.000000, 19.000000)">
+                    <polyline id="Shape" points="66.0164 36.0568 76.964 47.004 66.0164 57.9516"></polyline>
+                    <path d="M0.9648,47.004 L76.964,47.004" id="Shape"></path>
+                    <polyline id="Shape" points="66.0164 0.0532 76.964 11.0004 66.0164 21.948"></polyline>
+                    <path d="M0.9648,11.0004 L76.964,11.0004" id="Shape"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

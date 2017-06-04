@@ -28,16 +28,20 @@
     const store = new Vuex.Store({
         state: {
             viewStatus: 'vols',
+            preViewStatus: null,
             vols: [],
             singles: [],
             volViewData: null,
             playingData: null,
-            playingType: null
+            playingType: null,
+            playingMode: 0,
+            playing: false
         },
         mutations: {
             changeView: (state, viewStatus) => {
                 const preView = state.viewStatus;
                 state.viewStatus = viewStatus;
+                state.preViewStatus = preView;
                 setTimeout(function () {
                     document.getElementById(preView).style.zIndex = -2
                 }, 500);
@@ -45,6 +49,12 @@
             },
             changePlayingType: (state, type) => {
                 state.playingType = type
+            },
+            changePlayingMode: (state) => {
+                let mode = state.playingMode;
+                if (mode === 2) mode = 0;
+                else mode ++;
+                state.playingMode = mode
             },
             changePlayingData: (state, data) => {
                 state.playingData = data

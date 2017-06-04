@@ -10,16 +10,27 @@ K<template>
         </div>
         <div id="playingOperate">
             <div id="playingOperateLeft">
-                <img :src="'../pic/play-shuffle.svg'"/>
+                <img
+                    v-on:click="changePlayingMode"
+                    :src="`../pic/play-${['order', 'loop', 'shuffle'][this.$store.state.playingMode]}.svg`"
+                />
                 <p>00:48</p>
             </div>
             <div id="playingInfo">
-                <p id="playingName">Big Fat Mouth</p>
+                <p id="playingName">
+                    {{ $store.state.playingData ? $store.state.playingData.name : '' }}
+                </p>
                 <div id="playingTimer">
                     <div></div>
                 </div>
                 <p id="playingAlbum">
-                    <span>Janessa Evrist</span> - <span>Fall Apart</span>
+                    <span>
+                        {{ $store.state.playingData ? $store.state.playingData.album : '' }}
+                    </span>
+                    <span> - </span>
+                    <span>
+                        {{ $store.state.playingData ? $store.state.playingData.artist : '' }}
+                    </span>
                 </p>
             </div>
             <div id="playingOperateRight">
@@ -31,7 +42,11 @@ K<template>
                 <p>30</p>
             </div>
         </div>
-        <div id="playingCover" :style="{ backgroundImage: 'url(../pic/playing-cover.png)' }"></div>
+        <div
+            id="playingCover"
+            :style="playingCoverStyle()"
+            v-on:click="showPlayingTrack"
+        ></div>
     </div>
 </template>
 
@@ -44,13 +59,25 @@ K<template>
 
     export default {
         name: 'playing',
-        data: function () { return {
+        methods: {
             playingStyle: function () { return {
                 transform: `translateY(${
                     this.$store.state.viewStatus === 'playingTrack' ?
                         '63px' : '0'}`
-            }}.bind(this)
-        }}
+            }},
+            playingCoverStyle: function () { return {
+                backgroundImage: `url(${this.$store.state.playingData ?
+                    this.$store.state.playingData.cover :
+                    '../pic/playing-cover.png'})`
+            }},
+            changePlayingMode: function () {
+                this.$store.commit('changePlayingMode');
+            },
+            showPlayingTrack: function () {
+                if (!this.$store.state.playingData) return;
+                this.$store.commit('changeView', 'playingTrack');
+            }
+        }
     }
 </script>
 

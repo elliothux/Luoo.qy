@@ -1,5 +1,9 @@
 <template>
-    <div class="single" :style="singleStyle">
+    <div
+        class="single"
+        :style="singleStyle"
+        v-on:click="showPlayingTrack"
+    >
         <div class="singleTop">
             <div class="singleCover">
                 <img :src="data.cover"/>
@@ -46,6 +50,22 @@
                 const color = getAverageColor(cover);
                 this.singleStyle.backgroundColor = `rgba(${color.r}, ${color.g}, ${color.b}, 0.55)`
             }.bind(this)
+        },
+        methods: {
+            showPlayingTrack: function () {
+                this.$store.commit(
+                    'changePlayingData',
+                    this.data
+                );
+                this.$store.commit(
+                    'changeView',
+                    'playingTrack'
+                );
+                this.$store.commit(
+                    'changePlayingType',
+                    'single'
+                )
+            }
         }
     }
 </script>
@@ -65,6 +85,9 @@
         &:hover
             transform: scale(1.05)
             box-shadow: none
+
+        *
+            cursor: pointer
 
     .singleTop
         width: 100%
