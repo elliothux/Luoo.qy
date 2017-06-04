@@ -93,7 +93,6 @@
                 if (!state.playingAudio) {
                     state.playingAudio = new Audio();
                 }
-                state.playingAudio.src = null;
                 state.playingAudio.src = options.url;
                 state.playingAudio.play();
                 state.playingAudio.addEventListener('ended', function () {

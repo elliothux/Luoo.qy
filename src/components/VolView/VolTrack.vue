@@ -2,11 +2,15 @@
     <div
         class="track"
         :style="trackStyle"
-        v-on:click="showPlayingTrack"
+        v-on:click.stop="showPlayingTrack"
     >
         <div class="trackCoverContainer">
             <img class="trackOperateLike" :src="'../pic/like.svg'"/>
-            <img class="trackOperateToggle" :src="'../pic/controller-play.svg'"/>
+            <img
+                class="trackOperateToggle"
+                :src="'../pic/controller-play.svg'"
+                v-on:click.stop="playTrack"
+            />
             <div class="trackCover" :style="trackCoverStyle"/>
         </div>
         <p class="trackName">{{ data.name }}</p>
