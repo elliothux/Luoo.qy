@@ -96,10 +96,10 @@
         }},
         created: function() {
             this.db.getVolList().then(function (data) {
-                this.$store.commit('updateVolsData', data);
+                this.$store.commit('updateVolsData', Object.freeze(data));
             }.bind(this));
             this.db.getSingleList().then(function (data) {
-                this.$store.commit('updateSinglesData', data)
+                this.$store.commit('updateSinglesData', Object.freeze(data))
             }.bind(this));
         }
     }
