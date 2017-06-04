@@ -36,6 +36,8 @@
             volViewData: null,
             playingData: null,
             playingType: null,
+            playingVolIndex: 0,
+            playingIndex: 0,
             playingMode: 0,
             playing: false
         },
@@ -114,7 +116,7 @@
         background-color: #000000
         color: white
 
-        &>*
+        & > *
             z-index: 1
 
     #background

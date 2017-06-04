@@ -23,7 +23,7 @@
 
     export default {
         name: 'vol',
-        props: ['data'],
+        props: ['data', 'index'],
         data: () => ({
             volStyle: {
                 backgroundColor: 'rgba(255, 255, 255, 0.55)'
@@ -41,12 +41,18 @@
             showVolView: function () {
                 this.$store.commit(
                     'changeVolViewData',
-                    Object.assign({}, this.volStyle, this.data)
+                    Object.assign(
+                        { index: this.index },
+                        this.volStyle, this.data
+                    )
                 );
                 this.$store.commit(
                     'changeView',
                     'volView'
                 );
+                document.getElementById('volView').scrollTop = 0;
+                this.$store.state.volViewData &&
+                    (document.getElementById('volViewIntro').scrollTop = 0);
             }
         }
     }

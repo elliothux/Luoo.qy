@@ -37,7 +37,7 @@
 
     export default {
         name: 'single',
-        props: ['data'],
+        props: ['data', 'index'],
         data: () => ({
             singleStyle: {
                 backgroundColor: 'rgba(255, 255, 255, 0.55)'
@@ -53,18 +53,9 @@
         },
         methods: {
             showPlayingTrack: function () {
-                this.$store.commit(
-                    'changePlayingData',
-                    this.data
-                );
-                this.$store.commit(
-                    'changeView',
-                    'playingTrack'
-                );
-                this.$store.commit(
-                    'changePlayingType',
-                    'single'
-                )
+                this.$store.commit('changePlayingData', this.data);
+                this.$store.commit('changeView', 'playingTrack');
+                this.$store.commit('changePlayingType', 'single')
             }
         }
     }

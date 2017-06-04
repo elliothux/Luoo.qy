@@ -174,6 +174,11 @@ K<template>
         cursor: pointer
         position: relative
         top: -4px
+        transition: all ease 300ms
+
+        &:hover
+            transform: scale(1.1)
+            box-shadow: none
 
 
 </style>

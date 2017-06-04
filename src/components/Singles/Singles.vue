@@ -6,8 +6,9 @@
         style="z-index: -2;"
     >
         <Single
-            v-for="single in this.$store.state.singles.slice(0, this.$store.state.singlesShowIndex)"
+            v-for="(single, index) in this.$store.state.singles.slice(0, this.$store.state.singlesShowIndex)"
             :data="single"
+            :index="index"
             :key="single.date"
         />
     </div>
