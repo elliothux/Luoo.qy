@@ -26,13 +26,13 @@ K<template>
             <div id="playingOperateLeft">
                 <img
                     v-on:click="changePlayingMode"
-                    :src="`../pic/play-${['order', 'loop', 'shuffle'][this.$store.state.playingMode]}.svg`"
+                    :src="`../pic/play-${['order', 'shuffle', 'loop'][this.$store.state.playingMode]}.svg`"
                 />
                 <p>{{ $store.state.playingCurrentTime }}</p>
             </div>
             <div id="playingInfo">
                 <p id="playingName">
-                    {{ $store.state.playingData ? $store.state.playingData.name : '' }}
+                    {{ $store.state.playingData ? $store.state.playingData.name : '-' }}
                 </p>
                 <div id="playingTimerContainer">
                     <input
@@ -46,9 +46,9 @@ K<template>
                 </div>
                 <p id="playingAlbum">
                     <span>
-                        {{ $store.state.playingData ? $store.state.playingData.album : '' }}
+                        {{ $store.state.playingData ? $store.state.playingData.album : '-' }}
                     </span>
-                    <span v-if="this.$store.state.playingType !== 'single'"> - </span>
+                    <span v-if="this.$store.state.playingType === 'vol'"> - </span>
                     <span>
                         {{ $store.state.playingData ? $store.state.playingData.artist : '' }}
                     </span>
@@ -58,16 +58,18 @@ K<template>
                 <img :src="'../pic/like.svg'"/>
                 <p>{{ $store.state.playingDurationTime }}</p>
             </div>
+        </div>
+        <div id="playingVolumeContainer">
             <div id="playingVolume">
                 <img :src="'../pic/volume-on.svg'"/>
                 <p>30</p>
             </div>
+            <div
+                    id="playingCover"
+                    :style="playingCoverStyle()"
+                    v-on:click="showPlayingTrack"
+            ></div>
         </div>
-        <div
-            id="playingCover"
-            :style="playingCoverStyle()"
-            v-on:click="showPlayingTrack"
-        ></div>
     </div>
 </template>
 
@@ -132,7 +134,7 @@ K<template>
         width: 15%
         display: flex
         flex-direction: row
-        justify-content: space-between
+        justify-content: space-around
         align-items: center
 
     #playingControllerPre, #playingControllerNext
@@ -152,12 +154,11 @@ K<template>
         height: 100%
         display: flex
         flex-direction: row
-        justify-content: space-between
+        justify-content: space-around
         align-items: center
 
-    #playingOperateLeft, #playingOperateRight, #playingVolume
+    #playingOperateLeft, #playingOperateRight
         height: 70%
-        width: 8%
         position: relative
         top: 5px
 
@@ -169,9 +170,6 @@ K<template>
         & > p
             font-size: 0.7em
             opacity: 0.5
-
-    #playingVolume > p
-        opacity: 1
 
     #playingInfo
         width: 76%
@@ -214,19 +212,39 @@ K<template>
                     float: left
                     background-color: rgb(255, 255, 255)
 
-    #playingCover
-        width: 55px
-        height: 55px
-        background-size: cover
-        box-shadow: 0 0 30px 5px rgba(0,0,0,0.35)
-        cursor: pointer
-        position: relative
-        top: -4px
-        transition: all ease 300ms
+    #playingVolumeContainer
+        width: 15%
+        height: 100%
+        display: flex
+        flex-direction: row
+        justify-content: space-around
+        align-items: center
 
-        &:hover
-            transform: scale(1.1)
-            box-shadow: none
+        #playingVolume
+            position: relative
+            top: 5px
+            height: 70%
 
+            & > img
+                height: 45%
+                width: auto
+                cursor: pointer
 
+            p
+                font-size: 0.7em
+                opacity: 0.5
+
+        #playingCover
+            width: 55px
+            height: 55px
+            background-size: cover
+            box-shadow: 0 0 30px 5px rgba(0,0,0,0.35)
+            cursor: pointer
+            position: relative
+            top: -4px
+            transition: all ease 300ms
+
+            &:hover
+                transform: scale(1.1)
+                box-shadow: none
 </style>

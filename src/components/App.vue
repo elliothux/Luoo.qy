@@ -195,10 +195,10 @@
         }},
         created: function() {
             this.db.getVolList().then(function (data) {
-                this.$store.commit('updateVolsData', data.slice(0, 30));
+                this.$store.commit('updateVolsData', data);
             }.bind(this));
             this.db.getSingleList().then(function (data) {
-                this.$store.commit('updateSinglesData', data.slice(0, 30))
+                this.$store.commit('updateSinglesData', data)
             }.bind(this));
         }
     }

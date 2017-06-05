@@ -117,6 +117,7 @@
         justify-content: center
         cursor: pointer
         position: absolute
+        margin-top: -6px
         left: 40%
         width: 20%
 

@@ -38,10 +38,10 @@
                     <div>
                         <img
                             v-on:click="changePlayingMode"
-                            :src="`../pic/play-${['order', 'loop', 'shuffle'][this.$store.state.playingMode]}.svg`"
+                            :src="`../pic/play-${['order', 'shuffle', 'loop'][this.$store.state.playingMode]}.svg`"
                         />
                         <p>
-                            {{ ['顺序', '循环', '随机'][$store.state.playingMode] }}
+                            {{ ['顺序', '随机', '循环'][$store.state.playingMode] }}
                         </p>
                     </div>
                     <div>

@@ -128,7 +128,7 @@
             margin-bottom: 8px
 
             & > img
-                width: 10%
+                width: 18px
                 height: auto
                 cursor: pointer
                 transition: all ease 300ms
@@ -140,8 +140,6 @@
 
             .singleOperateLike
                 margin-right: 15px
-
-
 
         .singleInfoName
             font-size: 1.2em
