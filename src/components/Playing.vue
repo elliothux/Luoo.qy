@@ -103,10 +103,7 @@ K<template>
             control: function(operate) {
                 if (operate === 'toggle')
                     return this.$store.commit('togglePlay');
-                else if (operate === 'next')
-                    return this.$store.commit('control', 'next');
-                else if (operate === 'pre')
-                    return this.$store.commit('control', 'pre');
+                return this.$store.commit('control', operate)
             },
             setPlayingTimeRatio: function (event) {
                 this.$store.commit('setPlayingTimeRatio', event.target.value)

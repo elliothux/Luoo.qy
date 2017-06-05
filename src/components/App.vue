@@ -97,12 +97,15 @@
                 if (!state.playingAudio) {
                     state.playingAudio = new Audio();
                 }
-                state.playingAudio.src = options.url;
-                state.playingAudio.play();
+                const audio = state.playingAudio;
+                audio.src = options.url;
+                audio.load();
                 addAudioEvent.bind(this)();
 
                 function addAudioEvent() {
-                    const audio = state.playingAudio;
+                    audio.addEventListener('canplay', function (event) {
+                        event.target.play()
+                    });
                     audio.addEventListener('durationchange', function (event) {
                         this.default.store.commit('updatePlayingInfo', {
                             type: 'duration',
@@ -117,7 +120,9 @@
                         });
                     }.bind(this));
                     audio.addEventListener('ended', function () {
-                        this.default.store.commit('control', 'next')
+                        if (state.playingMode === 2) return audio.play();
+                        this.default.store.commit('control', 'next',
+                                [1, parseInt(Math.random() * 100)][state.playingMode])
                     }.bind(this));
                 }
             },
@@ -131,31 +136,31 @@
                     state.playing = true;
                 }
             },
-            control: (state, operate) => {
+            control: (state, operate, scale) => {
                 let index;
+                !scale && (scale = store.state.playingMode === 1 ?
+                        parseInt(Math.random() * 100) : 1);
                 if (state.playingType === 'vol') {
                     const playingVolTracks = state.vols[state.playingVolIndex].tracks;
-                    if (operate === 'next')
-                        index = state.playingIndex + 1 === playingVolTracks.length ?
-                            0 : state.playingIndex + 1;
-                    else index = state.playingIndex === 0 ?
-                        playingVolTracks.length - 1 : state.playingIndex - 1;
+                    index = (state.playingIndex + (operate === 'next' ? 1 : -1) * scale) % playingVolTracks.length;
+                    index < 0 && (index = playingVolTracks.length + index);
+                    if (index === state.playingIndex)
+                        return this.control(...arguments);
                     this.default.store.commit('play', {
                         index: index,
                         url: playingVolTracks[index].url
                     });
-                    state.playingData = Object.freeze(playingVolTracks[index])
+                    return state.playingData = Object.freeze(playingVolTracks[index])
                 } else if (state.playingType === 'single') {
-                    if (operate === 'next')
-                        index = state.playingIndex + 1 === state.singles.length ?
-                            0 : state.playingIndex + 1;
-                    else index = state.playingIndex === 0 ?
-                        state.singles.length - 1 : state.playingIndex - 1;
+                    index = (state.playingIndex + (operate === 'next' ? 1 : -1) * scale) % state.singles.length;
+                    index < 0 && (index = state.singles.length + index);
+                    if (index === state.playingIndex)
+                        return this.control(...arguments);
                     this.default.store.commit('play', {
                         index: index,
                         url: state.singles[index].url
                     });
-                    state.playingData = Object.freeze(state.singles[index])
+                    return state.playingData = Object.freeze(state.singles[index])
                 }
             },
             updatePlayingInfo: (state, option) => {
@@ -200,10 +205,10 @@
         }},
         created: function() {
             this.db.getVolList().then(function (data) {
-                this.$store.commit('updateVolsData', Object.freeze(data));
+                this.$store.commit('updateVolsData', Object.freeze(data.slice(0, 20)));
             }.bind(this));
             this.db.getSingleList().then(function (data) {
-                this.$store.commit('updateSinglesData', Object.freeze(data))
+                this.$store.commit('updateSinglesData', Object.freeze(data.slice(0, 20)))
             }.bind(this));
         }
     }
