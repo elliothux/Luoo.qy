@@ -108,7 +108,7 @@
                     this.default.store.commit('updatePlayingInfo', {
                         type: 'current',
                         value: event.target.currentTime,
-                        ratio: event.target.currentTime / event.target.duration
+                        ratio: Math.floor(100 * (event.target.currentTime / event.target.duration))
                     });
                 }.bind(this));
                 state.playingAudio.addEventListener('ended', function () {
@@ -158,7 +158,7 @@
                 else if (option.type === 'duration')
                     state.playingDurationTime = formatTime(option.value);
                 option.ratio &&
-                    (state.playingDurationTime = option.ratio);
+                    (state.playingTimeRatio = option.ratio);
 
                 function formatTime(time) {
                     const min = `0${parseInt(time / 60)}`;

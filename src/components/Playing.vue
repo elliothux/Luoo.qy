@@ -35,7 +35,7 @@ K<template>
                     {{ $store.state.playingData ? $store.state.playingData.name : '' }}
                 </p>
                 <div id="playingTimer">
-                    <div></div>
+                    <div :style="playingTimeStyle()"></div>
                 </div>
                 <p id="playingAlbum">
                     <span>
@@ -83,6 +83,9 @@ K<template>
                 backgroundImage: `url(${this.$store.state.playingData ?
                     this.$store.state.playingData.cover :
                     '../pic/playing-cover.png'})`
+            }},
+            playingTimeStyle: function () { return {
+                width: `${this.$store.state.playingTimeRatio}%`
             }},
             changePlayingMode: function () {
                 this.$store.commit('changePlayingMode');
@@ -183,7 +186,6 @@ K<template>
             background-color: rgba(255, 255, 255, 0.25)
 
             & > div
-                width: 20%
                 height: 100%
                 float: left
                 background-color: rgb(255, 255, 255)
