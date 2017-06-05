@@ -42,6 +42,7 @@
             playingAudio: null,
             playingCurrentTime: '00:00',
             playingDurationTime: '00:00',
+            playingTimeRatio: 0,
             playing: false,
         },
         mutations: {
@@ -100,13 +101,14 @@
                 state.playingAudio.addEventListener('durationchange', function (event) {
                     this.default.store.commit('updatePlayingInfo', {
                         type: 'duration',
-                        value: event.target.duration
+                        value: event.target.duration,
                     });
                 }.bind(this));
                 state.playingAudio.addEventListener('timeupdate', function (event) {
                     this.default.store.commit('updatePlayingInfo', {
                         type: 'current',
-                        value: event.target.currentTime
+                        value: event.target.currentTime,
+                        ratio: event.target.currentTime / event.target.duration
                     });
                 }.bind(this));
                 state.playingAudio.addEventListener('ended', function () {
@@ -152,9 +154,11 @@
             },
             updatePlayingInfo: function (state, option) {
                 if (option.type === 'current')
-                    return state.playingCurrentTime = formatTime(option.value);
+                    state.playingCurrentTime = formatTime(option.value);
                 else if (option.type === 'duration')
-                    return state.playingDurationTime = formatTime(option.value);
+                    state.playingDurationTime = formatTime(option.value);
+                option.ratio &&
+                    (state.playingDurationTime = option.ratio);
 
                 function formatTime(time) {
                     const min = `0${parseInt(time / 60)}`;

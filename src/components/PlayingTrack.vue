@@ -71,11 +71,11 @@
                 </div>
             </div>
             <div id="playingTrackBottom">
-                <span>00:48</span>
+                <span>{{ $store.state.playingCurrentTime }}</span>
                 <div id="playingTrackTimer">
                     <div></div>
                 </div>
-                <span>03:37</span>
+                <span>{{ $store.state.playingDurationTime }}</span>
             </div>
         </template>
     </div>
@@ -223,7 +223,7 @@
             #playingTrackTitle
                 font-size: 2em
 
-            #playingTrackAlbum,#playingTrackArtist
+            #playingTrackAlbum, #playingTrackArtist
                 font-size: 1em
                 opacity: 0.9
 
@@ -240,7 +240,7 @@
 
         span
             font-size: 0.8em
-            opacity: 0.5
+            opacity: 0.8
 
         #playingTrackTimer
             width: 90%

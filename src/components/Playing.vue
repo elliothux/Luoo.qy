@@ -28,9 +28,7 @@ K<template>
                     v-on:click="changePlayingMode"
                     :src="`../pic/play-${['order', 'loop', 'shuffle'][this.$store.state.playingMode]}.svg`"
                 />
-                <p>
-                    {{ $store.state.playingCurrentTime }}
-                </p>
+                <p>{{ $store.state.playingCurrentTime }}</p>
             </div>
             <div id="playingInfo">
                 <p id="playingName">
@@ -51,9 +49,7 @@ K<template>
             </div>
             <div id="playingOperateRight">
                 <img :src="'../pic/like.svg'"/>
-                <p>
-                    {{ $store.state.playingDurationTime }}
-                </p>
+                <p>{{ $store.state.playingDurationTime }}</p>
             </div>
             <div id="playingVolume">
                 <img :src="'../pic/volume-on.svg'"/>
