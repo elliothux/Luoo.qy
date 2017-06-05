@@ -68,6 +68,7 @@
 
     #loadMoreVols
         width: 100%
+        margin: 15px 0 30px 0
 
         & > div
             margin-left: 47%
@@ -84,6 +85,5 @@
 
             *
                 cursor: pointer
-
 
 </style>

@@ -72,8 +72,15 @@
             </div>
             <div id="playingTrackBottom">
                 <span>{{ $store.state.playingCurrentTime }}</span>
-                <div id="playingTrackTimer">
-                    <div :style="{ width: `${this.$store.state.playingTimeRatio}%` }"></div>
+                <div id="playingTrackTimerContainer">
+                    <input
+                            min="0" max="100"
+                            step="1" type="range"
+                            v-on:change.stop="setPlayingTimeRatio"
+                    />
+                    <div id="playingTrackTimer">
+                        <div :style="{ width: `${this.$store.state.playingTimeRatio}%` }"></div>
+                    </div>
                 </div>
                 <span>{{ $store.state.playingDurationTime }}</span>
             </div>
@@ -113,6 +120,9 @@
                     return this.$store.commit('control', 'next');
                 else if (operate === 'pre')
                     return this.$store.commit('control', 'pre');
+            },
+            setPlayingTimeRatio: function (event) {
+                this.$store.commit('setPlayingTimeRatio', event.target.value)
             }
         }
     }
@@ -242,14 +252,32 @@
             font-size: 0.8em
             opacity: 0.8
 
-        #playingTrackTimer
+        #playingTrackTimerContainer
+            position: relative
             width: 90%
-            height: 2px
-            background-color: rgba(255, 255, 255, 0.25)
 
-            & > div
+            & > input
+                position: absolute
+                top: 0
+                left: 0
+                width: 100%
                 height: 100%
-                float: left
-                background-color: rgb(255, 255, 255)
+                z-index: 2
+                opacity: 0
+                cursor: pointer
+
+            #playingTrackTimer
+                position: absolute
+                top: 0
+                left: 0
+                width: 100%
+                height: 2px
+                background-color: rgba(255, 255, 255, 0.25)
+
+                & > div
+                    height: 100%
+                    float: left
+                    background-color: rgb(255, 255, 255)
+
 
 </style>

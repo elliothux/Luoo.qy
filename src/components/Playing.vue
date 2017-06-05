@@ -34,8 +34,15 @@ K<template>
                 <p id="playingName">
                     {{ $store.state.playingData ? $store.state.playingData.name : '' }}
                 </p>
-                <div id="playingTimer">
-                    <div :style="{ width: `${this.$store.state.playingTimeRatio}%` }"></div>
+                <div id="playingTimerContainer">
+                    <input
+                        min="0" max="100"
+                        step="1" type="range"
+                        v-on:change.stop="setPlayingTimeRatio"
+                    />
+                    <div id="playingTimer">
+                        <div :style="{ width: `${this.$store.state.playingTimeRatio}%` }"></div>
+                    </div>
                 </div>
                 <p id="playingAlbum">
                     <span>
@@ -98,6 +105,9 @@ K<template>
                     return this.$store.commit('control', 'next');
                 else if (operate === 'pre')
                     return this.$store.commit('control', 'pre');
+            },
+            setPlayingTimeRatio: function (event) {
+                this.$store.commit('setPlayingTimeRatio', event.target.value)
             }
         }
     }
@@ -177,15 +187,32 @@ K<template>
             font-size: 0.7em
             opacity: 0.8
 
-        #playingTimer
-            width: 100%
-            height: 2px
-            background-color: rgba(255, 255, 255, 0.25)
+        #playingTimerContainer
+            position: relative
 
-            & > div
+            & > input
+                position: absolute
+                top: 0
+                left: 0
+                width: 100%
                 height: 100%
-                float: left
-                background-color: rgb(255, 255, 255)
+                z-index: 2
+                opacity: 0
+                cursor: pointer
+
+            #playingTimer
+                position: absolute
+                top: 0
+                left: 0
+                width: 100%
+                height: 2px
+                background-color: rgba(255, 255, 255, 0.25)
+                z-index: 1
+
+                & > div
+                    height: 100%
+                    float: left
+                    background-color: rgb(255, 255, 255)
 
     #playingCover
         width: 55px
