@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "/assets/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 44);
+/******/ 	return __webpack_require__(__webpack_require__.s = 59);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -10768,7 +10768,7 @@ if (typeof DEBUG !== 'undefined' && DEBUG) {
   ) }
 }
 
-var listToStyles = __webpack_require__(42)
+var listToStyles = __webpack_require__(57)
 
 /*
 type StyleObject = {
@@ -11114,13 +11114,13 @@ function getAverageColor (img) {
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(39)
+  __webpack_require__(53)
 }
 var Component = __webpack_require__(3)(
   /* script */
   __webpack_require__(8),
   /* template */
-  __webpack_require__(32),
+  __webpack_require__(43),
   /* styles */
   injectStyle,
   /* scopeId */
@@ -11166,14 +11166,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__HeadBar_vue__ = __webpack_require__(22);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__HeadBar_vue__ = __webpack_require__(28);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__HeadBar_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__HeadBar_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Playing_vue__ = __webpack_require__(23);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Playing_vue__ = __webpack_require__(29);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Playing_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__Playing_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Vols_Vols_vue__ = __webpack_require__(27);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Vols_Vols_vue__ = __webpack_require__(36);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Vols_Vols_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__Vols_Vols_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Singles_Singles_vue__ = __webpack_require__(25);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Singles_Singles_vue__ = __webpack_require__(32);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Singles_Singles_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__Singles_Singles_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__VolView_VolView_vue__ = __webpack_require__(34);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__VolView_VolView_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__VolView_VolView_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__PlayingTrack_vue__ = __webpack_require__(30);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__PlayingTrack_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__PlayingTrack_vue__);
+var _this = this;
+
 //
 //
 //
@@ -11187,6 +11193,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+
+
 
 
 
@@ -11199,48 +11209,156 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vuex
 const store = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store({
     state: {
         viewStatus: 'vols',
+        preViewStatus: null,
         vols: [],
         singles: [],
-        background: '../pic/background.jpg',
-        volViewData: {}
+        volsShowIndex: 30,
+        singlesShowIndex: 30,
+        volViewData: null,
+        playingData: null,
+        playingType: null,
+        playingVolIndex: -1,
+        playingIndex: -1,
+        playingMode: 0,
+        playingAudio: null,
+        playingCurrentTime: '00:00',
+        playingDurationTime: '00:00',
+        playingTimeRatio: 0,
+        playing: false
     },
     mutations: {
         changeView: (state, viewStatus) => {
+            const preView = state.viewStatus;
             state.viewStatus = viewStatus;
+            state.preViewStatus = preView;
+            setTimeout(function () {
+                document.getElementById(preView).style.zIndex = -2;
+            }, 500);
+            document.getElementById(viewStatus).style.zIndex = 1;
+        },
+        changePlayingType: (state, type) => {
+            state.playingType = type;
+        },
+        changePlayingMode: state => {
+            let mode = state.playingMode;
+            if (mode === 2) mode = 0;else mode++;
+            state.playingMode = mode;
+        },
+        changePlayingData: (state, data) => {
+            state.playingData = Object.freeze(data);
+        },
+        changeVolViewData: (state, data) => {
+            state.volViewData = Object.freeze(data);
         },
         updateVolsData: (state, data) => {
-            state.vols = data;
+            state.vols = Object.freeze(data);
         },
         updateSinglesData: (state, data) => {
-            state.singles = data;
+            state.singles = Object.freeze(data);
         },
-        setBackground: (state, background) => {
-            state.background = background;
+        loadMoreVols: state => {
+            const preIndex = state.volsShowIndex;
+            if (preIndex + 30 >= state.vols.length - 1) state.volsShowIndex = state.vols.length;else state.volsShowIndex = preIndex + 30;
+        },
+        loadMoreSingles: state => {
+            const preIndex = state.singlesShowIndex;
+            if (preIndex + 30 >= state.singles.length - 1) state.singlesShowIndex = state.singles.length;else state.singlesShowIndex = preIndex + 30;
+        },
+        play: (state, options) => {
+            state.playing = true;
+            state.playingTimeRatio = 0;
+            options.type && (state.playingType = options.type);
+            options.type === 'vol' && (state.playingVolIndex = options.volIndex);
+            state.playingIndex = options.index;
+            if (!state.playingAudio) {
+                state.playingAudio = new Audio();
+            }
+            state.playingAudio.src = options.url;
+            state.playingAudio.play();
+            state.playingAudio.addEventListener('durationchange', function (event) {
+                this.default.store.commit('updatePlayingInfo', {
+                    type: 'duration',
+                    value: event.target.duration
+                });
+            }.bind(_this));
+            state.playingAudio.addEventListener('timeupdate', function (event) {
+                this.default.store.commit('updatePlayingInfo', {
+                    type: 'current',
+                    value: event.target.currentTime,
+                    ratio: Math.ceil(100 * (event.target.currentTime / event.target.duration))
+                });
+            }.bind(_this));
+            state.playingAudio.addEventListener('ended', function () {
+                this.default.store.commit('control', 'next');
+            }.bind(_this));
+        },
+        togglePlay: state => {
+            if (state.playing) {
+                state.playingAudio.pause();
+                state.playing = false;
+            } else {
+                state.playingAudio.play();
+                state.playing = true;
+            }
+        },
+        control: (state, operate) => {
+            let index;
+            if (state.playingType === 'vol') {
+                const playingVolTracks = state.vols[state.playingVolIndex].tracks;
+                if (operate === 'next') index = state.playingIndex + 1 === playingVolTracks.length ? 0 : state.playingIndex + 1;else index = state.playingIndex === 0 ? playingVolTracks.length - 1 : state.playingIndex - 1;
+                _this.default.store.commit('play', {
+                    index: index,
+                    url: playingVolTracks[index].url
+                });
+                state.playingData = Object.freeze(playingVolTracks[index]);
+            } else if (state.playingType === 'single') {
+                if (operate === 'next') index = state.playingIndex + 1 === state.singles.length ? 0 : state.playingIndex + 1;else index = state.playingIndex === 0 ? state.singles.length - 1 : state.playingIndex - 1;
+                _this.default.store.commit('play', {
+                    index: index,
+                    url: state.singles[index].url
+                });
+                state.playingData = Object.freeze(state.singles[index]);
+            }
+        },
+        updatePlayingInfo: (state, option) => {
+            if (option.type === 'current') state.playingCurrentTime = formatTime(option.value);else if (option.type === 'duration') state.playingDurationTime = formatTime(option.value);
+            option.ratio && (state.playingTimeRatio = option.ratio);
+
+            function formatTime(time) {
+                const min = `0${parseInt(time / 60)}`;
+                const sec = parseInt(time % 60);
+                return `${min}:${sec < 10 ? 0 : ''}${sec}`;
+            }
+        },
+        setPlayingTimeRatio: (state, value) => {
+            state.playingTimeRatio = value;
+            state.playingAudio.currentTime = state.playingAudio.duration * value / 100;
         }
     }
 });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: 'app',
-    components: { HeadBar: __WEBPACK_IMPORTED_MODULE_2__HeadBar_vue___default.a, Playing: __WEBPACK_IMPORTED_MODULE_3__Playing_vue___default.a, Vols: __WEBPACK_IMPORTED_MODULE_4__Vols_Vols_vue___default.a, Singles: __WEBPACK_IMPORTED_MODULE_5__Singles_Singles_vue___default.a },
+    components: { HeadBar: __WEBPACK_IMPORTED_MODULE_2__HeadBar_vue___default.a, Playing: __WEBPACK_IMPORTED_MODULE_3__Playing_vue___default.a, Vols: __WEBPACK_IMPORTED_MODULE_4__Vols_Vols_vue___default.a, Singles: __WEBPACK_IMPORTED_MODULE_5__Singles_Singles_vue___default.a, VolView: __WEBPACK_IMPORTED_MODULE_6__VolView_VolView_vue___default.a, PlayingTrack: __WEBPACK_IMPORTED_MODULE_7__PlayingTrack_vue___default.a },
     props: ['db'],
     store,
     data: function () {
         return {
             backgroundStyle: function () {
+                let background;
+                if (this.$store.state.vols.length === 0) background = '../pic/background.jpg';else if (this.$store.state.volViewData) background = this.$store.state.volViewData.cover;else background = this.$store.state.vols[0].cover;
                 return {
-                    backgroundImage: `url(${this.$store.state.background})`
+                    backgroundImage: `url(${background})`
                 };
             }
         };
     },
     created: function () {
         this.db.getVolList().then(function (data) {
-            this.$store.commit('updateVolsData', data.slice(0, 20));
-            this.$store.commit('setBackground', data[0].cover);
+            this.$store.commit('updateVolsData', data);
         }.bind(this));
         this.db.getSingleList().then(function (data) {
-            this.$store.commit('updateSinglesData', data.slice(0, 20));
+            this.$store.commit('updateSinglesData', data);
         }.bind(this));
     }
 });
@@ -11286,6 +11404,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -11297,12 +11427,12 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vuex
     methods: {
         changeView: function (view) {
             if (view === this.$store.state.viewStatus) return;
-            const preView = this.$store.state.viewStatus;
-            setTimeout(function () {
-                document.getElementById(preView).style.zIndex = -10;
-            }, 500);
-            document.getElementById(view).style.zIndex = 1;
             this.$store.commit('changeView', view);
+        },
+        backStyle: function () {
+            return {
+                display: this.$store.state.viewStatus === 'playingTrack' || this.$store.state.viewStatus === 'user' ? 'inline-block' : 'none'
+            };
         }
     }
 });
@@ -11351,6 +11481,47 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -11359,7 +11530,31 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vuex
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: 'playing',
-    data: () => ({})
+    methods: {
+        playingStyle: function () {
+            return {
+                transform: `translateY(${this.$store.state.viewStatus === 'playingTrack' ? '63px' : '0'}`
+            };
+        },
+        playingCoverStyle: function () {
+            return {
+                backgroundImage: `url(${this.$store.state.playingData ? this.$store.state.playingData.cover : '../pic/playing-cover.png'})`
+            };
+        },
+        changePlayingMode: function () {
+            this.$store.commit('changePlayingMode');
+        },
+        showPlayingTrack: function () {
+            if (!this.$store.state.playingData) return;
+            this.$store.commit('changeView', 'playingTrack');
+        },
+        control: function (operate) {
+            if (operate === 'toggle') return this.$store.commit('togglePlay');else if (operate === 'next') return this.$store.commit('control', 'next');else if (operate === 'pre') return this.$store.commit('control', 'pre');
+        },
+        setPlayingTimeRatio: function (event) {
+            this.$store.commit('setPlayingTimeRatio', event.target.value);
+        }
+    }
 });
 
 /***/ }),
@@ -11371,7 +11566,151 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex__ = __webpack_require__(1);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+__WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */]);
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    name: 'playingTrack',
+    methods: {
+        playingBackgroundStyle: function () {
+            return {
+                backgroundImage: `url(${this.$store.state.playingData ? this.$store.state.playingData.cover : ''})`
+            };
+        },
+        playingCoverStyle: function () {
+            return {
+                backgroundImage: `url(${this.$store.state.playingData ? this.$store.state.playingData.cover : ''})`,
+                paddingBottom: this.$store.state.playingType === 'single' ? '70%' : '100%'
+            };
+        },
+        changePlayingMode: function () {
+            this.$store.commit('changePlayingMode');
+        },
+        control: function (operate) {
+            if (operate === 'toggle') return this.$store.commit('togglePlay');else if (operate === 'next') return this.$store.commit('control', 'next');else if (operate === 'pre') return this.$store.commit('control', 'pre');
+        },
+        setPlayingTimeRatio: function (event) {
+            this.$store.commit('setPlayingTimeRatio', event.target.value);
+        }
+    }
+});
+
+/***/ }),
+/* 12 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__lib_colorLib__ = __webpack_require__(5);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -11407,7 +11746,7 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vuex
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: 'single',
-    props: ['data'],
+    props: ['data', 'index'],
     data: () => ({
         singleStyle: {
             backgroundColor: 'rgba(255, 255, 255, 0.55)'
@@ -11420,11 +11759,28 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vuex
             const color = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__lib_colorLib__["a" /* getAverageColor */])(cover);
             this.singleStyle.backgroundColor = `rgba(${color.r}, ${color.g}, ${color.b}, 0.55)`;
         }.bind(this);
+    },
+    methods: {
+        showPlayingTrack: function () {
+            this.$store.commit('changeView', 'playingTrack');
+            if (this.$store.state.playingType === 'single' && this.$store.state.playing && this.$store.state.playingIndex === this.index) return;
+            this.playSingle();
+        },
+        playSingle: function () {
+            if (this.$store.state.playingType === 'single' && this.$store.state.playingIndex === this.index) return this.$store.commit('togglePlay');
+            this.$store.commit('changePlayingData', this.data);
+            this.$store.commit('changePlayingType', 'single');
+            this.$store.commit('play', {
+                type: 'single',
+                index: this.index,
+                url: this.data.url
+            });
+        }
     }
 });
 
 /***/ }),
-/* 12 */
+/* 13 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -11432,8 +11788,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Single_vue__ = __webpack_require__(24);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Single_vue__ = __webpack_require__(31);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Single_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__Single_vue__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -11459,13 +11826,186 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vuex
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: 'singles',
     components: { Single: __WEBPACK_IMPORTED_MODULE_2__Single_vue___default.a },
-    data: function () {
-        return {};
+    methods: {
+        loadMore: function () {
+            this.$store.commit('loadMoreSingles');
+        }
     }
 });
 
 /***/ }),
-/* 13 */
+/* 14 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex__ = __webpack_require__(1);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+__WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */]);
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    name: 'volTrack',
+    props: ['data'],
+    data: function () {
+        return {
+            trackStyle: {
+                marginRight: this.data.order % 6 === 0 ? '0' : '3.2%'
+            },
+            trackCoverStyle: {
+                backgroundImage: `url(${this.data.cover})`
+            }
+        };
+    },
+    methods: {
+        showPlayingTrack: function () {
+            this.$store.commit('changeView', 'playingTrack');
+            if (this.$store.state.playingType === 'vol' && this.$store.state.playing && this.$store.state.playingVolIndex === this.$store.state.volViewData.index && this.$store.state.playingIndex === this.data.order - 1) return;
+            this.playTrack();
+        },
+        playTrack: function () {
+            if (this.$store.state.playingType === 'vol' && this.$store.state.playingVolIndex === this.$store.state.volViewData.index && this.$store.state.playingIndex === this.data.order - 1) return this.$store.commit('togglePlay');
+            this.$store.commit('changePlayingData', this.data);
+            this.$store.commit('changePlayingType', 'vol');
+            this.$store.commit('play', {
+                type: 'vol',
+                volIndex: this.$store.state.volViewData.index,
+                index: this.data.order - 1,
+                url: this.data.url
+            });
+        }
+    }
+});
+
+/***/ }),
+/* 15 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__VolTrack_vue__ = __webpack_require__(33);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__VolTrack_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__VolTrack_vue__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+
+__WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */]);
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    name: 'volView',
+    components: { VolTrack: __WEBPACK_IMPORTED_MODULE_2__VolTrack_vue___default.a },
+    methods: {
+        volViewInfoStyle: function () {
+            return {
+                backgroundColor: this.$store.state.volViewData ? this.$store.state.volViewData.backgroundColor : 'rgba(255, 255, 255, 0.55)'
+            };
+        },
+        volViewCoverStyle: function () {
+            return {
+                backgroundImage: `url(${this.$store.state.volViewData ? this.$store.state.volViewData.cover : 'rgba(255, 255, 255, 0.55)'})`
+            };
+        },
+        playVol: function () {
+            const data = this.$store.state.volViewData;
+            if (this.$store.state.playingType === 'vol' && this.$store.state.playingVolIndex === data.index) return this.$store.commit('togglePlay');
+            this.$store.commit('play', {
+                type: 'vol',
+                volIndex: data.index,
+                index: 0,
+                url: data.tracks[0].url
+            });
+            this.$store.commit('changePlayingData', data.tracks[0]);
+        }
+    }
+});
+
+/***/ }),
+/* 16 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -11474,6 +12014,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__lib_colorLib__ = __webpack_require__(5);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -11495,12 +12047,12 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vuex
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: 'vol',
+    props: ['data', 'index'],
     data: () => ({
         volStyle: {
             backgroundColor: 'rgba(255, 255, 255, 0.55)'
         }
     }),
-    props: ['data'],
     created: function () {
         const cover = new Image();
         cover.src = this.data.cover;
@@ -11508,11 +12060,29 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vuex
             const color = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__lib_colorLib__["a" /* getAverageColor */])(cover);
             this.volStyle.backgroundColor = `rgba(${color.r}, ${color.g}, ${color.b}, 0.55)`;
         }.bind(this);
+    },
+    methods: {
+        showVolView: function () {
+            document.getElementById('volView').scrollTop = 0;
+            document.getElementById('volViewIntro') && (document.getElementById('volViewIntro').scrollTop = 0);
+            this.$store.commit('changeView', 'volView');
+            this.$store.commit('changeVolViewData', Object.assign({ index: this.index }, this.volStyle, this.data));
+        },
+        playVol: function () {
+            if (this.$store.state.playingType === 'vol' && this.$store.state.playingVolIndex === this.index) return this.$store.commit('togglePlay');
+            this.$store.commit('play', {
+                type: 'vol',
+                volIndex: this.index,
+                index: 0,
+                url: this.data.tracks[0].url
+            });
+            this.$store.commit('changePlayingData', this.data.tracks[0]);
+        }
     }
 });
 
 /***/ }),
-/* 14 */
+/* 17 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -11520,8 +12090,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Vol_vue__ = __webpack_require__(26);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Vol_vue__ = __webpack_require__(35);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Vol_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__Vol_vue__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -11547,52 +12127,12 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vuex
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: 'vols',
     components: { Vol: __WEBPACK_IMPORTED_MODULE_2__Vol_vue___default.a },
-    data: function () {
-        return {};
+    methods: {
+        loadMore: function () {
+            this.$store.commit('loadMoreVols');
+        }
     }
 });
-
-/***/ }),
-/* 15 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(2)(undefined);
-// imports
-
-
-// module
-exports.push([module.i, "\n#singles[data-v-216cf909] {\n  position: fixed;\n  width: 90%;\n  height: calc(100% - 180px);\n  top: 80px;\n  left: 0;\n  padding: 25px 5% 0 5%;\n  overflow-y: auto;\n  display: flex;\n  flex-direction: row;\n  flex-wrap: wrap;\n  justify-content: space-between;\n}\n.singlesShow[data-v-216cf909] {\n  transform: scale(1);\n  opacity: 1;\n  transition: all ease 500ms 300ms;\n}\n.singlesHidden[data-v-216cf909] {\n  transform: scale(0.9);\n  opacity: 0;\n  transition: all ease 500ms 0ms;\n}\n", ""]);
-
-// exports
-
-
-/***/ }),
-/* 16 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(2)(undefined);
-// imports
-
-
-// module
-exports.push([module.i, "\n#headBar[data-v-33961a16] {\n  width: 90%;\n  height: 40px;\n  position: fixed;\n  padding: 10px 5%;\n  top: 10px;\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  z-index: 2;\n}\n#headBar > div[data-v-33961a16] {\n    height: 100%;\n}\n#headBarLeft[data-v-33961a16] {\n  height: 100%;\n}\n#headBarLeft > div[data-v-33961a16] {\n    height: 100%;\n    display: inline-block;\n    margin-right: 15px;\n    font-size: 0.9em;\n    cursor: pointer;\n}\n#headBarLeft > div *[data-v-33961a16] {\n      cursor: pointer;\n}\n#headBarLeft > div > img[data-v-33961a16] {\n      height: 60%;\n}\n#headBarRight[data-v-33961a16] {\n  height: 100%;\n  font-size: 0.9em;\n  cursor: pointer;\n}\n#headBarRight *[data-v-33961a16] {\n    cursor: pointer;\n}\n#headBarRight > img[data-v-33961a16] {\n    height: 70%;\n    width: auto;\n    border-radius: 100%;\n}\n#headBarLogo[data-v-33961a16] {\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n  cursor: pointer;\n  position: relative;\n  top: 5px;\n}\n#headBarLogo *[data-v-33961a16] {\n    cursor: pointer;\n}\n#headBarLogoImg[data-v-33961a16] {\n  height: 90%;\n  width: auto;\n  margin-right: 10px;\n}\n#headBarLogoText[data-v-33961a16] {\n  height: 60%;\n  width: auto;\n  position: relative;\n  top: 4px;\n}\n", ""]);
-
-// exports
-
-
-/***/ }),
-/* 17 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(2)(undefined);
-// imports
-
-
-// module
-exports.push([module.i, "\n#playing[data-v-350758e0] {\n  width: calc(100% - 20px);\n  height: 55px;\n  position: fixed;\n  padding: 0 10px 4px 10px;\n  bottom: 0;\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  align-items: center;\n}\n#playingController[data-v-350758e0] {\n  height: 100%;\n  width: 15%;\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  align-items: center;\n}\n#playingControllerPre[data-v-350758e0], #playingControllerNext[data-v-350758e0] {\n  height: 25%;\n  width: auto;\n  cursor: pointer;\n}\n#playingControllerToggle[data-v-350758e0] {\n  height: 35%;\n  width: auto;\n  position: relative;\n  left: 3px;\n  cursor: pointer;\n}\n#playingOperate[data-v-350758e0] {\n  width: calc(100% - 15% - 50px - 40px);\n  height: 100%;\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  align-items: center;\n}\n#playingOperateLeft[data-v-350758e0], #playingOperateRight[data-v-350758e0], #playingVolume[data-v-350758e0] {\n  height: 70%;\n  width: 8%;\n  position: relative;\n  top: 5px;\n}\n#playingOperateLeft > img[data-v-350758e0], #playingOperateRight > img[data-v-350758e0], #playingVolume > img[data-v-350758e0] {\n    height: 45%;\n    width: auto;\n    cursor: pointer;\n}\n#playingOperateLeft > p[data-v-350758e0], #playingOperateRight > p[data-v-350758e0], #playingVolume > p[data-v-350758e0] {\n    font-size: 0.7em;\n    opacity: 0.5;\n}\n#playingVolume > p[data-v-350758e0] {\n  opacity: 1;\n}\n#playingInfo[data-v-350758e0] {\n  width: 76%;\n  height: 100%;\n  display: flex;\n  flex-direction: column;\n  justify-content: space-between;\n}\n#playingInfo #playingName[data-v-350758e0] {\n    font-size: 1.1em;\n}\n#playingInfo #playingAlbum[data-v-350758e0] {\n    font-size: 0.7em;\n    opacity: 0.8;\n}\n#playingInfo #playingTimer[data-v-350758e0] {\n    width: 100%;\n    height: 2px;\n    background-color: rgba(255, 255, 255, 0.25);\n}\n#playingInfo #playingTimer > div[data-v-350758e0] {\n      width: 20%;\n      height: 100%;\n      float: left;\n      background-color: white;\n}\n#playingCover[data-v-350758e0] {\n  width: 55px;\n  height: 55px;\n  background-size: cover;\n  box-shadow: 0 0 30px 5px rgba(0, 0, 0, 0.35);\n  cursor: pointer;\n}\n", ""]);
-
-// exports
-
 
 /***/ }),
 /* 18 */
@@ -11603,7 +12143,7 @@ exports = module.exports = __webpack_require__(2)(undefined);
 
 
 // module
-exports.push([module.i, "\n.vol {\n  width: 28%;\n  height: auto;\n  margin-bottom: 50px;\n  cursor: pointer;\n  box-shadow: 0 10px 50px 0 rgba(0, 0, 0, 0.5);\n  text-align: left;\n  transition: all ease 600ms;\n  overflow: hidden;\n}\n.vol:hover {\n    transform: scale(1.05);\n    box-shadow: none;\n}\n.volCover {\n  width: 100%;\n  height: auto;\n}\n.volInfo {\n  width: calc(100% - 36px);\n  padding: 10px 18px;\n  position: relative;\n}\n.volInfo .volInfoNum {\n    font-size: 2.5em;\n    letter-spacing: 0.05em;\n    font-family: \"Savoye LET\", sans-serif;\n}\n.volInfo .volInfoTitle {\n    font-size: 1.3em;\n    position: relative;\n}\n.volInfo .volPlay {\n    width: 18px;\n    display: inline-block;\n    cursor: pointer;\n    transition: all ease 300ms;\n    opacity: 0.8;\n    position: absolute;\n    right: 30px;\n    top: 20px;\n}\n.volInfo .volPlay:hover {\n      transform: scale(1);\n      opacity: 1;\n}\n", ""]);
+exports.push([module.i, "\n#volView[data-v-01bd60e3] {\n  position: fixed;\n  width: 90%;\n  height: calc(100% - 180px);\n  top: 80px;\n  left: 0;\n  padding: 25px 5% 0 5%;\n  overflow-y: auto;\n}\n.volViewShow[data-v-01bd60e3] {\n  transform: scale(1);\n  opacity: 1;\n  transition: all ease 500ms 350ms;\n}\n.volViewHidden[data-v-01bd60e3] {\n  transform: scale(0.9);\n  opacity: 0;\n  transition: all ease 500ms 0ms;\n}\n#volViewInfo[data-v-01bd60e3] {\n  width: 100%;\n  height: 0;\n  padding-bottom: 31.8%;\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  text-align: left;\n  box-shadow: 0 10px 50px 0 rgba(0, 0, 0, 0.5);\n  overflow: hidden;\n}\n#volViewCover[data-v-01bd60e3] {\n  width: 44%;\n  height: 0;\n  padding-bottom: 31.8%;\n  background-size: cover;\n  box-shadow: 10px 0 50px 0 rgba(0, 0, 0, 0.5);\n}\n#volViewIntro[data-v-01bd60e3] {\n  width: 48%;\n  height: 0;\n  padding-bottom: 31.8%;\n  padding-right: 3%;\n  overflow-y: auto;\n}\n#volViewIntroContainer[data-v-01bd60e3] {\n  margin-bottom: -100%;\n}\n#volViewIntroTitle[data-v-01bd60e3] {\n  font-size: 1.5em;\n  margin: 10px 0;\n}\n#volViewIntroDesc[data-v-01bd60e3] {\n  font-size: 0.8em;\n  margin-bottom: 15px;\n}\n#volViewIntroDate[data-v-01bd60e3] {\n  font-size: 0.7em;\n  font-weight: 400;\n  margin-bottom: 15px;\n}\n#volViewIntroDate > img[data-v-01bd60e3] {\n    width: 3%;\n    height: auto;\n    position: relative;\n    top: 3px;\n    margin-right: 2px;\n}\n#volViewOperate[data-v-01bd60e3] {\n  margin-top: 15px;\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  align-items: center;\n}\n#volViewOperate p[data-v-01bd60e3] {\n    font-size: 0.8em;\n}\n#volViewOperate > div[data-v-01bd60e3] {\n    width: 40%;\n}\n#volViewOperate img[data-v-01bd60e3] {\n    width: 10%;\n    height: auto;\n    cursor: pointer;\n    transition: all ease 300ms;\n    opacity: 0.8;\n}\n#volViewOperate img[data-v-01bd60e3]:hover {\n      transform: scale(1);\n      opacity: 1;\n}\n#volViewOperate #volViewOperateLike[data-v-01bd60e3] {\n    margin-right: 15px;\n}\n#tracks[data-v-01bd60e3] {\n  width: 100%;\n  height: auto;\n  margin: 30px 0;\n  display: flex;\n  flex-direction: row;\n  flex-wrap: wrap;\n}\n", ""]);
 
 // exports
 
@@ -11617,7 +12157,7 @@ exports = module.exports = __webpack_require__(2)(undefined);
 
 
 // module
-exports.push([module.i, "\n#app[data-v-4f944103] {\n  text-align: center;\n  position: fixed;\n  width: 100%;\n  height: 100%;\n  top: 0;\n  left: 0;\n  background-color: #000000;\n  color: white;\n}\n#app > *[data-v-4f944103] {\n    z-index: 1;\n}\n#background[data-v-4f944103] {\n  width: calc(100% + 200px);\n  height: calc(100% + 200px);\n  position: fixed;\n  top: -100px;\n  left: -100px;\n  background-size: cover;\n  filter: blur(50px);\n  z-index: -1;\n}\n", ""]);
+exports.push([module.i, "\n#playingTrack[data-v-0331604b] {\n  position: fixed;\n  width: 90%;\n  height: calc(100% - 23px);\n  top: 0;\n  left: 0;\n  padding: 25px 5% 0 5%;\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  align-items: center;\n}\n.playingTrackShow[data-v-0331604b] {\n  transform: scale(1);\n  opacity: 1;\n  transition: all ease 500ms 350ms;\n}\n.playingTrackHidden[data-v-0331604b] {\n  transform: scale(0.9);\n  opacity: 0;\n  transition: all ease 500ms 0ms;\n}\n#playingTrackBackground[data-v-0331604b] {\n  width: calc(100% + 100px);\n  height: calc(100% + 100px);\n  position: fixed;\n  top: -50px;\n  left: -50px;\n  background-size: cover;\n  filter: blur(25px);\n  z-index: -1;\n  transition: all ease 1200ms;\n}\n#playingTrackLeft[data-v-0331604b] {\n  width: 35%;\n  height: 80%;\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n}\n#playingTrackLeft #playingTrackCover[data-v-0331604b] {\n    width: 100%;\n    height: 0;\n    padding-bottom: 100%;\n    box-shadow: 0 10px 50px 0 rgba(0, 0, 0, 0.5);\n    margin-bottom: 15%;\n    background-size: cover;\n    transition: all ease 1200ms;\n}\n#playingTrackLeft #playingTrackController[data-v-0331604b] {\n    height: auto;\n    width: 100%;\n    display: flex;\n    flex-direction: row;\n    justify-content: space-around;\n    align-items: center;\n    margin-bottom: 7%;\n}\n#playingTrackLeft #playingTrackController #playingTrackControllerPre[data-v-0331604b], #playingTrackLeft #playingTrackController #playingTrackControllerNext[data-v-0331604b] {\n      height: auto;\n      width: 9%;\n      cursor: pointer;\n}\n#playingTrackLeft #playingTrackController #playingTrackControllerToggle[data-v-0331604b] {\n      height: auto;\n      width: 7.5%;\n      cursor: pointer;\n}\n#playingTrackLeft #playingTrackOperate[data-v-0331604b] {\n    height: auto;\n    width: 100%;\n    display: flex;\n    flex-direction: row;\n    justify-content: space-around;\n    align-items: center;\n}\n#playingTrackLeft #playingTrackOperate > div[data-v-0331604b] {\n      width: 30%;\n}\n#playingTrackLeft #playingTrackOperate > div img[data-v-0331604b] {\n        width: 20%;\n        cursor: pointer;\n}\n#playingTrackLeft #playingTrackOperate > div p[data-v-0331604b] {\n        font-size: 0.7em;\n}\n#playingTrackRight[data-v-0331604b] {\n  width: 55%;\n  height: 80%;\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  position: relative;\n  left: -3%;\n}\n#playingTrackRight #playingTrackInfo[data-v-0331604b] {\n    position: relative;\n    top: -10%;\n}\n#playingTrackRight #playingTrackInfo #playingTrackTitle[data-v-0331604b] {\n      font-size: 2em;\n}\n#playingTrackRight #playingTrackInfo #playingTrackAlbum[data-v-0331604b], #playingTrackRight #playingTrackInfo #playingTrackArtist[data-v-0331604b] {\n      font-size: 1em;\n      opacity: 0.9;\n}\n#playingTrackBottom[data-v-0331604b] {\n  width: 94%;\n  padding: 0 3%;\n  position: fixed;\n  bottom: 5px;\n  left: 0;\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  align-items: center;\n}\n#playingTrackBottom span[data-v-0331604b] {\n    font-size: 0.8em;\n    opacity: 0.8;\n}\n#playingTrackBottom #playingTrackTimerContainer[data-v-0331604b] {\n    position: relative;\n    width: 90%;\n}\n#playingTrackBottom #playingTrackTimerContainer > input[data-v-0331604b] {\n      position: absolute;\n      top: 0;\n      left: 0;\n      width: 100%;\n      height: 100%;\n      z-index: 2;\n      opacity: 0;\n      cursor: pointer;\n}\n#playingTrackBottom #playingTrackTimerContainer #playingTrackTimer[data-v-0331604b] {\n      position: absolute;\n      top: 0;\n      left: 0;\n      width: 100%;\n      height: 2px;\n      background-color: rgba(255, 255, 255, 0.25);\n}\n#playingTrackBottom #playingTrackTimerContainer #playingTrackTimer > div[data-v-0331604b] {\n        height: 100%;\n        float: left;\n        background-color: white;\n}\n", ""]);
 
 // exports
 
@@ -11631,7 +12171,7 @@ exports = module.exports = __webpack_require__(2)(undefined);
 
 
 // module
-exports.push([module.i, "\n.single {\n  width: 47%;\n  height: auto;\n  margin-bottom: 50px;\n  cursor: pointer;\n  box-shadow: 0 10px 50px 0 rgba(0, 0, 0, 0.5);\n  text-align: left;\n  transition: all ease 600ms;\n  overflow: hidden;\n}\n.single:hover {\n    transform: scale(1.05);\n    box-shadow: none;\n}\n.singleTop {\n  width: 100%;\n  height: auto;\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  align-items: center;\n}\n.singleCover {\n  width: 50%;\n  height: auto;\n}\n.singleCover > img {\n    width: 100%;\n    height: auto;\n    box-shadow: 0 10px 50px 0 rgba(0, 0, 0, 0.5);\n}\n.singleInfo {\n  width: 46%;\n  height: 100%;\n}\n.singleInfo .singleOperate {\n    margin-bottom: 8px;\n}\n.singleInfo .singleOperate > img {\n      width: 10%;\n      height: auto;\n      cursor: pointer;\n      transition: all ease 300ms;\n      opacity: 0.8;\n}\n.singleInfo .singleOperate > img:hover {\n        transform: scale(1);\n        opacity: 1;\n}\n.singleInfo .singleOperate .singleOperateLike {\n      margin-right: 15px;\n}\n.singleInfo .singleInfoName {\n    font-size: 1.2em;\n    margin-bottom: 1px;\n    width: 100%;\n    word-break: break-word;\n}\n.singleInfo .singleInfoArtist {\n    font-size: 0.9em;\n    opacity: 0.7;\n    margin-bottom: 8px;\n    font-weight: 400;\n}\n.singleInfo .singleInfoDate {\n    font-size: 0.6em;\n    font-weight: 400;\n}\n.singleInfo .singleInfoDate > img {\n      width: 6%;\n      height: auto;\n      position: relative;\n      top: 1px;\n      margin-right: 2px;\n}\n.singleBottom {\n  width: 100%;\n  display: flex;\n  justify-items: center;\n}\n.singleDescription {\n  font-size: 0.8em;\n  width: calc(100% - 40px);\n  margin: 15px 20px;\n  font-weight: 400;\n}\n", ""]);
+exports.push([module.i, "\n#singles[data-v-216cf909] {\n  position: fixed;\n  width: 90%;\n  height: calc(100% - 180px);\n  top: 80px;\n  left: 0;\n  padding: 25px 5% 0 5%;\n  overflow-y: auto;\n  display: flex;\n  flex-direction: row;\n  flex-wrap: wrap;\n  justify-content: space-between;\n}\n.singlesShow[data-v-216cf909] {\n  transform: scale(1);\n  opacity: 1;\n  transition: all ease 500ms 350ms;\n}\n.singlesHidden[data-v-216cf909] {\n  transform: scale(0.9);\n  opacity: 0;\n  transition: all ease 500ms 0ms;\n}\n#loadMoreSingles[data-v-216cf909] {\n  width: 100%;\n  margin: 15px 0 30px 0;\n}\n#loadMoreSingles > div[data-v-216cf909] {\n    margin-left: 47%;\n    cursor: pointer;\n    font-size: 0.9em;\n    opacity: 0.8;\n    width: 6%;\n}\n#loadMoreSingles > div[data-v-216cf909]:hover {\n      opacity: 1;\n}\n#loadMoreSingles > div img[data-v-216cf909] {\n      height: 50%;\n}\n#loadMoreSingles > div *[data-v-216cf909] {\n      cursor: pointer;\n}\n", ""]);
 
 // exports
 
@@ -11645,7 +12185,7 @@ exports = module.exports = __webpack_require__(2)(undefined);
 
 
 // module
-exports.push([module.i, "\n#vols[data-v-e3e2f59e] {\n  position: fixed;\n  width: 90%;\n  height: calc(100% - 180px);\n  top: 80px;\n  left: 0;\n  padding: 25px 5% 0 5%;\n  overflow-y: auto;\n  display: flex;\n  flex-direction: row;\n  flex-wrap: wrap;\n  justify-content: space-between;\n}\n.volsShow[data-v-e3e2f59e] {\n  transform: scale(1);\n  opacity: 1;\n  transition: all ease 500ms 300ms;\n}\n.volsHidden[data-v-e3e2f59e] {\n  transform: scale(0.9);\n  opacity: 0;\n  transition: all ease 500ms 0ms;\n}\n", ""]);
+exports.push([module.i, "\n#headBar[data-v-33961a16] {\n  width: 90%;\n  height: 40px;\n  position: fixed;\n  padding: 10px 5%;\n  top: 10px;\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  z-index: 2;\n}\n#headBar > div[data-v-33961a16] {\n    height: 100%;\n}\n#headBarLeft[data-v-33961a16] {\n  height: 100%;\n}\n#headBarLeft > div[data-v-33961a16] {\n    height: 100%;\n    display: inline-block;\n    margin-right: 20px;\n    font-size: 0.9em;\n    cursor: pointer;\n    transition: all ease 300ms;\n}\n#headBarLeft > div *[data-v-33961a16] {\n      cursor: pointer;\n}\n#headBarLeft > div > img[data-v-33961a16] {\n      height: 60%;\n}\n#headBarRight[data-v-33961a16] {\n  height: 100%;\n  font-size: 0.9em;\n  cursor: pointer;\n}\n#headBarRight *[data-v-33961a16] {\n    cursor: pointer;\n}\n#headBarRight > img[data-v-33961a16] {\n    height: 70%;\n    width: auto;\n    border-radius: 100%;\n}\n#headBarLogo[data-v-33961a16] {\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n  justify-content: center;\n  cursor: pointer;\n  position: absolute;\n  margin-top: -6px;\n  left: 40%;\n  width: 20%;\n}\n#headBarLogo *[data-v-33961a16] {\n    cursor: pointer;\n}\n#headBarLogo #headBarLogoImg[data-v-33961a16] {\n    height: 55%;\n    width: auto;\n    margin-right: 10px;\n}\n#headBarLogo #headBarLogoText[data-v-33961a16] {\n    font-size: 1.5em;\n    letter-spacing: 0.05em;\n    font-family: \"Savoye LET\", sans-serif;\n    position: relative;\n    top: 3px;\n}\n", ""]);
 
 // exports
 
@@ -11654,16 +12194,100 @@ exports.push([module.i, "\n#vols[data-v-e3e2f59e] {\n  position: fixed;\n  width
 /* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
+exports = module.exports = __webpack_require__(2)(undefined);
+// imports
+
+
+// module
+exports.push([module.i, "\n#playing[data-v-350758e0] {\n  width: calc(100% - 20px);\n  height: 55px;\n  position: fixed;\n  padding: 0 10px 4px 10px;\n  bottom: 0;\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  align-items: center;\n  transition: all ease 600ms;\n}\n#playingController[data-v-350758e0] {\n  height: 100%;\n  width: 15%;\n  display: flex;\n  flex-direction: row;\n  justify-content: space-around;\n  align-items: center;\n}\n#playingControllerPre[data-v-350758e0], #playingControllerNext[data-v-350758e0] {\n  height: 25%;\n  width: auto;\n  cursor: pointer;\n}\n#playingControllerToggle[data-v-350758e0] {\n  height: 35%;\n  width: auto;\n  position: relative;\n  left: 3px;\n  cursor: pointer;\n}\n#playingOperate[data-v-350758e0] {\n  width: calc(100% - 15% - 50px - 40px);\n  height: 100%;\n  display: flex;\n  flex-direction: row;\n  justify-content: space-around;\n  align-items: center;\n}\n#playingOperateLeft[data-v-350758e0], #playingOperateRight[data-v-350758e0] {\n  height: 70%;\n  position: relative;\n  top: 5px;\n}\n#playingOperateLeft > img[data-v-350758e0], #playingOperateRight > img[data-v-350758e0] {\n    height: 45%;\n    width: auto;\n    cursor: pointer;\n}\n#playingOperateLeft > p[data-v-350758e0], #playingOperateRight > p[data-v-350758e0] {\n    font-size: 0.7em;\n    opacity: 0.5;\n}\n#playingInfo[data-v-350758e0] {\n  width: 76%;\n  height: 100%;\n  display: flex;\n  flex-direction: column;\n  justify-content: space-between;\n}\n#playingInfo #playingName[data-v-350758e0] {\n    font-size: 1.1em;\n}\n#playingInfo #playingAlbum[data-v-350758e0] {\n    font-size: 0.7em;\n    opacity: 0.8;\n}\n#playingInfo #playingTimerContainer[data-v-350758e0] {\n    position: relative;\n}\n#playingInfo #playingTimerContainer > input[data-v-350758e0] {\n      position: absolute;\n      top: 0;\n      left: 0;\n      width: 100%;\n      height: 100%;\n      z-index: 2;\n      opacity: 0;\n      cursor: pointer;\n}\n#playingInfo #playingTimerContainer #playingTimer[data-v-350758e0] {\n      position: absolute;\n      top: 0;\n      left: 0;\n      width: 100%;\n      height: 2px;\n      background-color: rgba(255, 255, 255, 0.25);\n      z-index: 1;\n}\n#playingInfo #playingTimerContainer #playingTimer > div[data-v-350758e0] {\n        height: 100%;\n        float: left;\n        background-color: white;\n}\n#playingVolumeContainer[data-v-350758e0] {\n  width: 15%;\n  height: 100%;\n  display: flex;\n  flex-direction: row;\n  justify-content: space-around;\n  align-items: center;\n}\n#playingVolumeContainer #playingVolume[data-v-350758e0] {\n    position: relative;\n    top: 5px;\n    height: 70%;\n}\n#playingVolumeContainer #playingVolume > img[data-v-350758e0] {\n      height: 45%;\n      width: auto;\n      cursor: pointer;\n}\n#playingVolumeContainer #playingVolume p[data-v-350758e0] {\n      font-size: 0.7em;\n      opacity: 0.5;\n}\n#playingVolumeContainer #playingCover[data-v-350758e0] {\n    width: 55px;\n    height: 55px;\n    background-size: cover;\n    box-shadow: 0 0 30px 5px rgba(0, 0, 0, 0.35);\n    cursor: pointer;\n    position: relative;\n    top: -4px;\n    transition: all ease 300ms;\n}\n#playingVolumeContainer #playingCover[data-v-350758e0]:hover {\n      transform: scale(1.1);\n      box-shadow: none;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 23 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(2)(undefined);
+// imports
+
+
+// module
+exports.push([module.i, "\n.vol {\n  width: 28%;\n  height: auto;\n  margin-bottom: 50px;\n  cursor: pointer;\n  box-shadow: 0 10px 50px 0 rgba(0, 0, 0, 0.5);\n  text-align: left;\n  transition: all ease 600ms;\n  overflow: hidden;\n}\n.vol:hover {\n    transform: scale(1.05);\n    box-shadow: none;\n}\n.vol * {\n    cursor: pointer;\n}\n.volCover {\n  width: 100%;\n  height: auto;\n  box-shadow: 0 10px 50px 0 rgba(0, 0, 0, 0.5);\n}\n.volInfo {\n  width: calc(100% - 36px);\n  padding: 10px 18px;\n  position: relative;\n}\n.volInfo .volInfoNum {\n    font-size: 2.5em;\n    letter-spacing: 0.05em;\n    font-family: \"Savoye LET\", sans-serif;\n}\n.volInfo .volInfoTitle {\n    font-size: 1.3em;\n    position: relative;\n}\n.volInfo .volPlay {\n    width: 18px;\n    display: inline-block;\n    cursor: pointer;\n    transition: all ease 300ms;\n    opacity: 0.8;\n    position: absolute;\n    right: 30px;\n    top: 20px;\n}\n.volInfo .volPlay:hover {\n      transform: scale(1);\n      opacity: 1;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 24 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(2)(undefined);
+// imports
+
+
+// module
+exports.push([module.i, "\n#app[data-v-4f944103] {\n  text-align: center;\n  position: fixed;\n  width: 100%;\n  height: 100%;\n  top: 0;\n  left: 0;\n  background-color: #000000;\n  color: white;\n}\n#app > *[data-v-4f944103] {\n    z-index: 1;\n}\n#background[data-v-4f944103] {\n  width: calc(100% + 200px);\n  height: calc(100% + 200px);\n  position: fixed;\n  top: -100px;\n  left: -100px;\n  background-size: cover;\n  filter: blur(50px);\n  z-index: -1;\n  transition: all ease 850ms;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 25 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(2)(undefined);
+// imports
+
+
+// module
+exports.push([module.i, "\n.track {\n  width: 14%;\n  text-align: left;\n  margin-bottom: 15px;\n  cursor: pointer;\n  transition: all ease 600ms;\n}\n.track * {\n    cursor: pointer;\n}\n.track:hover {\n    transform: scale(1.07);\n    box-shadow: none;\n}\n.track:hover .trackOperateToggle {\n      display: block;\n}\n.trackCoverContainer {\n  width: 100%;\n  height: auto;\n  position: relative;\n  box-shadow: 0 10px 30px 0 rgba(0, 0, 0, 0.5);\n}\n.trackCoverContainer > img {\n    position: absolute;\n    z-index: 2;\n}\n.trackCoverContainer .trackOperateToggle {\n    width: 30%;\n    left: calc(35% + 4px);\n    top: 35%;\n    filter: drop-shadow(0 5px 5px rgba(0, 0, 0, 0.5));\n    opacity: 0.9;\n    display: none;\n}\n.trackCoverContainer .trackOperateToggle:hover {\n      opacity: 1;\n}\n.trackCoverContainer .trackOperateLike {\n    filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.5));\n    width: 14%;\n    right: 5%;\n    bottom: 5%;\n}\n.trackCoverContainer .trackCover {\n    width: 100%;\n    height: 0;\n    padding-bottom: 100%;\n    background-size: cover;\n    margin-bottom: 8px;\n    z-index: 1;\n}\n.trackName {\n  font-size: 1em;\n  margin-bottom: 7px;\n}\n.trackAlbum, .trackArtist {\n  font-size: 0.7em;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 26 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(2)(undefined);
+// imports
+
+
+// module
+exports.push([module.i, "\n.single {\n  width: 47%;\n  height: auto;\n  margin-bottom: 50px;\n  cursor: pointer;\n  box-shadow: 0 10px 50px 0 rgba(0, 0, 0, 0.5);\n  text-align: left;\n  transition: all ease 600ms;\n  overflow: hidden;\n}\n.single:hover {\n    transform: scale(1.05);\n    box-shadow: none;\n}\n.single * {\n    cursor: pointer;\n}\n.singleTop {\n  width: 100%;\n  height: auto;\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  align-items: center;\n}\n.singleCover {\n  width: 50%;\n  height: auto;\n}\n.singleCover > img {\n    width: 100%;\n    height: auto;\n    box-shadow: 0 10px 50px 0 rgba(0, 0, 0, 0.5);\n}\n.singleInfo {\n  width: 46%;\n  height: 100%;\n}\n.singleInfo .singleOperate {\n    margin-bottom: 8px;\n}\n.singleInfo .singleOperate > img {\n      width: 18px;\n      height: auto;\n      cursor: pointer;\n      transition: all ease 300ms;\n      opacity: 0.8;\n}\n.singleInfo .singleOperate > img:hover {\n        transform: scale(1);\n        opacity: 1;\n}\n.singleInfo .singleOperate .singleOperateLike {\n      margin-right: 15px;\n}\n.singleInfo .singleInfoName {\n    font-size: 1.2em;\n    margin-bottom: 1px;\n    width: 100%;\n    word-break: break-word;\n}\n.singleInfo .singleInfoArtist {\n    font-size: 0.9em;\n    opacity: 0.7;\n    margin-bottom: 8px;\n    font-weight: 400;\n}\n.singleInfo .singleInfoDate {\n    font-size: 0.6em;\n    font-weight: 400;\n}\n.singleInfo .singleInfoDate > img {\n      width: 6%;\n      height: auto;\n      position: relative;\n      top: 1px;\n      margin-right: 2px;\n}\n.singleBottom {\n  width: 100%;\n  display: flex;\n  justify-items: center;\n}\n.singleDescription {\n  font-size: 0.8em;\n  width: calc(100% - 40px);\n  margin: 15px 20px;\n  font-weight: 400;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 27 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(2)(undefined);
+// imports
+
+
+// module
+exports.push([module.i, "\n#vols[data-v-e3e2f59e] {\n  position: fixed;\n  width: 90%;\n  height: calc(100% - 180px);\n  top: 80px;\n  left: 0;\n  padding: 25px 5% 0 5%;\n  overflow-y: auto;\n  display: flex;\n  flex-direction: row;\n  flex-wrap: wrap;\n  justify-content: space-between;\n}\n.volsShow[data-v-e3e2f59e] {\n  transform: scale(1);\n  opacity: 1;\n  transition: all ease 500ms 350ms;\n}\n.volsHidden[data-v-e3e2f59e] {\n  transform: scale(0.9);\n  opacity: 0;\n  transition: all ease 500ms 0ms;\n}\n#loadMoreVols[data-v-e3e2f59e] {\n  width: 100%;\n  margin: 15px 0 30px 0;\n}\n#loadMoreVols > div[data-v-e3e2f59e] {\n    margin-left: 47%;\n    cursor: pointer;\n    font-size: 0.9em;\n    opacity: 0.8;\n    width: 6%;\n}\n#loadMoreVols > div[data-v-e3e2f59e]:hover {\n      opacity: 1;\n}\n#loadMoreVols > div img[data-v-e3e2f59e] {\n      height: 50%;\n}\n#loadMoreVols > div *[data-v-e3e2f59e] {\n      cursor: pointer;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 28 */
+/***/ (function(module, exports, __webpack_require__) {
+
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(36)
+  __webpack_require__(50)
 }
 var Component = __webpack_require__(3)(
   /* script */
   __webpack_require__(9),
   /* template */
-  __webpack_require__(29),
+  __webpack_require__(40),
   /* styles */
   injectStyle,
   /* scopeId */
@@ -11695,19 +12319,19 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 23 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(37)
+  __webpack_require__(51)
 }
 var Component = __webpack_require__(3)(
   /* script */
   __webpack_require__(10),
   /* template */
-  __webpack_require__(30),
+  __webpack_require__(41),
   /* styles */
   injectStyle,
   /* scopeId */
@@ -11739,19 +12363,63 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 24 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(40)
+  __webpack_require__(48)
 }
 var Component = __webpack_require__(3)(
   /* script */
   __webpack_require__(11),
   /* template */
-  __webpack_require__(33),
+  __webpack_require__(38),
+  /* styles */
+  injectStyle,
+  /* scopeId */
+  "data-v-0331604b",
+  /* moduleIdentifier (server only) */
+  null
+)
+Component.options.__file = "/Users/huqingyang/Desktop/Luoo.qy/src/components/PlayingTrack.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] PlayingTrack.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-0331604b", Component.options)
+  } else {
+    hotAPI.reload("data-v-0331604b", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 31 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(55)
+}
+var Component = __webpack_require__(3)(
+  /* script */
+  __webpack_require__(12),
+  /* template */
+  __webpack_require__(45),
   /* styles */
   injectStyle,
   /* scopeId */
@@ -11783,19 +12451,19 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 25 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(35)
+  __webpack_require__(49)
 }
 var Component = __webpack_require__(3)(
   /* script */
-  __webpack_require__(12),
+  __webpack_require__(13),
   /* template */
-  __webpack_require__(28),
+  __webpack_require__(39),
   /* styles */
   injectStyle,
   /* scopeId */
@@ -11827,19 +12495,107 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 26 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(38)
+  __webpack_require__(54)
 }
 var Component = __webpack_require__(3)(
   /* script */
-  __webpack_require__(13),
+  __webpack_require__(14),
   /* template */
-  __webpack_require__(31),
+  __webpack_require__(44),
+  /* styles */
+  injectStyle,
+  /* scopeId */
+  null,
+  /* moduleIdentifier (server only) */
+  null
+)
+Component.options.__file = "/Users/huqingyang/Desktop/Luoo.qy/src/components/VolView/VolTrack.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] VolTrack.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-7c5d0606", Component.options)
+  } else {
+    hotAPI.reload("data-v-7c5d0606", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 34 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(47)
+}
+var Component = __webpack_require__(3)(
+  /* script */
+  __webpack_require__(15),
+  /* template */
+  __webpack_require__(37),
+  /* styles */
+  injectStyle,
+  /* scopeId */
+  "data-v-01bd60e3",
+  /* moduleIdentifier (server only) */
+  null
+)
+Component.options.__file = "/Users/huqingyang/Desktop/Luoo.qy/src/components/VolView/VolView.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] VolView.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-01bd60e3", Component.options)
+  } else {
+    hotAPI.reload("data-v-01bd60e3", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 35 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(52)
+}
+var Component = __webpack_require__(3)(
+  /* script */
+  __webpack_require__(16),
+  /* template */
+  __webpack_require__(42),
   /* styles */
   injectStyle,
   /* scopeId */
@@ -11871,19 +12627,19 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 27 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(41)
+  __webpack_require__(56)
 }
 var Component = __webpack_require__(3)(
   /* script */
-  __webpack_require__(14),
+  __webpack_require__(17),
   /* template */
-  __webpack_require__(34),
+  __webpack_require__(46),
   /* styles */
   injectStyle,
   /* scopeId */
@@ -11915,24 +12671,278 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 28 */
+/* 37 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    class: this.$store.state.viewStatus === 'volView' ?
+      'volViewShow' : 'volViewHidden',
+    staticStyle: {
+      "z-index": "-2"
+    },
+    attrs: {
+      "id": "volView"
+    }
+  }, [(this.$store.state.volViewData) ? [_c('div', {
+    style: (_vm.volViewInfoStyle()),
+    attrs: {
+      "id": "volViewInfo"
+    }
+  }, [_c('div', {
+    style: (_vm.volViewCoverStyle()),
+    attrs: {
+      "id": "volViewCover"
+    }
+  }), _vm._v(" "), _c('div', {
+    attrs: {
+      "id": "volViewIntro"
+    }
+  }, [_c('div', {
+    attrs: {
+      "id": "volViewIntroContainer"
+    }
+  }, [_c('div', {
+    attrs: {
+      "id": "volViewOperate"
+    }
+  }, [_c('div', [_c('img', {
+    attrs: {
+      "id": "volViewOperateLike",
+      "src": '../pic/like.svg'
+    }
+  }), _vm._v(" "), _c('img', {
+    attrs: {
+      "id": "volViewToggle",
+      "src": (this.$store.state.playingType === 'vol' &&
+          this.$store.state.playingVolIndex === this.$store.state.volViewData.index &&
+          this.$store.state.playing) ?
+        '../pic/controller-pause.svg' : '../pic/controller-play.svg'
+    },
+    on: {
+      "click": function($event) {
+        $event.stopPropagation();
+        _vm.playVol($event)
+      }
+    }
+  })]), _vm._v(" "), _c('p', _vm._l((_vm.$store.state.volViewData.tag), function(tag) {
+    return _c('span', [_vm._v(_vm._s(tag) + "   ")])
+  }))]), _vm._v(" "), _c('p', {
+    attrs: {
+      "id": "volViewIntroTitle"
+    }
+  }, [_vm._v(_vm._s(_vm.$store.state.volViewData.title))]), _vm._v(" "), _c('p', {
+    attrs: {
+      "id": "volViewIntroDesc"
+    },
+    domProps: {
+      "innerHTML": _vm._s(_vm.$store.state.volViewData.description.slice(4))
+    }
+  }), _vm._v(" "), _c('p', {
+    attrs: {
+      "id": "volViewIntroDate"
+    }
+  }, [_c('img', {
+    attrs: {
+      "src": '../pic/logo.png'
+    }
+  }), _vm._v("\n                        落在低处・" + _vm._s(_vm.$store.state.volViewData.date) + "\n                    ")])])])]), _vm._v(" "), _c('div', {
+    attrs: {
+      "id": "tracks"
+    }
+  }, _vm._l((_vm.$store.state.volViewData.tracks), function(track) {
+    return _c('VolTrack', {
+      key: ((track.vol) + "-" + (track.order)),
+      attrs: {
+        "data": track
+      }
+    })
+  }))] : _vm._e()], 2)
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-01bd60e3", module.exports)
+  }
+}
+
+/***/ }),
+/* 38 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    class: this.$store.state.viewStatus === 'playingTrack' ?
+      'playingTrackShow' : 'playingTrackHidden',
+    staticStyle: {
+      "z-index": "-2"
+    },
+    attrs: {
+      "id": "playingTrack"
+    }
+  }, [(_vm.$store.state.playingData) ? [_c('div', {
+    style: (_vm.playingBackgroundStyle()),
+    attrs: {
+      "id": "playingTrackBackground"
+    }
+  }), _vm._v(" "), _c('div', {
+    attrs: {
+      "id": "playingTrackLeft"
+    }
+  }, [_c('div', {
+    style: (_vm.playingCoverStyle()),
+    attrs: {
+      "id": "playingTrackCover"
+    }
+  }), _vm._v(" "), _c('div', {
+    attrs: {
+      "id": "playingTrackController"
+    }
+  }, [_c('img', {
+    attrs: {
+      "id": "playingTrackControllerPre",
+      "src": '../pic/controller-pre.svg'
+    },
+    on: {
+      "click": function($event) {
+        _vm.control('pre')
+      }
+    }
+  }), _vm._v(" "), _c('img', {
+    attrs: {
+      "id": "playingTrackControllerToggle",
+      "src": this.$store.state.playing ?
+        '../pic/controller-pause.svg' : '../pic/controller-play.svg'
+    },
+    on: {
+      "click": function($event) {
+        _vm.control('toggle')
+      }
+    }
+  }), _vm._v(" "), _c('img', {
+    attrs: {
+      "id": "playingTrackControllerNext",
+      "src": '../pic/controller-next.svg'
+    },
+    on: {
+      "click": function($event) {
+        _vm.control('next')
+      }
+    }
+  })]), _vm._v(" "), _c('div', {
+    attrs: {
+      "id": "playingTrackOperate"
+    }
+  }, [_c('div', [_c('img', {
+    attrs: {
+      "src": ("../pic/play-" + (['order', 'shuffle', 'loop'][this.$store.state.playingMode]) + ".svg")
+    },
+    on: {
+      "click": _vm.changePlayingMode
+    }
+  }), _vm._v(" "), _c('p', [_vm._v("\n                        " + _vm._s(['顺序', '随机', '循环'][_vm.$store.state.playingMode]) + "\n                    ")])]), _vm._v(" "), _c('div', [_c('img', {
+    attrs: {
+      "src": '../pic/liked.svg'
+    }
+  }), _vm._v(" "), _c('p', [_vm._v("已喜欢")])]), _vm._v(" "), _c('div', [_c('img', {
+    attrs: {
+      "src": '../pic/volume-on.svg'
+    }
+  }), _vm._v(" "), _c('p', [_vm._v("30")])])])]), _vm._v(" "), _c('div', {
+    attrs: {
+      "id": "playingTrackRight"
+    }
+  }, [_c('div', {
+    attrs: {
+      "id": "playingTrackInfo"
+    }
+  }, [_c('p', {
+    attrs: {
+      "id": "playingTrackTitle"
+    }
+  }, [_vm._v("\n                    " + _vm._s(_vm.$store.state.playingData.name) + "\n                ")]), _vm._v(" "), (_vm.$store.state.playingType === 'vol') ? _c('p', {
+    attrs: {
+      "id": "playingTrackAlbum"
+    }
+  }, [_vm._v("\n                    " + _vm._s(_vm.$store.state.playingData.album) + "\n                ")]) : _vm._e(), _vm._v(" "), (_vm.$store.state.playingData.artist !== _vm.$store.state.playingData.album) ? _c('p', {
+    attrs: {
+      "id": "playingTrackArtist"
+    }
+  }, [_vm._v("\n                    " + _vm._s(_vm.$store.state.playingData.artist) + "\n                ")]) : _vm._e()])]), _vm._v(" "), _c('div', {
+    attrs: {
+      "id": "playingTrackBottom"
+    }
+  }, [_c('span', [_vm._v(_vm._s(_vm.$store.state.playingCurrentTime))]), _vm._v(" "), _c('div', {
+    attrs: {
+      "id": "playingTrackTimerContainer"
+    }
+  }, [_c('input', {
+    attrs: {
+      "min": "0",
+      "max": "100",
+      "step": "1",
+      "type": "range"
+    },
+    on: {
+      "change": function($event) {
+        $event.stopPropagation();
+        _vm.setPlayingTimeRatio($event)
+      }
+    }
+  }), _vm._v(" "), _c('div', {
+    attrs: {
+      "id": "playingTrackTimer"
+    }
+  }, [_c('div', {
+    style: ({
+      width: ((this.$store.state.playingTimeRatio) + "%")
+    })
+  })])]), _vm._v(" "), _c('span', [_vm._v(_vm._s(_vm.$store.state.playingDurationTime))])])] : _vm._e()], 2)
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-0331604b", module.exports)
+  }
+}
+
+/***/ }),
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     class: this.$store.state.viewStatus === 'singles' ?
       'singlesShow show' : 'singlesHidden hidden',
+    staticStyle: {
+      "z-index": "-2"
+    },
     attrs: {
       "id": "singles"
     }
-  }, _vm._l((this.$store.state.singles), function(single) {
+  }, [_vm._l((this.$store.state.singles.slice(0, this.$store.state.singlesShowIndex)), function(single, index) {
     return _c('Single', {
       key: single.date,
       attrs: {
-        "data": single
+        "data": single,
+        "index": index
       }
     })
-  }))
+  }), _vm._v(" "), (this.$store.state.singles.length !== this.$store.state.singlesShowIndex) ? _c('div', {
+    attrs: {
+      "id": "loadMoreSingles"
+    }
+  }, [_c('div', {
+    on: {
+      "click": _vm.loadMore
+    }
+  }, [_c('img', {
+    attrs: {
+      "src": '../pic/loadMore-stroked.svg'
+    }
+  }), _vm._v(" "), _c('p', [_vm._v("更多")])])]) : _vm._e()], 2)
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -11943,7 +12953,7 @@ if (false) {
 }
 
 /***/ }),
-/* 29 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -11956,6 +12966,17 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "id": "headBarLeft"
     }
   }, [_c('div', {
+    style: (_vm.backStyle()),
+    on: {
+      "click": function($event) {
+        _vm.changeView(_vm.$store.state.preViewStatus)
+      }
+    }
+  }, [_c('img', {
+    attrs: {
+      "src": '../pic/head-back.svg'
+    }
+  }), _vm._v(" "), _c('p', [_vm._v("返回")])]), _vm._v(" "), _c('div', {
     on: {
       "click": function($event) {
         _vm.changeView('vols')
@@ -11966,7 +12987,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "src": this.$store.state.viewStatus === 'vols' ?
         '../pic/head-vol-solid.svg' : '../pic/head-vol-stroked.svg'
     }
-  }), _vm._v(" "), _c('p', [_vm._v("期刊")])]), _vm._v(" "), _c('div', {
+  }), _vm._v(" "), _c('p', [_vm._v("\n                " + _vm._s((_vm.$store.state.viewStatus === 'vols' || _vm.$store.state.viewStatus === 'singles') ?
+    '期刊' : '首页') + "\n            ")])]), _vm._v(" "), _c('div', {
     on: {
       "click": function($event) {
         _vm.changeView('singles')
@@ -11986,12 +13008,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "id": "headBarLogoImg",
       "src": '../pic/logo.png'
     }
-  }), _vm._v(" "), _c('img', {
+  }), _vm._v(" "), _c('p', {
     attrs: {
-      "id": "headBarLogoText",
-      "src": '../pic/logoText.svg'
+      "id": "headBarLogoText"
     }
-  })]), _vm._v(" "), _c('div', {
+  }, [_vm._v("Luoo.qy")])]), _vm._v(" "), _c('div', {
     attrs: {
       "id": "headBarRight"
     }
@@ -12010,11 +13031,12 @@ if (false) {
 }
 
 /***/ }),
-/* 30 */
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
+    style: (_vm.playingStyle()),
     attrs: {
       "id": "playing"
     }
@@ -12026,16 +13048,32 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "id": "playingControllerPre",
       "src": '../pic/controller-pre.svg'
+    },
+    on: {
+      "click": function($event) {
+        _vm.control('pre')
+      }
     }
   }), _vm._v(" "), _c('img', {
     attrs: {
       "id": "playingControllerToggle",
-      "src": '../pic/controller-play.svg'
+      "src": this.$store.state.playing ?
+        '../pic/controller-pause.svg' : '../pic/controller-play.svg'
+    },
+    on: {
+      "click": function($event) {
+        _vm.control('toggle')
+      }
     }
   }), _vm._v(" "), _c('img', {
     attrs: {
       "id": "playingControllerNext",
       "src": '../pic/controller-next.svg'
+    },
+    on: {
+      "click": function($event) {
+        _vm.control('next')
+      }
     }
   })]), _vm._v(" "), _c('div', {
     attrs: {
@@ -12047,34 +13085,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('img', {
     attrs: {
-      "src": '../pic/play-shuffle.svg'
+      "src": ("../pic/play-" + (['order', 'shuffle', 'loop'][this.$store.state.playingMode]) + ".svg")
+    },
+    on: {
+      "click": _vm.changePlayingMode
     }
-  }), _vm._v(" "), _c('p', [_vm._v("00:48")])]), _vm._v(" "), _vm._m(0), _vm._v(" "), _c('div', {
-    attrs: {
-      "id": "playingOperateRight"
-    }
-  }, [_c('img', {
-    attrs: {
-      "src": '../pic/like.svg'
-    }
-  }), _vm._v(" "), _c('p', [_vm._v("03:37")])]), _vm._v(" "), _c('div', {
-    attrs: {
-      "id": "playingVolume"
-    }
-  }, [_c('img', {
-    attrs: {
-      "src": '../pic/volume-on.svg'
-    }
-  }), _vm._v(" "), _c('p', [_vm._v("30")])])]), _vm._v(" "), _c('div', {
-    style: ({
-      backgroundImage: 'url(../pic/playing-cover.png)'
-    }),
-    attrs: {
-      "id": "playingCover"
-    }
-  })])
-},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
+  }), _vm._v(" "), _c('p', [_vm._v(_vm._s(_vm.$store.state.playingCurrentTime))])]), _vm._v(" "), _c('div', {
     attrs: {
       "id": "playingInfo"
     }
@@ -12082,16 +13098,65 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "id": "playingName"
     }
-  }, [_vm._v("Big Fat Mouth")]), _vm._v(" "), _c('div', {
+  }, [_vm._v("\n                " + _vm._s(_vm.$store.state.playingData ? _vm.$store.state.playingData.name : '-') + "\n            ")]), _vm._v(" "), _c('div', {
+    attrs: {
+      "id": "playingTimerContainer"
+    }
+  }, [_c('input', {
+    attrs: {
+      "min": "0",
+      "max": "100",
+      "step": "1",
+      "type": "range"
+    },
+    on: {
+      "change": function($event) {
+        $event.stopPropagation();
+        _vm.setPlayingTimeRatio($event)
+      }
+    }
+  }), _vm._v(" "), _c('div', {
     attrs: {
       "id": "playingTimer"
     }
-  }, [_c('div')]), _vm._v(" "), _c('p', {
+  }, [_c('div', {
+    style: ({
+      width: ((this.$store.state.playingTimeRatio) + "%")
+    })
+  })])]), _vm._v(" "), _c('p', {
     attrs: {
       "id": "playingAlbum"
     }
-  }, [_c('span', [_vm._v("Janessa Evrist")]), _vm._v(" - "), _c('span', [_vm._v("Fall Apart")])])])
-}]}
+  }, [_c('span', [_vm._v("\n                    " + _vm._s(_vm.$store.state.playingData ? _vm.$store.state.playingData.album : '-') + "\n                ")]), _vm._v(" "), (this.$store.state.playingType === 'vol') ? _c('span', [_vm._v(" - ")]) : _vm._e(), _vm._v(" "), _c('span', [_vm._v("\n                    " + _vm._s(_vm.$store.state.playingData ? _vm.$store.state.playingData.artist : '') + "\n                ")])])]), _vm._v(" "), _c('div', {
+    attrs: {
+      "id": "playingOperateRight"
+    }
+  }, [_c('img', {
+    attrs: {
+      "src": '../pic/like.svg'
+    }
+  }), _vm._v(" "), _c('p', [_vm._v(_vm._s(_vm.$store.state.playingDurationTime))])])]), _vm._v(" "), _c('div', {
+    attrs: {
+      "id": "playingVolumeContainer"
+    }
+  }, [_c('div', {
+    attrs: {
+      "id": "playingVolume"
+    }
+  }, [_c('img', {
+    attrs: {
+      "src": '../pic/volume-on.svg'
+    }
+  }), _vm._v(" "), _c('p', [_vm._v("30")])]), _vm._v(" "), _c('div', {
+    style: (_vm.playingCoverStyle()),
+    attrs: {
+      "id": "playingCover"
+    },
+    on: {
+      "click": _vm.showPlayingTrack
+    }
+  })])])
+},staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
@@ -12101,13 +13166,16 @@ if (false) {
 }
 
 /***/ }),
-/* 31 */
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "vol",
-    style: (_vm.volStyle)
+    style: (_vm.volStyle),
+    on: {
+      "click": _vm.showVolView
+    }
   }, [_c('img', {
     staticClass: "volCover",
     attrs: {
@@ -12122,7 +13190,16 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._v(_vm._s(_vm.data.title))]), _vm._v(" "), _c('img', {
     staticClass: "volPlay",
     attrs: {
-      "src": '../pic/controller-play.svg'
+      "src": (this.$store.state.playingType === 'vol' &&
+          this.$store.state.playingVolIndex === _vm.index &&
+          this.$store.state.playing) ?
+        '../pic/controller-pause.svg' : '../pic/controller-play.svg'
+    },
+    on: {
+      "click": function($event) {
+        $event.stopPropagation();
+        _vm.playVol($event)
+      }
     }
   })])])
 },staticRenderFns: []}
@@ -12135,7 +13212,7 @@ if (false) {
 }
 
 /***/ }),
-/* 32 */
+/* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -12148,7 +13225,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "id": "background"
     }
-  }), _vm._v(" "), _c('HeadBar'), _vm._v(" "), _c('Playing'), _vm._v(" "), _c('Vols'), _vm._v(" "), _c('Singles')], 1)
+  }), _vm._v(" "), _c('HeadBar'), _vm._v(" "), _c('Playing'), _vm._v(" "), _c('Vols'), _vm._v(" "), _c('Singles'), _vm._v(" "), _c('VolView'), _vm._v(" "), _c('PlayingTrack')], 1)
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -12159,13 +13236,74 @@ if (false) {
 }
 
 /***/ }),
-/* 33 */
+/* 44 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "track",
+    style: (_vm.trackStyle),
+    on: {
+      "click": function($event) {
+        $event.stopPropagation();
+        _vm.showPlayingTrack($event)
+      }
+    }
+  }, [_c('div', {
+    staticClass: "trackCoverContainer"
+  }, [_c('img', {
+    staticClass: "trackOperateLike",
+    attrs: {
+      "src": '../pic/like.svg'
+    }
+  }), _vm._v(" "), _c('img', {
+    staticClass: "trackOperateToggle",
+    attrs: {
+      "src": (this.$store.state.playingType === 'vol' &&
+          this.$store.state.playingVolIndex === this.$store.state.volViewData.index &&
+          this.$store.state.playingIndex === this.data.order - 1 &&
+          this.$store.state.playing) ?
+        '../pic/controller-pause.svg' : '../pic/controller-play.svg'
+    },
+    on: {
+      "click": function($event) {
+        $event.stopPropagation();
+        _vm.playTrack($event)
+      }
+    }
+  }), _vm._v(" "), _c('div', {
+    staticClass: "trackCover",
+    style: (_vm.trackCoverStyle)
+  })]), _vm._v(" "), _c('p', {
+    staticClass: "trackName"
+  }, [_vm._v(_vm._s(_vm.data.name))]), _vm._v(" "), (_vm.data.album !== _vm.data.artist) ? _c('p', {
+    staticClass: "trackAlbum"
+  }, [_vm._v("\n        " + _vm._s(_vm.data.album) + "\n    ")]) : _vm._e(), _vm._v(" "), _c('p', {
+    staticClass: "trackArtist"
+  }, [_vm._v(_vm._s(_vm.data.artist))])])
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-7c5d0606", module.exports)
+  }
+}
+
+/***/ }),
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "single",
-    style: (_vm.singleStyle)
+    style: (_vm.singleStyle),
+    on: {
+      "click": function($event) {
+        $event.stopPropagation();
+        _vm.showPlayingTrack($event)
+      }
+    }
   }, [_c('div', {
     staticClass: "singleTop"
   }, [_c('div', {
@@ -12186,7 +13324,16 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }), _vm._v(" "), _c('img', {
     staticClass: "singleOperateToggle",
     attrs: {
-      "src": '../pic/controller-play.svg'
+      "src": (this.$store.state.playing &&
+          this.$store.state.playingType === 'single' &&
+          this.$store.state.playingIndex === this.index) ?
+        '../pic/controller-pause.svg' : '../pic/controller-play.svg'
+    },
+    on: {
+      "click": function($event) {
+        $event.stopPropagation();
+        _vm.playSingle($event)
+      }
     }
   })]), _vm._v(" "), _c('p', {
     staticClass: "singleInfoName"
@@ -12213,7 +13360,7 @@ if (false) {
 }
 
 /***/ }),
-/* 34 */
+/* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -12223,14 +13370,27 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "id": "vols"
     }
-  }, _vm._l((this.$store.state.vols), function(vol) {
+  }, [_vm._l((this.$store.state.vols.slice(0, this.$store.state.volsShowIndex)), function(vol, index) {
     return _c('Vol', {
       key: vol.vol,
       attrs: {
-        "data": vol
+        "data": vol,
+        "index": index
       }
     })
-  }))
+  }), _vm._v(" "), (this.$store.state.vols.length !== this.$store.state.volsShowIndex) ? _c('div', {
+    attrs: {
+      "id": "loadMoreVols"
+    }
+  }, [_c('div', {
+    on: {
+      "click": _vm.loadMore
+    }
+  }, [_c('img', {
+    attrs: {
+      "src": '../pic/loadMore-stroked.svg'
+    }
+  }), _vm._v(" "), _c('p', [_vm._v("更多")])])]) : _vm._e()], 2)
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -12241,13 +13401,65 @@ if (false) {
 }
 
 /***/ }),
-/* 35 */
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(15);
+var content = __webpack_require__(18);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(4)("027f94df", content, false);
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../node_modules/css-loader/index.js!../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-01bd60e3\",\"scoped\":true,\"hasInlineConfig\":false}!../../../node_modules/sass-loader/lib/loader.js?indentedSyntax!../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./VolView.vue", function() {
+     var newContent = require("!!../../../node_modules/css-loader/index.js!../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-01bd60e3\",\"scoped\":true,\"hasInlineConfig\":false}!../../../node_modules/sass-loader/lib/loader.js?indentedSyntax!../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./VolView.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 48 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(19);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(4)("555db62c", content, false);
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-0331604b\",\"scoped\":true,\"hasInlineConfig\":false}!../../node_modules/sass-loader/lib/loader.js?indentedSyntax!../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./PlayingTrack.vue", function() {
+     var newContent = require("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-0331604b\",\"scoped\":true,\"hasInlineConfig\":false}!../../node_modules/sass-loader/lib/loader.js?indentedSyntax!../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./PlayingTrack.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 49 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(20);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -12267,13 +13479,13 @@ if(false) {
 }
 
 /***/ }),
-/* 36 */
+/* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(16);
+var content = __webpack_require__(21);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -12293,13 +13505,13 @@ if(false) {
 }
 
 /***/ }),
-/* 37 */
+/* 51 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(17);
+var content = __webpack_require__(22);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -12319,13 +13531,13 @@ if(false) {
 }
 
 /***/ }),
-/* 38 */
+/* 52 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(18);
+var content = __webpack_require__(23);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -12345,13 +13557,13 @@ if(false) {
 }
 
 /***/ }),
-/* 39 */
+/* 53 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(19);
+var content = __webpack_require__(24);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -12371,13 +13583,39 @@ if(false) {
 }
 
 /***/ }),
-/* 40 */
+/* 54 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(20);
+var content = __webpack_require__(25);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(4)("50518b10", content, false);
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../node_modules/css-loader/index.js!../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-7c5d0606\",\"scoped\":false,\"hasInlineConfig\":false}!../../../node_modules/sass-loader/lib/loader.js?indentedSyntax!../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./VolTrack.vue", function() {
+     var newContent = require("!!../../../node_modules/css-loader/index.js!../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-7c5d0606\",\"scoped\":false,\"hasInlineConfig\":false}!../../../node_modules/sass-loader/lib/loader.js?indentedSyntax!../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./VolTrack.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 55 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(26);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -12397,13 +13635,13 @@ if(false) {
 }
 
 /***/ }),
-/* 41 */
+/* 56 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(21);
+var content = __webpack_require__(27);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -12423,7 +13661,7 @@ if(false) {
 }
 
 /***/ }),
-/* 42 */
+/* 57 */
 /***/ (function(module, exports) {
 
 /**
@@ -12456,8 +13694,8 @@ module.exports = function listToStyles (parentId, list) {
 
 
 /***/ }),
-/* 43 */,
-/* 44 */
+/* 58 */,
+/* 59 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -12469,6 +13707,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_App_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__components_App_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_electron__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_electron___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_electron__);
+
 
 
 

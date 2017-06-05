@@ -41,7 +41,7 @@
                             :src="`../pic/play-${['order', 'shuffle', 'loop'][this.$store.state.playingMode]}.svg`"
                         />
                         <p>
-                            {{ ['顺序', '随机', '循环'][$store.state.playingMode] }}
+                            {{ ['顺序', '随机', '单曲'][$store.state.playingMode] }}
                         </p>
                     </div>
                     <div>

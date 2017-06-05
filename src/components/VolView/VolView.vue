@@ -141,11 +141,12 @@
     #volViewIntroDesc
         font-size: 0.8em
         margin-bottom: 15px
+        line-height: 1.49em
 
     #volViewIntroDate
         font-size: 0.7em
         font-weight: 400
-        margin-bottom: 15px
+        margin-bottom: 25px
 
         & > img
             width: 3%
@@ -155,7 +156,7 @@
             margin-right: 2px
 
     #volViewOperate
-        margin-top: 15px
+        margin-top: 25px
         display: flex
         flex-direction: row
         justify-content: space-between
@@ -180,6 +181,7 @@
 
         #volViewOperateLike
             margin-right: 15px
+            width: 11.4%
 
     #tracks
         width: 100%

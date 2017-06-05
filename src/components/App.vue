@@ -31,8 +31,8 @@
             preViewStatus: null,
             vols: [],
             singles: [],
-            volsShowIndex: 30,
-            singlesShowIndex: 30,
+            volsShowIndex: 18,
+            singlesShowIndex: 18,
             volViewData: null,
             playingData: null,
             playingType: null,
@@ -78,15 +78,15 @@
             },
             loadMoreVols: (state) => {
                 const preIndex = state.volsShowIndex;
-                if (preIndex + 30 >= state.vols.length-1)
+                if (preIndex + 18 >= state.vols.length-1)
                     state.volsShowIndex = state.vols.length;
-                else state.volsShowIndex = preIndex + 30
+                else state.volsShowIndex = preIndex + 18
             },
             loadMoreSingles: (state) => {
                 const preIndex = state.singlesShowIndex;
-                if (preIndex + 30 >= state.singles.length-1)
+                if (preIndex + 18 >= state.singles.length-1)
                     state.singlesShowIndex = state.singles.length;
-                else state.singlesShowIndex = preIndex + 30
+                else state.singlesShowIndex = preIndex + 18
             },
             play: (state, options) => {
                 state.playing = true;
@@ -99,22 +99,27 @@
                 }
                 state.playingAudio.src = options.url;
                 state.playingAudio.play();
-                state.playingAudio.addEventListener('durationchange', function (event) {
-                    this.default.store.commit('updatePlayingInfo', {
-                        type: 'duration',
-                        value: event.target.duration,
-                    });
-                }.bind(this));
-                state.playingAudio.addEventListener('timeupdate', function (event) {
-                    this.default.store.commit('updatePlayingInfo', {
-                        type: 'current',
-                        value: event.target.currentTime,
-                        ratio: Math.ceil(100 * (event.target.currentTime / event.target.duration))
-                    });
-                }.bind(this));
-                state.playingAudio.addEventListener('ended', function () {
-                    this.default.store.commit('control', 'next')
-                }.bind(this));
+                addAudioEvent.bind(this)();
+
+                function addAudioEvent() {
+                    const audio = state.playingAudio;
+                    audio.addEventListener('durationchange', function (event) {
+                        this.default.store.commit('updatePlayingInfo', {
+                            type: 'duration',
+                            value: event.target.duration,
+                        });
+                    }.bind(this));
+                    audio.addEventListener('timeupdate', function (event) {
+                        this.default.store.commit('updatePlayingInfo', {
+                            type: 'current',
+                            value: event.target.currentTime,
+                            ratio: Math.ceil(100 * (event.target.currentTime / event.target.duration))
+                        });
+                    }.bind(this));
+                    audio.addEventListener('ended', function () {
+                        this.default.store.commit('control', 'next')
+                    }.bind(this));
+                }
             },
             togglePlay: (state) => {
                 if (state.playing) {
@@ -195,10 +200,10 @@
         }},
         created: function() {
             this.db.getVolList().then(function (data) {
-                this.$store.commit('updateVolsData', data);
+                this.$store.commit('updateVolsData', Object.freeze(data));
             }.bind(this));
             this.db.getSingleList().then(function (data) {
-                this.$store.commit('updateSinglesData', data)
+                this.$store.commit('updateSinglesData', Object.freeze(data))
             }.bind(this));
         }
     }
