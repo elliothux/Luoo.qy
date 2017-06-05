@@ -40,6 +40,8 @@
             playingIndex: -1,
             playingMode: 0,
             playingAudio: null,
+            playingCurrentTime: '00:00',
+            playingDurationTime: '00:00',
             playing: false,
         },
         mutations: {
@@ -95,10 +97,21 @@
                 }
                 state.playingAudio.src = options.url;
                 state.playingAudio.play();
+                state.playingAudio.addEventListener('durationchange', function (event) {
+                    this.default.store.commit('updatePlayingInfo', {
+                        type: 'duration',
+                        value: event.target.duration
+                    });
+                }.bind(this));
+                state.playingAudio.addEventListener('timeupdate', function (event) {
+                    this.default.store.commit('updatePlayingInfo', {
+                        type: 'current',
+                        value: event.target.currentTime
+                    });
+                }.bind(this));
                 state.playingAudio.addEventListener('ended', function () {
                     this.default.store.commit('control', 'next')
                 }.bind(this));
-                window.text = state.playingAudio
             },
             togglePlay: (state) => {
                 if (state.playing) {
@@ -135,6 +148,18 @@
                         url: state.singles[index].url
                     });
                     state.playingData = state.singles[index]
+                }
+            },
+            updatePlayingInfo: function (state, option) {
+                if (option.type === 'current')
+                    return state.playingCurrentTime = formatTime(option.value);
+                else if (option.type === 'duration')
+                    return state.playingDurationTime = formatTime(option.value);
+
+                function formatTime(time) {
+                    const min = `0${parseInt(time / 60)}`;
+                    const sec = parseInt(time % 60);
+                    return `${min}:${sec < 10 ? 0 : ''}${sec}`
                 }
             }
         }
