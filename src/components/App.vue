@@ -65,16 +65,16 @@
                 state.playingMode = mode
             },
             changePlayingData: (state, data) => {
-                state.playingData = data
+                state.playingData = Object.freeze(data)
             },
             changeVolViewData: (state, data) => {
-                state.volViewData = data
+                state.volViewData = Object.freeze(data)
             },
             updateVolsData: (state, data) => {
-                state.vols = data
+                state.vols = Object.freeze(data)
             },
             updateSinglesData: (state, data) => {
-                state.singles = data
+                state.singles = Object.freeze(data)
             },
             loadMoreVols: (state) => {
                 const preIndex = state.volsShowIndex;
@@ -90,6 +90,7 @@
             },
             play: (state, options) => {
                 state.playing = true;
+                state.playingTimeRatio = 0;
                 options.type && (state.playingType = options.type);
                 options.type === 'vol' && (state.playingVolIndex = options.volIndex);
                 state.playingIndex = options.index;
@@ -138,7 +139,7 @@
                         index: index,
                         url: playingVolTracks[index].url
                     });
-                    state.playingData = playingVolTracks[index]
+                    state.playingData = Object.freeze(playingVolTracks[index])
                 } else if (state.playingType === 'single') {
                     if (operate === 'next')
                         index = state.playingIndex + 1 === state.singles.length ?
@@ -149,7 +150,7 @@
                         index: index,
                         url: state.singles[index].url
                     });
-                    state.playingData = state.singles[index]
+                    state.playingData = Object.freeze(state.singles[index])
                 }
             },
             updatePlayingInfo: function (state, option) {
@@ -190,10 +191,10 @@
         }},
         created: function() {
             this.db.getVolList().then(function (data) {
-                this.$store.commit('updateVolsData', Object.freeze(data.slice(0, 30)));
+                this.$store.commit('updateVolsData', data);
             }.bind(this));
             this.db.getSingleList().then(function (data) {
-                this.$store.commit('updateSinglesData', Object.freeze(data.slice(0, 30)))
+                this.$store.commit('updateSinglesData', data)
             }.bind(this));
         }
     }

@@ -47,20 +47,21 @@
         },
         methods: {
             showVolView: function () {
-                this.$store.commit(
-                    'changeVolViewData',
-                    Object.assign(
-                        { index: this.index },
-                        this.volStyle, this.data
-                    )
-                );
+                document.getElementById('volView').scrollTop = 0;
+                document.getElementById('volViewIntro') &&
+                    (document.getElementById('volViewIntro').scrollTop = 0);
                 this.$store.commit(
                     'changeView',
                     'volView'
                 );
-                document.getElementById('volView').scrollTop = 0;
-                document.getElementById('volViewIntro') &&
-                    (document.getElementById('volViewIntro').scrollTop = 0);
+                this.$store.commit(
+                    'changeVolViewData',
+                    Object.assign(
+                        { index: this.index },
+                        this.volStyle,
+                        this.data
+                    )
+                );
             },
             playVol: function () {
                 if (this.$store.state.playingType === 'vol' &&

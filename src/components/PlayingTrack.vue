@@ -73,7 +73,7 @@
             <div id="playingTrackBottom">
                 <span>{{ $store.state.playingCurrentTime }}</span>
                 <div id="playingTrackTimer">
-                    <div></div>
+                    <div :style="{ width: `${this.$store.state.playingTimeRatio}%` }"></div>
                 </div>
                 <span>{{ $store.state.playingDurationTime }}</span>
             </div>
@@ -248,7 +248,6 @@
             background-color: rgba(255, 255, 255, 0.25)
 
             & > div
-                width: 20%
                 height: 100%
                 float: left
                 background-color: rgb(255, 255, 255)
