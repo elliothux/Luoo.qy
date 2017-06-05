@@ -98,6 +98,7 @@
                 state.playingAudio.addEventListener('ended', function () {
                     this.default.store.commit('control', 'next')
                 }.bind(this));
+                window.text = state.playingAudio
             },
             togglePlay: (state) => {
                 if (state.playing) {

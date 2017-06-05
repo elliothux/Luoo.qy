@@ -28,7 +28,10 @@ K<template>
                     v-on:click="changePlayingMode"
                     :src="`../pic/play-${['order', 'loop', 'shuffle'][this.$store.state.playingMode]}.svg`"
                 />
-                <p>00:48</p>
+                <p v-if="this.$store.state.playingAudio &&
+                    this.$store.state.playingAudio.readyState > 0">
+                    {{ formatTime($store.state.playingAudio.currentTime) }}
+                </p>
             </div>
             <div id="playingInfo">
                 <p id="playingName">
@@ -49,7 +52,10 @@ K<template>
             </div>
             <div id="playingOperateRight">
                 <img :src="'../pic/like.svg'"/>
-                <p>03:37</p>
+                <p v-if="this.$store.state.playingAudio &&
+                    this.$store.state.playingAudio.readyState > 0">
+                    {{ formatTime($store.state.playingAudio.duration) }}
+                </p>
             </div>
             <div id="playingVolume">
                 <img :src="'../pic/volume-on.svg'"/>
@@ -73,6 +79,11 @@ K<template>
 
     export default {
         name: 'playing',
+        created: function () {
+            this.store.watch(
+
+            )
+        },
         methods: {
             playingStyle: function () { return {
                 transform: `translateY(${
@@ -84,6 +95,11 @@ K<template>
                     this.$store.state.playingData.cover :
                     '../pic/playing-cover.png'})`
             }},
+            formatTime: function (time) {
+                const min = `0${parseInt(time / 60)}`;
+                const sec = parseInt(time % 60);
+                return `${min}:${sec < 10 ? 0 : ''}${sec}`
+            },
             changePlayingMode: function () {
                 this.$store.commit('changePlayingMode');
             },
