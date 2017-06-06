@@ -158,7 +158,7 @@ K<template>
         justify-content: space-between
         align-items: center
         transition: all ease 600ms
-        z-index: 2
+        z-index: 3
 
     #playingController
         height: 100%

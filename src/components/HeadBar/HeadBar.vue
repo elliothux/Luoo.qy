@@ -1,5 +1,8 @@
 <template>
-    <div id="headBar">
+    <div
+        id="headBar"
+        :style="{ display: this.$store.state.viewStatus === 'types' ? 'none' : 'flex' }"
+    >
         <div id="headBarLeft">
             <div
                 :style="backStyle()"
@@ -10,7 +13,7 @@
                 />
                 <p>返回</p>
             </div>
-            <div v-on:click="changeView('vols')">
+            <div v-on:click.stop="changeView('vols')">
                 <img
                     :src="this.$store.state.viewStatus === 'vols' ?
                         '../pic/head-vol-solid.svg' :
@@ -21,7 +24,7 @@
                             '期刊' : '首页' }}
                 </p>
             </div>
-            <div v-on:click="changeView('singles')">
+            <div v-on:click.stop="changeView('singles')">
                 <img
                     :src="this.$store.state.viewStatus === 'singles' ?
                         '../pic/head-single-solid.svg' :
@@ -46,7 +49,6 @@
             <img :src="'../pic/avatar.png'"/>
             <p>抖腿侠</p>
         </div>
-        <Types/>
     </div>
 </template>
 
@@ -54,16 +56,11 @@
 <script>
     import Vue from 'vue';
     import Vuex from 'vuex';
-    import Types from './Types.vue';
 
     Vue.use(Vuex);
 
     export default {
         name: 'headBar',
-        components: { Types },
-        data: function () { return {
-            showTypes: false
-        }},
         methods: {
             changeView: function (view) {
                 if (view === this.$store.state.viewStatus) return;
@@ -86,10 +83,9 @@
         position: fixed
         padding: 10px 5%
         top: 10px
-        display: flex
         flex-direction: row
         justify-content: space-between
-        z-index: 1
+        z-index: 3
 
         & > div
             height: 100%

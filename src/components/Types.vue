@@ -11,12 +11,12 @@
                 class="volsType"
                 v-on:click.stop="chooseType(index)"
             >
-                <img :src="`../pic/types/${index % 8}.jpg`"/>
-                <div>
-                    <p class="volsTypeZh">{{ type[0] }}</p>
-                    <div></div>
-                    <p class="volsTypeEn">{{ type[1] }}</p>
-                </div>
+                <div
+                    class="typesCover"
+                    :style="{ backgroundImage: `url(../pic/types/${index % 8}.jpg)` }"
+                ></div>
+                <p class="volsTypeZh">{{ type[0] }}</p>
+                <p class="volsTypeEn">{{ type[1] }}</p>
             </div>
         </template>
     </div>
@@ -68,23 +68,26 @@
 
     .volsType
         width: 33.33%
-        height: 0
-        padding-bottom: 20%
-        margin-bottom: -5px
+        height: 33.33%
         background-color: black
-        display: inline-block
+        display: inline-flex
+        flex-direction: column
+        justify-content: space-around
+        align-items: center
         cursor: pointer
         position: relative
         transition: all ease 300ms
 
         &:hover
-            z-index: 3
             transform: scale(1.05)
 
-            img
+            .typesCover
                 opacity: 0.9
 
-        & > img
+            *
+                z-index: 3
+
+        .typesCover
             width: 100%
             height: 100%
             opacity: 0.3
@@ -94,24 +97,17 @@
             top: 0
             transition: all ease 600ms
 
-        & > div
-            width: 100%
-            position: absolute
-            top: calc(50% - 50px)
-
         .volsTypeZh
-            width: 100%
-            text-align: center
             font-size: 2.3em
             letter-spacing: 0.5em
             position: relative
             left: 2%
+            margin-top: 20%
 
         .volsTypeEn
-            width: 100%
-            text-align: center
             font-size: 1.3em
             letter-spacing: 0.1em
+            margin-bottom: 20%
 
         *
             cursor: pointer

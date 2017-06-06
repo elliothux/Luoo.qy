@@ -5,6 +5,7 @@
             :style="backgroundStyle()"
         />
         <HeadBar/>
+        <Types/>
         <Playing/>
         <Vols/>
         <Singles/>
@@ -22,6 +23,7 @@
     import Singles from './Singles/Singles.vue';
     import VolView from './VolView/VolView.vue';
     import PlayingTrack from './PlayingTrack.vue';
+    import Types from './Types.vue';
 
 
     Vue.use(Vuex);
@@ -214,7 +216,7 @@
 
     export default {
         name: 'app',
-        components: { HeadBar, Playing, Vols, Singles, VolView, PlayingTrack },
+        components: { HeadBar, Playing, Vols, Singles, VolView, PlayingTrack, Types },
         props: ['db'],
         store,
         data: function () { return {
