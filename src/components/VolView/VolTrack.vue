@@ -131,8 +131,10 @@
     .trackName
         font-size: 1em
         margin-bottom: 7px
+        word-break: break-word
 
     .trackAlbum, .trackArtist
         font-size: 0.7em
+        word-break: break-word
 
 </style>

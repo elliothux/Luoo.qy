@@ -43,6 +43,7 @@
             playingCurrentTime: '00:00',
             playingDurationTime: '00:00',
             playingTimeRatio: 0,
+            playingVolume: 80,
             playing: false,
         },
         mutations: {
@@ -94,15 +95,20 @@
                 options.type && (state.playingType = options.type);
                 options.type === 'vol' && (state.playingVolIndex = options.volIndex);
                 state.playingIndex = options.index;
+
                 if (!state.playingAudio) {
                     state.playingAudio = new Audio();
+                    addAudioEvent.bind(this)(state.playingAudio);
+                    window.a = state.playingAudio;
                 }
                 const audio = state.playingAudio;
+                audio.pause();
+                audio.src = '';
+                audio.load();
                 audio.src = options.url;
                 audio.load();
-                addAudioEvent.bind(this)();
 
-                function addAudioEvent() {
+                function addAudioEvent(audio) {
                     audio.addEventListener('canplay', function (event) {
                         event.target.play()
                     });
@@ -121,8 +127,10 @@
                     }.bind(this));
                     audio.addEventListener('ended', function () {
                         if (state.playingMode === 2) return audio.play();
-                        this.default.store.commit('control', 'next',
-                                [1, parseInt(Math.random() * 100)][state.playingMode])
+                        this.default.store.commit('control', {
+                                operate: 'next',
+                                scale: [1, parseInt(Math.random() * 50)][state.playingMode]
+                        })
                     }.bind(this));
                 }
             },
@@ -136,16 +144,15 @@
                     state.playing = true;
                 }
             },
-            control: (state, operate, scale) => {
+            control: (state, option) => {
                 let index;
-                !scale && (scale = store.state.playingMode === 1 ?
-                        parseInt(Math.random() * 100) : 1);
+                const { operate, scale } = option;
                 if (state.playingType === 'vol') {
                     const playingVolTracks = state.vols[state.playingVolIndex].tracks;
                     index = (state.playingIndex + (operate === 'next' ? 1 : -1) * scale) % playingVolTracks.length;
                     index < 0 && (index = playingVolTracks.length + index);
-                    if (index === state.playingIndex)
-                        return this.control(...arguments);
+                    if (state.playingMode === 1 && (index === state.playingIndex || index === state.playingIndex + 1))
+                        this.default.store.commit('control', Object.assign(option, { index: option.index + 2 }));
                     this.default.store.commit('play', {
                         index: index,
                         url: playingVolTracks[index].url
@@ -154,8 +161,8 @@
                 } else if (state.playingType === 'single') {
                     index = (state.playingIndex + (operate === 'next' ? 1 : -1) * scale) % state.singles.length;
                     index < 0 && (index = state.singles.length + index);
-                    if (index === state.playingIndex)
-                        return this.control(...arguments);
+                    if (state.playingMode === 1 && (index === state.playingIndex || index === state.playingIndex + 1))
+                        this.default.store.commit('control', Object.assign(option, { index: option.index + 2 }));
                     this.default.store.commit('play', {
                         index: index,
                         url: state.singles[index].url
@@ -180,6 +187,10 @@
             setPlayingTimeRatio: (state, value) => {
                 state.playingTimeRatio = value;
                 state.playingAudio.currentTime = state.playingAudio.duration * value / 100
+            },
+            setPlayingVolume: (state, volume) => {
+                state.playingVolume = volume;
+                state.playingAudio && (state.playingAudio.volume = volume / 100);
             }
         }
     });

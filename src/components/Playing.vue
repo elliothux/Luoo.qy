@@ -62,12 +62,12 @@ K<template>
         <div id="playingVolumeContainer">
             <div id="playingVolume">
                 <img :src="'../pic/volume-on.svg'"/>
-                <p>30</p>
+                <p>{{ $store.state.playingVolume }}</p>
             </div>
             <div
-                    id="playingCover"
-                    :style="playingCoverStyle()"
-                    v-on:click="showPlayingTrack"
+                id="playingCover"
+                :style="playingCoverStyle()"
+                v-on:click="showPlayingTrack"
             ></div>
         </div>
     </div>
@@ -103,7 +103,11 @@ K<template>
             control: function(operate) {
                 if (operate === 'toggle')
                     return this.$store.commit('togglePlay');
-                return this.$store.commit('control', operate)
+                return this.$store.commit('control', {
+                    operate: operate,
+                    scale: this.$store.state.playingMode === 1 ?
+                        parseInt(Math.random() * 50) : 1
+                })
             },
             setPlayingTimeRatio: function (event) {
                 this.$store.commit('setPlayingTimeRatio', event.target.value)

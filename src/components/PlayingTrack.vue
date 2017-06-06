@@ -50,7 +50,7 @@
                     </div>
                     <div>
                         <img :src="'../pic/volume-on.svg'"/>
-                        <p>30</p>
+                        <p>{{ $store.state.playingVolume }}</p>
                     </div>
                 </div>
             </div>
@@ -116,10 +116,11 @@
             control: function(operate) {
                 if (operate === 'toggle')
                     return this.$store.commit('togglePlay');
-                else if (operate === 'next')
-                    return this.$store.commit('control', 'next');
-                else if (operate === 'pre')
-                    return this.$store.commit('control', 'pre');
+                return this.$store.commit('control', {
+                        operate: operate,
+                        scale: this.$store.state.playingMode === 1 ?
+                            parseInt(Math.random() * 50) : 1
+                    })
             },
             setPlayingTimeRatio: function (event) {
                 this.$store.commit('setPlayingTimeRatio', event.target.value)
