@@ -3,7 +3,7 @@
         <div id="headBarLeft">
             <div
                 :style="backStyle()"
-                v-on:click="changeView($store.state.preViewStatus)"
+                v-on:click.stop="changeView($store.state.preViewStatus)"
             >
                 <img
                     :src="'../pic/head-back.svg'"
@@ -29,6 +29,14 @@
                 />
                 <p>单曲</p>
             </div>
+            <div
+                id="toggleTypes"
+                :style="{ display: $store.state.viewStatus === 'vols' ? 'flex' : 'none' }"
+                v-on:click.stop="changeView('types')"
+            >
+                <p>{{ $store.state.volsTypes[$store.state.volsShowType][0] }}</p>
+                <img :src="'../pic/head-triangle.svg'"/>
+            </div>
         </div>
         <div id="headBarLogo">
             <img id="headBarLogoImg" :src="'../pic/logo.png'"/>
@@ -38,6 +46,7 @@
             <img :src="'../pic/avatar.png'"/>
             <p>抖腿侠</p>
         </div>
+        <Types/>
     </div>
 </template>
 
@@ -45,11 +54,16 @@
 <script>
     import Vue from 'vue';
     import Vuex from 'vuex';
+    import Types from './Types.vue';
 
     Vue.use(Vuex);
 
     export default {
         name: 'headBar',
+        components: { Types },
+        data: function () { return {
+            showTypes: false
+        }},
         methods: {
             changeView: function (view) {
                 if (view === this.$store.state.viewStatus) return;
@@ -75,12 +89,15 @@
         display: flex
         flex-direction: row
         justify-content: space-between
-        z-index: 2
+        z-index: 1
 
         & > div
             height: 100%
 
     #headBarLeft
+        display: flex
+        flex-direction: row
+        align-items: center
         height: 100%
 
         & > div
@@ -96,6 +113,23 @@
 
             & > img
                 height: 60%
+
+        #toggleTypes
+            display: flex
+            height: auto
+            align-items: center
+            padding: 0 3px 2px 4px
+            margin: 5px 0 0 30px
+            border-bottom: 1px solid white
+
+            p
+                display: inline-block
+                font-size: 1.2em
+
+            img
+                width: 13px
+                position: relative
+                left: 3px
 
     #headBarRight
         height: 100%

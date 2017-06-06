@@ -2,7 +2,7 @@
     <div
         id="vols"
         :class="this.$store.state.viewStatus === 'vols' ?
-            'volsShow show' : 'volsHidden hidden'"
+            'volsShow' : 'volsHidden'"
     >
         <Vol
             v-for="(vol, index) in this.$store.state.vols.slice(0, this.$store.state.volsShowIndex)"

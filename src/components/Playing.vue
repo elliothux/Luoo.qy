@@ -108,6 +108,8 @@ K<template>
         },
         methods: {
             playingStyle: function () { return {
+                display: this.$store.state.viewStatus === 'types' ?
+                    'none' : 'flex',
                 transform: `translateY(${
                     this.$store.state.viewStatus === 'playingTrack' ?
                         '63px' : '0'}`
