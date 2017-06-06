@@ -49,8 +49,24 @@
                         <p>已喜欢</p>
                     </div>
                     <div>
-                        <img :src="'../pic/volume-on.svg'"/>
+                        <img
+                            :src="`../pic/volume-${ this.$store.state.playingVolume > 0 ? 'on' : 'off'}.svg`"
+                            v-on:click.stop="showVolumeController = !showVolumeController"
+                        />
                         <p>{{ $store.state.playingVolume }}</p>
+                        <div
+                            id="playingTrackVolumeController"
+                            v-if="showVolumeController"
+                        >
+                            <input
+                                class="volumeTrackController"
+                                min="0" max="100"
+                                step="1" type="range"
+                                :value="$store.state.playingVolume"
+                                v-on:change.stop="setPlayingVolume"
+                            />
+                            <div id="playingTrackVolumeTriangle"></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -74,9 +90,9 @@
                 <span>{{ $store.state.playingCurrentTime }}</span>
                 <div id="playingTrackTimerContainer">
                     <input
-                            min="0" max="100"
-                            step="1" type="range"
-                            v-on:change.stop="setPlayingTimeRatio"
+                        min="0" max="100"
+                        step="1" type="range"
+                        v-on:change.stop="setPlayingTimeRatio"
                     />
                     <div id="playingTrackTimer">
                         <div :style="{ width: `${this.$store.state.playingTimeRatio}%` }"></div>
@@ -97,6 +113,9 @@
 
     export default {
         name: 'playingTrack',
+        data: function () { return {
+            showVolumeController: false,
+        }},
         methods: {
             playingBackgroundStyle: function () { return {
                 backgroundImage: `url(${this.$store.state.playingData ?
@@ -124,6 +143,9 @@
             },
             setPlayingTimeRatio: function (event) {
                 this.$store.commit('setPlayingTimeRatio', event.target.value)
+            },
+            setPlayingVolume: function (event) {
+                this.$store.commit('setPlayingVolume', event.target.value)
             }
         }
     }
@@ -170,6 +192,7 @@
         display: flex
         flex-direction: column
         justify-content: center
+        z-index: 2
 
         #playingTrackCover
             width: 100%
@@ -209,6 +232,7 @@
 
             & > div
                 width: 30%
+                position: relative
 
                 img
                     width: 20%
@@ -217,6 +241,30 @@
                 p
                     font-size: 0.7em
 
+            #playingTrackVolumeController
+                width: 160px
+                height: 36px
+                position: absolute
+                bottom: -50px
+                left: calc(50% - 80px)
+                background-color: rgba(255, 255, 255, 0.3)
+
+                & > input
+                    cursor: pointer
+                    width: 86%
+                    height: 100%
+                    background-color: transparent
+
+                #playingTrackVolumeTriangle
+                    float: left
+                    position: absolute
+                    top: -10px
+                    right: 70px
+                    width: 0
+                    height: 0
+                    border-style: solid
+                    border-width: 0 10px 10px 10px
+                    border-color: transparent transparent rgba(255, 255, 255, 0.3) transparent
 
     #playingTrackRight
         width: 55%

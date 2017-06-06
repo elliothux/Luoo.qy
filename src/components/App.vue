@@ -152,7 +152,8 @@
                     index = (state.playingIndex + (operate === 'next' ? 1 : -1) * scale) % playingVolTracks.length;
                     index < 0 && (index = playingVolTracks.length + index);
                     if (state.playingMode === 1 && (index === state.playingIndex || index === state.playingIndex + 1))
-                        this.default.store.commit('control', Object.assign(option, { index: option.index + 2 }));
+                        return this.default.store.commit('control',
+                            Object.assign(option, { index: option.index + 2 }));
                     this.default.store.commit('play', {
                         index: index,
                         url: playingVolTracks[index].url
@@ -162,7 +163,8 @@
                     index = (state.playingIndex + (operate === 'next' ? 1 : -1) * scale) % state.singles.length;
                     index < 0 && (index = state.singles.length + index);
                     if (state.playingMode === 1 && (index === state.playingIndex || index === state.playingIndex + 1))
-                        this.default.store.commit('control', Object.assign(option, { index: option.index + 2 }));
+                        return this.default.store.commit('control',
+                            Object.assign(option, { index: option.index + 2 }));
                     this.default.store.commit('play', {
                         index: index,
                         url: state.singles[index].url

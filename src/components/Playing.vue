@@ -61,8 +61,23 @@ K<template>
         </div>
         <div id="playingVolumeContainer">
             <div id="playingVolume">
-                <img :src="'../pic/volume-on.svg'"/>
+                <img
+                    :src="`../pic/volume-${ this.$store.state.playingVolume > 0 ? 'on' : 'off'}.svg`"
+                    v-on:click.stop="showVolumeController = !showVolumeController"
+                />
                 <p>{{ $store.state.playingVolume }}</p>
+                <div
+                    id="playingVolumeController"
+                    v-if="showVolumeController"
+                >
+                    <input
+                        min="0" max="100"
+                        step="1" type="range"
+                        :value="$store.state.playingVolume"
+                        v-on:change.stop="setPlayingVolume"
+                    />
+                    <div id="playingVolumeTriangle"></div>
+                </div>
             </div>
             <div
                 id="playingCover"
@@ -82,6 +97,15 @@ K<template>
 
     export default {
         name: 'playing',
+        data: function () { return {
+            showVolumeController: false,
+        }},
+        created: function () {
+            window.addEventListener('click', function () {
+                this.showVolumeController = false;
+                return false
+            }.bind(this))
+        },
         methods: {
             playingStyle: function () { return {
                 transform: `translateY(${
@@ -111,6 +135,9 @@ K<template>
             },
             setPlayingTimeRatio: function (event) {
                 this.$store.commit('setPlayingTimeRatio', event.target.value)
+            },
+            setPlayingVolume: function (event) {
+                this.$store.commit('setPlayingVolume', event.target.value)
             }
         }
     }
@@ -129,6 +156,7 @@ K<template>
         justify-content: space-between
         align-items: center
         transition: all ease 600ms
+        z-index: 2
 
     #playingController
         height: 100%
@@ -198,6 +226,7 @@ K<template>
                 z-index: 2
                 opacity: 0
                 cursor: pointer
+                transform: scaleY(2)
 
             #playingTimer
                 position: absolute
@@ -234,6 +263,32 @@ K<template>
             p
                 font-size: 0.7em
                 opacity: 0.5
+
+            #playingVolumeController
+                width: 160px
+                height: 36px
+                position: absolute
+                right: calc(15% + 10px - 80px)
+                bottom: 120px
+                background-color: rgba(255, 255, 255, 0.3)
+                transform: rotate(-90deg)
+
+                & > input
+                    cursor: pointer
+                    width: 86%
+                    height: 100%
+                    background-color: transparent
+
+                #playingVolumeTriangle
+                    float: left
+                    position: absolute
+                    bottom: 7px
+                    left: -10px
+                    width: 0
+                    height: 0
+                    border-style: solid
+                    border-width: 10px 10px 10px 0
+                    border-color: transparent rgba(255, 255, 255, 0.3) transparent transparent
 
         #playingCover
             width: 55px
