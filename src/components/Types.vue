@@ -3,18 +3,18 @@
         id="types"
         :class="this.$store.state.viewStatus === 'types' ?
             'typesShow' : 'typesHidden'"
+        style="z-index: -2"
     >
-        <template
-            v-for="(type, index) in this.$store.state.volsTypes"
-        >
+        <template v-for="(type, index) in this.$store.state.volsTypes">
             <div
                 class="volsType"
+                :key="index"
                 v-on:click.stop="chooseType(index)"
             >
-                <div
-                    class="typesCover"
-                    :style="{ backgroundImage: `url(../pic/types/${index % 8}.jpg)` }"
-                ></div>
+                <!--<div-->
+                    <!--class="typesCover"-->
+                    <!--:style="{ backgroundImage: `url(../pic/types/${index % 8}.jpg)` }"-->
+                <!--&gt;</div>-->
                 <p class="volsTypeZh">{{ type[0] }}</p>
                 <p class="volsTypeEn">{{ type[1] }}</p>
             </div>

@@ -1,18 +1,1 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="111px" height="92px" viewBox="0 0 111 92" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 39.1 (31720) - http://www.bohemiancoding.com/sketch -->
-    <title>play-shuffle</title>
-    <desc>Created with Sketch.</desc>
-    <defs></defs>
-    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="buttons" transform="translate(-402.000000, -289.000000)" stroke-width="6" stroke="#FFFFFF">
-            <g id="play-shuffle" transform="translate(402.000000, 292.000000)">
-                <polyline id="Shape" points="93.0174945 0.0796847331 106.726944 13.403368 93.0174945 26.7270513"></polyline>
-                <path d="M106.726944,13.403368 L81.1994604,13.403368 C65.2782669,13.403368 52.3719306,27.7822554 52.3719306,43.2554466 L52.3719306,43.2554466 L52.3719306,44.9906931 C52.3719306,60.4638843 39.4655938,73.0070534 23.5444008,73.0070534 L0.128335115,73.0070534" id="Shape"></path>
-                <polyline id="Shape" points="93.0174945 86.3307365 106.726944 73.0070534 93.0174945 59.68337"></polyline>
-                <path d="M106.726944,73.0070534 L81.1994604,73.0070534 C73.9261184,73.0070534 67.301073,70.3690433 62.2292897,66.0502297" id="Shape"></path>
-                <path d="M42.5145714,20.3601917 C37.4427882,16.0413781 30.8172333,13.403368 23.5444008,13.403368 L0.128335115,13.403368" id="Shape"></path>
-            </g>
-        </g>
-    </g>
-</svg>
+<svg width="111" height="92" viewBox="0 0 111 92" xmlns="http://www.w3.org/2000/svg"><title>play-shuffle</title><g fill="none" fill-rule="evenodd"><g transform="translate(-402 -289)" stroke-width="6" stroke="#FFF"><g transform="translate(402 292)"><path d="M93.0174945 0.0796847331L106.726944 13.403368 93.0174945 26.7270513"/><path d="M106.727 13.403H81.199c-15.92 0-28.827 14.38-28.827 29.852v1.736c0 15.473-12.906 28.016-28.828 28.016H.128"/><path d="M93.0174945 86.3307365L106.726944 73.0070534 93.0174945 59.68337"/><path d="M106.727 73.007H81.199a29.167 29.167 0 0 1-18.97-6.957M42.515 20.36a29.168 29.168 0 0 0-18.97-6.957H.127"/></g></g></g></svg>

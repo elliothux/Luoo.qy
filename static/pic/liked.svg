@@ -1,12 +1,1 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="121px" height="114px" viewBox="0 0 121 114" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 39.1 (31720) - http://www.bohemiancoding.com/sketch -->
-    <title>liked</title>
-    <desc>Created with Sketch.</desc>
-    <defs></defs>
-    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="buttons" transform="translate(-395.000000, -121.000000)" stroke="#FF364F" stroke-width="6" fill="#FF364E">
-            <path d="M504.331198,133.280333 C492.772627,120.906556 474.034729,120.906556 462.477172,133.280333 L455.49981,140.748167 L448.52397,133.28142 C436.965398,120.907642 418.225978,120.907642 406.668929,133.28142 C395.110357,145.655197 395.110357,165.714645 406.668929,178.088423 L455.500317,230.360001 L504.330183,178.088423 C515.88977,165.715189 515.88977,145.654111 504.331198,133.280333 L504.331198,133.280333 L504.331198,133.280333 Z" id="liked"></path>
-        </g>
-    </g>
-</svg>
+<svg width="121" height="114" viewBox="0 0 121 114" xmlns="http://www.w3.org/2000/svg"><title>liked</title><g fill="none" fill-rule="evenodd"><g transform="translate(-395 -121)" stroke="#FF364F" stroke-width="6" fill="#FF364E"><path d="M504.331 133.28c-11.558-12.373-30.296-12.373-41.854 0l-6.977 7.468-6.976-7.467c-11.559-12.373-30.298-12.373-41.855 0-11.559 12.374-11.559 32.434 0 44.807L455.5 230.36l48.83-52.272c11.56-12.373 11.56-32.434.001-44.808z"/></g></g></svg>

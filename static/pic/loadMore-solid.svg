@@ -1,16 +1,1 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="36px" height="9px" viewBox="0 0 36 9" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 39.1 (31720) - http://www.bohemiancoding.com/sketch -->
-    <title>Group 2</title>
-    <desc>Created with Sketch.</desc>
-    <defs></defs>
-    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="user" transform="translate(-129.000000, -816.000000)" stroke="#FFFFFF" fill="#FFFFFF">
-            <g id="Group-2" transform="translate(147.000000, 820.500000) scale(-1, 1) translate(-147.000000, -820.500000) translate(130.000000, 817.000000)">
-                <ellipse id="Oval-2" cx="3.69934603" cy="3.5" rx="3.4226233" ry="3.5"></ellipse>
-                <ellipse id="Oval-2-Copy" cx="17.0927264" cy="3.5" rx="3.4226233" ry="3.5"></ellipse>
-                <ellipse id="Oval-2-Copy-2" cx="30.4861067" cy="3.5" rx="3.4226233" ry="3.5"></ellipse>
-            </g>
-        </g>
-    </g>
-</svg>
+<svg width="36" height="9" viewBox="0 0 36 9" xmlns="http://www.w3.org/2000/svg"><title>Group 2</title><g fill="none" fill-rule="evenodd"><g transform="translate(-129 -816)" stroke="#FFF" fill="#FFF"><g transform="matrix(-1 0 0 1 164 817)"><ellipse cx="3.699" cy="3.5" rx="3.423" ry="3.5"/><ellipse cx="17.093" cy="3.5" rx="3.423" ry="3.5"/><ellipse cx="30.486" cy="3.5" rx="3.423" ry="3.5"/></g></g></g></svg>

@@ -2,12 +2,12 @@
     <div
         id="singles"
         :class="this.$store.state.viewStatus === 'singles' ?
-            'singlesShow show' : 'singlesHidden hidden'"
-        style="z-index: -2;"
+            'singlesShow' : 'singlesHidden'"
+        style="z-index: -2"
     >
         <Single
             v-for="(single, index) in this.$store.state.singles.slice(0, this.$store.state.singlesShowIndex)"
-            :data="single"
+            :data="Object.freeze(single)"
             :index="index"
             :key="single.date"
         />
@@ -15,7 +15,7 @@
             id="loadMoreSingles"
             v-if="this.$store.state.singles.length !== this.$store.state.singlesShowIndex"
         >
-            <div v-on:click="loadMore">
+            <div v-on:click.stop="loadMore">
                 <img :src="'../pic/loadMore-stroked.svg'"/>
                 <p>更多</p>
             </div>

@@ -1,16 +1,1 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="125px" height="112px" viewBox="0 0 125 112" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 39.1 (31720) - http://www.bohemiancoding.com/sketch -->
-    <title>volume-off</title>
-    <desc>Created with Sketch.</desc>
-    <defs></defs>
-    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="buttons" transform="translate(-877.000000, -122.000000)" stroke="#FFFFFF" stroke-width="6">
-            <g id="volume-off" transform="translate(880.000000, 125.000000)">
-                <path d="M25.6643596,78.707175 L3.25806742,78.707175 C1.45833708,78.707175 -4.26325641e-14,77.4456298 -4.26325641e-14,75.5016189 L-4.26325641e-14,29.8896737 C-4.26325641e-14,27.9456627 1.45833708,26.4332024 3.25806742,26.4332024 L25.057618,26.4332024 L56.4814382,1.7052901 C64.2601348,-3.6690551 64.7191011,5.37724627 64.7191011,5.37724627 L64.7191011,99.9263422 C64.7191011,99.9263422 64.2601348,108.841959 56.4814382,103.472841 L25.6643596,78.707175 L25.6643596,78.707175 Z" id="Shape"></path>
-                <path d="M82.247191,31.9452055 L119.554517,72.1229808" id="Shape"></path>
-                <path d="M82.247191,72.1229808 L119.554517,31.9452055" id="Shape"></path>
-            </g>
-        </g>
-    </g>
-</svg>
+<svg width="125" height="112" viewBox="0 0 125 112" xmlns="http://www.w3.org/2000/svg"><title>volume-off</title><g fill="none" fill-rule="evenodd"><g transform="translate(-877 -122)" stroke="#FFF" stroke-width="6"><g transform="translate(880 125)"><path d="M25.664 78.707H3.258c-1.8 0-3.258-1.261-3.258-3.205V29.89c0-1.944 1.458-3.457 3.258-3.457h21.8L56.48 1.705c7.78-5.374 8.238 3.672 8.238 3.672v94.55s-.459 8.915-8.238 3.546L25.664 78.707zm56.583-46.762l37.308 40.178m-37.308 0l37.308-40.178"/></g></g></g></svg>

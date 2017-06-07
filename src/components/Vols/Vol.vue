@@ -2,7 +2,7 @@
     <div
         class="vol"
         :style="volStyle"
-        v-on:click="showVolView"
+        v-on:click.stop="showVolView"
     >
         <img :src="data.cover" class="volCover"/>
         <div class="volInfo">
@@ -47,9 +47,12 @@
         },
         methods: {
             showVolView: function () {
-                document.getElementById('volView').scrollTop = 0;
-                document.getElementById('volViewIntro') &&
-                    (document.getElementById('volViewIntro').scrollTop = 0);
+                setTimeout(function () {
+                    if (document.getElementById('volViewIntro')) {
+                        document.getElementById('volView').scrollTop = 0;
+                        document.getElementById('volViewIntro').scrollTop = 0;
+                    }
+                }, 0);
                 this.$store.commit(
                     'changeView',
                     'volView'
@@ -64,16 +67,17 @@
                 );
             },
             playVol: function () {
+                const commit = this.$store.commit;
                 if (this.$store.state.playingType === 'vol' &&
                     this.$store.state.playingVolIndex === this.index)
-                        return this.$store.commit('togglePlay');
-                this.$store.commit('play', {
+                        return commit('togglePlay');
+                commit('play', Object.freeze({
                     type: 'vol',
                     volIndex: this.index,
                     index: 0,
                     url: this.data.tracks[0].url
-                });
-                this.$store.commit('changePlayingData', this.data.tracks[0])
+                }));
+                commit('changePlayingData', Object.freeze(this.data.tracks[0]))
             }
         }
     }
@@ -130,4 +134,5 @@
             &:hover
                 transform: scale(1)
                 opacity: 1
+
 </style>

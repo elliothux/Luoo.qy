@@ -6,8 +6,18 @@
         style="z-index: -2;"
     >
         <template v-if="this.$store.state.volViewData">
-            <div id="volViewInfo" :style="volViewInfoStyle()">
-                <div id="volViewCover" :style="volViewCoverStyle()"></div>
+            <div id="volViewInfo" :style="{
+                backgroundColor: this.$store.state.volViewData ?
+                    this.$store.state.volViewData.backgroundColor :
+                    'rgba(255, 255, 255, 0.55)'
+            }">
+                <div
+                    id="volViewCover"
+                    :style="{ backgroundImage: `url(${this.$store.state.volViewData ?
+                    this.$store.state.volViewData.cover :
+                    'rgba(255, 255, 255, 0.55)'
+                    })`
+            }"></div>
                 <div id="volViewIntro">
                     <div id="volViewIntroContainer">
                         <div id="volViewOperate">
@@ -15,18 +25,23 @@
                                 <img id="volViewOperateLike" :src="'../pic/like.svg'"/>
                                 <img
                                     id="volViewToggle"
-                                    :src="(this.$store.state.playingType === 'vol' &&
-                                        this.$store.state.playingVolIndex === this.$store.state.volViewData.index &&
-                                        this.$store.state.playing) ?
+                                    :src="(this.$store.state.playing &&
+                                        this.$store.state.playingType === 'vol' &&
+                                        this.$store.state.playingVolIndex === this.$store.state.volViewData.index) ?
                                             '../pic/controller-pause.svg' :
                                             '../pic/controller-play.svg'"
                                     v-on:click.stop="playVol"
                                 />
                             </div>
-                            <p><span v-for="tag in $store.state.volViewData.tag">{{ tag }}&nbsp;&nbsp;&nbsp;</span></p>
+                            <p><span v-for="tag in $store.state.volViewData.tag">
+                                {{ tag }}&nbsp;&nbsp;&nbsp;
+                            </span></p>
                         </div>
                         <p id="volViewIntroTitle">{{ $store.state.volViewData.title }}</p>
-                        <p id="volViewIntroDesc" v-html="$store.state.volViewData.description.slice(4)"/>
+                        <p
+                            id="volViewIntroDesc"
+                            v-html="$store.state.volViewData.description.slice(4)"
+                        />
                         <p id="volViewIntroDate">
                             <img :src="'../pic/logo.png'"/>
                             落在低处・{{ $store.state.volViewData.date }}
@@ -37,7 +52,7 @@
             <div id="tracks">
                 <VolTrack
                     v-for="track in $store.state.volViewData.tracks"
-                    :data="track"
+                    :data="Object.freeze(track)"
                     :key="`${track.vol}-${track.order}`"
                 />
             </div>
@@ -57,29 +72,18 @@
         name: 'volView',
         components: { VolTrack },
         methods: {
-            volViewInfoStyle: function () { return {
-                backgroundColor: this.$store.state.volViewData ?
-                    this.$store.state.volViewData.backgroundColor :
-                    'rgba(255, 255, 255, 0.55)'
-            }},
-            volViewCoverStyle: function () { return {
-                backgroundImage: `url(${this.$store.state.volViewData ?
-                    this.$store.state.volViewData.cover :
-                    'rgba(255, 255, 255, 0.55)'
-                    })`
-            }},
             playVol: function () {
-                const data = this.$store.state.volViewData;
-                if (this.$store.state.playingType === 'vol' &&
-                    this.$store.state.playingVolIndex === data.index)
-                    return this.$store.commit('togglePlay');
-                this.$store.commit('play', {
+                const { state, commit } = this.$store;
+                if (state.playingType === 'vol' &&
+                    state.playingVolIndex === state.volViewData.index)
+                    return commit('togglePlay');
+                commit('play', Object.freeze({
                     type: 'vol',
                     volIndex: data.index,
                     index: 0,
                     url: data.tracks[0].url
-                });
-                this.$store.commit('changePlayingData', data.tracks[0])
+                }));
+                commit('changePlayingData', Object.freeze(state.volViewData.tracks[0]))
             }
         }
     }

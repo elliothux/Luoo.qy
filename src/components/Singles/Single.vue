@@ -61,24 +61,26 @@
         },
         methods: {
             showPlayingTrack: function () {
+                const state = this.$store.state;
                 this.$store.commit('changeView', 'playingTrack');
-                if (this.$store.state.playingType === 'single' &&
-                    this.$store.state.playing &&
-                    this.$store.state.playingIndex === this.index)
+                if (state.playing &&
+                    state.playingType === 'single' &&
+                    state.playingIndex === this.index)
                     return;
                 this.playSingle();
             },
             playSingle: function () {
-                if (this.$store.state.playingType === 'single' &&
-                    this.$store.state.playingIndex === this.index)
+                const state = this.$store.state;
+                if (state.playingType === 'single' &&
+                    state.playingIndex === this.index)
                         return this.$store.commit('togglePlay');
-                this.$store.commit('changePlayingData', this.data);
+                this.$store.commit('changePlayingData', Object.freeze(this.data));
                 this.$store.commit('changePlayingType', 'single');
-                this.$store.commit('play', {
+                this.$store.commit('play', Object.freeze({
                     type: 'single',
                     index: this.index,
                     url: this.data.url
-                })
+                }))
             }
         }
     }

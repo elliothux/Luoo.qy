@@ -8,36 +8,45 @@
         <template v-if="$store.state.playingData">
             <div
                 id="playingTrackBackground"
-                :style="playingBackgroundStyle()"
+                :style="{
+                    backgroundImage: `url(${this.$store.state.playingData ?
+                        this.$store.state.playingData.cover : ''
+                })`
+            }"
             />
             <div id="playingTrackLeft">
                 <div
                     id="playingTrackCover"
-                    :style="playingCoverStyle()"
+                    :style="{
+                        backgroundImage: `url(${this.$store.state.playingData ?
+                            this.$store.state.playingData.cover : '' })`,
+                        paddingBottom: this.$store.state.playingType === 'single' ?
+                            '70%' : '100%'
+            }"
                 />
                 <div id="playingTrackController">
                     <img
                         id="playingTrackControllerPre"
                         :src="'../pic/controller-pre.svg'"
-                        v-on:click="control('pre')"
+                        v-on:click.stop="control('pre')"
                     />
                     <img
                         id="playingTrackControllerToggle"
                         :src="this.$store.state.playing ?
                             '../pic/controller-pause.svg' :
                             '../pic/controller-play.svg'"
-                        v-on:click="control('toggle')"
+                        v-on:click.stop="control('toggle')"
                     />
                     <img
                         id="playingTrackControllerNext"
                         :src="'../pic/controller-next.svg'"
-                        v-on:click="control('next')"
+                        v-on:click.stop="control('next')"
                     />
                 </div>
                 <div id="playingTrackOperate">
                     <div>
                         <img
-                            v-on:click="changePlayingMode"
+                            v-on:click.stop="changePlayingMode"
                             :src="`../pic/play-${['order', 'shuffle', 'loop'][this.$store.state.playingMode]}.svg`"
                         />
                         <p>
@@ -75,7 +84,10 @@
                     <p id="playingTrackTitle">
                         {{ $store.state.playingData.name }}
                     </p>
-                    <p id="playingTrackAlbum" v-if="$store.state.playingType === 'vol'">
+                    <p
+                        id="playingTrackAlbum"
+                        v-if="$store.state.playingType === 'vol'"
+                    >
                         {{ $store.state.playingData.album }}
                     </p>
                     <p
@@ -117,29 +129,17 @@
             showVolumeController: false,
         }},
         methods: {
-            playingBackgroundStyle: function () { return {
-                backgroundImage: `url(${this.$store.state.playingData ?
-                    this.$store.state.playingData.cover : ''
-                })`
-            }},
-            playingCoverStyle: function () { return {
-                backgroundImage: `url(${this.$store.state.playingData ?
-                    this.$store.state.playingData.cover : ''
-                    })`,
-                paddingBottom: this.$store.state.playingType === 'single' ?
-                    '70%' : '100%'
-            }},
             changePlayingMode: function () {
                 this.$store.commit('changePlayingMode');
             },
             control: function(operate) {
                 if (operate === 'toggle')
                     return this.$store.commit('togglePlay');
-                return this.$store.commit('control', {
+                return this.$store.commit('control', Object.freeze({
                         operate: operate,
                         scale: this.$store.state.playingMode === 1 ?
                             parseInt(Math.random() * 50) : 1
-                    })
+                    }))
             },
             setPlayingTimeRatio: function (event) {
                 this.$store.commit('setPlayingTimeRatio', event.target.value)
@@ -327,6 +327,5 @@
                     height: 100%
                     float: left
                     background-color: rgb(255, 255, 255)
-
 
 </style>

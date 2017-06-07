@@ -6,7 +6,7 @@
     >
         <Vol
             v-for="(vol, index) in this.$store.state.vols.slice(0, this.$store.state.volsShowIndex)"
-            :data="vol"
+            :data="Object.freeze(vol)"
             :index="index"
             :key="vol.vol"
         />
@@ -14,7 +14,7 @@
             id="loadMoreVols"
             v-if="this.$store.state.vols.length !== this.$store.state.volsShowIndex"
         >
-            <div v-on:click="loadMore">
+            <div v-on:click.stop="loadMore">
                 <img :src="'../pic/loadMore-stroked.svg'"/>
                 <p>更多</p>
             </div>

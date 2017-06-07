@@ -5,12 +5,12 @@
     >
         <div id="headBarLeft">
             <div
-                :style="backStyle()"
+                :style="{ display: (this.$store.state.viewStatus === 'playingTrack' ||
+                    this.$store.state.viewStatus === 'user') ?
+                        'inline-block' : 'none' }"
                 v-on:click.stop="changeView($store.state.preViewStatus)"
             >
-                <img
-                    :src="'../pic/head-back.svg'"
-                />
+                <img :src="'../pic/head-back.svg'"/>
                 <p>返回</p>
             </div>
             <div v-on:click.stop="changeView('vols')">
@@ -65,12 +65,7 @@
             changeView: function (view) {
                 if (view === this.$store.state.viewStatus) return;
                 this.$store.commit('changeView', view);
-            },
-            backStyle: function () { return {
-                display: (this.$store.state.viewStatus === 'playingTrack' ||
-                    this.$store.state.viewStatus === 'user') ?
-                        'inline-block' : 'none'
-            }}
+            }
         }
     }
 </script>
@@ -165,5 +160,4 @@
             font-family: "Savoye LET", sans-serif
             position: relative
             top: 3px
-
 </style>

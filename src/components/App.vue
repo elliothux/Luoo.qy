@@ -2,7 +2,9 @@
     <div id="app">
         <div
             id="background"
-            :style="backgroundStyle()"
+            :style="{ backgroundImage: `url(${this.$store.state.volViewData ?
+                this.$store.state.volViewData.cover :
+                '../pic/background.jpg'})` }"
         />
         <HeadBar/>
         <Types/>
@@ -64,11 +66,9 @@
                 state.viewStatus = viewStatus;
                 state.preViewStatus = preView;
                 setTimeout(() => {
-                    setTimeout(() => {
-                        document.getElementById(preView).style.zIndex = -2
-                    }, 500);
-                    document.getElementById(viewStatus).style.zIndex = 2;
-                }, 0);
+                    document.getElementById(preView).style.zIndex = -2
+                }, 500);
+                document.getElementById(viewStatus).style.zIndex = 2;
             },
             changePlayingType: (state, type) => {
                 state.playingType = type
@@ -219,20 +219,6 @@
         components: { HeadBar, Playing, Vols, Singles, VolView, PlayingTrack, Types },
         props: ['db'],
         store,
-        data: function () { return {
-            backgroundStyle: function () {
-                let background;
-                if (this.$store.state.vols.length === 0)
-                    background = '../pic/background.jpg';
-                else if (this.$store.state.volViewData)
-                    background = this.$store.state.volViewData.cover;
-                else
-                    background = this.$store.state.vols[0].cover;
-                return {
-                    backgroundImage: `url(${background})`
-                }
-            }
-        }},
         created: function() {
             this.db.getVolList().then(function (data) {
                 this.$store.commit('updateVolsData', Object.freeze(data.slice(0, 20)));

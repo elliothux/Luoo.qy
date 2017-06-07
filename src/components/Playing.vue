@@ -1,31 +1,36 @@
 K<template>
     <div
         id="playing"
-        :style="playingStyle()"
+        :style="{
+            display: this.$store.state.viewStatus === 'types' ?
+                'none' : 'flex',
+            transform: `translateY(${
+                this.$store.state.viewStatus === 'playingTrack' ?
+                    '63px' : '0'}` }"
     >
         <div id="playingController">
             <img
                 id="playingControllerPre"
                 :src="'../pic/controller-pre.svg'"
-                v-on:click="control('pre')"
+                v-on:click.stop="control('pre')"
             />
             <img
                 id="playingControllerToggle"
                 :src="this.$store.state.playing ?
                     '../pic/controller-pause.svg' :
                     '../pic/controller-play.svg'"
-                v-on:click="control('toggle')"
+                v-on:click.stop="control('toggle')"
             />
             <img
                 id="playingControllerNext"
                 :src="'../pic/controller-next.svg'"
-                v-on:click="control('next')"
+                v-on:click.stop="control('next')"
             />
         </div>
         <div id="playingOperate">
             <div id="playingOperateLeft">
                 <img
-                    v-on:click="changePlayingMode"
+                    v-on:click.stop="changePlayingMode"
                     :src="`../pic/play-${['order', 'shuffle', 'loop'][this.$store.state.playingMode]}.svg`"
                 />
                 <p>{{ $store.state.playingCurrentTime }}</p>
@@ -81,8 +86,11 @@ K<template>
             </div>
             <div
                 id="playingCover"
-                :style="playingCoverStyle()"
-                v-on:click="showPlayingTrack"
+                :style="{
+                        backgroundImage: `url(${this.$store.state.playingData ?
+                            this.$store.state.playingData.cover :
+                                '../pic/playing-cover.png'})` }"
+                v-on:click.stop="showPlayingTrack"
             ></div>
         </div>
     </div>
@@ -103,22 +111,9 @@ K<template>
         created: function () {
             window.addEventListener('click', function () {
                 this.showVolumeController = false;
-                return false
             }.bind(this))
         },
         methods: {
-            playingStyle: function () { return {
-                display: this.$store.state.viewStatus === 'types' ?
-                    'none' : 'flex',
-                transform: `translateY(${
-                    this.$store.state.viewStatus === 'playingTrack' ?
-                        '63px' : '0'}`
-            }},
-            playingCoverStyle: function () { return {
-                backgroundImage: `url(${this.$store.state.playingData ?
-                    this.$store.state.playingData.cover :
-                    '../pic/playing-cover.png'})`
-            }},
             changePlayingMode: function () {
                 this.$store.commit('changePlayingMode');
             },
@@ -129,11 +124,11 @@ K<template>
             control: function(operate) {
                 if (operate === 'toggle')
                     return this.$store.commit('togglePlay');
-                return this.$store.commit('control', {
+                return this.$store.commit('control', Object.freeze({
                     operate: operate,
                     scale: this.$store.state.playingMode === 1 ?
                         parseInt(Math.random() * 50) : 1
-                })
+                }))
             },
             setPlayingTimeRatio: function (event) {
                 this.$store.commit('setPlayingTimeRatio', event.target.value)
@@ -305,4 +300,5 @@ K<template>
             &:hover
                 transform: scale(1.1)
                 box-shadow: none
+
 </style>
