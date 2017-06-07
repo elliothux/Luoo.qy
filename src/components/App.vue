@@ -34,6 +34,7 @@
             viewStatus: 'vols',
             preViewStatus: null,
             vols: [],
+            filteredVols: [],
             singles: [],
             volsShowType: 0,
             volsShowIndex: 18,
@@ -91,7 +92,11 @@
             updateSinglesData: (state, data) => {
                 state.singles = Object.freeze(data)
             },
-            loadMoreVols: (state) => {
+            loadMoreVols: (state, init) => {
+                if (init) {
+                    state.volsShowIndex = 18;
+                    return document.getElementById('vols').scrollTop = 0;
+                }
                 const preIndex = state.volsShowIndex;
                 if (preIndex + 18 >= state.vols.length-1)
                     state.volsShowIndex = state.vols.length;
@@ -209,7 +214,15 @@
                 state.playingAudio && (state.playingAudio.volume = volume / 100);
             },
             setVolsShowType: (state, type) => {
-                state.volsShowType = type
+                state.volsShowType = type;
+                if (type === 0) return;
+                state.filteredVols = Object.freeze(
+                    state.vols.filter(vol =>
+                        vol.tag.includes(`#${state.volsTypes[type][0]}`)
+                    ));
+                setTimeout(() => {
+                    document.getElementById('types').scrollTop = 0;
+                }, 0)
             }
         }
     });
@@ -221,10 +234,10 @@
         store,
         created: function() {
             this.db.getVolList().then(function (data) {
-                this.$store.commit('updateVolsData', Object.freeze(data.slice(0, 20)));
+                this.$store.commit('updateVolsData', Object.freeze(data));
             }.bind(this));
             this.db.getSingleList().then(function (data) {
-                this.$store.commit('updateSinglesData', Object.freeze(data.slice(0, 20)))
+                this.$store.commit('updateSinglesData', Object.freeze(data))
             }.bind(this));
         }
     }

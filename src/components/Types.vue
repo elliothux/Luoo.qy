@@ -33,11 +33,9 @@
         name: 'Types',
         methods: {
             chooseType: function (index) {
-                this.$store.commit('changeView', 'vols');
+                this.$store.commit('loadMoreVols', true);
                 this.$store.commit('setVolsShowType', index);
-                setTimeout(() => {
-                    document.getElementById('types').scrollTop = 0;
-                }, 0)
+                this.$store.commit('changeView', 'vols');
             }
         }
     }

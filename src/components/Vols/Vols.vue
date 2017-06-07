@@ -5,14 +5,17 @@
             'volsShow' : 'volsHidden'"
     >
         <Vol
-            v-for="(vol, index) in this.$store.state.vols.slice(0, this.$store.state.volsShowIndex)"
+            v-for="(vol, index) in slicedVols"
             :data="Object.freeze(vol)"
             :index="index"
             :key="vol.vol"
         />
         <div
             id="loadMoreVols"
-            v-if="this.$store.state.vols.length !== this.$store.state.volsShowIndex"
+            :style="{ opacity: ($store.state.volsShowIndex <
+                $store.state[$store.state.volsShowType === 0 ?
+                    'vols' : 'filteredVols'].length) ?
+                        1 : 0 }"
         >
             <div v-on:click.stop="loadMore">
                 <img :src="'../pic/loadMore-stroked.svg'"/>
@@ -37,6 +40,14 @@
             loadMore: function () {
                 this.$store.commit('loadMoreVols')
             }
+        },
+        computed: {
+            slicedVols: function () {
+                return (this.$store.state.volsShowType === 0 ?
+                    this.$store.state.vols :
+                    this.$store.state.filteredVols)
+                    .slice(0, this.$store.state.volsShowIndex)
+            }
         }
     }
 </script>
@@ -51,10 +62,7 @@
         left: 0
         padding: 25px 5% 0 5%
         overflow-y: auto
-        display: flex
-        flex-direction: row
-        flex-wrap: wrap
-        justify-content: space-between
+        text-align: left
 
     .volsShow
         transform: scale(1)

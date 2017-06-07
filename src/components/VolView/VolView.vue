@@ -34,7 +34,7 @@
                                 />
                             </div>
                             <p><span v-for="tag in $store.state.volViewData.tag">
-                                {{ tag }}&nbsp;&nbsp;&nbsp;
+                                &nbsp;&nbsp;&nbsp;&nbsp;{{ tag }}
                             </span></p>
                         </div>
                         <p id="volViewIntroTitle">{{ $store.state.volViewData.title }}</p>

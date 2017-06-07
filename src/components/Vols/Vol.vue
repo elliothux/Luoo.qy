@@ -32,11 +32,13 @@
     export default {
         name: 'vol',
         props: ['data', 'index'],
-        data: () => ({
+        data: function() { return {
             volStyle: {
-                backgroundColor: 'rgba(255, 255, 255, 0.55)'
+                backgroundColor: 'rgba(255, 255, 255, 0.55)',
+                marginLeft: this.index % 3 === 0 ?
+                    '0px' : '8%'
             }
-        }),
+        }},
         created: function () {
             const cover = new Image();
             cover.src = this.data.cover;
@@ -94,6 +96,7 @@
         text-align: left
         transition: all ease 600ms
         overflow: hidden
+        display: inline-block
 
         &:hover
             transform: scale(1.05)
