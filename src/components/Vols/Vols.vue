@@ -63,6 +63,10 @@
         padding: 25px 5% 0 5%
         overflow-y: auto
         text-align: left
+        display: flex
+        flex-direction: row
+        flex-wrap: wrap
+        justify-content: space-between
 
     .volsShow
         transform: scale(1)

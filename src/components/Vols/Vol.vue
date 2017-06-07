@@ -34,9 +34,7 @@
         props: ['data', 'index'],
         data: function() { return {
             volStyle: {
-                backgroundColor: 'rgba(255, 255, 255, 0.55)',
-                marginLeft: this.index % 3 === 0 ?
-                    '0px' : '8%'
+                backgroundColor: 'rgba(255, 255, 255, 0.55)'
             }
         }},
         created: function () {

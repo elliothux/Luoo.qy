@@ -79,9 +79,9 @@
                     return commit('togglePlay');
                 commit('play', Object.freeze({
                     type: 'vol',
-                    volIndex: data.index,
+                    volIndex: state.volViewData.index,
                     index: 0,
-                    url: data.tracks[0].url
+                    url: state.volViewData.tracks[0].url
                 }));
                 commit('changePlayingData', Object.freeze(state.volViewData.tracks[0]))
             }
