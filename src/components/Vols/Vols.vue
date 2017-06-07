@@ -5,7 +5,7 @@
             'volsShow' : 'volsHidden'"
     >
         <Vol
-            v-for="(vol, index) in slicedVols"
+            v-for="(vol, index) in this.$store.state.filteredVols.slice(0, this.$store.state.volsShowIndex)"
             :data="Object.freeze(vol)"
             :index="index"
             :key="vol.vol"
@@ -40,14 +40,6 @@
             loadMore: function () {
                 this.$store.commit('loadMoreVols')
             }
-        },
-        computed: {
-            slicedVols: function () {
-                return (this.$store.state.volsShowType === 0 ?
-                    this.$store.state.vols :
-                    this.$store.state.filteredVols)
-                    .slice(0, this.$store.state.volsShowIndex)
-            }
         }
     }
 </script>
@@ -81,6 +73,7 @@
     #loadMoreVols
         width: 100%
         margin: 15px 0 30px 0
+        text-align: center
 
         & > div
             margin-left: 47%

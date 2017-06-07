@@ -87,7 +87,8 @@
                 state.volViewData = Object.freeze(data)
             },
             updateVolsData: (state, data) => {
-                state.vols = Object.freeze(data)
+                state.vols = Object.freeze(data);
+                this.default.store.commit('setVolsShowType', 0);
             },
             updateSinglesData: (state, data) => {
                 state.singles = Object.freeze(data)
@@ -98,8 +99,8 @@
                     return document.getElementById('vols').scrollTop = 0;
                 }
                 const preIndex = state.volsShowIndex;
-                if (preIndex + 18 >= state.vols.length-1)
-                    state.volsShowIndex = state.vols.length;
+                if (preIndex + 18 >= state.filteredVols.length - 1)
+                    state.volsShowIndex = state.filteredVols.length;
                 else state.volsShowIndex = preIndex + 18
             },
             loadMoreSingles: (state) => {
@@ -167,7 +168,7 @@
                 let index;
                 const { operate, scale } = option;
                 if (state.playingType === 'vol') {
-                    const playingVolTracks = state.vols[state.playingVolIndex].tracks;
+                    const playingVolTracks = state.filteredVols[state.playingVolIndex].tracks;
                     index = (state.playingIndex + (operate === 'next' ? 1 : -1) * scale) % playingVolTracks.length;
                     index < 0 && (index = playingVolTracks.length + index);
                     if (state.playingMode === 1 && (index === state.playingIndex || index === state.playingIndex + 1))
@@ -215,7 +216,8 @@
             },
             setVolsShowType: (state, type) => {
                 state.volsShowType = type;
-                if (type === 0) return;
+                if (type === 0)
+                    return state.filteredVols = state.vols;
                 state.filteredVols = Object.freeze(
                     state.vols.filter(vol =>
                         vol.tag.includes(`#${state.volsTypes[type][0]}`)
