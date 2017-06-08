@@ -74,15 +74,16 @@
         align-items: center
         cursor: pointer
         position: relative
-        transition: all ease 300ms
+        transition: all ease 400ms
 
         &:hover
-            transform: scale(1.1)
+            transform: scale(1.15)
             font-weight: 400
             z-index: 3
 
             .typesCover
-                opacity: 0.9
+                opacity: 0.8
+                filter: none
 
             p
                 z-index: 3
@@ -90,7 +91,7 @@
         .typesCover
             width: 100%
             height: 100%
-            opacity: 0.6
+            opacity: 0.5
             background-size: cover
             position: absolute
             left: 0
