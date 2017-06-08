@@ -11,10 +11,10 @@
                 :key="index"
                 v-on:click.stop="chooseType(index)"
             >
-                <!--<div-->
-                    <!--class="typesCover"-->
-                    <!--:style="{ backgroundImage: `url(../pic/types/${index % 8}.jpg)` }"-->
-                <!--&gt;</div>-->
+                <div
+                    class="typesCover"
+                    :style="{ backgroundImage: `url(../pic/types/${index}.png)` }"
+                ></div>
                 <p class="volsTypeZh">{{ type[0] }}</p>
                 <p class="volsTypeEn">{{ type[1] }}</p>
             </div>
@@ -67,7 +67,7 @@
     .volsType
         width: 33.33%
         height: 33.33%
-        background-color: black
+        background-color: #343434
         display: inline-flex
         flex-direction: column
         justify-content: space-around
@@ -77,18 +77,20 @@
         transition: all ease 300ms
 
         &:hover
-            transform: scale(1.05)
+            transform: scale(1.1)
+            font-weight: 400
+            z-index: 3
 
             .typesCover
                 opacity: 0.9
 
-            *
+            p
                 z-index: 3
 
         .typesCover
             width: 100%
             height: 100%
-            opacity: 0.3
+            opacity: 0.6
             background-size: cover
             position: absolute
             left: 0
