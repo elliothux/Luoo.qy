@@ -27,7 +27,7 @@
                                     id="volViewToggle"
                                     :src="(this.$store.state.playing &&
                                         this.$store.state.playingType === 'vol' &&
-                                        this.$store.state.playingVolIndex === this.$store.state.volViewData.index) ?
+                                        this.$store.state.playingVolData.vol === this.$store.state.volViewData.vol) ?
                                             '../pic/controller-pause.svg' :
                                             '../pic/controller-play.svg'"
                                     v-on:click.stop="playVol"
@@ -81,7 +81,8 @@
                     type: 'vol',
                     volIndex: state.volViewData.index,
                     index: 0,
-                    url: state.volViewData.tracks[0].url
+                    url: state.volViewData.tracks[0].url,
+                    data: Object.freeze(this.data)
                 }));
                 commit('changePlayingData', Object.freeze(state.volViewData.tracks[0]))
             }

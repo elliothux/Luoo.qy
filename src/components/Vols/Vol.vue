@@ -11,7 +11,7 @@
             <img
                 class="volPlay"
                 :src="(this.$store.state.playingType === 'vol' &&
-                    this.$store.state.playingVolIndex === index &&
+                    this.$store.state.playingVolData.vol === this.data.vol &&
                     this.$store.state.playing) ?
                         '../pic/controller-pause.svg' :
                         '../pic/controller-play.svg'"
@@ -75,7 +75,8 @@
                     type: 'vol',
                     volIndex: this.index,
                     index: 0,
-                    url: this.data.tracks[0].url
+                    url: this.data.tracks[0].url,
+                    data: Object.freeze(this.data)
                 }));
                 commit('changePlayingData', Object.freeze(this.data.tracks[0]))
             }

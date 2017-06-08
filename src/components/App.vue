@@ -42,6 +42,7 @@
             volViewData: null,
             playingData: null,
             playingType: null,
+            playingVolData: { vol: -1 },
             playingVolIndex: -1,
             playingIndex: -1,
             playingMode: 0,
@@ -112,6 +113,7 @@
             play: (state, options) => {
                 state.playing = true;
                 state.playingTimeRatio = 0;
+                options.data && (state.playingVolData = options.data);
                 options.type && (state.playingType = options.type);
                 options.type === 'vol' && (state.playingVolIndex = options.volIndex);
                 state.playingIndex = options.index;
@@ -168,7 +170,7 @@
                 let index;
                 const { operate, scale } = option;
                 if (state.playingType === 'vol') {
-                    const playingVolTracks = state.filteredVols[state.playingVolIndex].tracks;
+                    const playingVolTracks = state.playingVolData.tracks;
                     index = (state.playingIndex + (operate === 'next' ? 1 : -1) * scale) % playingVolTracks.length;
                     index < 0 && (index = playingVolTracks.length + index);
                     if (state.playingMode === 1 && (index === state.playingIndex || index === state.playingIndex + 1))

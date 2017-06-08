@@ -10,7 +10,7 @@
                 class="trackOperateToggle"
                 :src="(this.$store.state.playing &&
                     this.$store.state.playingType === 'vol' &&
-                    this.$store.state.playingVolIndex === this.$store.state.volViewData.index &&
+                    this.$store.state.playingVolData.vol === this.$store.state.volViewData.vol &&
                     this.$store.state.playingIndex === this.data.order - 1 ) ?
                         '../pic/controller-pause.svg' :
                         '../pic/controller-play.svg'"
@@ -68,7 +68,8 @@
                     type: 'vol',
                     volIndex: this.$store.state.volViewData.index,
                     index: this.data.order - 1,
-                    url: this.data.url
+                    url: this.data.url,
+                    data: Object.freeze(this.$store.state.volViewData)
                 }))
             }
         }
