@@ -74,6 +74,7 @@
         width: 100%
         margin: 15px 0 30px 0
         text-align: center
+        font-weight: 400
 
         & > div
             margin-left: 47%

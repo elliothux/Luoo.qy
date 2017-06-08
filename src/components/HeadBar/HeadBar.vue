@@ -81,6 +81,7 @@
         flex-direction: row
         justify-content: space-between
         z-index: 3
+        font-weight: 400
 
         & > div
             height: 100%
@@ -104,6 +105,7 @@
 
             & > img
                 height: 60%
+                filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.3))
 
         #toggleTypes
             display: flex
@@ -134,6 +136,7 @@
             height: 70%
             width: auto
             border-radius: 100%
+            filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.3))
 
     #headBarLogo
         display: flex
@@ -153,6 +156,7 @@
             height: 55%
             width: auto
             margin-right: 10px
+            filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.3))
 
         #headBarLogoText
             font-size: 1.5em
