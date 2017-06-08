@@ -196,6 +196,7 @@ K<template>
         & > p
             font-size: 0.7em
             opacity: 0.5
+            font-weight: 400
 
     #playingInfo
         width: 76%
@@ -251,6 +252,7 @@ K<template>
             position: relative
             top: 5px
             height: 70%
+            font-weight: 400
 
             & > img
                 height: 45%

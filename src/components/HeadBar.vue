@@ -33,6 +33,14 @@
                 <p>单曲</p>
             </div>
             <div
+                    :style="{ display: this.$store.state.viewStatus === 'playingTrack' ?
+                        'inline-block' : 'none' }"
+                    v-on:click.stop="changeView('source')"
+            >
+                <img :src="'../pic/head-link.svg'"/>
+                <p>来源</p>
+            </div>
+            <div
                 id="toggleTypes"
                 :style="{ display: $store.state.viewStatus === 'vols' ? 'flex' : 'none' }"
                 v-on:click.stop="changeView('types')"
@@ -64,6 +72,17 @@
         methods: {
             changeView: function (view) {
                 if (view === this.$store.state.viewStatus) return;
+                if (view === 'source') {
+                    setTimeout(function () {
+                        if (document.getElementById('volViewIntro')) {
+                            document.getElementById('volView').scrollTop = 0;
+                            document.getElementById('volViewIntro').scrollTop = 0;
+                        }
+                    }, 0);
+                    this.$store.commit('changeVolViewData',
+                        Object.freeze(this.$store.state.playingVolData));
+                    view =  'volView';
+                }
                 this.$store.commit('changeView', view);
             }
         }

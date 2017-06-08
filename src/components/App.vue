@@ -19,7 +19,7 @@
 <script>
     import Vue from 'vue';
     import Vuex from 'vuex';
-    import HeadBar from './HeadBar/HeadBar.vue';
+    import HeadBar from './HeadBar.vue';
     import Playing from './Playing.vue';
     import Vols from './Vols/Vols.vue';
     import Singles from './Singles/Singles.vue';
@@ -42,7 +42,7 @@
             volViewData: null,
             playingData: null,
             playingType: null,
-            playingVolData: { vol: -1 },
+            playingVolData: { },
             playingVolIndex: -1,
             playingIndex: -1,
             playingMode: 0,

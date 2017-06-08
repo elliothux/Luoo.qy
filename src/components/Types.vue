@@ -77,7 +77,7 @@
         transition: all ease 400ms
 
         &:hover
-            transform: scale(1.15)
+            transform: scale(1.1)
             font-weight: 400
             z-index: 3
 
@@ -96,7 +96,7 @@
             position: absolute
             left: 0
             top: 0
-            transition: all ease 600ms
+            transition: all ease 500ms
 
         .volsTypeZh
             font-size: 2.3em

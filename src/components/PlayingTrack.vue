@@ -21,7 +21,11 @@
                         backgroundImage: `url(${this.$store.state.playingData ?
                             this.$store.state.playingData.cover : '' })`,
                         paddingBottom: this.$store.state.playingType === 'single' ?
-                            '70%' : '100%'
+                            '70%' : '100%',
+                        transform: `scale(${this.$store.state.playing ? 1 : 0.9})`,
+                        boxShadow: this.$store.state.playing ?
+                            `0 10px 50px 0 rgba(0,0,0,0.50)` : 'none'
+
             }"
                 />
                 <div id="playingTrackController">
@@ -193,15 +197,15 @@
         flex-direction: column
         justify-content: center
         z-index: 2
+        font-weight: 400
 
         #playingTrackCover
             width: 100%
             height: 0
             padding-bottom: 100%
-            box-shadow: 0 10px 50px 0 rgba(0,0,0,0.50)
             margin-bottom: 15%
             background-size: cover
-            transition: all ease 1200ms
+            transition: all ease 800ms
 
         #playingTrackController
             height: auto
