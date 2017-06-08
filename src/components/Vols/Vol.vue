@@ -11,7 +11,7 @@
             <img
                 class="volPlay"
                 :src="(this.$store.state.playingType === 'vol' &&
-                    this.$store.state.playingVolData.vol === this.data.vol &&
+                    this.$store.state.playingVolData.vol === data.vol &&
                     this.$store.state.playing) ?
                         '../pic/controller-pause.svg' :
                         '../pic/controller-play.svg'"
@@ -69,7 +69,7 @@
             playVol: function () {
                 const commit = this.$store.commit;
                 if (this.$store.state.playingType === 'vol' &&
-                    this.$store.state.playingVolIndex === this.index)
+                    this.$store.state.playingVolData.vol === this.data.vol)
                         return commit('togglePlay');
                 commit('play', Object.freeze({
                     type: 'vol',
