@@ -90,11 +90,13 @@
             cursor: pointer
 
         &:hover
-            transform: scale(1.07)
-            box-shadow: none
+            transform: scale(1.1)
 
             .trackOperateToggle
                 display: block
+
+            .trackCoverContainer
+                box-shadow: none
 
     .trackCoverContainer
         width: 100%

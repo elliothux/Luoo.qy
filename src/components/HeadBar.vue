@@ -51,7 +51,10 @@
         </div>
         <div id="headBarLogo">
             <img id="headBarLogoImg" :src="'../pic/logo.png'"/>
-            <p id="headBarLogoText">Luoo.qy</p>
+            <p id="headBarLogoText">
+                {{ $store.state.viewStatus === 'volView' ?
+                    `vol.${$store.state.volViewData.vol}` : 'Luoo.qy' }}
+            </p>
         </div>
         <div id="headBarRight">
             <img :src="'../pic/avatar.png'"/>

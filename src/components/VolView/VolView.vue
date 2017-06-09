@@ -82,7 +82,7 @@
                     volIndex: state.volViewData.index,
                     index: 0,
                     url: state.volViewData.tracks[0].url,
-                    data: Object.freeze(this.data)
+                    data: Object.freeze(this.$store.state.volViewData)
                 }));
                 commit('changePlayingData', Object.freeze(state.volViewData.tracks[0]))
             }
