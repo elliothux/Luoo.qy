@@ -5,7 +5,10 @@
   "main": "main.js",
   "dependencies": {
     "nedb": "^1.8.0",
-    "node-fs-extra": "^0.8.2"
+    "node-fs-extra": "^0.8.2",
+    "request": "^2.81.0",
+    "request-promise-native": "^1.0.4",
+    "tough-cookie": "^2.3.2"
   },
   "devDependencies": {
     "autoprefixer": "^6.7.2",
