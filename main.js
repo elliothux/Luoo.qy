@@ -2,9 +2,10 @@ const electron = require('electron');
 const path = require('path');
 const url = require('url');
 const platform = require('os').platform();
-const menuTemplate = require('./static/js/menuTemplate');
 const db = require('./static/js/db');
-const {app, BrowserWindow, Menu } = electron;
+const user = require('./static/js/user');
+const config = require('./static/js/config');
+const {app, BrowserWindow } = electron;
 
 
 let mainWindow = null;
@@ -13,7 +14,6 @@ let mainWindow = null;
 // App events
 app.on('ready', () => {
     mainWindow = openWindow(null, null, false);
-    // Menu.setApplicationMenu(Menu.buildFromTemplate(menuTemplate(app, win)));
 });
 
 app.on('window-all-closed', () => {
@@ -27,9 +27,11 @@ app.on('activate', () => {
 });
 
 
+// Export modules for rendering process
 exports = Object.assign(exports, {
-    mainPath: path.join(__dirname),
-    db: db
+    db: db,
+    user: user,
+    config: config
 });
 
 

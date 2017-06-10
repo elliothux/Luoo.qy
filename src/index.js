@@ -12,10 +12,12 @@ const remoteMain = remote.require('./main.js');
 
 new Vue({
     el: '#root',
-    template: `<App :db="db"/>`,
+    template: `<App :db="db" :user="user" :config="config"/>`,
     components: { App },
     data: () => ({
-        db: remoteMain.db
+        db: remoteMain.db,
+        user: remoteMain.user,
+        config: remoteMain.config
     })
 });
 

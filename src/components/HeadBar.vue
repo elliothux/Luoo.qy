@@ -59,8 +59,15 @@
             id="headBarRight"
             v-on:click.stop="changeView('user')"
         >
-            <img :src="'../pic/avatar.png'"/>
-            <p>抖腿侠</p>
+            <img
+                :src="this.$store.state.user.avatar === '' ?
+                    '../pic/avatar.png' : this.$store.state.user.avatar"
+            />
+            <p>
+                {{ $store.state.user.name === '' ?
+                    '未登录' :
+                    $store.state.user.name }}
+            </p>
         </div>
     </div>
 </template>

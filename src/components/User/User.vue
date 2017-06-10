@@ -5,7 +5,14 @@
             'userShow' : 'userHidden'"
         style="z-index: -2"
     >
-        <Login v-if="true"/>
+        <UserCollection
+            v-if="this.$store.state.user.name !== ''"
+        />
+        <Login
+            v-else
+            :login="this.user.login"
+            :config="this.config"
+        />
     </div>
 </template>
 
@@ -14,12 +21,14 @@
     import Vue from 'vue';
     import Vuex from 'vuex';
     import Login from './Login.vue';
+    import UserCollection from './UserCollection.vue';
 
     Vue.use(Vuex);
 
     export default {
         name: 'user',
-        components: { Login }
+        props: ['user', 'config'],
+        components: { Login, UserCollection }
     }
 </script>
 

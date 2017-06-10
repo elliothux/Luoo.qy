@@ -1,9 +1,15 @@
 <template>
     <div id="login">
         <p>登录</p>
-        <input type="text" placeholder="邮 箱"/>
-        <input type="password" placeholder="密 码"/>
-        <img :src="'../pic/head-back.svg'"/>
+        <input v-model="mail" type="text" placeholder="邮 箱"/>
+        <input v-model="password" type="password" placeholder="密 码"/>
+        <img v-if="this.isLoading" id="loginLoading" :src="'../pic/loading.svg'"/>
+        <img
+            v-else
+            id="loginButton"
+            :src="'../pic/head-back.svg'"
+            v-on:click.stop="handleLogin"
+        />
         <a>没有账号? 点击这里注册</a>
     </div>
 </template>
@@ -16,7 +22,30 @@
     Vue.use(Vuex);
 
     export default {
-        name: 'login'
+        name: 'login',
+        props: ['login', 'config'],
+        data: function () { return {
+            mail: '',
+            password: '',
+            isLoading: false
+        }},
+        methods: {
+            handleLogin: function () {
+                if (this.isLoading || this.mail.trim() === '' || this.password.trim() === '') return;
+                this.isLoading = true;
+                this.config.set({
+                    mail: this.mail,
+                    password: this.password
+                });
+                this.login(this.mail, this.password).then(function () {
+                    this.$store.commit('updateUserData', this.config.get());
+                    this.isLoading = false;
+                }.bind(this)).catch(function (error) {
+                    this.isLoading = false;
+                    console.error(error)
+                }.bind(this))
+            }
+        }
     }
 </script>
 
@@ -59,16 +88,29 @@
                 box-shadow: 0 3px 32px 0 rgba(0,0,0,0.35)
 
 
-        img
-            transform: rotate(180deg)
+        #loginButton
             width: 30px
             height: 30px
             margin: 20px 0 80px 0
             cursor: pointer
+            transform: rotate(180deg)
             transition: all ease 300ms
 
             &:hover
-                transform: scale(1.1) rotate(-181deg)
+                transform: scale(1.1) rotate(-179deg)
+
+        #loginLoading
+            width: 30px
+            height: 30px
+            margin: 20px 0 80px 0
+            cursor: pointer
+            animation: loading ease-out 800ms infinite
+
+        @keyframes loading
+            0%
+                transform: rotate(0deg)
+            100%
+                transform: rotate(180deg)
 
         a
             position: fixed

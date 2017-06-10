@@ -13,7 +13,7 @@
         <Singles/>
         <VolView/>
         <PlayingTrack/>
-        <User/>
+        <User :user="this.user" :config="this.config"/>
     </div>
 </template>
 
@@ -33,6 +33,7 @@
     Vue.use(Vuex);
     const store = new Vuex.Store({
         state: {
+            user: { },
             viewStatus: 'vols',
             preViewStatus: null,
             vols: [],
@@ -88,6 +89,9 @@
             },
             changeVolViewData: (state, data) => {
                 state.volViewData = Object.freeze(data)
+            },
+            updateUserData: (state, data) => {
+                state.user = Object.freeze(Object.assign({}, state.user, data))
             },
             updateVolsData: (state, data) => {
                 state.vols = Object.freeze(data);
@@ -236,15 +240,16 @@
     export default {
         name: 'app',
         components: { HeadBar, Playing, Vols, Singles, VolView, PlayingTrack, Types, User },
-        props: ['db'],
+        props: ['db', 'user', 'config'],
         store,
         created: function() {
             this.db.getVolList().then(function (data) {
-                this.$store.commit('updateVolsData', Object.freeze(data));
+                this.$store.commit('updateVolsData', Object.freeze(data.slice(0, 20)));
             }.bind(this));
             this.db.getSingleList().then(function (data) {
-                this.$store.commit('updateSinglesData', Object.freeze(data))
+                this.$store.commit('updateSinglesData', Object.freeze(data.slice(0, 20)))
             }.bind(this));
+            this.$store.commit('updateUserData', Object.freeze(this.config.get()))
         }
     }
 </script>

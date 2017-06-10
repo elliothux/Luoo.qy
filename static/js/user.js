@@ -5,6 +5,11 @@ const config = require('./config');
 const tough = require('tough-cookie');
 
 
+module.exports = Object.assign(module.exports, {
+    login: login
+});
+
+
 const cookieJar = request.jar();
 const headers = {
     'Accept-Encoding': 'gzip, deflate',
@@ -49,7 +54,7 @@ async function login() {
     config.set({ cookie: cookie });
     cookieJar.setCookie(cookie, 'http://www.luoo.net');
 
-    await _getUserData(JSON.parse(await request({
+    const res = JSON.parse(await request({
         method: 'GET',
         uri: 'http://www.luoo.net/login/user',
         jar: cookieJar,
@@ -57,14 +62,16 @@ async function login() {
             'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
         }),
         gzip: true
-    })).data)
+    }));
+    if (res.data)
+        await _getUserData(res.data);
+    else throw new Error('Login failed')
 }
 
 
 async function _getUserData(data) {
     typeof data === 'string' &&
         (data = JSON.parse(data));
-    console.log(data)
     config.set({
         name: data.user_name,
         id: data.uid,
@@ -84,7 +91,14 @@ async function _getUserData(data) {
 
 
 async function _getLoginCookie() {
-    let resCookie = _formatCookie((await request.head('http://www.luoo.net/'))['set-cookie'][0]);
+    let resCookie = _formatCookie((await request({
+        method: 'GET',
+        uri: 'http://www.luoo.net/',
+        jar: cookieJar,
+        headers: headers,
+        gzip: true,
+        resolveWithFullResponse: true
+    })).headers['set-cookie'][0]);
     let cookie = new tough.Cookie({
         key: "LUOOSESS",
         value: resCookie.LUOOSESS,
@@ -115,4 +129,4 @@ data = `{ "uid": "260625",
   "user_name": "抖腿侠",
   "user_avatar": "http://img-cdn2.luoo.net/pics/avatars/u2606251453952663.jpg!/fwfh/128x128" }
 `;
-// login().then(a => {}).catch(e => console.error(e))
+// login('534559077@qq.com', 'hqy5345').then(a => {}).catch(e => console.error(e))

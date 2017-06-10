@@ -105,3 +105,4 @@ crashlytics.properties
 crashlytics-build.properties
 fabric.properties
 
+/user/config.json
