@@ -28,10 +28,11 @@ function setConfig(newConfig) {
 
 function initConfig() {
     setConfig({
-        "username": "",
+        "mail": "",
         "password": "",
         "name": "",
+        "id": "",
         "avatar": "",
-        "cookies": {}
+        "cookie": { }
     })
 }

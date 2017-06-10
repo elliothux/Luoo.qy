@@ -1,1 +1,16 @@
-{"username":"","password":"","name":"","avatar":"","cookies":[{"key":"LUOOSESS","value":"uf6cmvhtmn2a6p3j40idh3igj4","domain":".luoo.net","path":"/","creation":"2017-06-09T17:14:33.892Z"}]}
+{
+  "mail": "",
+  "password": "",
+  "name": "抖腿侠",
+  "id": "260625",
+  "avatar": "http://img-cdn2.luoo.net/pics/avatars/u2606251453952663.jpg!/fwfh/128x128",
+  "cookie": {
+    "key": "LUOOSESS",
+    "value": "28l5a499rihv6aqnv011n7of04",
+    "domain": ".luoo.net",
+    "path": "/",
+    "hostOnly": false,
+    "creation": "2017-06-10T03:48:15.321Z",
+    "lastAccessed": "2017-06-10T03:48:15.652Z"
+  }
+}
