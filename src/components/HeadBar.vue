@@ -5,8 +5,7 @@
     >
         <div id="headBarLeft">
             <div
-                :style="{ display: (this.$store.state.viewStatus === 'playingTrack' ||
-                    this.$store.state.viewStatus === 'user') ?
+                :style="{ display: this.$store.state.viewStatus === 'playingTrack' ?
                         'inline-block' : 'none' }"
                 v-on:click.stop="changeView($store.state.preViewStatus)"
             >
@@ -56,7 +55,10 @@
                     `vol.${$store.state.volViewData.vol}` : 'Luoo.qy' }}
             </p>
         </div>
-        <div id="headBarRight">
+        <div
+            id="headBarRight"
+            v-on:click.stop="changeView('user')"
+        >
             <img :src="'../pic/avatar.png'"/>
             <p>抖腿侠</p>
         </div>

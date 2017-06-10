@@ -13,6 +13,7 @@
         <Singles/>
         <VolView/>
         <PlayingTrack/>
+        <User/>
     </div>
 </template>
 
@@ -26,6 +27,7 @@
     import VolView from './VolView/VolView.vue';
     import PlayingTrack from './PlayingTrack.vue';
     import Types from './Types.vue';
+    import User from './User/User.vue';
 
 
     Vue.use(Vuex);
@@ -233,7 +235,7 @@
 
     export default {
         name: 'app',
-        components: { HeadBar, Playing, Vols, Singles, VolView, PlayingTrack, Types },
+        components: { HeadBar, Playing, Vols, Singles, VolView, PlayingTrack, Types, User },
         props: ['db'],
         store,
         created: function() {
