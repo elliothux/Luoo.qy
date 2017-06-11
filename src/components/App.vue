@@ -243,11 +243,11 @@
         props: ['db', 'user', 'config'],
         store,
         created: function() {
-            this.db.getVolList().then(function (data) {
-                this.$store.commit('updateVolsData', Object.freeze(data.slice(0, 20)));
+            this.db.vol.get().then(function (data) {
+                this.$store.commit('updateVolsData', Object.freeze(data));
             }.bind(this));
-            this.db.getSingleList().then(function (data) {
-                this.$store.commit('updateSinglesData', Object.freeze(data.slice(0, 20)))
+            this.db.single.get().then(function (data) {
+                this.$store.commit('updateSinglesData', Object.freeze(data))
             }.bind(this));
             this.$store.commit('updateUserData', Object.freeze(this.config.get()))
         }

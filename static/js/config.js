@@ -33,6 +33,7 @@ function initConfig() {
         "name": "",
         "id": "",
         "avatar": "",
-        "cookie": { }
+        "LUOOSESS": "",
+        "lult": ""
     })
 }

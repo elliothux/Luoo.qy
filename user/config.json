@@ -1,1 +1,23 @@
-{"mail":"534559077@qq.com","password":"hqy5345","name":"抖腿侠","id":"260625","avatar":"http://img-cdn2.luoo.net/pics/avatars/u2606251453952663.jpg!/fwfh/128x128","cookie":{"key":"LUOOSESS","domain":"www.luoo.net","path":"/","hostOnly":true,"creation":"2017-06-10T08:16:24.642Z","lastAccessed":"2017-06-10T08:16:24.643Z"}}
+{
+  "mail": "534559077@qq.com",
+  "password": "hqy5345",
+  "name": "抖腿侠",
+  "id": "260625",
+  "avatar": "http://img-cdn2.luoo.net/pics/avatars/u2606251453952663.jpg!/fwfh/128x128",
+  "LUOOSESS": {
+    "key": "LUOOSESS",
+    "value": "omtbu7ahiiqcn09v1ti44pafv5",
+    "domain": ".luoo.net",
+    "path": "/",
+    "creation": "2017-06-11T11:53:21.093Z"
+  },
+  "lult": {
+    "key": "lult",
+    "value": "f2ff3b69a1f337d11e34062c3db4564c",
+    "domain": "www.luoo.net",
+    "path": "/",
+    "hostOnly": true,
+    "creation": "2017-06-11T11:53:21.219Z",
+    "lastAccessed": "2017-06-11T11:53:21.225Z"
+  }
+}
