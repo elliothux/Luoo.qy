@@ -7,12 +7,19 @@ module.exports = {
     vol: {
         add: addVol,
         get: getVolList,
-        isExist: async volIndex => await isExist({ vol: volIndex }, vol)
+        isExist: async volIndex => await isExist({ vol: volIndex }, vol),
+        like: async (volIndex, liked) => await _update({ vol: volIndex }, { liked: liked }, vol),
+        likeTrack: async (volIndex, trackIndex, liked) => {
+            const data = _find({ vol: volIndex }, vol);
+            data.tracks[trackIndex].liked = liked;
+            return await _update({ vol: volIndex }, data)
+        }
     },
     single: {
         add: addSingle,
         get: getSingleList,
-        isExist: async date => await isExist({ date: date }, single)
+        isExist: async date => await isExist({ date: date }, single),
+        like: async (singleDate, liked) => await _update({ date: singleDate }, { liked: liked }, single)
     }
 };
 
@@ -71,6 +78,12 @@ async function isExist(arg, db) {
 }
 
 
+async function like(arg, db) {
+    if (!isExist(arg, db)) return false;
+
+}
+
+
 async function remove(arg, db) {
     if (!await isExist(arg, db)) return;
     await _remove(arg, db);
@@ -96,6 +109,17 @@ function _find(arg, db) {
         db.find(arg).exec(function (error, docs) {
             error && reject(`An error happened whiling handling find: ${error}`);
             resolve(docs);
+        })
+    })
+}
+
+
+function _update(arg, newArg, db) {
+    (!arg || typeof arg !== 'object') && (arg = {});
+    return new Promise((resolve, reject) => {
+        db.update(arg, newArg, {}, function (error, numReplaced) {
+            error && reject(`An error happened whiling handling find: ${error}`);
+            resolve(numReplaced);
         })
     })
 }
