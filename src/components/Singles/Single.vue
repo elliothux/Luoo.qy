@@ -10,7 +10,10 @@
             </div>
             <div class="singleInfo">
                 <div class="singleOperate">
-                    <img class="singleOperateLike" :src="'../pic/like.svg'"/>
+                    <img
+                        class="singleOperateLike"
+                        :src="`../pic/${data.liked ? 'liked' : 'like'}.svg`"
+                    />
                     <img
                         class="singleOperateToggle"
                         :src="(this.$store.state.playing &&
@@ -25,7 +28,9 @@
                 <p class="singleInfoArtist">{{ data.artist }}</p>
                 <p class="singleInfoDate">
                     <img :src="'../pic/logo.png'"/>
-                    <span>{{ data.recommender }}</span> · <span>{{ data.date }}</span>
+                    <span>{{ data.recommender.replace('：', ':') }}</span>
+                    <span> · </span>
+                    <span>{{ `${data.date.toString().slice(0, 4)}-${data.date.toString().slice(4, 6)}-${data.date.toString().slice(6, 8)}` }}</span>
                 </p>
             </div>
         </div>

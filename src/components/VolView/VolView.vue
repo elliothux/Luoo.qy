@@ -22,7 +22,10 @@
                     <div id="volViewIntroContainer">
                         <div id="volViewOperate">
                             <div>
-                                <img id="volViewOperateLike" :src="'../pic/like.svg'"/>
+                                <img
+                                    id="volViewOperateLike"
+                                    :src="`../pic/${this.$store.state.volViewData.liked ? 'liked' : 'like'}.svg`"
+                                />
                                 <img
                                     id="volViewToggle"
                                     :src="(this.$store.state.playing &&

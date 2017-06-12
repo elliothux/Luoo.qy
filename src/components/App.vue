@@ -244,7 +244,7 @@
         store,
         created: function() {
             this.db.vol.get().then(function (data) {
-                this.$store.commit('updateVolsData', Object.freeze(data));
+                this.$store.commit('updateVolsData', Object.freeze(data.slice(0, 25)));
             }.bind(this));
             this.db.single.get().then(function (data) {
                 this.$store.commit('updateSinglesData', Object.freeze(data))

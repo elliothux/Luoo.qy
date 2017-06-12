@@ -5,7 +5,10 @@
         v-on:click.stop="showPlayingTrack"
     >
         <div class="trackCoverContainer">
-            <img class="trackOperateLike" :src="'../pic/like.svg'"/>
+            <img
+                class="trackOperateLike"
+                :src="`../pic/${data.liked ? 'liked' : 'like'}.svg`"
+            />
             <img
                 class="trackOperateToggle"
                 :src="(this.$store.state.playing &&

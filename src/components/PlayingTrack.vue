@@ -58,8 +58,10 @@
                         </p>
                     </div>
                     <div>
-                        <img :src="'../pic/liked.svg'"/>
-                        <p>已喜欢</p>
+                        <img
+                            :src="`../pic/${this.$store.state.playingData.liked ? 'liked' : 'like'}.svg`"
+                        />
+                        <p>{{ $store.state.playingData.liked ? '已喜欢' : '喜欢' }}</p>
                     </div>
                     <div>
                         <img
