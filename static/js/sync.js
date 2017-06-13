@@ -24,7 +24,7 @@ async function updateVol(preVol) {
     for (vol of data) {
         db.vol.add(vol);
         for (track of vol.tracks)
-            db.vol.addTrack(track)
+            db.track.add(track)
     }
 }
 
@@ -38,30 +38,23 @@ async function updateSingle(preDate) {
 
 
 async function likeVol(volIndex, volId, liked) {
+    let index;
     await user.like({
         type: 'vol',
         id: volId
     });
     let likedVols = config.get('likedVols');
-    if (liked) likedVols.push({
-        vol: volIndex,
-        date: (() => {
-            const date = new Date();
-            const year = date.getFullYear();
-            const month = date.getMonth() + 1 < 10 ?
-                `0${date.getMonth() + 1}` : date.getMonth() + 1;
-            const day = date.getDate();
-            return parseInt(`${year}${month}${day}`)
-        })()
-    });
-    else for (let i=0; i<likedVols.length; i++)
-        likedVols[i].vol === volIndex &&
-            (likedVols[i].liked = false)
+    if (liked) likedVols.unshift(volIndex);
+    else {
+        index = likedVols.indexOf(volIndex);
+        likedVols = likedVols.slice(0, index)
+            .concat(likedVols.slice(index + 1, likedVols.length))
+    }
     config.set({ likedVols: likedVols })
 }
 
 
-async function likeVolTrack(volIndex, trackIndex, volId, trackId, liked) {
+async function likeVolTrack(volId, trackId, liked) {
     await user.like({
         type: 'volTrack',
         id: trackId,
@@ -71,7 +64,7 @@ async function likeVolTrack(volIndex, trackIndex, volId, trackId, liked) {
 }
 
 
-async function likeSingle(singleDate, singleId, fromId, liked) {
+async function likeSingle(singleId, fromId, liked) {
     await user.like({
         type: 'single',
         id: singleId,
@@ -82,12 +75,13 @@ async function likeSingle(singleDate, singleId, fromId, liked) {
 
 
 function _likedTrackToConfig(id, liked) {
+    let index;
     let likedTracks = config.get('likedTracks');
-    if (liked) likedTracks.push(id);
-    else for (let i=0; i<likedTracks.likedVols; i++)
-        if (likedTracks[i] === id) {
-            likedTracks = likedTracks.slice(0, i).concat(likedTracks.slice(i + 1, likedTracks.length));
-            break
-        }
+    if (liked) likedTracks.unshift(id)
+    else  {
+        index = likedTracks.indexOf(id);
+        likedTracks = likedTracks.slice(0, index)
+            .concat(likedTracks.slice(index + 1, likedTracks.length))
+    }
     config.set({ likedTracks: likedTracks })
 }

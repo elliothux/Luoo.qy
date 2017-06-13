@@ -6,12 +6,12 @@ const colors = require('colors');
 module.exports = {
     vol: {
         add: addVol,
-        addTrack: addVolTrack,
         get: getVolList,
         getLiked: async likedVols => await _find({ vol: { $in: likedVols }}, vol),
         isExist: async volIndex => await isExist({ vol: volIndex }, vol),
     },
     track: {
+        add: addVolTrack,
         getLiked: async likedTracks => await _find({ track_id: { $in: likedTracks}}, volTrack),
     },
     single: {
