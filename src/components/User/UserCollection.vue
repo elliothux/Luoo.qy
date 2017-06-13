@@ -23,7 +23,6 @@
                 transform: `translateX(${this.viewStatus === 'vol' ? '0' : (
                     this.viewStatus === 'volTrack' ? '-100%' : '-200%'
                 )})`
-//                opacity: this.viewStatus === 'vol' ? 1 : 0
             }"
         >
             <Vol
@@ -56,7 +55,12 @@
                 )})`
             }"
         >
-            <h1>single</h1>
+            <Single
+                v-for="(single, index) in singles"
+                :data="Object.freeze(single)"
+                :index="index"
+                :key="single.date"
+            />
         </div>
     </div>
 </template>
@@ -67,12 +71,13 @@
     import Vuex from 'vuex';
     import Vol from '../Vols/Vol.vue';
     import VolTrack from '../VolView/VolTrack.vue';
+    import Single from '../Singles/Single.vue';
 
     Vue.use(Vuex);
 
     export default {
         name: 'userCollection',
-        components: { Vol, VolTrack },
+        components: { Vol, VolTrack, Single },
         data: function () { return {
             viewStatus: 'vol'
         }},
@@ -85,6 +90,11 @@
             tracks: function () { return (
                 this.$store.state.tracks.filter(function (track) {
                     return this.$store.state.user.likedTracks.includes(track.track_id)
+                }.bind(this))
+            )},
+            singles: function () { return (
+                this.$store.state.singles.filter(function (single) {
+                    return this.$store.state.user.likedTracks.includes(single.single_id)
                 }.bind(this))
             )}
         },
