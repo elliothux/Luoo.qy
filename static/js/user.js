@@ -274,11 +274,3 @@ function isObjectEmpty(obj) {
             return false;
     return true;
 }
-
-
-// like({
-//     id: '19104',
-//     type: 'single',
-//     from: '498'
-// }).then(a => console.log(a)).catch(e => console.error(e));
-// login().then(a => {}).catch(e => console.error(e))
