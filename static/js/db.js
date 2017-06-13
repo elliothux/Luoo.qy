@@ -8,19 +8,17 @@ module.exports = {
         add: addVol,
         addTrack: addVolTrack,
         get: getVolList,
+        getLiked: async likedVols => await _find({ vol: { $in: likedVols }}, vol),
         isExist: async volIndex => await isExist({ vol: volIndex }, vol),
-        like: async (volIndex, liked) => await _update({ vol: volIndex }, { liked: liked }, vol),
-        likeTrack: async (volIndex, trackIndex, liked) => {
-            const tracks = (await _find({ vol: volIndex }, vol))[0].tracks;
-            tracks[trackIndex].liked = liked;
-            return await _update({ vol: volIndex }, { tracks: tracks }, vol)
-        }
+    },
+    track: {
+        getLiked: async likedTracks => await _find({ track_id: { $in: likedTracks}}, volTrack),
     },
     single: {
         add: addSingle,
         get: getSingleList,
+        getLiked: async likedSingles => await _find({ track_id: { $in: likedSingles}}, single),
         isExist: async date => await isExist({ date: date }, single),
-        like: async (singleDate, liked) => await _update({ date: singleDate }, { liked: liked }, single)
     }
 };
 

@@ -28,6 +28,7 @@ async function updateVol(preVol) {
     }
 }
 
+
 async function updateSingle(preDate) {
     const data = JSON.parse(await request(`http://${address}/singles/${preDate}`));
     if (data.length === 0) return console.log(`All single updated`);
@@ -41,7 +42,6 @@ async function likeVol(volIndex, volId, liked) {
         type: 'vol',
         id: volId
     });
-    await db.vol.like(volIndex, liked);
     let likedVols = config.get('likedVols');
     if (liked) likedVols.push({
         vol: volIndex,
@@ -67,7 +67,6 @@ async function likeVolTrack(volIndex, trackIndex, volId, trackId, liked) {
         id: trackId,
         from: volId,
     });
-    await db.vol.likeTrack(volIndex, trackIndex, liked);
     _likedTrackToConfig(trackId, liked);
 }
 
@@ -78,7 +77,6 @@ async function likeSingle(singleDate, singleId, fromId, liked) {
         id: singleId,
         from: fromId,
     });
-    await db.single.like(singleDate, liked);
     _likedTrackToConfig(singleId, liked);
 }
 
