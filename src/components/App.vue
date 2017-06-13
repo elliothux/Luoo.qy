@@ -39,6 +39,7 @@
             preViewStatus: null,
             vols: [],
             filteredVols: [],
+            tracks: [],
             singles: [],
             volsShowType: 0,
             volsShowIndex: 18,
@@ -102,6 +103,9 @@
             },
             updateSinglesData: (state, data) => {
                 state.singles = Object.freeze(data)
+            },
+            updateTracksData: (state, data) => {
+                state.tracks = Object.freeze(data)
             },
             loadMoreVols: (state, init) => {
                 if (init) {
@@ -251,6 +255,9 @@
             }.bind(this));
             this.db.single.get().then(function (data) {
                 this.$store.commit('updateSinglesData', Object.freeze(data))
+            }.bind(this));
+            this.db.track.get().then(function (data) {
+                this.$store.commit('updateTracksData', Object.freeze(data))
             }.bind(this));
             this.$store.commit('updateConfig', Object.freeze(this.config.get()))
         }

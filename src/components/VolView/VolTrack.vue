@@ -39,10 +39,10 @@
 
     export default {
         name: 'volTrack',
-        props: ['data'],
+        props: ['data', 'order'],
         data: function () { return {
             trackStyle: Object.freeze({
-                marginRight: this.data.order % 6 === 0 ?
+                marginRight: (this.order + 1) % 6 === 0 ?
                     '0' : '3.2%'
             }),
             trackCoverStyle: {

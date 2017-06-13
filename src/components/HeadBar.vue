@@ -6,7 +6,7 @@
         <div id="headBarLeft">
             <div
                 :style="{ display: this.$store.state.viewStatus === 'playingTrack' ?
-                        'inline-block' : 'none' }"
+                    'inline-block' : 'none' }"
                 v-on:click.stop="changeView($store.state.preViewStatus)"
             >
                 <img :src="'../pic/head-back.svg'"/>
@@ -20,7 +20,7 @@
                 />
                 <p>
                     {{ ($store.state.viewStatus === 'vols' || $store.state.viewStatus === 'singles') ?
-                            '期刊' : '首页' }}
+                        '期刊' : '首页' }}
                 </p>
             </div>
             <div v-on:click.stop="changeView('singles')">

@@ -12,6 +12,7 @@ module.exports = {
     },
     track: {
         add: addVolTrack,
+        get: getVolTrackList,
         getLiked: async likedTracks => await _find({ track_id: { $in: likedTracks}}, volTrack),
     },
     single: {
@@ -60,6 +61,12 @@ async function addVolTrack(data) {
     const newDoc = await _insert(data, volTrack);
     console.log(`Add success: volTrack${data.track_id}`.green);
     return newDoc;
+}
+
+
+async function getVolTrackList() {
+    return (await _find({}, volTrack))
+        .sort((a, b) => (b.date - a.date))
 }
 
 
