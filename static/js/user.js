@@ -91,8 +91,10 @@ async function login() {
 async function getUserCollection() {
     const likedVols = await _getLikedVols();
     const likedTracks = await _getLikedTracks();
-    const vols = await db.vol.get();
-    const singles = await db.single.get();
+    config.set({
+        likedVols: likedVols,
+        likedTracks: likedTracks
+    })
 }
 
 
@@ -138,22 +140,12 @@ async function _getLikedVols() {
 
     function getFromPage($) {
         const likedVols = [];
-        const id = $('.item .cover-wrapper').map(function() {
-            return $(this).attr('href').split('/').slice(-1)[0]
-        }).get();
-        const date = $('.op-bar .time').map(function () {
-            return $(this).text()
-        }).get();
         const vol = $('.op-bar .share.btn-action-share').map(function () {
             return $(this).attr('data-id')
         }).get();
 
-        for (let i=0; i<id.length; i++)
-            likedVols.push({
-                id: id[i],
-                vol: vol[i],
-                date: date[i]
-            })
+        for (let i=0; i<vol.length; i++)
+            likedVols.push(parseInt(vol[i]))
 
         return likedVols
     }
@@ -175,28 +167,14 @@ async function _getLikedTracks() {
 
     function getFromPage($) {
         const likedTracks = [];
-        const name = $('.track-item.rounded .trackname').map(getText).get();
-        const artist = $('.track-item.rounded .track-wrapper .artist').map(getText).get();
-        const album = $('.track-item.rounded .track-detail .album').map(function () {
-            return $(this).text().replace('专辑：', '');
-        }).get();
         const id = $('.track-item.rounded').map(function () {
             return $(this).attr('id').replace('track', '')
         });
 
-        for (let i=0; i<name.length; i++)
-            likedTracks.push({
-                id: id[i],
-                name: name[i],
-                artist: artist[i],
-                album: album[i]
-            })
+        for (let i=0; i<id.length; i++)
+            likedTracks.push(parseInt(id[i]))
 
         return likedTracks;
-
-        function getText() {
-            return $(this).text();
-        }
     }
 }
 

@@ -34,6 +34,8 @@ function initConfig() {
         "id": "",
         "avatar": "",
         "LUOOSESS": "",
-        "lult": ""
+        "lult": "",
+        "likedVols": [],
+        "likedTracks": []
     })
 }

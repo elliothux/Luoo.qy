@@ -6,6 +6,7 @@ const colors = require('colors');
 module.exports = {
     vol: {
         add: addVol,
+        addTrack: addVolTrack,
         get: getVolList,
         isExist: async volIndex => await isExist({ vol: volIndex }, vol),
         like: async (volIndex, liked) => await _update({ vol: volIndex }, { liked: liked }, vol),
@@ -28,6 +29,10 @@ const vol = new DataStore({
     filename: path.join(__dirname, '../../db/vol'),
     autoload: true
 });
+const volTrack = new DataStore({
+    filename: path.join(__dirname, '../../db/volTracks'),
+    autoload: true
+});
 const single = new DataStore({
     filename: path.join(__dirname, '../../db/single'),
     autoload: true
@@ -37,8 +42,6 @@ const single = new DataStore({
 async function addVol(data) {
     if (await isExist({ vol: data.vol }, vol))
         throw new Error(`Add vol failed for vol${data.vol} already existing`);
-    data = Object.assign({ liked: false, likedDate: '' }, data);
-    data.vol = parseInt(data.vol);
 
     const newDoc = await _insert(data, vol);
     console.log(`Add success: vol${data.vol}`.green);
@@ -52,11 +55,19 @@ async function getVolList() {
 }
 
 
+async function addVolTrack(data) {
+    if (await isExist({ track_id: data.track_id }, volTrack))
+        throw new Error(`Add vol failed for track${data.track_id} already existing`);
+
+    const newDoc = await _insert(data, volTrack);
+    console.log(`Add success: volTrack${data.track_id}`.green);
+    return newDoc;
+}
+
+
 async function addSingle(data) {
     if (await isExist({ date: data.date }, single))
         throw new Error(`Add single failed for single${data.date} already exist`);
-    data = Object.assign({ liked: false }, data);
-    data.date = parseInt(data.date);
 
     const newDoc = await _insert(data, single);
     console.log(`Add success: single${data.date}`.green);
@@ -75,12 +86,6 @@ async function getSingleList() {
 async function isExist(arg, db) {
     const doc = await _find(arg, db);
     return doc.length > 0;
-}
-
-
-async function like(arg, db) {
-    if (!isExist(arg, db)) return false;
-
 }
 
 
