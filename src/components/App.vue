@@ -64,7 +64,7 @@
                 ['世界音乐', 'World'], ['氛围', 'Atmosphere'], ['原声', 'Soundtrack'],
                 ['雷鬼', 'Reggae'], ['乡村', 'Country'], ['蓝调', 'Blues'],
                 ['实验', 'Experimental'], ['英伦', 'England'], ['后摇', 'Post-rock'],
-                ['迷幻', 'Psychedelic'], ['暗潮', 'Dark Wave'], ['华语流行', 'Mandopop'],
+                ['迷幻摇滚', 'Psychedelic-rock'], ['暗潮', 'Dark Wave'], ['华语流行', 'Mandopop'],
                 ['硬核', 'Hardcore'], ['后朋克', 'Post Punk']]),
         },
         mutations: {

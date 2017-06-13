@@ -39,13 +39,22 @@
                 <img :src="'../pic/head-link.svg'"/>
                 <p>来源</p>
             </div>
-            <div
-                id="toggleTypes"
-                :style="{ display: $store.state.viewStatus === 'vols' ? 'flex' : 'none' }"
-                v-on:click.stop="changeView('types')"
-            >
-                <p>{{ $store.state.volsTypes[$store.state.volsShowType][0] }}</p>
-                <img :src="'../pic/head-triangle.svg'"/>
+            <div id="headBarButtons">
+                <div
+                    v-if="$store.state.viewStatus === 'vols'"
+                    v-on:click.stop="changeView('types')"
+                >
+                    <img :src="'../pic/head-type.svg'"/>
+                    <span>{{ $store.state.volsTypes[$store.state.volsShowType][0] }}</span>
+                </div>
+                <div v-if="$store.state.viewStatus === 'user'">
+                    <img :src="'../pic/head-collection.svg'"/>
+                    <span>收藏</span>
+                </div>
+                <div v-if="$store.state.viewStatus === 'user'">
+                    <img :src="'../pic/head-setting.svg'"/>
+                    <span>设置</span>
+                </div>
             </div>
         </div>
         <div id="headBarLogo">
@@ -138,22 +147,30 @@
                 height: 60%
                 filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.3))
 
-        #toggleTypes
+        #headBarButtons
             display: flex
             height: auto
-            align-items: center
-            padding: 0 3px 2px 4px
-            margin: 5px 0 0 30px
-            border-bottom: 1px solid white
+            margin-top: 6px
 
-            p
-                display: inline-block
-                font-size: 1.2em
+            & > div
+                display: flex
+                height: auto
+                align-items: center
+                border-bottom: 1px solid white
+                padding-bottom: 5px
+                margin-left: 15px
 
-            img
-                width: 13px
-                position: relative
-                left: 3px
+                span
+                    display: inline-block
+                    font-size: 1em
+                    position: relative
+                    left: -4px
+
+                img
+                    width: 13px
+                    margin-right: 10px
+                    position: relative
+                    left: 3px
 
     #headBarRight
         height: 100%
