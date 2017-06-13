@@ -35,6 +35,7 @@
         state: {
             user: { },
             viewStatus: 'vols',
+            userViewStatus: 'collection',
             preViewStatus: null,
             vols: [],
             filteredVols: [],

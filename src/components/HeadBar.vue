@@ -47,11 +47,19 @@
                     <img :src="'../pic/head-type.svg'"/>
                     <span>{{ $store.state.volsTypes[$store.state.volsShowType][0] }}</span>
                 </div>
-                <div v-if="$store.state.viewStatus === 'user'">
+                <div
+                    v-if="this.$store.state.user.name !== '' && $store.state.viewStatus === 'user'"
+                    :style="{ borderColor: $store.state.userViewStatus === 'collection' ?
+                        'white' : 'rgba(0, 0, 0, 0)' }"
+                >
                     <img :src="'../pic/head-collection.svg'"/>
                     <span>收藏</span>
                 </div>
-                <div v-if="$store.state.viewStatus === 'user'">
+                <div
+                    v-if="$store.state.viewStatus === 'user'"
+                    :style="{ borderColor: $store.state.userViewStatus === 'setting' ?
+                        'white' : 'rgba(0, 0, 0, 0)' }"
+                >
                     <img :src="'../pic/head-setting.svg'"/>
                     <span>设置</span>
                 </div>
