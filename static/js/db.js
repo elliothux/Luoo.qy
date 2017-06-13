@@ -10,9 +10,9 @@ module.exports = {
         isExist: async volIndex => await isExist({ vol: volIndex }, vol),
         like: async (volIndex, liked) => await _update({ vol: volIndex }, { liked: liked }, vol),
         likeTrack: async (volIndex, trackIndex, liked) => {
-            const data = _find({ vol: volIndex }, vol);
-            data.tracks[trackIndex].liked = liked;
-            return await _update({ vol: volIndex }, data)
+            const tracks = (await _find({ vol: volIndex }, vol))[0].tracks;
+            tracks[trackIndex].liked = liked;
+            return await _update({ vol: volIndex }, { tracks: tracks }, vol)
         }
     },
     single: {
@@ -117,7 +117,7 @@ function _find(arg, db) {
 function _update(arg, newArg, db) {
     (!arg || typeof arg !== 'object') && (arg = {});
     return new Promise((resolve, reject) => {
-        db.update(arg, newArg, {}, function (error, numReplaced) {
+        db.update(arg, {$set: newArg}, {}, function (error, numReplaced) {
             error && reject(`An error happened whiling handling find: ${error}`);
             resolve(numReplaced);
         })
