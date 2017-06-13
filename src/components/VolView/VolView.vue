@@ -24,7 +24,8 @@
                             <div>
                                 <img
                                     id="volViewOperateLike"
-                                    :src="`../pic/${this.$store.state.volViewData.liked ? 'liked' : 'like'}.svg`"
+                                    :src="`../pic/${$store.state.user.likedVols.includes($store.state.volViewData.vol) ?
+                                        'liked' : 'like'}.svg`"
                                 />
                                 <img
                                     id="volViewToggle"

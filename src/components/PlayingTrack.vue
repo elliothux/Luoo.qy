@@ -59,9 +59,13 @@
                     </div>
                     <div>
                         <img
-                            :src="`../pic/${this.$store.state.playingData.liked ? 'liked' : 'like'}.svg`"
+                            :src="`../pic/${$store.state.user.likedTracks.includes(
+                                $store.state.playingData.track_id || $store.state.playingData.single_id) ?
+                                    'liked' : 'like'}.svg`"
                         />
-                        <p>{{ $store.state.playingData.liked ? '已喜欢' : '喜欢' }}</p>
+                        <p>{{ $store.state.user.likedTracks.includes(
+                                $store.state.playingData.track_id || $store.state.playingData.single_id) ?
+                                    '已喜欢' : '喜欢' }}</p>
                     </div>
                     <div>
                         <img
@@ -141,11 +145,11 @@
             control: function(operate) {
                 if (operate === 'toggle')
                     return this.$store.commit('togglePlay');
-                return this.$store.commit('control', Object.freeze({
+                return this.$store.commit('control', {
                         operate: operate,
                         scale: this.$store.state.playingMode === 1 ?
                             parseInt(Math.random() * 50) : 1
-                    }))
+                    })
             },
             setPlayingTimeRatio: function (event) {
                 this.$store.commit('setPlayingTimeRatio', event.target.value)

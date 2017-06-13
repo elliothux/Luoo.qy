@@ -32,9 +32,9 @@
                 <p>单曲</p>
             </div>
             <div
-                    :style="{ display: this.$store.state.viewStatus === 'playingTrack' ?
-                        'inline-block' : 'none' }"
-                    v-on:click.stop="changeView('source')"
+                :style="{ display: ($store.state.viewStatus === 'playingTrack' && $store.state.playingType === 'vol') ?
+                    'inline-block' : 'none' }"
+                v-on:click.stop="changeView('source')"
             >
                 <img :src="'../pic/head-link.svg'"/>
                 <p>来源</p>

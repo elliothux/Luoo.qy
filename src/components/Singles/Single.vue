@@ -12,7 +12,8 @@
                 <div class="singleOperate">
                     <img
                         class="singleOperateLike"
-                        :src="`../pic/${data.liked ? 'liked' : 'like'}.svg`"
+                        :src="`../pic/${$store.state.user.likedTracks.includes(data.single_id) ?
+                            'liked' : 'like'}.svg`"
                     />
                     <img
                         class="singleOperateToggle"

@@ -7,7 +7,8 @@
         <div class="trackCoverContainer">
             <img
                 class="trackOperateLike"
-                :src="`../pic/${data.liked ? 'liked' : 'like'}.svg`"
+                :src="`../pic/${$store.state.user.likedTracks.includes(data.track_id) ?
+                    'liked' : 'like'}.svg`"
             />
             <img
                 class="trackOperateToggle"

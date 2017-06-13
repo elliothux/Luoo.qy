@@ -55,6 +55,8 @@
             playingTimeRatio: 0,
             playingVolume: 80,
             playing: false,
+            likedVols: [],
+            likedTracks: [],
             volsTypes: Object.freeze([['全部', 'All'], ['摇滚', 'Rock and Roll'],
                 ['另类', 'Alternative'], ['民谣', 'Ballad'], ['流行', 'Pop'],
                 ['电子', 'Electronic'], ['古典', 'Classical'], ['爵士', 'Jazz'],
@@ -63,7 +65,7 @@
                 ['雷鬼', 'Reggae'], ['乡村', 'Country'], ['蓝调', 'Blues'],
                 ['实验', 'Experimental'], ['英伦', 'England'], ['后摇', 'Post-rock'],
                 ['迷幻', 'Psychedelic'], ['暗潮', 'Dark Wave'], ['华语流行', 'Mandopop'],
-                ['硬核', 'Hardcore'], ['后朋克', 'Post Punk']])
+                ['硬核', 'Hardcore'], ['后朋克', 'Post Punk']]),
         },
         mutations: {
             changeView: (state, viewStatus) => {
@@ -90,7 +92,7 @@
             changeVolViewData: (state, data) => {
                 state.volViewData = Object.freeze(data)
             },
-            updateUserData: (state, data) => {
+            updateConfig: (state, data) => {
                 state.user = Object.freeze(Object.assign({}, state.user, data))
             },
             updateVolsData: (state, data) => {
@@ -244,12 +246,12 @@
         store,
         created: function() {
             this.db.vol.get().then(function (data) {
-                this.$store.commit('updateVolsData', Object.freeze(data.slice(0, 25)));
+                this.$store.commit('updateVolsData', Object.freeze(data));
             }.bind(this));
             this.db.single.get().then(function (data) {
                 this.$store.commit('updateSinglesData', Object.freeze(data))
             }.bind(this));
-            this.$store.commit('updateUserData', Object.freeze(this.config.get()))
+            this.$store.commit('updateConfig', Object.freeze(this.config.get()))
         }
     }
 </script>

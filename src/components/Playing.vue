@@ -60,7 +60,11 @@ K<template>
                 </p>
             </div>
             <div id="playingOperateRight">
-                <img :src="'../pic/like.svg'"/>
+                <img
+                    :src="`../pic/${($store.state.playingData && $store.state.user.likedTracks.includes(
+                        $store.state.playingData.track_id || $store.state.playingData.single_id)) ?
+                            'liked' : 'like'}.svg`"
+                />
                 <p>{{ $store.state.playingDurationTime }}</p>
             </div>
         </div>
@@ -124,11 +128,11 @@ K<template>
             control: function(operate) {
                 if (operate === 'toggle')
                     return this.$store.commit('togglePlay');
-                return this.$store.commit('control', Object.freeze({
+                return this.$store.commit('control', {
                     operate: operate,
                     scale: this.$store.state.playingMode === 1 ?
                         parseInt(Math.random() * 50) : 1
-                }))
+                })
             },
             setPlayingTimeRatio: function (event) {
                 this.$store.commit('setPlayingTimeRatio', event.target.value)

@@ -38,7 +38,7 @@
                     password: this.password
                 });
                 this.login(this.mail, this.password).then(function () {
-                    this.$store.commit('updateUserData', this.config.get());
+                    this.$store.commit('updateConfig', this.config.get());
                     this.isLoading = false;
                 }.bind(this)).catch(function (error) {
                     this.isLoading = false;
