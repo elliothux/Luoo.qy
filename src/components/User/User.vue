@@ -1,7 +1,7 @@
 <template>
     <div
         id="user"
-        :class="this.$store.state.viewStatus === 'user' ?
+        :class="this.$store.state.view.pre.includes('user') ?
             'userShow' : 'userHidden'"
         style="z-index: -2"
     >

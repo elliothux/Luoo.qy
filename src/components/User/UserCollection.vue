@@ -2,31 +2,31 @@
     <div id="userCollection">
         <div id="userCollectionHeadBar">
             <div
-                v-on:click.stop="changeView('vol')"
-                :style="{ borderColor: this.viewStatus === 'vol' ?
+                v-on:click.stop="changeView('vols')"
+                :style="{ borderColor: view === 'vols' ?
                     'white' : 'rgba(0, 0, 0, 0)' }"
             >期刊</div>
             <div
-                v-on:click.stop="changeView('volTrack')"
-                :style="{ borderColor: this.viewStatus === 'volTrack' ?
+                v-on:click.stop="changeView('tracks')"
+                :style="{ borderColor: view === 'tracks' ?
                     'white' : 'rgba(0, 0, 0, 0)' }"
             >期刊单曲</div>
             <div
-                v-on:click.stop="changeView('single')"
-                :style="{ borderColor: this.viewStatus === 'single' ?
+                v-on:click.stop="changeView('singles')"
+                :style="{ borderColor: view === 'singles' ?
                     'white' : 'rgba(0, 0, 0, 0)' }"
             >单曲</div>
         </div>
         <div
             id="userCollectionVol"
             :style="{
-                transform: `translateX(${this.viewStatus === 'vol' ? '0' : (
-                    this.viewStatus === 'volTrack' ? '-100%' : '-200%'
-                )})`
+                transform: `translateX(${view === 'vols' ?
+                    '0' : (view === 'tracks' ? '-100%' : '-200%')
+                })`
             }"
         >
             <Vol
-                v-for="(vol, index) in vols"
+                v-for="(vol, index) in $store.getters.likedVols"
                 :data="Object.freeze(vol)"
                 :index="index"
                 :key="vol.vol"
@@ -35,13 +35,14 @@
         <div
             id="userCollectionVolTrack"
             :style="{
-                transform: `translateX(${this.viewStatus === 'volTrack' ? '0' : (
-                    this.viewStatus === 'vol' ? '100%' : '-100%'
+                transform: `translateX(${view === 'tracks' ? '0' : (
+                    view === 'vols' ?
+                        '100%' : '-100%'
                 )})`
             }"
         >
             <VolTrack
-                v-for="(track, index) in tracks"
+                v-for="(track, index) in $store.getters.likedTracks"
                 :data="Object.freeze(track)"
                 :key="`${track.vol}-${track.order}`"
                 :order="index"
@@ -50,13 +51,13 @@
         <div
             id="userCollectionSingle"
             :style="{
-                transform: `translateX(${this.viewStatus === 'single' ? '0' : (
-                    this.viewStatus === 'volTrack' ? '100%' : '200%'
+                transform: `translateX(${view === 'singles' ? '0' : (
+                    view === 'tracks' ? '100%' : '200%'
                 )})`
             }"
         >
             <Single
-                v-for="(single, index) in singles"
+                v-for="(single, index) in $store.getters.likedSingles"
                 :data="Object.freeze(single)"
                 :index="index"
                 :key="single.date"
@@ -79,28 +80,11 @@
         name: 'userCollection',
         components: { Vol, VolTrack, Single },
         data: function () { return {
-            viewStatus: 'vol'
+            view: 'vols'
         }},
-        computed: {
-            vols: function () { return (
-                this.$store.state.vols.filter(function (volData) {
-                    return this.$store.state.user.likedVols.includes(volData.vol)
-                }.bind(this))
-            )},
-            tracks: function () { return (
-                this.$store.state.tracks.filter(function (track) {
-                    return this.$store.state.user.likedTracks.includes(track.track_id)
-                }.bind(this))
-            )},
-            singles: function () { return (
-                this.$store.state.singles.filter(function (single) {
-                    return this.$store.state.user.likedTracks.includes(single.single_id)
-                }.bind(this))
-            )}
-        },
         methods: {
             changeView: function (view) {
-                this.viewStatus = view
+                this.view = view
             }
         }
     }

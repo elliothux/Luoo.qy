@@ -1,21 +1,22 @@
 <template>
     <div
         id="volView"
-        :class="this.$store.state.viewStatus === 'volView' ?
+        :class="this.$store.state.view.pre === 'volView' ?
             'volViewShow' : 'volViewHidden'"
         style="z-index: -2;"
     >
-        <template v-if="this.$store.state.volViewData">
-            <div id="volViewInfo" :style="{
-                backgroundColor: this.$store.state.volViewData ?
-                    this.$store.state.volViewData.backgroundColor :
+        <template v-if="this.$store.state.view.vol">
+            <div
+                id="volViewInfo"
+                :style="{backgroundColor: this.$store.state.view.vol ?
+                    this.$store.state.view.vol.backgroundColor :
                     'rgba(255, 255, 255, 0.55)'
             }">
                 <div
                     id="volViewCover"
-                    :style="{ backgroundImage: `url(${this.$store.state.volViewData ?
-                    this.$store.state.volViewData.cover :
-                    'rgba(255, 255, 255, 0.55)'
+                    :style="{ backgroundImage: `url(${this.$store.state.view.vol ?
+                        this.$store.state.view.vol.cover :
+                        'rgba(255, 255, 255, 0.55)'
                     })`
             }"></div>
                 <div id="volViewIntro">
@@ -24,38 +25,38 @@
                             <div>
                                 <img
                                     id="volViewOperateLike"
-                                    :src="`../pic/${$store.state.user.likedVols.includes($store.state.volViewData.vol) ?
+                                    :src="`../pic/${$store.state.user.likedVols.includes($store.state.view.vol.vol) ?
                                         'liked' : 'like'}.svg`"
                                 />
                                 <img
                                     id="volViewToggle"
-                                    :src="(this.$store.state.playing &&
-                                        this.$store.state.playingType === 'vol' &&
-                                        this.$store.state.playingVolData.vol === this.$store.state.volViewData.vol) ?
+                                    :src="(this.$store.state.play.playing &&
+                                        this.$store.state.play.type === 'vol' &&
+                                        this.$store.state.play.data.vol === this.$store.state.view.vol.vol) ?
                                             '../pic/controller-pause.svg' :
                                             '../pic/controller-play.svg'"
                                     v-on:click.stop="playVol"
                                 />
                             </div>
-                            <p><span v-for="tag in $store.state.volViewData.tag">
+                            <p><span v-for="tag in $store.state.view.vol.tag">
                                 &nbsp;&nbsp;&nbsp;&nbsp;{{ tag }}
                             </span></p>
                         </div>
-                        <p id="volViewIntroTitle">{{ $store.state.volViewData.title }}</p>
+                        <p id="volViewIntroTitle">{{ $store.state.view.vol.title }}</p>
                         <p
                             id="volViewIntroDesc"
-                            v-html="$store.state.volViewData.description.slice(4)"
+                            v-html="$store.state.view.vol.description.slice(4)"
                         />
                         <p id="volViewIntroDate">
                             <img :src="'../pic/logo.png'"/>
-                            落在低处・{{ $store.state.volViewData.date }}
+                            落在低处・{{ $store.state.view.vol.date }}
                         </p>
                     </div>
                 </div>
             </div>
             <div id="tracks">
                 <VolTrack
-                    v-for="(track, index) in $store.state.volViewData.tracks"
+                    v-for="(track, index) in $store.state.view.vol.tracks"
                     :data="Object.freeze(track)"
                     :key="`${track.vol}-${track.order}`"
                     :order="index"

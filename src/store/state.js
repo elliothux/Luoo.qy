@@ -15,7 +15,7 @@ export default {
     view: {
         pre: 'vols',
         prev: '',
-        vol: { }
+        vol: null
     },
     play: {
         type: null,

@@ -7,13 +7,13 @@
                 '../pic/background.jpg'})` }"
         />
         <HeadBar/>
-        <!--<Types/>-->
+        <Types/>
         <!--<Playing/>-->
         <Vols/>
         <Singles/>
-        <!--<VolView/>-->
+        <User :user="this.user" :config="this.config"/>
+        <VolView/>
         <!--<PlayingTrack/>-->
-        <!--<User :user="this.user" :config="this.config"/>-->
     </div>
 </template>
 
@@ -35,13 +35,13 @@
         props: ['db', 'user', 'config'],
         created: function() {
             this.db.vol.get().then(data =>
-                this.$store.dispatch('updateData', { type: 'vols', data: data.slice(0, 20) })
+                this.$store.dispatch('updateData', { type: 'vols', data: data.slice(0, 50) })
             );
             this.db.single.get().then(data =>
-                this.$store.dispatch('updateData', { type: 'singles', data: data.slice(0, 20) })
+                this.$store.dispatch('updateData', { type: 'singles', data: data.slice(0, 50) })
             );
             this.db.track.get().then( data =>
-                this.$store.dispatch('updateData', { type: 'tracks', data: data.slice(0, 20) })
+                this.$store.dispatch('updateData', { type: 'tracks', data: data.slice(0, 50) })
             );
             this.$store.dispatch('updateData', { type: 'user', data: this.config.get() })
         }

@@ -1,11 +1,11 @@
 <template>
     <div
         id="types"
-        :class="this.$store.state.viewStatus === 'types' ?
+        :class="this.$store.state.view.pre === 'types' ?
             'typesShow' : 'typesHidden'"
         style="z-index: -2"
     >
-        <template v-for="(type, index) in this.$store.state.volsTypes">
+        <template v-for="(type, index) in this.$store.state.vols.types">
             <div
                 class="volsType"
                 :key="index"
@@ -33,9 +33,7 @@
         name: 'Types',
         methods: {
             chooseType: function (index) {
-                this.$store.commit('loadMoreVols', true);
-                this.$store.commit('setVolsShowType', index);
-                this.$store.commit('changeView', 'vols');
+                this.$store.dispatch('changeVolType', index);
             }
         }
     }

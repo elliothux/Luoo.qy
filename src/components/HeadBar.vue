@@ -5,8 +5,9 @@
     >
         <div id="headBarLeft">
             <div
-                :style="{ display: this.$store.state.view.pre === 'playingTrack' ?
-                    'inline-block' : 'none' }"
+                v-if="this.$store.state.view.pre === 'playingTrack' ||
+                    (this.$store.state.view.pre === 'volView' &&
+                    this.$store.state.view.prev === 'userCollection')"
                 v-on:click.stop="changeView($store.state.view.prev)"
             >
                 <img :src="'../pic/head-back.svg'"/>
@@ -32,8 +33,8 @@
                 <p>单曲</p>
             </div>
             <div
-                :style="{ display: ($store.state.view.pre === 'playingTrack' && $store.state.play.type === 'vol') ?
-                    'inline-block' : 'none' }"
+                v-if="$store.state.view.pre === 'playingTrack' &&
+                    $store.state.play.type === 'vol'"
                 v-on:click.stop="changeView('source')"
             >
                 <img :src="'../pic/head-link.svg'"/>
@@ -48,7 +49,7 @@
                     <span>{{ $store.state.vols.types[$store.state.vols.type][0] }}</span>
                 </div>
                 <div
-                    v-if="this.$store.state.user.name !== '' && $store.state.view.pre === 'user'"
+                    v-if="this.$store.state.user.name !== '' && $store.state.view.pre.includes('user')"
                     :style="{ borderColor: $store.state.view.pre === 'userCollection' ?
                         'white' : 'rgba(0, 0, 0, 0)' }"
                 >
@@ -56,7 +57,7 @@
                     <span>收藏</span>
                 </div>
                 <div
-                    v-if="$store.state.view.pre === 'user'"
+                    v-if="$store.state.view.pre.includes('user')"
                     :style="{ borderColor: $store.state.view.pre === 'userSetting' ?
                         'white' : 'rgba(0, 0, 0, 0)' }"
                 >
@@ -74,7 +75,7 @@
         </div>
         <div
             id="headBarRight"
-            v-on:click.stop="changeView('user')"
+            v-on:click.stop="changeView('userCollection')"
         >
             <img
                 :src="this.$store.state.user.avatar === '' ?

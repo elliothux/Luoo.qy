@@ -4,13 +4,18 @@ export default {
         state[options.type].data = Object.freeze(options.data),
     updateUserData: (state, data) => state.user = data,
     changeView: (state, view) => {
+        if (state.view.pre === view) return;
         state.view.prev = state.view.pre;
         state.view.pre = view;
         setTimeout(() => {
-            document.getElementById(state.view.prev).style.zIndex = -2
+            document.getElementById(state.view.prev.includes('user') ?
+                'user' : state.view.prev).style.zIndex = -2
         }, 500);
-        document.getElementById(state.view.pre).style.zIndex = 2;
+        document.getElementById(state.view.pre.includes('user') ?
+            'user' : state.view.pre).style.zIndex = 2;
     },
+    changeViewVol: (state, vol) => state.view.vol = vol,
+    changeVolType: (state, type) => state.vols.type = type,
     loadMoreVols: (state, options) => {
         if (options.init)
             return state.vols.index = 18;
@@ -27,6 +32,7 @@ export default {
             state.singles.index = state.singles.data.length;
         else state.vols.index = preIndex + 18
     },
+
 }
 
 

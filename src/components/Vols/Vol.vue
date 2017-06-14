@@ -2,7 +2,7 @@
     <div
         class="vol"
         :style="volStyle"
-        v-on:click.stop="showVolView"
+        v-on:click.stop="showVol"
     >
         <img :src="data.cover" class="volCover"/>
         <div class="volInfo">
@@ -46,26 +46,12 @@
             }.bind(this)
         },
         methods: {
-            showVolView: function () {
-                setTimeout(function () {
-                    if (document.getElementById('volViewIntro')) {
-                        document.getElementById('volView').scrollTop = 0;
-                        document.getElementById('volViewIntro').scrollTop = 0;
-                    }
-                }, 0);
-                this.$store.commit(
-                    'changeView',
-                    'volView'
-                );
-                this.$store.commit(
-                    'changeVolViewData',
-                    Object.assign(
-                        { index: this.index },
-                        this.volStyle,
-                        this.data
-                    )
-                );
+            showVol: function () {
+                this.$store.dispatch('showVol', Object.assign(
+                    { index: this.index },
+                    this.volStyle, this.data));
             },
+
             playVol: function () {
                 const commit = this.$store.commit;
                 if (this.$store.state.playingType === 'vol' &&
