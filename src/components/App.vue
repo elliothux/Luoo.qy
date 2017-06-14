@@ -7,19 +7,18 @@
                 '../pic/background.jpg'})` }"
         />
         <HeadBar/>
-        <Types/>
-        <Playing/>
+        <!--<Types/>-->
+        <!--<Playing/>-->
         <Vols/>
         <Singles/>
-        <VolView/>
-        <PlayingTrack/>
-        <User :user="this.user" :config="this.config"/>
+        <!--<VolView/>-->
+        <!--<PlayingTrack/>-->
+        <!--<User :user="this.user" :config="this.config"/>-->
     </div>
 </template>
 
 <script>
     import Vue from 'vue';
-    import Vuex from 'vuex';
     import HeadBar from './HeadBar.vue';
     import Playing from './Playing.vue';
     import Vols from './Vols/Vols.vue';
@@ -30,236 +29,21 @@
     import User from './User/User.vue';
 
 
-    Vue.use(Vuex);
-    const store = new Vuex.Store({
-        state: {
-            user: { },
-            viewStatus: 'vols',
-            userViewStatus: 'collection',
-            preViewStatus: null,
-            vols: [],
-            filteredVols: [],
-            tracks: [],
-            singles: [],
-            volsShowType: 0,
-            volsShowIndex: 18,
-            singlesShowIndex: 18,
-            volViewData: null,
-            playingData: null,
-            playingType: null,
-            playingVolData: { },
-            playingVolIndex: -1,
-            playingIndex: -1,
-            playingMode: 0,
-            playingAudio: null,
-            playingCurrentTime: '00:00',
-            playingDurationTime: '00:00',
-            playingTimeRatio: 0,
-            playingVolume: 80,
-            playing: false,
-            likedVols: [],
-            likedTracks: [],
-            volsTypes: Object.freeze([['全部', 'All'], ['摇滚', 'Rock and Roll'],
-                ['另类', 'Alternative'], ['民谣', 'Ballad'], ['流行', 'Pop'],
-                ['电子', 'Electronic'], ['古典', 'Classical'], ['爵士', 'Jazz'],
-                ['金属', 'Metal'], ['朋克', 'Punk'], ['说唱', 'Rap'],
-                ['世界音乐', 'World'], ['氛围', 'Atmosphere'], ['原声', 'Soundtrack'],
-                ['雷鬼', 'Reggae'], ['乡村', 'Country'], ['蓝调', 'Blues'],
-                ['实验', 'Experimental'], ['英伦', 'England'], ['后摇', 'Post-rock'],
-                ['迷幻摇滚', 'Psychedelic-rock'], ['暗潮', 'Dark Wave'], ['华语流行', 'Mandopop'],
-                ['硬核', 'Hardcore'], ['后朋克', 'Post Punk']]),
-        },
-        mutations: {
-            changeView: (state, viewStatus) => {
-                const preView = state.viewStatus;
-                state.viewStatus = viewStatus;
-                state.preViewStatus = preView;
-                setTimeout(() => {
-                    document.getElementById(preView).style.zIndex = -2
-                }, 500);
-                document.getElementById(viewStatus).style.zIndex = 2;
-            },
-            changePlayingType: (state, type) => {
-                state.playingType = type
-            },
-            changePlayingMode: (state) => {
-                let mode = state.playingMode;
-                if (mode === 2) mode = 0;
-                else mode ++;
-                state.playingMode = mode
-            },
-            changePlayingData: (state, data) => {
-                state.playingData = Object.freeze(data)
-            },
-            changeVolViewData: (state, data) => {
-                state.volViewData = Object.freeze(data)
-            },
-            updateConfig: (state, data) => {
-                state.user = Object.freeze(Object.assign({}, state.user, data))
-            },
-            updateVolsData: (state, data) => {
-                state.vols = Object.freeze(data);
-                this.default.store.commit('setVolsShowType', 0);
-            },
-            updateSinglesData: (state, data) => {
-                state.singles = Object.freeze(data)
-            },
-            updateTracksData: (state, data) => {
-                state.tracks = Object.freeze(data)
-            },
-            loadMoreVols: (state, init) => {
-                if (init) {
-                    state.volsShowIndex = 18;
-                    return document.getElementById('vols').scrollTop = 0;
-                }
-                const preIndex = state.volsShowIndex;
-                if (preIndex + 18 >= state.filteredVols.length - 1)
-                    state.volsShowIndex = state.filteredVols.length;
-                else state.volsShowIndex = preIndex + 18
-            },
-            loadMoreSingles: (state) => {
-                const preIndex = state.singlesShowIndex;
-                if (preIndex + 18 >= state.singles.length-1)
-                    state.singlesShowIndex = state.singles.length;
-                else state.singlesShowIndex = preIndex + 18
-            },
-            play: (state, options) => {
-                state.playing = true;
-                state.playingTimeRatio = 0;
-                options.data && (state.playingVolData = options.data);
-                options.type && (state.playingType = options.type);
-                options.type === 'vol' && (state.playingVolIndex = options.volIndex);
-                state.playingIndex = options.index;
-
-                if (!state.playingAudio) {
-                    state.playingAudio = new Audio();
-                    addAudioEvent.bind(this)(state.playingAudio);
-                    window.a = state.playingAudio;
-                }
-                const audio = state.playingAudio;
-                audio.pause();
-                audio.src = '';
-                audio.load();
-                audio.src = options.url;
-                audio.load();
-
-                function addAudioEvent(audio) {
-                    audio.addEventListener('canplay', function (event) {
-                        event.target.play()
-                    });
-                    audio.addEventListener('durationchange', function (event) {
-                        this.default.store.commit('updatePlayingInfo', {
-                            type: 'duration',
-                            value: event.target.duration,
-                        });
-                    }.bind(this));
-                    audio.addEventListener('timeupdate', function (event) {
-                        this.default.store.commit('updatePlayingInfo', {
-                            type: 'current',
-                            value: event.target.currentTime,
-                            ratio: Math.ceil(100 * (event.target.currentTime / event.target.duration))
-                        });
-                    }.bind(this));
-                    audio.addEventListener('ended', function () {
-                        if (state.playingMode === 2) return audio.play();
-                        this.default.store.commit('control', {
-                                operate: 'next',
-                                scale: [1, parseInt(Math.random() * 50)][state.playingMode]
-                        })
-                    }.bind(this));
-                }
-            },
-            togglePlay: (state) => {
-                if (state.playing) {
-                    state.playingAudio.pause();
-                    state.playing = false;
-                }
-                else {
-                    state.playingAudio.play();
-                    state.playing = true;
-                }
-            },
-            control: (state, option) => {
-                let index;
-                const { operate, scale } = option;
-                if (state.playingType === 'vol') {
-                    const playingVolTracks = state.playingVolData.tracks;
-                    index = (state.playingIndex + (operate === 'next' ? 1 : -1) * scale) % playingVolTracks.length;
-                    index < 0 && (index = playingVolTracks.length + index);
-                    if (state.playingMode === 1 && (index === state.playingIndex || index === state.playingIndex + 1))
-                        return this.default.store.commit('control',
-                            Object.assign(option, { index: option.index + 2 }));
-                    this.default.store.commit('play', {
-                        index: index,
-                        url: playingVolTracks[index].url
-                    });
-                    return state.playingData = Object.freeze(playingVolTracks[index])
-                } else if (state.playingType === 'single') {
-                    index = (state.playingIndex + (operate === 'next' ? 1 : -1) * scale) % state.singles.length;
-                    index < 0 && (index = state.singles.length + index);
-                    if (state.playingMode === 1 && (index === state.playingIndex || index === state.playingIndex + 1))
-                        return this.default.store.commit('control',
-                            Object.assign(option, { index: option.index + 2 }));
-                    this.default.store.commit('play', {
-                        index: index,
-                        url: state.singles[index].url
-                    });
-                    return state.playingData = Object.freeze(state.singles[index])
-                }
-            },
-            updatePlayingInfo: (state, option) => {
-                if (option.type === 'current')
-                    state.playingCurrentTime = formatTime(option.value);
-                else if (option.type === 'duration')
-                    state.playingDurationTime = formatTime(option.value);
-                option.ratio &&
-                    (state.playingTimeRatio = option.ratio);
-
-                function formatTime(time) {
-                    const min = `0${parseInt(time / 60)}`;
-                    const sec = parseInt(time % 60);
-                    return `${min}:${sec < 10 ? 0 : ''}${sec}`
-                }
-            },
-            setPlayingTimeRatio: (state, value) => {
-                state.playingTimeRatio = value;
-                state.playingAudio.currentTime = state.playingAudio.duration * value / 100
-            },
-            setPlayingVolume: (state, volume) => {
-                state.playingVolume = volume;
-                state.playingAudio && (state.playingAudio.volume = volume / 100);
-            },
-            setVolsShowType: (state, type) => {
-                state.volsShowType = type;
-                if (type === 0)
-                    return state.filteredVols = state.vols;
-                state.filteredVols = Object.freeze(
-                    state.vols.filter(vol =>
-                        vol.tag.includes(`#${state.volsTypes[type][0]}`)
-                    ));
-                setTimeout(() => {
-                    document.getElementById('types').scrollTop = 0;
-                }, 0)
-            }
-        }
-    });
-
     export default {
         name: 'app',
         components: { HeadBar, Playing, Vols, Singles, VolView, PlayingTrack, Types, User },
         props: ['db', 'user', 'config'],
-        store,
         created: function() {
-            this.db.vol.get().then(function (data) {
-                this.$store.commit('updateVolsData', Object.freeze(data));
-            }.bind(this));
-            this.db.single.get().then(function (data) {
-                this.$store.commit('updateSinglesData', Object.freeze(data))
-            }.bind(this));
-            this.db.track.get().then(function (data) {
-                this.$store.commit('updateTracksData', Object.freeze(data))
-            }.bind(this));
-            this.$store.commit('updateConfig', Object.freeze(this.config.get()))
+            this.db.vol.get().then(data =>
+                this.$store.dispatch('updateData', { type: 'vols', data: data.slice(0, 20) })
+            );
+            this.db.single.get().then(data =>
+                this.$store.dispatch('updateData', { type: 'singles', data: data.slice(0, 20) })
+            );
+            this.db.track.get().then( data =>
+                this.$store.dispatch('updateData', { type: 'tracks', data: data.slice(0, 20) })
+            );
+            this.$store.dispatch('updateData', { type: 'user', data: this.config.get() })
         }
     }
 </script>

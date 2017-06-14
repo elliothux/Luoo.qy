@@ -10,9 +10,9 @@
             <p class="volInfoTitle">{{ data.title }}</p>
             <img
                 class="volPlay"
-                :src="(this.$store.state.playingType === 'vol' &&
-                    this.$store.state.playingVolData.vol === data.vol &&
-                    this.$store.state.playing) ?
+                :src="(this.$store.state.play.type === 'vol' &&
+                    this.$store.state.play.data.vol === data.vol &&
+                    this.$store.state.play.playing) ?
                         '../pic/controller-pause.svg' :
                         '../pic/controller-play.svg'"
                 v-on:click.stop="playVol"

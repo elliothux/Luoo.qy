@@ -1,21 +1,19 @@
 <template>
     <div
         id="vols"
-        :class="this.$store.state.viewStatus === 'vols' ?
+        :class="$store.state.view.pre === 'vols' ?
             'volsShow' : 'volsHidden'"
     >
         <Vol
-            v-for="(vol, index) in this.$store.state.filteredVols.slice(0, this.$store.state.volsShowIndex)"
+            v-for="(vol, index) in $store.getters.vols"
             :data="Object.freeze(vol)"
             :index="index"
             :key="vol.vol"
         />
         <div
             id="loadMoreVols"
-            :style="{ opacity: ($store.state.volsShowIndex <
-                $store.state[$store.state.volsShowType === 0 ?
-                    'vols' : 'filteredVols'].length) ?
-                        1 : 0 }"
+            :style="{ opacity: ($store.state.vols.index <
+                $store.getters.vols.length) ? 1 : 0 }"
         >
             <div v-on:click.stop="loadMore">
                 <img :src="'../pic/loadMore-stroked.svg'"/>

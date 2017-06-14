@@ -1,19 +1,19 @@
 <template>
     <div
         id="singles"
-        :class="this.$store.state.viewStatus === 'singles' ?
+        :class="this.$store.state.view.pre === 'singles' ?
             'singlesShow' : 'singlesHidden'"
         style="z-index: -2"
     >
         <Single
-            v-for="(single, index) in this.$store.state.singles.slice(0, this.$store.state.singlesShowIndex)"
+            v-for="(single, index) in this.$store.getters.singles"
             :data="Object.freeze(single)"
             :index="index"
             :key="single.date"
         />
         <div
             id="loadMoreSingles"
-            v-if="this.$store.state.singles.length !== this.$store.state.singlesShowIndex"
+            v-if="this.$store.state.singles.data.length > this.$store.state.singles.index"
         >
             <div v-on:click.stop="loadMore">
                 <img :src="'../pic/loadMore-stroked.svg'"/>

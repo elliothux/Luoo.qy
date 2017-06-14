@@ -1,10 +1,9 @@
 import Vue from 'vue';
-import Vuex from 'vuex';
+import store from './store';
 import App from './components/App.vue';
 import { remote, webFrame } from 'electron';
 
 
-Vue.use(Vuex);
 Vue.config.productionTip = false;
 webFrame.setVisualZoomLevelLimits(1, 1);
 const remoteMain = remote.require('./main.js');
@@ -12,6 +11,7 @@ const remoteMain = remote.require('./main.js');
 
 new Vue({
     el: '#root',
+    store,
     template: `<App :db="db" :user="user" :config="config"/>`,
     components: { App },
     data: () => ({
@@ -20,4 +20,3 @@ new Vue({
         config: remoteMain.config
     })
 });
-

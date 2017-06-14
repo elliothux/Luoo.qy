@@ -1,38 +1,38 @@
 <template>
     <div
         id="headBar"
-        :style="{ display: this.$store.state.viewStatus === 'types' ? 'none' : 'flex' }"
+        :style="{ display: this.$store.state.view.pre === 'types' ? 'none' : 'flex' }"
     >
         <div id="headBarLeft">
             <div
-                :style="{ display: this.$store.state.viewStatus === 'playingTrack' ?
+                :style="{ display: this.$store.state.view.pre === 'playingTrack' ?
                     'inline-block' : 'none' }"
-                v-on:click.stop="changeView($store.state.preViewStatus)"
+                v-on:click.stop="changeView($store.state.view.prev)"
             >
                 <img :src="'../pic/head-back.svg'"/>
                 <p>返回</p>
             </div>
             <div v-on:click.stop="changeView('vols')">
                 <img
-                    :src="this.$store.state.viewStatus === 'vols' ?
+                    :src="this.$store.state.view.pre === 'vols' ?
                         '../pic/head-vol-solid.svg' :
                         '../pic/head-vol-stroked.svg'"
                 />
                 <p>
-                    {{ ($store.state.viewStatus === 'vols' || $store.state.viewStatus === 'singles') ?
+                    {{ ($store.state.view.pre === 'vols' || $store.state.view.pre === 'singles') ?
                         '期刊' : '首页' }}
                 </p>
             </div>
             <div v-on:click.stop="changeView('singles')">
                 <img
-                    :src="this.$store.state.viewStatus === 'singles' ?
+                    :src="this.$store.state.view.pre === 'singles' ?
                         '../pic/head-single-solid.svg' :
                         '../pic/head-single-stroked.svg'"
                 />
                 <p>单曲</p>
             </div>
             <div
-                :style="{ display: ($store.state.viewStatus === 'playingTrack' && $store.state.playingType === 'vol') ?
+                :style="{ display: ($store.state.view.pre === 'playingTrack' && $store.state.play.type === 'vol') ?
                     'inline-block' : 'none' }"
                 v-on:click.stop="changeView('source')"
             >
@@ -41,23 +41,23 @@
             </div>
             <div id="headBarButtons">
                 <div
-                    v-if="$store.state.viewStatus === 'vols'"
+                    v-if="$store.state.view.pre === 'vols'"
                     v-on:click.stop="changeView('types')"
                 >
                     <img :src="'../pic/head-type.svg'"/>
-                    <span>{{ $store.state.volsTypes[$store.state.volsShowType][0] }}</span>
+                    <span>{{ $store.state.vols.types[$store.state.vols.type][0] }}</span>
                 </div>
                 <div
-                    v-if="this.$store.state.user.name !== '' && $store.state.viewStatus === 'user'"
-                    :style="{ borderColor: $store.state.userViewStatus === 'collection' ?
+                    v-if="this.$store.state.user.name !== '' && $store.state.view.pre === 'user'"
+                    :style="{ borderColor: $store.state.view.pre === 'userCollection' ?
                         'white' : 'rgba(0, 0, 0, 0)' }"
                 >
                     <img :src="'../pic/head-collection.svg'"/>
                     <span>收藏</span>
                 </div>
                 <div
-                    v-if="$store.state.viewStatus === 'user'"
-                    :style="{ borderColor: $store.state.userViewStatus === 'setting' ?
+                    v-if="$store.state.view.pre === 'user'"
+                    :style="{ borderColor: $store.state.view.pre === 'userSetting' ?
                         'white' : 'rgba(0, 0, 0, 0)' }"
                 >
                     <img :src="'../pic/head-setting.svg'"/>
@@ -68,8 +68,8 @@
         <div id="headBarLogo">
             <img id="headBarLogoImg" :src="'../pic/logo.png'"/>
             <p id="headBarLogoText">
-                {{ $store.state.viewStatus === 'volView' ?
-                    `vol.${$store.state.volViewData.vol}` : 'Luoo.qy' }}
+                {{ $store.state.view.pre === 'volView' ?
+                    `vol.${$store.state.view.vol.vol}` : 'Luoo.qy' }}
             </p>
         </div>
         <div
@@ -100,7 +100,7 @@
         name: 'headBar',
         methods: {
             changeView: function (view) {
-                if (view === this.$store.state.viewStatus) return;
+                if (view === this.$store.state.view.pre) return;
                 if (view === 'source') {
                     setTimeout(function () {
                         if (document.getElementById('volViewIntro')) {
@@ -108,11 +108,11 @@
                             document.getElementById('volViewIntro').scrollTop = 0;
                         }
                     }, 0);
-                    this.$store.commit('changeVolViewData',
-                        Object.freeze(this.$store.state.playingVolData));
+//                    this.$store.dispatch('changeVolViewData',
+//                        Object.freeze(this.$store.state.playingVolData));
                     view =  'volView';
                 }
-                this.$store.commit('changeView', view);
+                this.$store.dispatch('changeView', view);
             }
         }
     }
