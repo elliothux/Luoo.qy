@@ -8,15 +8,23 @@
         <div class="volInfo">
             <p class="volInfoNum">vol.<span>{{ data.vol }}</span></p>
             <p class="volInfoTitle">{{ data.title }}</p>
-            <img
-                class="volPlay"
-                :src="(this.$store.state.play.type === 'vol' &&
-                    this.$store.state.play.data.vol === data.vol &&
-                    this.$store.state.play.playing) ?
-                        '../pic/controller-pause.svg' :
-                        '../pic/controller-play.svg'"
-                v-on:click.stop="playVol"
-            />
+            <div class="volOperate">
+                <img
+                        class="volLike"
+                        :src="$store.state.user.likedVols.includes(data.vol) ?
+                        '../pic/liked.svg' :
+                        '../pic/like.svg'"
+                />
+                <img
+                    class="volPlay"
+                    :src="(this.$store.state.play.type === 'vol' &&
+                        this.$store.state.play.data.vol === data.vol &&
+                        this.$store.state.play.playing) ?
+                            '../pic/controller-pause.svg' :
+                            '../pic/controller-play.svg'"
+                    v-on:click.stop="playVol"
+                />
+            </div>
         </div>
     </div>
 </template>
@@ -109,18 +117,19 @@
             font-size: 1.3em
             position: relative
 
-        .volPlay
-            width: 18px
-            display: inline-block
-            cursor: pointer
-            transition: all ease 300ms
-            opacity: 0.8
+
+        .volOperate
             position: absolute
-            right: 30px
+            right: 25px
             top: 20px
 
-            &:hover
-                transform: scale(1)
-                opacity: 1
+            & > img
+                width: 18px
+                height: auto
+                margin-left: 15px
+                opacity: 0.8
+
+                &:hover
+                    opacity: 1
 
 </style>

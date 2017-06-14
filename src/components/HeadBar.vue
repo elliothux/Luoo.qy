@@ -147,7 +147,6 @@
             margin-right: 20px
             font-size: 0.9em
             cursor: pointer
-            transition: all ease 300ms
 
             *
                 cursor: pointer
