@@ -36,7 +36,10 @@
         components: { Single },
         methods: {
             loadMore: function () {
-                this.$store.commit('loadMoreSingles')
+                this.$store.dispatch('loadMore', {
+                    type: 'Singles',
+                    init: false
+                })
             }
         }
     }

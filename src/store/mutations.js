@@ -11,14 +11,22 @@ export default {
         }, 500);
         document.getElementById(state.view.pre).style.zIndex = 2;
     },
-    loadMoreVols: (state, init, { getters }) => {
-        if (init)
+    loadMoreVols: (state, options) => {
+        if (options.init)
             return state.vols.index = 18;
         const preIndex = state.vols.index;
-        if (preIndex + 18 >= getters.vols.length - 1)
-            state.vols.index = getters.vols.length;
+        if (preIndex + 18 >= options.max)
+            state.vols.index = options.max;
         else state.vols.index = preIndex + 18
-    }
+    },
+    loadMoreSingles: (state, options) => {
+        if (options.init)
+            return state.singles.index = 18;
+        const preIndex = state.singles.index;
+        if (preIndex + 18 >= state.singles.data.length)
+            state.singles.index = state.singles.data.length;
+        else state.vols.index = preIndex + 18
+    },
 }
 
 

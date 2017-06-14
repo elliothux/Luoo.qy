@@ -12,8 +12,8 @@
         />
         <div
             id="loadMoreVols"
-            :style="{ opacity: ($store.state.vols.index <
-                $store.getters.vols.length) ? 1 : 0 }"
+            :style="{ opacity: $store.state.vols.index <
+                $store.state.vols.data.length ? 1 : 0 }"
         >
             <div v-on:click.stop="loadMore">
                 <img :src="'../pic/loadMore-stroked.svg'"/>
@@ -36,7 +36,11 @@
         components: { Vol },
         methods: {
             loadMore: function () {
-                this.$store.commit('loadMoreVols')
+                this.$store.dispatch('loadMore', {
+                    type: 'Vols',
+                    max: this.$store.getters._vols.length,
+                    init: false
+                })
             }
         }
     }
