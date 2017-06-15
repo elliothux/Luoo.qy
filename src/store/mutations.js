@@ -14,7 +14,10 @@ export default {
             document.getElementById(formatView(prevView)).style.zIndex = -2
         }, 500);
     },
-    changeViewVol: (state, vol) => state.view.vol = vol,
+    changeViewVol: (state, vol) => {
+        !vol.type && (vol = Object.assign({type: state.play.type}, vol));
+        state.view.vol = vol
+    },
     changeVolType: (state, type) => state.vols.type = type,
     loadMoreVols: (state, options) => {
         if (options.init)

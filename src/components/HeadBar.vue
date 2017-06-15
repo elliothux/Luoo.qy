@@ -32,7 +32,7 @@
             </div>
             <div
                 v-if="$store.getters.view === 'playingTrack' &&
-                    $store.state.play.type === 'vol'"
+                    ['vol', 'likedVol', 'likedTrack', 'likedSingle'].includes($store.state.play.type)"
                 v-on:click.stop="changeView('source')"
             >
                 <img :src="'../pic/head-link.svg'"/>
@@ -102,6 +102,19 @@
         name: 'headBar',
         methods: {
             changeView: function (view) {
+                if (view === 'source') {
+                    if (['vol', 'likedVol', 'likedTrack'].includes(this.$store.state.play.type)) {
+                        if (!this.$store.state.view.vol ||
+                            this.$store.state.view.vol.vol !== this.$store.getters.playData.vol)
+                            this.$store.dispatch('changeViewVol',
+                                this.$store.state.vols.data.filter(function (vol) {
+                                    return vol.vol === this.$store.getters.playData.vol
+                                }.bind(this))[0]);
+                        view = 'volView'
+                    }
+                    if (this.$store.state.play.type === 'likedSingle')
+                        view = 'userCollection'
+                }
                 this.$store.dispatch('changeView', {view});
             }
         }

@@ -8,6 +8,7 @@ export default {
         if (getters) return commit('changeView', {view, getters});
         commit('changeView', {view, _getters})
     },
+    changeViewVol: ({commit}, vol) => commit('changeViewVol', vol),
     changeVolType: ({commit, getters}, type) => {
         commit('changeVolType', type);
         commit('changeView', {view: 'vols', getters});

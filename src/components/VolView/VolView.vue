@@ -8,7 +8,7 @@
         <template v-if="$store.state.view.vol">
             <div
                 id="volViewInfo"
-                :style="{backgroundColor: $store.state.view.vol.backgroundColor}"
+                :style="volStyle"
             >
                 <div
                     id="volViewCover"
@@ -65,12 +65,24 @@
     import Vue from 'vue';
     import Vuex from 'vuex';
     import VolTrack from './VolTrack.vue';
+    import { getAverageColor } from '../../lib/colorLib';
 
     Vue.use(Vuex);
 
     export default {
         name: 'volView',
         components: { VolTrack },
+        data: function () { return {
+            volStyle: {
+                backgroundColor: 'rgba(0, 0, 0, 0.35)'
+            }
+        }},
+        created: function () {
+            this.setStyle()
+        },
+        updated: function () {
+            this.setStyle()
+        },
         methods: {
             play: function () {
                 this.$store.state.play.type === this.$store.state.view.vol.type &&
@@ -81,13 +93,26 @@
                         data: Object.freeze(this.$store.state.view.vol),
                         index: 0
                     }))
+            },
+            setStyle: function () {
+                if (!this.$store.state.view.vol) return;
+                if (this.$store.state.view.vol.backgroundColor)
+                    this.volStyle.backgroundColor = this.$store.state.view.vol.backgroundColor;
+                else {
+                    const cover = new Image();
+                    cover.src = this.$store.state.view.vol.cover;
+                    cover.onload = function () {
+                        const color = getAverageColor(cover);
+                        this.volStyle.backgroundColor = `rgba(${color.r}, ${color.g}, ${color.b}, 0.55)`
+                    }.bind(this)
+                }
             }
         },
         computed: {
             isThisPlaying: function () {
                 const state = this.$store.state;
                 return state.play.type === state.view.vol.type &&
-                    state.play.playing &&
+                    state.play.playing && state.play.vol &&
                     state.play.vol.vol === state.view.vol.vol
             }
         }
