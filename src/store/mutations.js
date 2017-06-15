@@ -32,16 +32,18 @@ export default {
             state.singles.index = state.singles.data.length;
         else state.vols.index = preIndex + 18
     },
-    play:(state, {options, getters}) => {
-        if (options.type === 'vol' || options.type === 'likedVol')
-            state.play.vol = options.data;
-        state.play.type = options.type;
+    play:(state, {options, getters, commit}) => {
+        if (options.type) {
+            state.play.type = options.type;
+            if (options.type === 'vol' || options.type === 'likedVol')
+                state.play.vol = options.data;
+        }
         state.play.index = options.index;
         state.play.playing = true;
 
         if (!state.play.audio) {
             state.play.audio = new Audio();
-            addAudioEvent.bind(this)(state.play.audio);
+            addAudioEvent.bind(this)(state.play.audio, getters, commit);
         }
         const audio = state.play.audio;
         audio.pause();
@@ -58,33 +60,44 @@ export default {
         }
         else
             (state.play.playing = true) && state.play.audio.play();
-    }
+    },
+    control: (state, {type, getters, commit}) => {
+        if (!state.play.audio) return;
+        let index = state.play.index;
+        if (state.play.mode === 1) do {
+            index = (index + Math.ceil(Math.random() * 30)) % getters.playList.length;
+        } while (index === state.play.index);
+        else if (type === 'next')
+            index = index + 1 === getters.playList.length ?
+                0 : index + 1;
+        else index = index - 1 === -1 ?
+                getters.playList.length - 1 : index - 1;
+        const options = { index : index };
+        commit('play', {options, getters})
+    },
+    changePlayMode: state => state.play.mode === 2 ?
+        state.play.mode = 0 : state.play.mode ++,
+    updateTime: (state, {type, value}) => state.play.time[type] = value,
+
 }
 
-function addAudioEvent(audio) {
-    audio.addEventListener('canplay', function (event) {
-        event.target.play()
-    });
-    // audio.addEventListener('durationchange', function (event) {
-    //     this.default.store.commit('updatePlayingInfo', {
-    //         type: 'duration',
-    //         value: event.target.duration,
-    //     });
-    // }.bind(this));
-    // audio.addEventListener('timeupdate', function (event) {
-    //     this.default.store.commit('updatePlayingInfo', {
-    //         type: 'current',
-    //         value: event.target.currentTime,
-    //         ratio: Math.ceil(100 * (event.target.currentTime / event.target.duration))
-    //     });
-    // }.bind(this));
-    // audio.addEventListener('ended', function () {
-    //     if (state.playingMode === 2) return audio.play();
-    //     this.default.store.commit('control', {
-    //         operate: 'next',
-    //         scale: [1, parseInt(Math.random() * 50)][state.playingMode]
-    //     })
-    // }.bind(this));
+
+function addAudioEvent(audio, getters, commit) {
+    audio.addEventListener('canplay', event => event.target.play());
+    audio.addEventListener('durationchange', event =>
+        commit('updateTime', {
+            type: 'total',
+            value: event.target.duration
+        })
+    );
+    audio.addEventListener('timeupdate', event =>
+        commit('updateTime', {
+            type: 'current',
+            value: event.target.currentTime,
+        })
+    );
+    audio.addEventListener('ended', () =>
+        commit('control'), {type: 'next', getters, commit});
 }
 
 let temp = {
@@ -140,52 +153,6 @@ let temp = {
         if (preIndex + 18 >= state.singles.length-1)
             state.singlesShowIndex = state.singles.length;
         else state.singlesShowIndex = preIndex + 18
-    },
-    play: (state, options) => {
-        state.playing = true;
-        state.playingTimeRatio = 0;
-        options.data && (state.playingVolData = options.data);
-        options.type && (state.playingType = options.type);
-        options.type === 'vol' && (state.playingVolIndex = options.volIndex);
-        state.playingIndex = options.index;
-
-        if (!state.playingAudio) {
-            state.playingAudio = new Audio();
-            addAudioEvent.bind(this)(state.playingAudio);
-            window.a = state.playingAudio;
-        }
-        const audio = state.playingAudio;
-        audio.pause();
-        audio.src = '';
-        audio.load();
-        audio.src = options.url;
-        audio.load();
-
-        function addAudioEvent(audio) {
-            audio.addEventListener('canplay', function (event) {
-                event.target.play()
-            });
-            audio.addEventListener('durationchange', function (event) {
-                this.default.store.commit('updatePlayingInfo', {
-                    type: 'duration',
-                    value: event.target.duration,
-                });
-            }.bind(this));
-            audio.addEventListener('timeupdate', function (event) {
-                this.default.store.commit('updatePlayingInfo', {
-                    type: 'current',
-                    value: event.target.currentTime,
-                    ratio: Math.ceil(100 * (event.target.currentTime / event.target.duration))
-                });
-            }.bind(this));
-            audio.addEventListener('ended', function () {
-                if (state.playingMode === 2) return audio.play();
-                this.default.store.commit('control', {
-                    operate: 'next',
-                    scale: [1, parseInt(Math.random() * 50)][state.playingMode]
-                })
-            }.bind(this));
-        }
     },
     togglePlay: (state) => {
         if (state.playing) {

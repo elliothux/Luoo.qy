@@ -12,28 +12,28 @@ K<template>
             <img
                 id="playingControllerPre"
                 :src="'../pic/controller-pre.svg'"
-                v-on:click.stop="control('pre')"
+                v-on:click.stop="toggle('prev')"
             />
             <img
                 id="playingControllerToggle"
                 :src="$store.state.play.playing ?
                     '../pic/controller-pause.svg' :
                     '../pic/controller-play.svg'"
-                v-on:click.stop="control('toggle')"
+                v-on:click.stop="toggle('play')"
             />
             <img
                 id="playingControllerNext"
                 :src="'../pic/controller-next.svg'"
-                v-on:click.stop="control('next')"
+                v-on:click.stop="toggle('next')"
             />
         </div>
         <div id="playingOperate">
             <div id="playingOperateLeft">
                 <img
-                    v-on:click.stop="changePlayingMode"
+                    v-on:click.stop="changePlayMode"
                     :src="`../pic/play-${['order', 'shuffle', 'loop'][this.$store.state.play.mode]}.svg`"
                 />
-                <p>{{ $store.state.play.time.current }}</p>
+                <p>{{ $store.getters.time.current }}</p>
             </div>
             <div id="playingInfo">
                 <p id="playingName">
@@ -46,7 +46,7 @@ K<template>
                         v-on:change.stop="setPlayingTimeRatio"
                     />
                     <div id="playingTimer">
-                        <div :style="{ width: `${$store.state.play.time.ratio }%` }"></div>
+                        <div :style="{ width: `${$store.getters.time.ratio }%` }"></div>
                     </div>
                 </div>
                 <p id="playingAlbum">
@@ -65,7 +65,7 @@ K<template>
                         $store.getters.playData.track_id || $store.getters.playData.single_id)) ?
                             'liked' : 'like'}.svg`"
                 />
-                <p>{{ $store.state.play.time.total }}</p>
+                <p>{{ $store.getters.time.total }}</p>
             </div>
         </div>
         <div id="playingVolumeContainer">
@@ -118,21 +118,15 @@ K<template>
 //            }.bind(this))
         },
         methods: {
-            changePlayingMode: function () {
-                this.$store.commit('changePlayingMode');
+            changePlayMode: function () {
+                this.$store.dispatch('changePlayMode');
             },
             showPlayingTrack: function () {
-                if (!this.$store.state.playingData) return;
-                this.$store.commit('changeView', 'playingTrack');
+                if (!this.$store.getters.playData) return;
+                this.$store.dispatch('changeView', 'playingTrack');
             },
-            control: function(operate) {
-                if (operate === 'toggle')
-                    return this.$store.dispatch('toggle', 'play');
-                return this.$store.commit('control', {
-                    operate: operate,
-                    scale: this.$store.state.playingMode === 1 ?
-                        parseInt(Math.random() * 50) : 1
-                })
+            toggle: function(operate) {
+                return this.$store.dispatch('toggle', operate);
             },
             setPlayingTimeRatio: function (event) {
                 this.$store.commit('setPlayingTimeRatio', event.target.value)

@@ -45,7 +45,7 @@
                 <div id="playingTrackOperate">
                     <div>
                         <img
-                            v-on:click.stop="changePlayingMode"
+                            v-on:click.stop="changePlayMode"
                             :src="`../pic/play-${['order', 'shuffle', 'loop'][this.$store.state.play.mode]}.svg`"
                         />
                         <p>
@@ -104,7 +104,7 @@
                 </div>
             </div>
             <div id="playingTrackBottom">
-                <span>{{ $store.state.play.time.current }}</span>
+                <span>{{ $store.getters.time.current }}</span>
                 <div id="playingTrackTimerContainer">
                     <input
                         min="0" max="100"
@@ -112,10 +112,10 @@
                         v-on:change.stop="setPlayingTimeRatio"
                     />
                     <div id="playingTrackTimer">
-                        <div :style="{ width: `${$store.state.play.time.ratio }%` }"></div>
+                        <div :style="{ width: `${$store.getters.time.ratio }%` }"></div>
                     </div>
                 </div>
-                <span>{{ $store.state.play.time.total }}</span>
+                <span>{{ $store.getters.time.total }}</span>
             </div>
         </template>
     </div>
@@ -134,8 +134,8 @@
             showVolumeController: false,
         }},
         methods: {
-            changePlayingMode: function () {
-                this.$store.commit('changePlayingMode');
+            changePlayMode: function () {
+                this.$store.dispatch('changePlayMode');
             },
             control: function(operate) {
                 if (operate === 'toggle')

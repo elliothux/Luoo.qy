@@ -23,9 +23,8 @@ export default {
         index: 0,
         audio: null,
         time: {
-            current: '00:00',
-            total: '00:00',
-            ratio: 0,
+            current: 0,
+            total: 0,
         },
         volume: 80,
         playing: false,

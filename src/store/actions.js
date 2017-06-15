@@ -21,9 +21,10 @@ export default {
             }
         }, 0);
     },
-    play: ({commit, getters}, options) => commit('play', {options, getters}),
-    toggle: ({commit}, type) => {
-        if (type === 'play') commit('toggle');
+    play: ({commit, getters}, options) => commit('play', {options, getters, commit}),
+    toggle: ({commit, getters}, type) => {
+        if (type === 'play') return commit('toggle');
+        commit('control', {type, getters, commit});
     },
-
+    changePlayMode: ({commit}) => commit('changePlayMode'),
 }

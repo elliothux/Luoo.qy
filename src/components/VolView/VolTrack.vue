@@ -2,7 +2,7 @@
     <div
         class="track"
         :style="trackStyle"
-        v-on:click.stop="showPlayingTrack"
+        v-on:click.stop="show"
     >
         <div class="trackCoverContainer">
             <img
@@ -12,13 +12,10 @@
             />
             <img
                 class="trackOperateToggle"
-                :src="(this.$store.state.playing &&
-                    this.$store.state.playingType === 'vol' &&
-                    this.$store.state.playingVolData.vol === this.$store.state.volViewData.vol &&
-                    this.$store.state.playingIndex === this.data.order - 1 ) ?
+                :src="isThisPlaying ?
                         '../pic/controller-pause.svg' :
                         '../pic/controller-play.svg'"
-                v-on:click.stop="playTrack"
+                v-on:click.stop="play"
             />
             <div class="trackCover" :style="trackCoverStyle"/>
         </div>
@@ -50,31 +47,30 @@
             }
         }},
         methods: {
-            showPlayingTrack: function () {
-                const state = this.$store.state;
-                this.$store.commit('changeView', 'playingTrack');
-                if (state.playing &&
-                    state.playingType === 'vol' &&
-                    state.playingVolIndex === state.volViewData.index &&
-                    state.playingIndex === this.data.order - 1)
-                    return;
-                this.playTrack();
+            show: function () {
+                this.$store.dispatch('changeView', 'playingTrack');
+                if (!this.isThisPlaying) this.play()
             },
-            playTrack: function () {
-                const { state, commit } = this.$store;
-                if (state.playingType === 'vol' &&
-                    state.playingVolIndex === state.volViewData.index &&
-                    state.playingIndex === this.data.order - 1)
-                        return commit('togglePlay');
-                commit('changePlayingData', Object.assign(this.data));
-                commit('changePlayingType', 'vol');
-                commit('play', Object.freeze({
-                    type: 'vol',
-                    volIndex: this.$store.state.volViewData.index,
-                    index: this.data.order - 1,
-                    url: this.data.url,
-                    data: Object.freeze(this.$store.state.volViewData)
-                }))
+            play: function () {
+                const state = this.$store.state;
+                state.play.type === state.view.vol.type &&
+                state.play.vol.vol === state.view.vol.vol &&
+                state.play.index === this.data.order - 1 ?
+                    this.$store.dispatch('toggle', 'play') :
+                    this.$store.dispatch('play', Object.freeze({
+                        type: this.$store.state.view.vol.type,
+                        index: this.data.order - 1,
+                        data: this.$store.state.view.vol
+                    }))
+            }
+        },
+        computed: {
+            isThisPlaying: function () {
+                const state = this.$store.state;
+                return state.play.playing &&
+                    state.play.type === state.view.vol.type &&
+                    state.play.vol.vol === state.view.vol.vol &&
+                    state.play.index === this.data.order - 1
             }
         }
     }
