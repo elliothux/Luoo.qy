@@ -21,6 +21,9 @@ export default {
             }
         }, 0);
     },
-    play: ({commit}, data) => commit('play', data),
+    play: ({commit, getters}, options) => commit('play', {options, getters}),
+    toggle: ({commit}, type) => {
+        if (type === 'play') commit('toggle');
+    },
 
 }

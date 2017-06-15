@@ -2,10 +2,10 @@ K<template>
     <div
         id="playing"
         :style="{
-            display: this.$store.state.viewStatus === 'types' ?
+            display: $store.state.view.pre === 'types' ?
                 'none' : 'flex',
             transform: `translateY(${
-                this.$store.state.viewStatus === 'playingTrack' ?
+                $store.state.view.pre === 'playingTrack' ?
                     '63px' : '0'}` }"
     >
         <div id="playingController">
@@ -16,7 +16,7 @@ K<template>
             />
             <img
                 id="playingControllerToggle"
-                :src="this.$store.state.playing ?
+                :src="$store.state.play.playing ?
                     '../pic/controller-pause.svg' :
                     '../pic/controller-play.svg'"
                 v-on:click.stop="control('toggle')"
@@ -31,13 +31,13 @@ K<template>
             <div id="playingOperateLeft">
                 <img
                     v-on:click.stop="changePlayingMode"
-                    :src="`../pic/play-${['order', 'shuffle', 'loop'][this.$store.state.playingMode]}.svg`"
+                    :src="`../pic/play-${['order', 'shuffle', 'loop'][this.$store.state.play.mode]}.svg`"
                 />
-                <p>{{ $store.state.playingCurrentTime }}</p>
+                <p>{{ $store.state.play.time.current }}</p>
             </div>
             <div id="playingInfo">
                 <p id="playingName">
-                    {{ $store.state.playingData ? $store.state.playingData.name : '-' }}
+                    {{ $store.getters.playData ? $store.getters.playData.name : '-' }}
                 </p>
                 <div id="playingTimerContainer">
                     <input
@@ -46,35 +46,35 @@ K<template>
                         v-on:change.stop="setPlayingTimeRatio"
                     />
                     <div id="playingTimer">
-                        <div :style="{ width: `${this.$store.state.playingTimeRatio}%` }"></div>
+                        <div :style="{ width: `${$store.state.play.time.ratio }%` }"></div>
                     </div>
                 </div>
                 <p id="playingAlbum">
                     <span>
-                        {{ $store.state.playingData ? $store.state.playingData.album : '-' }}
+                        {{ $store.getters.playData ? $store.getters.playData.album : '-' }}
                     </span>
-                    <span v-if="this.$store.state.playingType === 'vol'"> - </span>
+                    <span v-if="this.$store.state.play.type === 'vol'"> - </span>
                     <span>
-                        {{ $store.state.playingData ? $store.state.playingData.artist : '' }}
+                        {{ $store.getters.playData ? $store.getters.playData.artist : '' }}
                     </span>
                 </p>
             </div>
             <div id="playingOperateRight">
                 <img
-                    :src="`../pic/${($store.state.playingData && $store.state.user.likedTracks.includes(
-                        $store.state.playingData.track_id || $store.state.playingData.single_id)) ?
+                    :src="`../pic/${($store.getters.playData && $store.state.user.likedTracks.includes(
+                        $store.getters.playData.track_id || $store.getters.playData.single_id)) ?
                             'liked' : 'like'}.svg`"
                 />
-                <p>{{ $store.state.playingDurationTime }}</p>
+                <p>{{ $store.state.play.time.total }}</p>
             </div>
         </div>
         <div id="playingVolumeContainer">
             <div id="playingVolume">
                 <img
-                    :src="`../pic/volume-${ this.$store.state.playingVolume > 0 ? 'on' : 'off'}.svg`"
+                    :src="`../pic/volume-${ this.$store.state.play.volume > 0 ? 'on' : 'off'}.svg`"
                     v-on:click.stop="showVolumeController = !showVolumeController"
                 />
-                <p>{{ $store.state.playingVolume }}</p>
+                <p>{{ $store.state.play.volume }}</p>
                 <div
                     id="playingVolumeController"
                     v-if="showVolumeController"
@@ -82,7 +82,7 @@ K<template>
                     <input
                         min="0" max="100"
                         step="1" type="range"
-                        :value="$store.state.playingVolume"
+                        :value="$store.state.play.volume"
                         v-on:change.stop="setPlayingVolume"
                     />
                     <div id="playingVolumeTriangle"></div>
@@ -91,9 +91,9 @@ K<template>
             <div
                 id="playingCover"
                 :style="{
-                        backgroundImage: `url(${this.$store.state.playingData ?
-                            this.$store.state.playingData.cover :
-                                '../pic/playing-cover.png'})` }"
+                        backgroundImage: `url(${$store.getters.playData ?
+                            $store.getters.playData.cover :
+                            '../pic/playing-cover.png'})` }"
                 v-on:click.stop="showPlayingTrack"
             ></div>
         </div>
@@ -113,9 +113,9 @@ K<template>
             showVolumeController: false,
         }},
         created: function () {
-            window.addEventListener('click', function () {
-                this.showVolumeController = false;
-            }.bind(this))
+//            window.addEventListener('click', function () {
+//                this.showVolumeController = false;
+//            }.bind(this))
         },
         methods: {
             changePlayingMode: function () {
@@ -127,7 +127,7 @@ K<template>
             },
             control: function(operate) {
                 if (operate === 'toggle')
-                    return this.$store.commit('togglePlay');
+                    return this.$store.dispatch('toggle', 'play');
                 return this.$store.commit('control', {
                     operate: operate,
                     scale: this.$store.state.playingMode === 1 ?

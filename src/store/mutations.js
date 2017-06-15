@@ -32,17 +32,60 @@ export default {
             state.singles.index = state.singles.data.length;
         else state.vols.index = preIndex + 18
     },
-    play:(state, options) => {
+    play:(state, {options, getters}) => {
         if (options.type === 'vol' || options.type === 'likedVol')
             state.play.vol = options.data;
         state.play.type = options.type;
+        state.play.index = options.index;
         state.play.playing = true;
-        state.play.index = 0;
-    }
 
+        if (!state.play.audio) {
+            state.play.audio = new Audio();
+            addAudioEvent.bind(this)(state.play.audio);
+        }
+        const audio = state.play.audio;
+        audio.pause();
+        audio.src = '';
+        audio.load();
+        audio.src = getters.playData.url;
+        audio.load();
+    },
+    toggle: state => {
+        if (!state.play.audio) return;
+        if (state.play.playing) {
+            state.play.playing = false;
+            state.play.audio.pause();
+        }
+        else
+            (state.play.playing = true) && state.play.audio.play();
+    }
 }
 
-
+function addAudioEvent(audio) {
+    audio.addEventListener('canplay', function (event) {
+        event.target.play()
+    });
+    // audio.addEventListener('durationchange', function (event) {
+    //     this.default.store.commit('updatePlayingInfo', {
+    //         type: 'duration',
+    //         value: event.target.duration,
+    //     });
+    // }.bind(this));
+    // audio.addEventListener('timeupdate', function (event) {
+    //     this.default.store.commit('updatePlayingInfo', {
+    //         type: 'current',
+    //         value: event.target.currentTime,
+    //         ratio: Math.ceil(100 * (event.target.currentTime / event.target.duration))
+    //     });
+    // }.bind(this));
+    // audio.addEventListener('ended', function () {
+    //     if (state.playingMode === 2) return audio.play();
+    //     this.default.store.commit('control', {
+    //         operate: 'next',
+    //         scale: [1, parseInt(Math.random() * 50)][state.playingMode]
+    //     })
+    // }.bind(this));
+}
 
 let temp = {
     changeView: (state, viewStatus) => {

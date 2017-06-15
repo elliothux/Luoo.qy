@@ -72,10 +72,14 @@
         components: { VolTrack },
         methods: {
             play: function () {
-                this.$store.dispatch('play', Object.freeze({
-                    type: this.$store.state.view.vol.type,
-                    data: Object.freeze(this.$store.state.view.vol)
-                }))
+                this.$store.state.play.type === this.$store.state.view.vol.type &&
+                this.$store.state.play.vol.vol === this.$store.state.view.vol.vol ?
+                    this.$store.dispatch('toggle', 'play') :
+                    this.$store.dispatch('play', Object.freeze({
+                        type: this.$store.state.view.vol.type,
+                        data: Object.freeze(this.$store.state.view.vol),
+                        index: 0
+                    }))
             }
         },
         computed: {

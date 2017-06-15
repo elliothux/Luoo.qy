@@ -61,10 +61,14 @@
                 ));
             },
             play: function () {
-                this.$store.dispatch('play', Object.freeze({
-                    type: this.type,
-                    data: this.data
-                }))
+                this.$store.state.play.type === this.type &&
+                this.$store.state.play.vol.vol === this.data.vol ?
+                    this.$store.dispatch('toggle', 'play') :
+                    this.$store.dispatch('play', Object.freeze({
+                        type: this.type,
+                        data: this.data,
+                        index: 0
+                    }))
             }
         },
         computed: {

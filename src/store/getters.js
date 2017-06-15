@@ -18,9 +18,9 @@ export default {
         switch (state.play.type) {
             case 'vol': return state.play.vol.tracks[index];
             case 'single': return getters.singles[index];
-            case 'likedVols': return getters.likedVols[index];
-            case 'likedTracks': return getters.likedTracks[index];
-            case 'likedSingles': return getters.likedSingles[index];
+            case 'likedVol': return state.play.vol.tracks[index];
+            case 'likedTrack': return getters.likedTracks[index];
+            case 'likedSingle': return getters.likedSingles[index];
             default: return null;
         }
     }
