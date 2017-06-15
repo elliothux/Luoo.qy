@@ -124,7 +124,7 @@ K<template>
             },
             showPlayingTrack: function () {
                 if (!this.$store.getters.playData) return;
-                this.$store.dispatch('changeView', 'playingTrack');
+                this.$store.dispatch('changeView', {view: 'playingTrack'});
             },
             toggle: function(operate) {
                 return this.$store.dispatch('toggle', operate);

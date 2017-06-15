@@ -4,16 +4,19 @@ export default {
         options.type === 'user' ?
             commit('updateUserData', options.data) :
             commit('updateData', options),
-    changeView: ({commit, getters}, view) => commit('changeView', {view, getters}),
-    changeVolType: ({commit}, type) => {
+    changeView: ({commit, getters}, {view, _getters}) => {
+        if (getters) return commit('changeView', {view, getters});
+        commit('changeView', {view, _getters})
+    },
+    changeVolType: ({commit, getters}, type) => {
         commit('changeVolType', type);
-        commit('changeView', 'vols');
+        commit('changeView', {view: 'vols', getters});
         commit('loadMoreVols', { init: true })
     },
     loadMore: ({commit}, options) => commit(`loadMore${options.type}`, options),
-    showVol: ({commit}, vol) => {
+    showVol: ({commit, getters}, vol) => {
         commit('changeViewVol', vol);
-        commit('changeView', 'volView');
+        commit('changeView', {view: 'volView', getters});
         setTimeout(function () {
             if (document.getElementById('volViewIntro')) {
                 document.getElementById('volView').scrollTop = 0;

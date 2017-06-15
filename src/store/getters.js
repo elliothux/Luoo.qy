@@ -1,9 +1,7 @@
 
 
 export default {
-    view: state => state.view._[state.view.length - 1],
-    preView: state => state.view.length > 1 ?
-        state.view._[state.view.length - 2] : null,
+    view: state => state.view._[state.view._.length - 1],
     _vols: state => Object.freeze(state.vols.type === 0 ?
         state.vols.data :
         state.vols.data.filter(vol => vol.tag.includes(`#${state.vols.types[state.vols.type][0]}`))

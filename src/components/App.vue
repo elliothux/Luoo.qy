@@ -2,13 +2,13 @@
     <div id="app">
         <div
             id="background"
-            :style="{ backgroundImage: `url(${this.$store.state.view.vol ?
-                this.$store.state.view.vol.cover :
+            :style="{ backgroundImage: `url(${this.$store.state.volViewData ?
+                this.$store.state.volViewData.cover :
                 '../pic/background.jpg'})` }"
         />
         <HeadBar/>
         <Types/>
-        <Playing/>
+        <!--<Playing/>-->
         <Vols/>
         <Singles/>
         <User :user="this.user" :config="this.config"/>

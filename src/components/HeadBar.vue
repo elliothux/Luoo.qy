@@ -5,10 +5,8 @@
     >
         <div id="headBarLeft">
             <div
-                v-if="$store.getters.view === 'playingTrack' ||
-                    ($store.getters.view === 'volView' &&
-                    $store.getters.preView === 'userCollection')"
-                v-on:click.stop="changeView($store.getters.preView)"
+                v-if="!(['vols', 'singles', 'userCollection', 'userSetting', 'types'].includes($store.getters.view))"
+                v-on:click.stop="changeView('prev')"
             >
                 <img :src="'../pic/head-back.svg'"/>
                 <p>返回</p>
@@ -104,17 +102,7 @@
         name: 'headBar',
         methods: {
             changeView: function (view) {
-                if (view === $store.getters.view) return;
-                if (view === 'source') {
-                    setTimeout(function () {
-                        if (document.getElementById('volViewIntro')) {
-                            document.getElementById('volView').scrollTop = 0;
-                            document.getElementById('volViewIntro').scrollTop = 0;
-                        }
-                    }, 0);
-                    view =  'volView';
-                }
-                this.$store.dispatch('changeView', view);
+                this.$store.dispatch('changeView', {view});
             }
         }
     }

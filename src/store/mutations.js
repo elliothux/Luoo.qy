@@ -4,15 +4,15 @@ export default {
         state[options.type].data = Object.freeze(options.data),
     updateUserData: (state, data) => state.user = data,
     changeView: (state, {view, getters}) => {
-        if (getters.view === view) return;
-        if (view === 'prev') return state.view._.pop();
-        state.view._.push(view);
+        const prevView = getters.view;
+        if (prevView === view) return;
+        if (view === 'prev') state.view._.pop();
+        else state.view._.push(view);
+
+        document.getElementById(formatView(getters.view)).style.zIndex = 2;
         setTimeout(() => {
-            document.getElementById(getters.preView.includes('user') ?
-                'user' : getters.preView).style.zIndex = -2
+            document.getElementById(formatView(prevView)).style.zIndex = -2
         }, 500);
-        document.getElementById(getters.view.includes('user') ?
-            'user' : getters.view).style.zIndex = 2;
     },
     changeViewVol: (state, vol) => state.view.vol = vol,
     changeVolType: (state, type) => state.vols.type = type,
@@ -102,4 +102,10 @@ function addAudioEvent(audio, getters, commit) {
     );
     audio.addEventListener('ended', () =>
         commit('control', {type: 'next', getters, commit}));
+}
+
+
+function formatView(view) {
+    return view === 'userCollection' || view === 'userSetting' ?
+        'user' : view
 }

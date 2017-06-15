@@ -65,7 +65,7 @@
         },
         methods: {
             show: function () {
-                this.$store.dispatch('changeView', 'playingTrack');
+                this.$store.dispatch('changeView', {view: 'playingTrack'});
                 if (!this.isThisPlaying) this.play()
             },
             play: function () {
