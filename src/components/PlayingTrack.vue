@@ -1,7 +1,7 @@
 <template>
     <div
         id="playingTrack"
-        :class="$store.state.view.pre === 'playingTrack' ?
+        :class="$store.getters.view === 'playingTrack' ?
             'playingTrackShow' : 'playingTrackHidden'"
         style="z-index: -2;"
     >

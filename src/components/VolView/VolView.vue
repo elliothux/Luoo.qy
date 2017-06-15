@@ -1,7 +1,7 @@
 <template>
     <div
         id="volView"
-        :class="$store.state.view.pre === 'volView' ?
+        :class="$store.getters.view === 'volView' ?
             'volViewShow' : 'volViewHidden'"
         style="z-index: -2;"
     >

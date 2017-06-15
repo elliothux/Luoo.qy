@@ -1,7 +1,7 @@
 <template>
     <div
         id="types"
-        :class="this.$store.state.view.pre === 'types' ?
+        :class="$store.getters.view === 'types' ?
             'typesShow' : 'typesHidden'"
         style="z-index: -2"
     >

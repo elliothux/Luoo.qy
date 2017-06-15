@@ -4,7 +4,7 @@ export default {
         options.type === 'user' ?
             commit('updateUserData', options.data) :
             commit('updateData', options),
-    changeView: ({commit}, view) => commit('changeView', view),
+    changeView: ({commit, getters}, view) => commit('changeView', {view, getters}),
     changeVolType: ({commit}, type) => {
         commit('changeVolType', type);
         commit('changeView', 'vols');

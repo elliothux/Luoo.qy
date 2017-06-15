@@ -3,16 +3,16 @@ export default {
     updateData: (state, options) =>
         state[options.type].data = Object.freeze(options.data),
     updateUserData: (state, data) => state.user = data,
-    changeView: (state, view) => {
-        if (state.view.pre === view) return;
-        state.view.prev = state.view.pre;
-        state.view.pre = view;
+    changeView: (state, {view, getters}) => {
+        if (getters.view === view) return;
+        if (view === 'prev') return state.view._.pop();
+        state.view._.push(view);
         setTimeout(() => {
-            document.getElementById(state.view.prev.includes('user') ?
-                'user' : state.view.prev).style.zIndex = -2
+            document.getElementById(getters.preView.includes('user') ?
+                'user' : getters.preView).style.zIndex = -2
         }, 500);
-        document.getElementById(state.view.pre.includes('user') ?
-            'user' : state.view.pre).style.zIndex = 2;
+        document.getElementById(getters.view.includes('user') ?
+            'user' : getters.view).style.zIndex = 2;
     },
     changeViewVol: (state, vol) => state.view.vol = vol,
     changeVolType: (state, type) => state.vols.type = type,

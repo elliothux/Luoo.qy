@@ -13,8 +13,7 @@ const volsTypes =  Object.freeze([['全部', 'All'], ['摇滚', 'Rock and Roll']
 
 export default {
     view: {
-        pre: 'vols',
-        prev: '',
+        _: ['vols'],
         vol: null
     },
     play: {

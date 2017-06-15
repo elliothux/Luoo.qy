@@ -1,7 +1,7 @@
 <template>
     <div
         id="vols"
-        :class="$store.state.view.pre === 'vols' ?
+        :class="$store.getters.view === 'vols' ?
             'volsShow' : 'volsHidden'"
     >
         <Vol

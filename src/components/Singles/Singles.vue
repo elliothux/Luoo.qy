@@ -1,7 +1,7 @@
 <template>
     <div
         id="singles"
-        :class="this.$store.state.view.pre === 'singles' ?
+        :class="$store.getters.view === 'singles' ?
             'singlesShow' : 'singlesHidden'"
         style="z-index: -2"
     >

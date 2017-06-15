@@ -2,10 +2,10 @@ K<template>
     <div
         id="playing"
         :style="{
-            display: $store.state.view.pre === 'types' ?
+            display: $store.getters.view === 'types' ?
                 'none' : 'flex',
             transform: `translateY(${
-                $store.state.view.pre === 'playingTrack' ?
+                $store.getters.view === 'playingTrack' ?
                     '63px' : '0'}` }"
     >
         <div id="playingController">

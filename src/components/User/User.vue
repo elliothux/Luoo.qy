@@ -1,8 +1,9 @@
 <template>
     <div
         id="user"
-        :class="this.$store.state.view.pre.includes('user') ?
-            'userShow' : 'userHidden'"
+        :class="$store.getters.view === 'userCollection' ||
+            $store.getters.view === 'userSetting' ?
+                'userShow' : 'userHidden'"
         style="z-index: -2"
     >
         <UserCollection

@@ -1,39 +1,39 @@
 <template>
     <div
         id="headBar"
-        :style="{ display: this.$store.state.view.pre === 'types' ? 'none' : 'flex' }"
+        :style="{ display: $store.getters.view === 'types' ? 'none' : 'flex' }"
     >
         <div id="headBarLeft">
             <div
-                v-if="this.$store.state.view.pre === 'playingTrack' ||
-                    (this.$store.state.view.pre === 'volView' &&
-                    this.$store.state.view.prev === 'userCollection')"
-                v-on:click.stop="changeView($store.state.view.prev)"
+                v-if="$store.getters.view === 'playingTrack' ||
+                    ($store.getters.view === 'volView' &&
+                    $store.getters.preView === 'userCollection')"
+                v-on:click.stop="changeView($store.getters.preView)"
             >
                 <img :src="'../pic/head-back.svg'"/>
                 <p>返回</p>
             </div>
             <div v-on:click.stop="changeView('vols')">
                 <img
-                    :src="this.$store.state.view.pre === 'vols' ?
+                    :src="$store.getters.view === 'vols' ?
                         '../pic/head-vol-solid.svg' :
                         '../pic/head-vol-stroked.svg'"
                 />
                 <p>
-                    {{ ($store.state.view.pre === 'vols' || $store.state.view.pre === 'singles') ?
+                    {{ ($store.getters.view === 'vols' || $store.getters.view === 'singles') ?
                         '期刊' : '首页' }}
                 </p>
             </div>
             <div v-on:click.stop="changeView('singles')">
                 <img
-                    :src="this.$store.state.view.pre === 'singles' ?
+                    :src="$store.getters.view === 'singles' ?
                         '../pic/head-single-solid.svg' :
                         '../pic/head-single-stroked.svg'"
                 />
                 <p>单曲</p>
             </div>
             <div
-                v-if="$store.state.view.pre === 'playingTrack' &&
+                v-if="$store.getters.view === 'playingTrack' &&
                     $store.state.play.type === 'vol'"
                 v-on:click.stop="changeView('source')"
             >
@@ -42,23 +42,26 @@
             </div>
             <div id="headBarButtons">
                 <div
-                    v-if="$store.state.view.pre === 'vols'"
+                    v-if="$store.getters.view === 'vols'"
                     v-on:click.stop="changeView('types')"
                 >
                     <img :src="'../pic/head-type.svg'"/>
                     <span>{{ $store.state.vols.types[$store.state.vols.type][0] }}</span>
                 </div>
                 <div
-                    v-if="this.$store.state.user.name !== '' && $store.state.view.pre.includes('user')"
-                    :style="{ borderColor: $store.state.view.pre === 'userCollection' ?
+                    v-if="$store.state.user.name !== '' &&
+                        ($store.getters.view === 'userCollection' ||
+                        $store.getters.view === 'userSetting')"
+                    :style="{ borderColor: $store.getters.view === 'userCollection' ?
                         'white' : 'rgba(0, 0, 0, 0)' }"
                 >
                     <img :src="'../pic/head-collection.svg'"/>
                     <span>收藏</span>
                 </div>
                 <div
-                    v-if="$store.state.view.pre.includes('user')"
-                    :style="{ borderColor: $store.state.view.pre === 'userSetting' ?
+                    v-if="$store.getters.view === 'userCollection' ||
+                        $store.getters.view === 'userSetting'"
+                    :style="{ borderColor: $store.getters.view === 'userSetting' ?
                         'white' : 'rgba(0, 0, 0, 0)' }"
                 >
                     <img :src="'../pic/head-setting.svg'"/>
@@ -69,7 +72,7 @@
         <div id="headBarLogo">
             <img id="headBarLogoImg" :src="'../pic/logo.png'"/>
             <p id="headBarLogoText">
-                {{ $store.state.view.pre === 'volView' ?
+                {{ $store.getters.view === 'volView' ?
                     `vol.${$store.state.view.vol.vol}` : 'Luoo.qy' }}
             </p>
         </div>
@@ -101,7 +104,7 @@
         name: 'headBar',
         methods: {
             changeView: function (view) {
-                if (view === this.$store.state.view.pre) return;
+                if (view === $store.getters.view) return;
                 if (view === 'source') {
                     setTimeout(function () {
                         if (document.getElementById('volViewIntro')) {
@@ -109,8 +112,6 @@
                             document.getElementById('volViewIntro').scrollTop = 0;
                         }
                     }, 0);
-//                    this.$store.dispatch('changeVolViewData',
-//                        Object.freeze(this.$store.state.playingVolData));
                     view =  'volView';
                 }
                 this.$store.dispatch('changeView', view);
