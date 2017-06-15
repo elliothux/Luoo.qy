@@ -86,6 +86,21 @@ export default {
         state.play.volume = volume;
     },
     updateTime: (state, {type, value}) => state.play.time[type] = value,
+    addTask: (state, {task, commit}) => {
+        state.tasks.push(task);
+        commit('execTask', {task, commit})
+    },
+    doneTask: (state, task) => {
+        const index = findTask(state.tasks, task.id);
+        return state.tasks.slice(0, index).concat(task.slice(index + 1, state.length))
+    },
+    retryTask: (state, {task, commit}) => {
+        task.failed = false;
+        commit('execTask', {task, commit})
+    },
+    execTask: (state, {task, commit}) => task.exec()
+        .then(() => commit('doneTask', task.id))
+        .catch(() => task.failed = true)
 }
 
 
@@ -111,4 +126,10 @@ function addAudioEvent(audio, getters, commit) {
 function formatView(view) {
     return view === 'userCollection' || view === 'userSetting' ?
         'user' : view
+}
+
+
+function findTask(tasks, id) {
+    for (let i=0; i<tasks.length; i++)
+        if (tasks[i].id === id) return i
 }

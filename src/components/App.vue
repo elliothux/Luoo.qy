@@ -17,6 +17,7 @@
     </div>
 </template>
 
+
 <script>
     import Vue from 'vue';
     import HeadBar from './HeadBar.vue';
@@ -47,6 +48,7 @@
         }
     }
 </script>
+
 
 <style lang="sass" scoped>
     #app

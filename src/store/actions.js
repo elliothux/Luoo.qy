@@ -33,5 +33,10 @@ export default {
     changePlayMode: ({commit}) => commit('changePlayMode'),
     changePlayInfo: ({commit}, options) => commit(options.type === 'ratio' ?
         'changePlayRatio' : 'changePlayVolume', options.value),
-
+    task: ({commit}, {type, task}) => {
+        switch (type) {
+            case 'add': return commit('addTask', {task, commit});
+            case 'retry': return commit('retryTask', {task, commit});
+        }
+    }
 }

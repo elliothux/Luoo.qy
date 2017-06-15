@@ -42,5 +42,6 @@ export default {
     },
     tracks: {
         data: []
-    }
+    },
+    tasks: []
 }

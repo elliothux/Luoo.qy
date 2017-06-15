@@ -30,7 +30,9 @@ export default {
         current: _formatTime(state.play.time.current),
         total: _formatTime(state.play.time.total),
         ratio: Math.ceil(100 * (state.play.time.current / state.play.time.total))
-    })
+    }),
+    task: state => state.tasks.length === 0 ?
+        '' : state.tasks[state.tasks.length - 1].text
 }
 
 
