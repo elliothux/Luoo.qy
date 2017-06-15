@@ -27,19 +27,19 @@
                     <img
                         id="playingTrackControllerPre"
                         :src="'../pic/controller-pre.svg'"
-                        v-on:click.stop="control('pre')"
+                        v-on:click.stop="toggle('prev')"
                     />
                     <img
                         id="playingTrackControllerToggle"
                         :src="this.$store.state.play.playing ?
                             '../pic/controller-pause.svg' :
                             '../pic/controller-play.svg'"
-                        v-on:click.stop="control('toggle')"
+                        v-on:click.stop="toggle('play')"
                     />
                     <img
                         id="playingTrackControllerNext"
                         :src="'../pic/controller-next.svg'"
-                        v-on:click.stop="control('next')"
+                        v-on:click.stop="toggle('next')"
                     />
                 </div>
                 <div id="playingTrackOperate">
@@ -77,7 +77,7 @@
                                 min="0" max="100"
                                 step="1" type="range"
                                 :value="$store.state.play.volume"
-                                v-on:change.stop="setPlayingVolume"
+                                v-on:change.stop="changePlayInfo"
                             />
                             <div id="playingTrackVolumeTriangle"></div>
                         </div>
@@ -109,7 +109,7 @@
                     <input
                         min="0" max="100"
                         step="1" type="range"
-                        v-on:change.stop="setPlayingTimeRatio"
+                        v-on:change.stop="changePlayInfo"
                     />
                     <div id="playingTrackTimer">
                         <div :style="{ width: `${$store.getters.time.ratio }%` }"></div>
@@ -137,20 +137,15 @@
             changePlayMode: function () {
                 this.$store.dispatch('changePlayMode');
             },
-            control: function(operate) {
-                if (operate === 'toggle')
-                    return this.$store.commit('togglePlay');
-                return this.$store.commit('control', {
-                        operate: operate,
-                        scale: this.$store.state.playingMode === 1 ?
-                            parseInt(Math.random() * 50) : 1
-                    })
+            toggle: function(operate) {
+                return this.$store.dispatch('toggle', operate);
             },
-            setPlayingTimeRatio: function (event) {
-                this.$store.commit('setPlayingTimeRatio', event.target.value)
-            },
-            setPlayingVolume: function (event) {
-                this.$store.commit('setPlayingVolume', event.target.value)
+            changePlayInfo: function (event) {
+                return this.$store.dispatch('changePlayInfo', {
+                    type: event.target.className === 'volumeTrackController' ?
+                        'volume' : 'ratio',
+                    value: event.target.value
+                })
             }
         }
     }

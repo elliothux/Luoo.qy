@@ -77,8 +77,10 @@ export default {
     },
     changePlayMode: state => state.play.mode === 2 ?
         state.play.mode = 0 : state.play.mode ++,
+    changePlayRatio: (state, ratio) => state.play.audio.currentTime =
+        state.play.audio.duration * ratio / 100
+    ,
     updateTime: (state, {type, value}) => state.play.time[type] = value,
-
 }
 
 
@@ -96,128 +98,7 @@ function addAudioEvent(audio, getters, commit) {
             value: event.target.currentTime,
         })
     );
+    const type = 'next';
     audio.addEventListener('ended', () =>
-        commit('control'), {type: 'next', getters, commit});
-}
-
-let temp = {
-    changeView: (state, viewStatus) => {
-        const preView = state.viewStatus;
-        state.viewStatus = viewStatus;
-        state.preViewStatus = preView;
-        setTimeout(() => {
-            document.getElementById(preView).style.zIndex = -2
-        }, 500);
-        document.getElementById(viewStatus).style.zIndex = 2;
-    },
-    changePlayingType: (state, type) => {
-        state.playingType = type
-    },
-    changePlayingMode: (state) => {
-        let mode = state.playingMode;
-        if (mode === 2) mode = 0;
-        else mode ++;
-        state.playingMode = mode
-    },
-    changePlayingData: (state, data) => {
-        state.playingData = Object.freeze(data)
-    },
-    changeVolViewData: (state, data) => {
-        state.volViewData = Object.freeze(data)
-    },
-    updateConfig: (state, data) => {
-        state.user = Object.freeze(Object.assign({}, state.user, data))
-    },
-    updateVolsData: (state, data) => {
-        state.vols = Object.freeze(data);
-        this.default.store.commit('setVolsShowType', 0);
-    },
-    updateSinglesData: (state, data) => {
-        state.singles = Object.freeze(data)
-    },
-    updateTracksData: (state, data) => {
-        state.tracks = Object.freeze(data)
-    },
-    loadMoreVols: (state, init) => {
-        if (init) {
-            state.volsShowIndex = 18;
-            return document.getElementById('vols').scrollTop = 0;
-        }
-        const preIndex = state.volsShowIndex;
-        if (preIndex + 18 >= state.filteredVols.length - 1)
-            state.volsShowIndex = state.filteredVols.length;
-        else state.volsShowIndex = preIndex + 18
-    },
-    loadMoreSingles: (state) => {
-        const preIndex = state.singlesShowIndex;
-        if (preIndex + 18 >= state.singles.length-1)
-            state.singlesShowIndex = state.singles.length;
-        else state.singlesShowIndex = preIndex + 18
-    },
-    togglePlay: (state) => {
-        if (state.playing) {
-            state.playingAudio.pause();
-            state.playing = false;
-        }
-        else {
-            state.playingAudio.play();
-            state.playing = true;
-        }
-    },
-    control: (state, option) => {
-        let index;
-        const { operate, scale } = option;
-        if (state.playingType === 'vol') {
-            const playingVolTracks = state.playingVolData.tracks;
-            index = (state.playingIndex + (operate === 'next' ? 1 : -1) * scale) % playingVolTracks.length;
-            index < 0 && (index = playingVolTracks.length + index);
-            if (state.playingMode === 1 && (index === state.playingIndex || index === state.playingIndex + 1))
-                return this.default.store.commit('control',
-                    Object.assign(option, { index: option.index + 2 }));
-            this.default.store.commit('play', {
-                index: index,
-                url: playingVolTracks[index].url
-            });
-            return state.playingData = Object.freeze(playingVolTracks[index])
-        } else if (state.playingType === 'single') {
-            index = (state.playingIndex + (operate === 'next' ? 1 : -1) * scale) % state.singles.length;
-            index < 0 && (index = state.singles.length + index);
-            if (state.playingMode === 1 && (index === state.playingIndex || index === state.playingIndex + 1))
-                return this.default.store.commit('control',
-                    Object.assign(option, { index: option.index + 2 }));
-            this.default.store.commit('play', {
-                index: index,
-                url: state.singles[index].url
-            });
-            return state.playingData = Object.freeze(state.singles[index])
-        }
-    },
-    updatePlayingInfo: (state, option) => {
-        if (option.type === 'current')
-            state.playingCurrentTime = formatTime(option.value);
-        else if (option.type === 'duration')
-            state.playingDurationTime = formatTime(option.value);
-        option.ratio &&
-        (state.playingTimeRatio = option.ratio);
-
-        function formatTime(time) {
-            const min = `0${parseInt(time / 60)}`;
-            const sec = parseInt(time % 60);
-            return `${min}:${sec < 10 ? 0 : ''}${sec}`
-        }
-    },
-    setPlayingTimeRatio: (state, value) => {
-        state.playingTimeRatio = value;
-        state.playingAudio.currentTime = state.playingAudio.duration * value / 100
-    },
-    setPlayingVolume: (state, volume) => {
-        state.playingVolume = volume;
-        state.playingAudio && (state.playingAudio.volume = volume / 100);
-    },
-    setVolsShowType: (state, type) => {
-        state.volsShowType = type;
-        setTimeout(() => {
-            document.getElementById('types').scrollTop = 0;
-        }, 0)
-    }
+        commit('control', {type, getters, commit}));
 }

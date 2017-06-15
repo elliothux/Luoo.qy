@@ -43,7 +43,7 @@ K<template>
                     <input
                         min="0" max="100"
                         step="1" type="range"
-                        v-on:change.stop="setPlayingTimeRatio"
+                        v-on:change.stop="changePlayInfo"
                     />
                     <div id="playingTimer">
                         <div :style="{ width: `${$store.getters.time.ratio }%` }"></div>
@@ -83,7 +83,7 @@ K<template>
                         min="0" max="100"
                         step="1" type="range"
                         :value="$store.state.play.volume"
-                        v-on:change.stop="setPlayingVolume"
+                        v-on:change.stop="changePlayInfo"
                     />
                     <div id="playingVolumeTriangle"></div>
                 </div>
@@ -128,11 +128,12 @@ K<template>
             toggle: function(operate) {
                 return this.$store.dispatch('toggle', operate);
             },
-            setPlayingTimeRatio: function (event) {
-                this.$store.commit('setPlayingTimeRatio', event.target.value)
-            },
-            setPlayingVolume: function (event) {
-                this.$store.commit('setPlayingVolume', event.target.value)
+            changePlayInfo: function (event) {
+                return this.$store.dispatch('changePlayInfo', {
+                    type: event.target.className === 'volumeTrackController' ?
+                        'volume' : 'ratio',
+                    value: event.target.value
+                })
             }
         }
     }

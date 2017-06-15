@@ -27,4 +27,7 @@ export default {
         commit('control', {type, getters, commit});
     },
     changePlayMode: ({commit}) => commit('changePlayMode'),
+    changePlayInfo: ({commit}, options) => options.type === 'ratio' ?
+        commit('changePlayRatio', options.value) : null,
+
 }
