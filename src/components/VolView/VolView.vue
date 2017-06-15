@@ -25,9 +25,7 @@
                                 />
                                 <img
                                     id="volViewToggle"
-                                    :src="($store.state.play.playing &&
-                                        $store.state.play.type === 'vol' &&
-                                        $store.state.play.vol.vol === $store.state.view.vol.vol) ?
+                                    :src="isThisPlaying ?
                                             '../pic/controller-pause.svg' :
                                             '../pic/controller-play.svg'"
                                     v-on:click.stop="play"
@@ -75,9 +73,17 @@
         methods: {
             play: function () {
                 this.$store.dispatch('play', Object.freeze({
-                    type: 'vol',
+                    type: this.$store.state.view.vol.type,
                     data: Object.freeze(this.$store.state.view.vol)
                 }))
+            }
+        },
+        computed: {
+            isThisPlaying: function () {
+                const state = this.$store.state;
+                return state.play.type === state.view.vol.type &&
+                    state.play.playing &&
+                    state.play.vol.vol === state.view.vol.vol
             }
         }
     }

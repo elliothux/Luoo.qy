@@ -8,6 +8,7 @@
             v-for="(vol, index) in $store.getters.vols"
             :data="Object.freeze(vol)"
             :index="index"
+            :type="'vol'"
             :key="index"
         />
         <div

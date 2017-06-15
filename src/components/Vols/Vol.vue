@@ -10,16 +10,14 @@
             <p class="volInfoTitle">{{ data.title }}</p>
             <div class="volOperate">
                 <img
-                        class="volLike"
-                        :src="$store.state.user.likedVols.includes(data.vol) ?
-                        '../pic/liked.svg' :
-                        '../pic/like.svg'"
+                    class="volLike"
+                    :src="$store.state.user.likedVols.includes(data.vol) ?
+                    '../pic/liked.svg' :
+                    '../pic/like.svg'"
                 />
                 <img
                     class="volPlay"
-                    :src="($store.state.play.type === 'vol' &&
-                        $store.state.play.vol.vol === data.vol &&
-                        $store.state.play.playing) ?
+                    :src="isThisPlaying ?
                             '../pic/controller-pause.svg' :
                             '../pic/controller-play.svg'"
                     v-on:click.stop="play"
@@ -39,7 +37,7 @@
 
     export default {
         name: 'vol',
-        props: ['data', 'index'],
+        props: ['data', 'index', 'type'],
         data: function() { return {
             volStyle: {
                 backgroundColor: 'rgba(255, 255, 255, 0.55)',
@@ -58,17 +56,25 @@
             show: function () {
                 this.$store.dispatch('showVol', Object.freeze(
                     Object.assign(
-                        { index: this.index },
+                        { index: this.index, type: this.type },
                         this.volStyle, this.data)
                 ));
             },
             play: function () {
                 this.$store.dispatch('play', Object.freeze({
-                    type: 'vol',
-                    data: Object.freeze(this.data)
+                    type: this.type,
+                    data: this.data
                 }))
             }
-        }
+        },
+        computed: {
+            isThisPlaying: function () {
+                const state = this.$store.state;
+                return state.play.type === this.type &&
+                    state.play.playing &&
+                    state.play.vol.vol === this.data.vol
+            }
+        },
     }
 </script>
 
