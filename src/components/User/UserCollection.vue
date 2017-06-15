@@ -72,12 +72,10 @@
 
 <script>
     import Vue from 'vue';
-    import Vuex from 'vuex';
     import Vol from '../Vols/Vol.vue';
     import VolTrack from '../VolView/VolTrack.vue';
     import Single from '../Singles/Single.vue';
 
-    Vue.use(Vuex);
 
     export default {
         name: 'userCollection',

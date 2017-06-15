@@ -30,10 +30,8 @@
 
 <script>
     import Vue from 'vue';
-    import Vuex from 'vuex';
     import { getAverageColor } from '../../lib/colorLib';
 
-    Vue.use(Vuex);
 
     export default {
         name: 'vol',

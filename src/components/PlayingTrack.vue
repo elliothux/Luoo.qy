@@ -103,6 +103,9 @@
                         {{ $store.getters.playData.artist }}
                     </p>
                 </div>
+                <div id="lyric">
+                    <p>ㄟ(▔,▔)ㄏ 歌词功能正在努力施工中...</p>
+                </div>
             </div>
             <div id="playingTrackBottom">
                 <span>{{ $store.getters.time.current }}</span>
@@ -125,9 +128,7 @@
 
 <script>
     import Vue from 'vue';
-    import Vuex from 'vuex';
 
-    Vue.use(Vuex);
 
     export default {
         name: 'playingTrack',
@@ -170,6 +171,7 @@
         flex-direction: row
         justify-content: space-between
         align-items: center
+        background-color: #000000
 
     .playingTrackShow
         transform: scale(1)
@@ -191,6 +193,7 @@
         filter: blur(25px)
         z-index: -1
         transition: all ease 1200ms
+        opacity: 0.8
 
     #playingTrackLeft
         width: 35%

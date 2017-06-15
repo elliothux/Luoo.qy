@@ -63,11 +63,9 @@
 
 <script>
     import Vue from 'vue';
-    import Vuex from 'vuex';
     import VolTrack from './VolTrack.vue';
     import { getAverageColor } from '../../lib/colorLib';
 
-    Vue.use(Vuex);
 
     export default {
         name: 'volView',
@@ -75,7 +73,8 @@
         data: function () { return {
             volStyle: {
                 backgroundColor: 'rgba(0, 0, 0, 0.35)'
-            }
+            },
+            cover: ''
         }},
         created: function () {
             this.setStyle()
@@ -95,12 +94,14 @@
                     }))
             },
             setStyle: function () {
-                if (!this.$store.state.view.vol) return;
+                if (!this.$store.state.view.vol ||
+                    this.$store.state.view.vol.cover === this.cover) return;
+                this.cover = this.$store.state.view.vol.cover;
                 if (this.$store.state.view.vol.backgroundColor)
                     this.volStyle.backgroundColor = this.$store.state.view.vol.backgroundColor;
                 else {
                     const cover = new Image();
-                    cover.src = this.$store.state.view.vol.cover;
+                    cover.src = this.cover;
                     cover.onload = function () {
                         const color = getAverageColor(cover);
                         this.volStyle.backgroundColor = `rgba(${color.r}, ${color.g}, ${color.b}, 0.55)`

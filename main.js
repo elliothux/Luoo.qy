@@ -5,6 +5,7 @@ const platform = require('os').platform();
 const db = require('./static/js/db');
 const user = require('./static/js/user');
 const config = require('./static/js/config');
+const sync = require('./static/js/sync');
 const {app, BrowserWindow } = electron;
 
 
@@ -31,7 +32,8 @@ app.on('activate', () => {
 exports = Object.assign(exports, {
     db: db,
     user: user,
-    config: config
+    config: config,
+    sync: sync
 });
 
 
@@ -41,9 +43,9 @@ function openWindow(filePath, options, isMax) {
     !options && (options = {});
     options = Object.assign(
         {
-            width: 1110,
-            height: 720,
-            minWidth: 700,
+            width: 960,
+            height: 680,
+            minWidth: 800,
             minHeight: 550,
             center: true,
             show: false

@@ -28,10 +28,8 @@
 
 <script>
     import Vue from 'vue';
-    import Vuex from 'vuex';
     import Single from './Single.vue';
 
-    Vue.use(Vuex);
 
     export default {
         name: 'singles',

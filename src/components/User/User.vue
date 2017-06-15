@@ -20,15 +20,13 @@
 
 <script>
     import Vue from 'vue';
-    import Vuex from 'vuex';
     import Login from './Login.vue';
     import UserCollection from './UserCollection.vue';
 
-    Vue.use(Vuex);
 
     export default {
         name: 'user',
-        props: ['user', 'config'],
+        props: ['remote'],
         components: { Login, UserCollection }
     }
 </script>

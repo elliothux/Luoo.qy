@@ -27,10 +27,8 @@
 
 <script>
     import Vue from 'vue';
-    import Vuex from 'vuex';
     import Vol from './Vol.vue';
 
-    Vue.use(Vuex);
 
     export default {
         name: 'vols',

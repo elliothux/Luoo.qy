@@ -11,7 +11,7 @@
         <Playing/>
         <Vols/>
         <Singles/>
-        <User :user="this.user" :config="this.config"/>
+        <User :remote="remote"/>
         <VolView/>
         <PlayingTrack/>
     </div>
@@ -32,18 +32,18 @@
     export default {
         name: 'app',
         components: { HeadBar, Playing, Vols, Singles, VolView, PlayingTrack, Types, User },
-        props: ['db', 'user', 'config'],
+        props: ['remote'],
         created: function() {
-            this.db.vol.get().then(data =>
+            this.remote.db.vol.get().then(data =>
                 this.$store.dispatch('updateData', { type: 'vols', data: data })
             );
-            this.db.single.get().then(data =>
+            this.remote.db.single.get().then(data =>
                 this.$store.dispatch('updateData', { type: 'singles', data: data })
             );
-            this.db.track.get().then( data =>
+            this.remote.db.track.get().then( data =>
                 this.$store.dispatch('updateData', { type: 'tracks', data: data })
             );
-            this.$store.dispatch('updateData', { type: 'user', data: this.config.get() })
+            this.$store.dispatch('updateData', { type: 'user', data: this.remote.config.get() })
         }
     }
 </script>
@@ -63,14 +63,15 @@
             z-index: 1
 
     #background
-        width: calc(100% + 200px)
-        height: calc(100% + 200px)
+        width: calc(100% + 120px)
+        height: calc(100% + 120px)
         position: fixed
-        top: -100px
-        left: -100px
+        top: -60px
+        left: -60px
         background-size: cover
-        filter: blur(50px)
+        filter: blur(30px)
         z-index: -1
         transition: all ease 850ms
+        opacity: 0.8
 
 </style>

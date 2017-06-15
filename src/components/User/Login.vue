@@ -17,13 +17,11 @@
 
 <script>
     import Vue from 'vue';
-    import Vuex from 'vuex';
 
-    Vue.use(Vuex);
 
     export default {
         name: 'login',
-        props: ['login', 'config'],
+        props: ['remote'],
         data: function () { return {
             mail: '',
             password: '',
