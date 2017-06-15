@@ -133,6 +133,11 @@
         data: function () { return {
             showVolumeController: false,
         }},
+        created: function () {
+            window.addEventListener('click', function () {
+                this.showVolumeController = false;
+            }.bind(this))
+        },
         methods: {
             changePlayMode: function () {
                 this.$store.dispatch('changePlayMode');

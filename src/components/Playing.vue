@@ -80,6 +80,7 @@ K<template>
                     v-if="showVolumeController"
                 >
                     <input
+                        class="volumePlayingController"
                         min="0" max="100"
                         step="1" type="range"
                         :value="$store.state.play.volume"
@@ -91,9 +92,9 @@ K<template>
             <div
                 id="playingCover"
                 :style="{
-                        backgroundImage: `url(${$store.getters.playData ?
-                            $store.getters.playData.cover :
-                            '../pic/playing-cover.png'})` }"
+                    backgroundImage: `url(${$store.getters.playData ?
+                        $store.getters.playData.cover :
+                        '../pic/playing-cover.png'})` }"
                 v-on:click.stop="showPlayingTrack"
             ></div>
         </div>
@@ -113,9 +114,9 @@ K<template>
             showVolumeController: false,
         }},
         created: function () {
-//            window.addEventListener('click', function () {
-//                this.showVolumeController = false;
-//            }.bind(this))
+            window.addEventListener('click', function () {
+                this.showVolumeController = false;
+            }.bind(this))
         },
         methods: {
             changePlayMode: function () {
@@ -130,7 +131,7 @@ K<template>
             },
             changePlayInfo: function (event) {
                 return this.$store.dispatch('changePlayInfo', {
-                    type: event.target.className === 'volumeTrackController' ?
+                    type: event.target.className === 'volumePlayingController' ?
                         'volume' : 'ratio',
                     value: event.target.value
                 })

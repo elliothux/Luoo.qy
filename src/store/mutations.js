@@ -47,9 +47,8 @@ export default {
         }
         const audio = state.play.audio;
         audio.pause();
-        audio.src = '';
-        audio.load();
         audio.src = getters.playData.url;
+        audio.volume = state.play.volume / 100;
         audio.load();
     },
     toggle: state => {
@@ -78,8 +77,11 @@ export default {
     changePlayMode: state => state.play.mode === 2 ?
         state.play.mode = 0 : state.play.mode ++,
     changePlayRatio: (state, ratio) => state.play.audio.currentTime =
-        state.play.audio.duration * ratio / 100
-    ,
+        state.play.audio.duration * ratio / 100,
+    changePlayVolume: (state, volume) => {
+        state.play.audio.volume = volume / 100;
+        state.play.volume = volume;
+    },
     updateTime: (state, {type, value}) => state.play.time[type] = value,
 }
 
@@ -98,7 +100,6 @@ function addAudioEvent(audio, getters, commit) {
             value: event.target.currentTime,
         })
     );
-    const type = 'next';
     audio.addEventListener('ended', () =>
-        commit('control', {type, getters, commit}));
+        commit('control', {type: 'next', getters, commit}));
 }
