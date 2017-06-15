@@ -8,12 +8,12 @@
             v-for="(vol, index) in $store.getters.vols"
             :data="Object.freeze(vol)"
             :index="index"
-            :key="vol.vol"
+            :key="index"
         />
         <div
             id="loadMoreVols"
             :style="{ opacity: $store.state.vols.index <
-                $store.state.vols.data.length ? 1 : 0 }"
+                $store.getters._vols.length ? 1 : 0 }"
         >
             <div v-on:click.stop="loadMore">
                 <img :src="'../pic/loadMore-stroked.svg'"/>
@@ -60,7 +60,7 @@
         display: flex
         flex-direction: row
         flex-wrap: wrap
-        justify-content: space-between
+        justify-content: flex-start
 
     .volsShow
         transform: scale(1)

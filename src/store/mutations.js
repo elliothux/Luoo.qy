@@ -32,6 +32,13 @@ export default {
             state.singles.index = state.singles.data.length;
         else state.vols.index = preIndex + 18
     },
+    play:(state, options) => {
+        if (options.type === 'vol' || options.type === 'likedVol')
+            state.play.vol = options.data;
+        state.play.type = options.type;
+        state.play.playing = true;
+        state.play.index = 0;
+    }
 
 }
 

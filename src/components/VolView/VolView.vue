@@ -1,23 +1,18 @@
 <template>
     <div
         id="volView"
-        :class="this.$store.state.view.pre === 'volView' ?
+        :class="$store.state.view.pre === 'volView' ?
             'volViewShow' : 'volViewHidden'"
         style="z-index: -2;"
     >
-        <template v-if="this.$store.state.view.vol">
+        <template v-if="$store.state.view.vol">
             <div
                 id="volViewInfo"
-                :style="{backgroundColor: this.$store.state.view.vol ?
-                    this.$store.state.view.vol.backgroundColor :
-                    'rgba(255, 255, 255, 0.55)'
-            }">
+                :style="{backgroundColor: $store.state.view.vol.backgroundColor}"
+            >
                 <div
                     id="volViewCover"
-                    :style="{ backgroundImage: `url(${this.$store.state.view.vol ?
-                        this.$store.state.view.vol.cover :
-                        'rgba(255, 255, 255, 0.55)'
-                    })`
+                    :style="{ backgroundImage: `url(${$store.state.view.vol.cover})`
             }"></div>
                 <div id="volViewIntro">
                     <div id="volViewIntroContainer">
@@ -30,12 +25,12 @@
                                 />
                                 <img
                                     id="volViewToggle"
-                                    :src="(this.$store.state.play.playing &&
-                                        this.$store.state.play.type === 'vol' &&
-                                        this.$store.state.play.data.vol === this.$store.state.view.vol.vol) ?
+                                    :src="($store.state.play.playing &&
+                                        $store.state.play.type === 'vol' &&
+                                        $store.state.play.vol.vol === $store.state.view.vol.vol) ?
                                             '../pic/controller-pause.svg' :
                                             '../pic/controller-play.svg'"
-                                    v-on:click.stop="playVol"
+                                    v-on:click.stop="play"
                                 />
                             </div>
                             <p><span v-for="tag in $store.state.view.vol.tag">
@@ -78,19 +73,11 @@
         name: 'volView',
         components: { VolTrack },
         methods: {
-            playVol: function () {
-                const { state, commit } = this.$store;
-                if (state.playingType === 'vol' &&
-                    state.playingVolIndex === state.volViewData.index)
-                    return commit('togglePlay');
-                commit('play', Object.freeze({
+            play: function () {
+                this.$store.dispatch('play', Object.freeze({
                     type: 'vol',
-                    volIndex: state.volViewData.index,
-                    index: 0,
-                    url: state.volViewData.tracks[0].url,
-                    data: Object.freeze(this.$store.state.volViewData)
-                }));
-                commit('changePlayingData', Object.freeze(state.volViewData.tracks[0]))
+                    data: Object.freeze(this.$store.state.view.vol)
+                }))
             }
         }
     }

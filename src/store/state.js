@@ -20,9 +20,7 @@ export default {
     play: {
         type: null,
         mode: 0,
-        list: [],
         index: 0,
-        date: { },
         audio: null,
         time: {
             current: '00:00',
@@ -30,7 +28,8 @@ export default {
             ratio: 0,
         },
         volume: 80,
-        playing: false
+        playing: false,
+        vol: null,
     },
     user: { },
     vols: {

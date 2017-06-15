@@ -29,7 +29,7 @@
                 v-for="(vol, index) in $store.getters.likedVols"
                 :data="Object.freeze(vol)"
                 :index="index"
-                :key="vol.vol"
+                :key="index"
             />
         </div>
         <div

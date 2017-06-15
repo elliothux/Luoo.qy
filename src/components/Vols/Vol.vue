@@ -2,7 +2,7 @@
     <div
         class="vol"
         :style="volStyle"
-        v-on:click.stop="showVol"
+        v-on:click.stop="show"
     >
         <img :src="data.cover" class="volCover"/>
         <div class="volInfo">
@@ -17,12 +17,12 @@
                 />
                 <img
                     class="volPlay"
-                    :src="(this.$store.state.play.type === 'vol' &&
-                        this.$store.state.play.data.vol === data.vol &&
-                        this.$store.state.play.playing) ?
+                    :src="($store.state.play.type === 'vol' &&
+                        $store.state.play.vol.vol === data.vol &&
+                        $store.state.play.playing) ?
                             '../pic/controller-pause.svg' :
                             '../pic/controller-play.svg'"
-                    v-on:click.stop="playVol"
+                    v-on:click.stop="play"
                 />
             </div>
         </div>
@@ -42,7 +42,8 @@
         props: ['data', 'index'],
         data: function() { return {
             volStyle: {
-                backgroundColor: 'rgba(255, 255, 255, 0.55)'
+                backgroundColor: 'rgba(255, 255, 255, 0.55)',
+                marginRight: (this.index + 1) % 3 === 0 ? 0 : '8%'
             }
         }},
         created: function () {
@@ -54,25 +55,18 @@
             }.bind(this)
         },
         methods: {
-            showVol: function () {
-                this.$store.dispatch('showVol', Object.assign(
-                    { index: this.index },
-                    this.volStyle, this.data));
+            show: function () {
+                this.$store.dispatch('showVol', Object.freeze(
+                    Object.assign(
+                        { index: this.index },
+                        this.volStyle, this.data)
+                ));
             },
-
-            playVol: function () {
-                const commit = this.$store.commit;
-                if (this.$store.state.playingType === 'vol' &&
-                    this.$store.state.playingVolData.vol === this.data.vol)
-                        return commit('togglePlay');
-                commit('play', Object.freeze({
+            play: function () {
+                this.$store.dispatch('play', Object.freeze({
                     type: 'vol',
-                    volIndex: this.index,
-                    index: 0,
-                    url: this.data.tracks[0].url,
                     data: Object.freeze(this.data)
-                }));
-                commit('changePlayingData', Object.freeze(this.data.tracks[0]))
+                }))
             }
         }
     }

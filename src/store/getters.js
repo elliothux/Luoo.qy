@@ -13,5 +13,15 @@ export default {
         track => state.user.likedTracks.includes(track.track_id)),
     likedSingles: state => state.singles.data.filter(
         single => state.user.likedTracks.includes(single.single_id)),
-
+    playData: (state, getters) => {
+        const index = state.play.index;
+        switch (state.play.type) {
+            case 'vol': return state.play.vol.tracks[index];
+            case 'single': return getters.singles[index];
+            case 'likedVols': return getters.likedVols[index];
+            case 'likedTracks': return getters.likedTracks[index];
+            case 'likedSingles': return getters.likedSingles[index];
+            default: return null;
+        }
+    }
 }

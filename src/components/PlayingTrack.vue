@@ -1,29 +1,24 @@
 <template>
     <div
         id="playingTrack"
-        :class="this.$store.state.viewStatus === 'playingTrack' ?
+        :class="$store.state.view.pre === 'playingTrack' ?
             'playingTrackShow' : 'playingTrackHidden'"
         style="z-index: -2;"
     >
-        <template v-if="$store.state.playingData">
+        <template v-if="$store.getters.playData">
             <div
                 id="playingTrackBackground"
-                :style="{
-                    backgroundImage: `url(${this.$store.state.playingData ?
-                        this.$store.state.playingData.cover : ''
-                })`
-            }"
+                :style="{ backgroundImage: `url(${ $store.getters.playData.cover})` }"
             />
             <div id="playingTrackLeft">
                 <div
                     id="playingTrackCover"
                     :style="{
-                        backgroundImage: `url(${this.$store.state.playingData ?
-                            this.$store.state.playingData.cover : '' })`,
-                        paddingBottom: this.$store.state.playingType === 'single' ?
+                        backgroundImage: `url(${$store.getters.playData.cover})`,
+                        paddingBottom: this.$store.state.play.type === 'single' ?
                             '70%' : '100%',
-                        transform: `scale(${this.$store.state.playing ? 1 : 0.9})`,
-                        boxShadow: this.$store.state.playing ?
+                        transform: `scale(${this.$store.state.play.playing ? 1 : 0.9})`,
+                        boxShadow: this.$store.state.play.playing ?
                             `0 10px 50px 0 rgba(0,0,0,0.50)` : 'none'
 
             }"
@@ -36,7 +31,7 @@
                     />
                     <img
                         id="playingTrackControllerToggle"
-                        :src="this.$store.state.playing ?
+                        :src="this.$store.state.play.playing ?
                             '../pic/controller-pause.svg' :
                             '../pic/controller-play.svg'"
                         v-on:click.stop="control('toggle')"
@@ -51,28 +46,28 @@
                     <div>
                         <img
                             v-on:click.stop="changePlayingMode"
-                            :src="`../pic/play-${['order', 'shuffle', 'loop'][this.$store.state.playingMode]}.svg`"
+                            :src="`../pic/play-${['order', 'shuffle', 'loop'][this.$store.state.play.mode]}.svg`"
                         />
                         <p>
-                            {{ ['顺序', '随机', '单曲'][$store.state.playingMode] }}
+                            {{ ['顺序', '随机', '单曲'][$store.state.play.mode] }}
                         </p>
                     </div>
                     <div>
                         <img
                             :src="`../pic/${$store.state.user.likedTracks.includes(
-                                $store.state.playingData.track_id || $store.state.playingData.single_id) ?
+                                $store.getters.playData.track_id || $store.getters.playData.single_id) ?
                                     'liked' : 'like'}.svg`"
                         />
                         <p>{{ $store.state.user.likedTracks.includes(
-                                $store.state.playingData.track_id || $store.state.playingData.single_id) ?
+                                $store.getters.playData.track_id || $store.getters.playData.single_id) ?
                                     '已喜欢' : '喜欢' }}</p>
                     </div>
                     <div>
                         <img
-                            :src="`../pic/volume-${ this.$store.state.playingVolume > 0 ? 'on' : 'off'}.svg`"
+                            :src="`../pic/volume-${ this.$store.state.play.volume > 0 ? 'on' : 'off'}.svg`"
                             v-on:click.stop="showVolumeController = !showVolumeController"
                         />
-                        <p>{{ $store.state.playingVolume }}</p>
+                        <p>{{ $store.state.play.volume }}</p>
                         <div
                             id="playingTrackVolumeController"
                             v-if="showVolumeController"
@@ -81,7 +76,7 @@
                                 class="volumeTrackController"
                                 min="0" max="100"
                                 step="1" type="range"
-                                :value="$store.state.playingVolume"
+                                :value="$store.state.play.volume"
                                 v-on:change.stop="setPlayingVolume"
                             />
                             <div id="playingTrackVolumeTriangle"></div>
@@ -92,24 +87,24 @@
             <div id="playingTrackRight">
                 <div id="playingTrackInfo">
                     <p id="playingTrackTitle">
-                        {{ $store.state.playingData.name }}
+                        {{ $store.getters.playData.name }}
                     </p>
                     <p
                         id="playingTrackAlbum"
                         v-if="$store.state.playingType === 'vol'"
                     >
-                        {{ $store.state.playingData.album }}
+                        {{ $store.getters.playData.album }}
                     </p>
                     <p
                         id="playingTrackArtist"
-                        v-if="$store.state.playingData.artist !== $store.state.playingData.album"
+                        v-if="$store.getters.playData.artist !== $store.getters.playData.album"
                     >
-                        {{ $store.state.playingData.artist }}
+                        {{ $store.getters.playData.artist }}
                     </p>
                 </div>
             </div>
             <div id="playingTrackBottom">
-                <span>{{ $store.state.playingCurrentTime }}</span>
+                <span>{{ $store.state.play.time.current }}</span>
                 <div id="playingTrackTimerContainer">
                     <input
                         min="0" max="100"
@@ -117,10 +112,10 @@
                         v-on:change.stop="setPlayingTimeRatio"
                     />
                     <div id="playingTrackTimer">
-                        <div :style="{ width: `${this.$store.state.playingTimeRatio}%` }"></div>
+                        <div :style="{ width: `${$store.state.play.time.ratio }%` }"></div>
                     </div>
                 </div>
-                <span>{{ $store.state.playingDurationTime }}</span>
+                <span>{{ $store.state.play.time.total }}</span>
             </div>
         </template>
     </div>

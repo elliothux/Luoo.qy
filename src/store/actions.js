@@ -20,5 +20,7 @@ export default {
                 document.getElementById('volViewIntro').scrollTop = 0;
             }
         }, 0);
-    }
+    },
+    play: ({commit}, data) => commit('play', data),
+
 }

@@ -13,7 +13,7 @@
         <Singles/>
         <User :user="this.user" :config="this.config"/>
         <VolView/>
-        <!--<PlayingTrack/>-->
+        <PlayingTrack/>
     </div>
 </template>
 
