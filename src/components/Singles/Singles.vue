@@ -8,12 +8,14 @@
         <Single
             v-for="(single, index) in this.$store.getters.singles"
             :data="Object.freeze(single)"
+            :type="'single'"
             :index="index"
-            :key="single.date"
+            :key="index"
         />
         <div
             id="loadMoreSingles"
-            v-if="this.$store.state.singles.data.length > this.$store.state.singles.index"
+            :style="{ opacity: $store.state.singles.index <
+                $store.state.singles.data.length ? 1 : 0 }"
         >
             <div v-on:click.stop="loadMore">
                 <img :src="'../pic/loadMore-stroked.svg'"/>
@@ -36,10 +38,7 @@
         components: { Single },
         methods: {
             loadMore: function () {
-                this.$store.dispatch('loadMore', {
-                    type: 'Singles',
-                    init: false
-                })
+                this.$store.dispatch('loadMore', {type: 'Singles'})
             }
         }
     }

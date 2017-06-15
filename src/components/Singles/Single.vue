@@ -2,7 +2,7 @@
     <div
         class="single"
         :style="singleStyle"
-        v-on:click.stop="showPlayingTrack"
+        v-on:click.stop="show"
     >
         <div class="singleTop">
             <div class="singleCover">
@@ -17,12 +17,10 @@
                     />
                     <img
                         class="singleOperateToggle"
-                        :src="(this.$store.state.playing &&
-                            this.$store.state.playingType === 'single' &&
-                            this.$store.state.playingIndex === this.index) ?
+                        :src="isThisPlaying ?
                                 '../pic/controller-pause.svg' :
                                 '../pic/controller-play.svg'"
-                        v-on:click.stop="playSingle"
+                        v-on:click.stop="play"
                     />
                 </div>
                 <p class="singleInfoName">{{ data.name }}</p>
@@ -51,7 +49,7 @@
 
     export default {
         name: 'single',
-        props: ['data', 'index'],
+        props: ['data', 'index', 'type'],
         data: () => ({
             singleStyle: {
                 backgroundColor: 'rgba(255, 255, 255, 0.55)'
@@ -66,27 +64,27 @@
             }.bind(this)
         },
         methods: {
-            showPlayingTrack: function () {
-                const state = this.$store.state;
-                this.$store.commit('changeView', 'playingTrack');
-                if (state.playing &&
-                    state.playingType === 'single' &&
-                    state.playingIndex === this.index)
-                    return;
-                this.playSingle();
+            show: function () {
+                this.$store.dispatch('changeView', 'playingTrack');
+                if (!this.isThisPlaying) this.play()
             },
-            playSingle: function () {
+            play: function () {
                 const state = this.$store.state;
-                if (state.playingType === 'single' &&
-                    state.playingIndex === this.index)
-                        return this.$store.commit('togglePlay');
-                this.$store.commit('changePlayingData', Object.freeze(this.data));
-                this.$store.commit('changePlayingType', 'single');
-                this.$store.commit('play', Object.freeze({
-                    type: 'single',
-                    index: this.index,
-                    url: this.data.url
-                }))
+                state.play.type === this.type &&
+                state.play.index === this.index ?
+                    this.$store.dispatch('toggle', 'play') :
+                    this.$store.dispatch('play', Object.freeze({
+                        type: this.type,
+                        index: this.index
+                    }))
+            }
+        },
+        computed: {
+            isThisPlaying: function () {
+                const state = this.$store.state;
+                return state.play.playing &&
+                    state.play.type === this.type &&
+                    state.play.index === this.index
             }
         }
     }

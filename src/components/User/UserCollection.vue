@@ -28,8 +28,8 @@
             <Vol
                 v-for="(vol, index) in $store.getters.likedVols"
                 :data="Object.freeze(vol)"
-                :index="index"
                 :type="'likedVol'"
+                :index="index"
                 :key="index"
             />
         </div>
@@ -45,7 +45,8 @@
             <VolTrack
                 v-for="(track, index) in $store.getters.likedTracks"
                 :data="Object.freeze(track)"
-                :key="`${track.vol}-${track.order}`"
+                :type="'likedTrack'"
+                :key="index"
                 :order="index"
             />
         </div>
@@ -60,8 +61,9 @@
             <Single
                 v-for="(single, index) in $store.getters.likedSingles"
                 :data="Object.freeze(single)"
+                :type="'likedSingle'"
                 :index="index"
-                :key="single.date"
+                :key="index"
             />
         </div>
     </div>

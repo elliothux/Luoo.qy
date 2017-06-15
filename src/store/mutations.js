@@ -30,7 +30,7 @@ export default {
         const preIndex = state.singles.index;
         if (preIndex + 18 >= state.singles.data.length)
             state.singles.index = state.singles.data.length;
-        else state.vols.index = preIndex + 18
+        else state.singles.index = preIndex + 18
     },
     play:(state, {options, getters, commit}) => {
         if (options.type) {

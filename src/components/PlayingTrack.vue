@@ -15,8 +15,9 @@
                     id="playingTrackCover"
                     :style="{
                         backgroundImage: `url(${$store.getters.playData.cover})`,
-                        paddingBottom: this.$store.state.play.type === 'single' ?
-                            '70%' : '100%',
+                        paddingBottom: this.$store.state.play.type === 'single' ||
+                            this.$store.state.play.type === 'likedSingle' ?
+                                '70%' : '100%',
                         transform: `scale(${this.$store.state.play.playing ? 1 : 0.9})`,
                         boxShadow: this.$store.state.play.playing ?
                             `0 10px 50px 0 rgba(0,0,0,0.50)` : 'none'
