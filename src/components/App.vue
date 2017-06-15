@@ -35,13 +35,13 @@
         props: ['db', 'user', 'config'],
         created: function() {
             this.db.vol.get().then(data =>
-                this.$store.dispatch('updateData', { type: 'vols', data: data.slice(0, 50) })
+                this.$store.dispatch('updateData', { type: 'vols', data: data })
             );
             this.db.single.get().then(data =>
-                this.$store.dispatch('updateData', { type: 'singles', data: data.slice(0, 50) })
+                this.$store.dispatch('updateData', { type: 'singles', data: data })
             );
             this.db.track.get().then( data =>
-                this.$store.dispatch('updateData', { type: 'tracks', data: data.slice(0, 50) })
+                this.$store.dispatch('updateData', { type: 'tracks', data: data })
             );
             this.$store.dispatch('updateData', { type: 'user', data: this.config.get() })
         }

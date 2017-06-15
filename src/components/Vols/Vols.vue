@@ -9,7 +9,7 @@
             :data="Object.freeze(vol)"
             :index="index"
             :type="'vol'"
-            :key="index"
+            :key="`${vol.vol}-${index}`"
         />
         <div
             id="loadMoreVols"

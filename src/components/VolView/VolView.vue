@@ -51,9 +51,9 @@
                 <VolTrack
                     v-for="(track, index) in $store.state.view.vol.tracks"
                     :data="Object.freeze(track)"
-                    :type="track"
-                    :key="index"
-                    :order="index"
+                    :type="$store.state.view.vol.type"
+                    :key="`${track.track_id}-${index}`"
+                    :index="index"
                 />
             </div>
         </template>

@@ -41,8 +41,8 @@ function openWindow(filePath, options, isMax) {
     !options && (options = {});
     options = Object.assign(
         {
-            width: 950,
-            height: 700,
+            width: 1110,
+            height: 720,
             minWidth: 700,
             minHeight: 550,
             center: true,

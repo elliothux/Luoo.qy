@@ -30,7 +30,7 @@
                 :data="Object.freeze(vol)"
                 :type="'likedVol'"
                 :index="index"
-                :key="index"
+                :key="`${vol.vol}-${index}`"
             />
         </div>
         <div
@@ -46,8 +46,8 @@
                 v-for="(track, index) in $store.getters.likedTracks"
                 :data="Object.freeze(track)"
                 :type="'likedTrack'"
-                :key="index"
-                :order="index"
+                :key="`${track.track_id}-${index}`"
+                :index="index"
             />
         </div>
         <div
@@ -63,7 +63,7 @@
                 :data="Object.freeze(single)"
                 :type="'likedSingle'"
                 :index="index"
-                :key="index"
+                :key="`${single.single_id}-${index}`"
             />
         </div>
     </div>
@@ -125,10 +125,10 @@
         display: flex
         flex-direction: row
         flex-wrap: wrap
-        justify-content: space-between
+        justify-content: flex-start
         transition: all ease 800ms
 
-    #userCollectionVolTrack
-        justify-content: flex-start
+    #userCollectionSingle
+        justify-content: space-between
 
 </style>

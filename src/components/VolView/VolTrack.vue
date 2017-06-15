@@ -36,10 +36,10 @@
 
     export default {
         name: 'volTrack',
-        props: ['data', 'order', 'type'],
+        props: ['data', 'index', 'type'],
         data: function () { return {
             trackStyle: Object.freeze({
-                marginRight: (this.order + 1) % 6 === 0 ?
+                marginRight: (this.index + 1) % 6 === 0 ?
                     '0' : '3.2%'
             }),
             trackCoverStyle: {
@@ -53,13 +53,14 @@
             },
             play: function () {
                 const state = this.$store.state;
-                state.play.type === state.view.vol.type &&
-                state.play.vol.vol === state.view.vol.vol &&
-                state.play.index === this.data.order - 1 ?
+                state.play.type === this.type &&
+                (this.type === 'likedTrack' ||
+                state.play.vol.vol === this.data.vol) &&
+                state.play.index === this.index ?
                     this.$store.dispatch('toggle', 'play') :
                     this.$store.dispatch('play', Object.freeze({
-                        type: this.$store.state.view.vol.type,
-                        index: this.data.order - 1,
+                        type: this.type,
+                        index: this.index,
                         data: this.$store.state.view.vol
                     }))
             }
@@ -68,9 +69,10 @@
             isThisPlaying: function () {
                 const state = this.$store.state;
                 return state.play.playing &&
-                    state.play.type === state.view.vol.type &&
-                    state.play.vol.vol === state.view.vol.vol &&
-                    state.play.index === this.data.order - 1
+                    state.play.type === this.type &&
+                    (this.type === 'likedTrack' ||
+                    state.play.vol.vol === this.data.vol) &&
+                    state.play.index === this.index
             }
         }
     }

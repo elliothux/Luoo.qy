@@ -10,7 +10,7 @@
             :data="Object.freeze(single)"
             :type="'single'"
             :index="index"
-            :key="index"
+            :key="`${single.single_id}-${index}`"
         />
         <div
             id="loadMoreSingles"
