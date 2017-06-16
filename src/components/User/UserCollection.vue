@@ -22,7 +22,7 @@
             :style="{
                 transform: `translateX(${view === 'vols' ?
                     '0' : (view === 'tracks' ? '-100%' : '-200%')
-                })`
+                }) scale(${view === 'vols' ? 1 : 0.6})`
             }"
         >
             <Vol
@@ -36,10 +36,9 @@
         <div
             id="userCollectionVolTrack"
             :style="{
-                transform: `translateX(${view === 'tracks' ? '0' : (
-                    view === 'vols' ?
-                        '100%' : '-100%'
-                )})`
+                transform: `translateX(${view === 'tracks' ?
+                    '0' : (view === 'vols' ? '100%' : '-100%')
+                }) scale(${view === 'tracks' ? 1 : 0.6})`
             }"
         >
             <VolTrack
@@ -53,9 +52,9 @@
         <div
             id="userCollectionSingle"
             :style="{
-                transform: `translateX(${view === 'singles' ? '0' : (
-                    view === 'tracks' ? '100%' : '200%'
-                )})`
+                transform: `translateX(${view === 'singles' ?
+                    '0' : ( view === 'tracks' ? '100%' : '200%')
+                }) scale(${view === 'singles' ? 1 : 0.6})`
             }"
         >
             <Single
@@ -124,7 +123,7 @@
         flex-direction: row
         flex-wrap: wrap
         justify-content: flex-start
-        transition: all ease 800ms
+        transition: all ease 900ms
 
     #userCollectionSingle
         justify-content: space-between

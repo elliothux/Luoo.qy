@@ -84,12 +84,14 @@
         },
         methods: {
             play: function () {
-                this.$store.state.play.type === this.$store.state.view.vol.type &&
-                this.$store.state.play.vol.vol === this.$store.state.view.vol.vol ?
+                const state = this.$store.state;
+                state.play.vol &&
+                state.play.type === state.view.vol.type &&
+                state.play.vol.vol === state.view.vol.vol ?
                     this.$store.dispatch('toggle', 'play') :
                     this.$store.dispatch('play', Object.freeze({
-                        type: this.$store.state.view.vol.type,
-                        data: Object.freeze(this.$store.state.view.vol),
+                        type: state.view.vol.type,
+                        data: Object.freeze(state.view.vol),
                         index: 0
                     }))
             },
@@ -112,8 +114,8 @@
         computed: {
             isThisPlaying: function () {
                 const state = this.$store.state;
-                return state.play.type === state.view.vol.type &&
-                    state.play.playing && state.play.vol &&
+                return state.play.playing && state.play.vol &&
+                    state.play.type === state.view.vol.type &&
                     state.play.vol.vol === state.view.vol.vol
             }
         }

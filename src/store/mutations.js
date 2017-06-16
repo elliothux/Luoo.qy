@@ -15,7 +15,10 @@ export default {
         }, 500);
     },
     changeViewVol: (state, vol) => {
-        !vol.type && (vol = Object.assign({type: state.play.type}, vol));
+        !vol.type && (vol = Object.assign({
+            type: state.play.type === 'likedVol' ?
+                'likedVol' : 'vol'
+        }, vol));
         state.view.vol = vol
     },
     changeVolType: (state, type) => state.vols.type = type,
