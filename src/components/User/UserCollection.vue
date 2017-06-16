@@ -22,7 +22,7 @@
             :style="{
                 transform: `translateX(${view === 'vols' ?
                     '0' : (view === 'tracks' ? '-100%' : '-200%')
-                }) scale(${view === 'vols' ? 1 : 0.6})`
+                })`
             }"
         >
             <Vol
@@ -38,7 +38,7 @@
             :style="{
                 transform: `translateX(${view === 'tracks' ?
                     '0' : (view === 'vols' ? '100%' : '-100%')
-                }) scale(${view === 'tracks' ? 1 : 0.6})`
+                })`
             }"
         >
             <VolTrack
@@ -54,7 +54,7 @@
             :style="{
                 transform: `translateX(${view === 'singles' ?
                     '0' : ( view === 'tracks' ? '100%' : '200%')
-                }) scale(${view === 'singles' ? 1 : 0.6})`
+                })`
             }"
         >
             <Single
