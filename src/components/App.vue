@@ -1,19 +1,20 @@
 <template>
     <div id="app">
         <div
+            v-if="boot > 0"
             id="background"
             :style="{ backgroundImage: `url(${this.$store.state.view.vol ?
                 this.$store.state.view.vol.cover :
                 '../pic/background.jpg'})` }"
         />
-        <HeadBar/>
-        <Types/>
-        <Playing/>
-        <Vols/>
-        <Singles/>
-        <User :remote="remote"/>
-        <VolView/>
-        <PlayingTrack/>
+        <HeadBar v-if="boot > 0"/>
+        <Types v-if="boot > 2"/>
+        <Playing v-if="boot > 0"/>
+        <Vols v-if="boot > 0"/>
+        <Singles v-if="boot > 1"/>
+        <User :remote="remote" v-if="boot > 2"/>
+        <VolView v-if="boot > 1"/>
+        <PlayingTrack v-if="boot > 1"/>
     </div>
 </template>
 
@@ -33,18 +34,17 @@
     export default {
         name: 'app',
         components: { HeadBar, Playing, Vols, Singles, VolView, PlayingTrack, Types, User },
+        data: function () { return {
+            boot: 3
+        }},
         props: ['remote'],
-        created: function() {
-            this.remote.db.vol.get().then(data =>
-                this.$store.dispatch('updateData', { type: 'vols', data: data })
-            );
-            this.remote.db.single.get().then(data =>
-                this.$store.dispatch('updateData', { type: 'singles', data: data })
-            );
-            this.remote.db.track.get().then( data =>
-                this.$store.dispatch('updateData', { type: 'tracks', data: data })
-            );
-            this.$store.dispatch('updateData', { type: 'user', data: this.remote.config.get() })
+        created: async function () {
+            this.$store.dispatch('updateFromDb', this.remote);
+            const _ = this;
+//            setTimeout(() => _.boot = 1, 100);
+//            setTimeout(() => _.boot = 2, 200);
+//            setTimeout(() => _.boot = 3, 300);
+//            setTimeout(() => document.getElementById('bootScreen').style.display = 'none', 1000)
         }
     }
 </script>

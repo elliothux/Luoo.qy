@@ -6,8 +6,8 @@ export default {
         state.vols.data :
         state.vols.data.filter(vol => vol.tag.includes(`#${state.vols.types[state.vols.type][0]}`))
     ),
-    vols: (state, getters) => Object.freeze(getters._vols.slice(0, state.vols.index)),
-    singles: state => Object.freeze(state.singles.data.slice(0, state.singles.index)),
+    vols: (state, getters) => getters._vols.slice(0, state.vols.index),
+    singles: state => state.singles.data.slice(0, state.singles.index),
     likedVols: state => state.vols.data.filter(
         vol => state.user.likedVols.includes(vol.vol)),
     likedTracks: state => state.tracks.data.filter(
@@ -32,7 +32,8 @@ export default {
         ratio: Math.ceil(100 * (state.play.time.current / state.play.time.total))
     }),
     task: state => state.tasks.length === 0 ?
-        '' : state.tasks[state.tasks.length - 1].text
+        null : state.tasks[state.tasks.length - 1].failed ?
+            '同步失败' : state.tasks[state.tasks.length - 1].text
 }
 
 

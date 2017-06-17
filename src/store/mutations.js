@@ -94,16 +94,22 @@ export default {
         commit('execTask', {task, commit})
     },
     doneTask: (state, task) => {
-        const index = findTask(state.tasks, task.id);
-        return state.tasks.slice(0, index).concat(task.slice(index + 1, state.length))
+        const tasks = state.tasks;
+        const index = findTask(tasks, task.id);
+        state.tasks = tasks.slice(0, index).concat(tasks.slice(index + 1, tasks.length))
     },
-    retryTask: (state, {task, commit}) => {
+    execTask: (state, {task, commit}) => {
         task.failed = false;
-        commit('execTask', {task, commit})
+        task.exec()
+            .then(() => commit('doneTask', task))
+            .catch(() => task.failed = true)
     },
-    execTask: (state, {task, commit}) => task.exec()
-        .then(() => commit('doneTask', task.id))
-        .catch(() => task.failed = true)
+    updateFromDb: (state, remote) => {
+        state.user = remote.config.get();
+        remote.db.vol.get().then(data => state.vols.data = Object.freeze(data));
+        remote.db.single.get().then(data => state.singles.data = Object.freeze(data));
+        remote.db.track.get().then(data => state.tracks.data = Object.freeze(data));
+    }
 }
 
 

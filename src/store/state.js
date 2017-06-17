@@ -32,13 +32,13 @@ export default {
     user: { },
     vols: {
         data: [],
-        index: 18,
+        index: 12,
         type: 0,
         types: volsTypes
     },
     singles: {
         data: [],
-        index: 18
+        index: 10
     },
     tracks: {
         data: []

@@ -1,6 +1,9 @@
 const path = require('path');
+const webpack = require('webpack');
+
 
 module.exports = {
+    // devtool: 'cheap-module-source-map',
     entry: {
         index: path.join(__dirname, './src/index.js')
     },
@@ -20,7 +23,7 @@ module.exports = {
                 test: /\.vue$/,
                 loader: 'vue-loader',
                 query: {
-                    presets: ['vue', 'es2015'],
+                    presets: ['vue', 'es2015', 'stage-2'],
                 },
                 exclude: /node_modules/
             },
@@ -42,5 +45,12 @@ module.exports = {
             }
         ]
     },
+    // plugins: [
+    //     new webpack.DefinePlugin({
+    //         'process.env': {
+    //             NODE_ENV: '"production"'
+    //         }
+    //     })
+    // ],
     target: 'electron'
 };

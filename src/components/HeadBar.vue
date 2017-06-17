@@ -74,19 +74,29 @@
                     `vol.${$store.state.view.vol.vol}` : 'Luoo.qy' }}
             </p>
         </div>
-        <div
-            id="headBarRight"
-            v-on:click.stop="changeView('userCollection')"
-        >
-            <img
-                :src="this.$store.state.user.avatar === '' ?
+        <div id="headBarRight">
+            <div id="headBarTask">
+                <img
+                    :src="'../pic/loading.svg'"
+                    :style="{ animation: $store.getters.task ?
+                     'task ease-out 800ms infinite' : 'none' }"
+                />
+                <span>{{ $store.getters.task || '同步完成' }}</span>
+            </div>
+            <div
+                id="headBarUser"
+                v-on:click.stop="changeView('userCollection')"
+            >
+                <img
+                        :src="this.$store.state.user.avatar === '' ?
                     '../pic/avatar.png' : this.$store.state.user.avatar"
-            />
-            <p>
-                {{ $store.state.user.name === '' ?
-                    '未登录' :
-                    $store.state.user.name }}
-            </p>
+                />
+                <p>
+                    {{ $store.state.user.name === '' ?
+                        '未登录' :
+                        $store.state.user.name }}
+                </p>
+            </div>
         </div>
     </div>
 </template>
@@ -184,14 +194,43 @@
         font-size: 0.9em
         cursor: pointer
 
-        *
-            cursor: pointer
+        #headBarTask
+            height: 100%
+            display: inline-flex
+            flex-direction: row
+            align-items: center
+            margin-right: 65px
+            position: relative
+            top: -10px
+            font-size: 0.9em
+            opacity: 0.7
 
-        & > img
-            height: 70%
-            width: auto
-            border-radius: 100%
-            filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.3))
+            &:hover
+                opacity: 1
+
+            & > img
+                height: 45%
+                margin-right: 10px
+                cursor: pointer
+
+            @keyframes task
+                0%
+                    transform: rotate(0deg)
+                100%
+                    transform: rotate(180deg)
+
+        #headBarUser
+            height: 100%
+            display: inline-block
+
+            *
+                cursor: pointer
+
+            & > img
+                height: 70%
+                width: auto
+                border-radius: 100%
+                filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.3))
 
     #headBarLogo
         display: flex

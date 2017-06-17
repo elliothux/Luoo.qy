@@ -36,7 +36,8 @@ export default {
     task: ({commit}, {type, task}) => {
         switch (type) {
             case 'add': return commit('addTask', {task, commit});
-            case 'retry': return commit('retryTask', {task, commit});
+            case 'retry': return commit('execTask', {task, commit});
         }
-    }
+    },
+    updateFromDb: ({commit}, remote) => commit('updateFromDb', remote)
 }
