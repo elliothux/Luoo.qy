@@ -8,19 +8,13 @@ export default {
     ),
     vols: (state, getters) => getters._vols.slice(0, state.vols.index),
     singles: state => state.singles.data.slice(0, state.singles.index),
-    likedVols: state => state.vols.data.filter(
-        vol => state.user.likedVols.includes(vol.vol)),
-    likedTracks: state => state.tracks.data.filter(
-        track => state.user.likedTracks.includes(track.track_id)),
-    likedSingles: state => state.singles.data.filter(
-        single => state.user.likedTracks.includes(single.single_id)),
     playList: (state, getters) => {
         switch (state.play.type) {
             case 'vol': return state.play.vol.tracks;
             case 'single': return getters.singles;
             case 'likedVol': return state.play.vol.tracks;
-            case 'likedTrack': return getters.likedTracks;
-            case 'likedSingle': return getters.likedSingles;
+            case 'likedTrack': return state.tracks.liked;
+            case 'likedSingle': return state.singles.liked;
             default: return null;
         }
     },

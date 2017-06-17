@@ -44,7 +44,7 @@
 //            setTimeout(() => _.boot = 1, 100);
 //            setTimeout(() => _.boot = 2, 200);
 //            setTimeout(() => _.boot = 3, 300);
-//            setTimeout(() => document.getElementById('bootScreen').style.display = 'none', 1000)
+            setTimeout(() => document.getElementById('bootScreen').style.display = 'none', 1000)
         }
     }
 </script>

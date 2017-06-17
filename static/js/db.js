@@ -1,24 +1,26 @@
 const DataStore = require('nedb');
 const path = require('path');
 const colors = require('colors');
+const config = require('./config');
 
 
 module.exports = {
     vol: {
         add: addVol,
         get: getVolList,
-        getLiked: async likedVols => await _find({ vol: { $in: likedVols }}, vol),
+        getLiked: getLikedVolList,
         isExist: async volIndex => await isExist({ vol: volIndex }, vol),
     },
     track: {
         add: addVolTrack,
         get: getVolTrackList,
-        getLiked: async likedTracks => await _find({ track_id: { $in: likedTracks}}, volTrack),
+        getLiked: getLikedVolTrackList,
+        isExist: async track_id => await isExist({ track_id: track_id }, volTrack)
     },
     single: {
         add: addSingle,
         get: getSingleList,
-        getLiked: async likedSingles => await _find({ track_id: { $in: likedSingles}}, single),
+        getLiked: getLikedSingleList,
         isExist: async date => await isExist({ date: date }, single),
     }
 };
@@ -49,8 +51,12 @@ async function addVol(data) {
 
 
 async function getVolList() {
-    return (await _find({}, vol))
-        .sort((a, b) => (b.vol - a.vol))
+    return await _find({}, vol, {vol: -1})
+}
+
+
+async function getLikedVolList() {
+    return await _find({vol: {$in: config.get('likedVols')}}, vol, {vol: -1})
 }
 
 
@@ -65,8 +71,12 @@ async function addVolTrack(data) {
 
 
 async function getVolTrackList() {
-    return (await _find({}, volTrack))
-        .sort((a, b) => (b.date - a.date))
+    return await _find({}, volTrack, {track_id: -1})
+}
+
+
+async function getLikedVolTrackList() {
+    return await _find({track_id: {$in: config.get('likedTracks')}}, volTrack, {track_id: -1})
 }
 
 
@@ -81,8 +91,12 @@ async function addSingle(data) {
 
 
 async function getSingleList() {
-    return (await _find({}, single))
-        .sort((a, b)  => (b.date - a.date))
+    return await _find({}, single, {date: -1})
+}
+
+
+async function getLikedSingleList() {
+    return await _find({ single_id: { $in: config.get('likedTracks') }}, single, {date: -1})
 }
 
 
@@ -113,10 +127,13 @@ function _insert(arg, db) {
 }
 
 
-function _find(arg, db) {
+function _find(arg, db, sort, limit) {
     (!arg || typeof arg !== 'object') && (arg = {});
     return new Promise((resolve, reject) => {
-        db.find(arg).exec(function (error, docs) {
+        let exec = db.find(arg);
+        sort && (exec = exec.sort(sort));
+        limit && (exec = exec.limit(limit));
+        exec.exec(function (error, docs) {
             error && reject(`An error happened whiling handling find: ${error}`);
             resolve(docs);
         })

@@ -34,14 +34,16 @@ export default {
         data: [],
         index: 12,
         type: 0,
-        types: volsTypes
+        types: volsTypes,
+        liked: []
     },
     singles: {
         data: [],
-        index: 10
+        index: 10,
+        liked: []
     },
     tracks: {
-        data: []
+        liked: []
     },
     tasks: []
 }

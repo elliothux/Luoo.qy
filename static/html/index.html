@@ -5,12 +5,27 @@
     <title>Luoo.qy</title>
     <link type="text/css" rel="stylesheet" href="../style/common.css"/>
     <link type="text/css" rel="stylesheet" href="../style/font.css"/>
+    <style type="text/css" rel="stylesheet">
+        #bootScreen {
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(-45deg, #CECCCC 0%, #FFFFFF 100%);
+            z-index: 5;
+            position: absolute;
+            text-align: center;
+        }
+        #bootScreen img {
+            width: 15%;
+            height: auto;
+            margin-top: 20%;
+        }
+    </style>
 </head>
 <body>
 
-<!--<div id="bootScreen" style="width: 100%; height: 100%; background-color: #c3d9ff; color: white; z-index: 5; position: absolute">-->
-    <!--<h1>Luoo.qy</h1>-->
-<!--</div>-->
+<div id="bootScreen">
+    <img src="../pic/boot.png"/>
+</div>
 <div id="root"></div>
 
 <!--<script type="text/javascript" src="../dist/index.build.js"></script>-->
