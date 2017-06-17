@@ -1,20 +1,19 @@
 <template>
     <div id="app">
         <div
-            v-if="boot > 0"
             id="background"
             :style="{ backgroundImage: `url(${this.$store.state.view.vol ?
                 this.$store.state.view.vol.cover :
                 '../pic/background.jpg'})` }"
         />
-        <HeadBar v-if="boot > 0"/>
-        <Types v-if="boot > 2"/>
-        <Playing v-if="boot > 0"/>
-        <Vols v-if="boot > 0"/>
-        <Singles v-if="boot > 1"/>
-        <User :remote="remote" v-if="boot > 2"/>
-        <VolView v-if="boot > 1"/>
-        <PlayingTrack v-if="boot > 1"/>
+        <HeadBar/>
+        <Types/>
+        <Playing/>
+        <Vols/>
+        <Singles/>
+        <User :remote="remote"/>
+        <VolView/>
+        <PlayingTrack/>
     </div>
 </template>
 
@@ -34,17 +33,11 @@
     export default {
         name: 'app',
         components: { HeadBar, Playing, Vols, Singles, VolView, PlayingTrack, Types, User },
-        data: function () { return {
-            boot: 3
-        }},
         props: ['remote'],
         created: async function () {
             this.$store.dispatch('updateFromDb', this.remote);
-            const _ = this;
-//            setTimeout(() => _.boot = 1, 100);
-//            setTimeout(() => _.boot = 2, 200);
-//            setTimeout(() => _.boot = 3, 300);
-            setTimeout(() => document.getElementById('bootScreen').style.display = 'none', 1000)
+            setTimeout(() => document.getElementById('bootScreen').className = 'bootImageHidden', 1200);
+            setTimeout(() => document.getElementById('bootScreen').style.display = 'none', 2000)
         }
     }
 </script>

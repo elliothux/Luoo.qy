@@ -13,17 +13,26 @@
             z-index: 5;
             position: absolute;
             text-align: center;
+            transition: all ease-in-out 800ms;
         }
         #bootScreen img {
             width: 15%;
             height: auto;
             margin-top: 20%;
         }
+        .bootImageShow {
+            transform: scale(1);
+            opacity: 1;
+        }
+        .bootImageHidden {
+            transform: scale(1.2);
+            opacity: 0;
+        }
     </style>
 </head>
 <body>
 
-<div id="bootScreen">
+<div id="bootScreen" class="bootImageShow">
     <img src="../pic/boot.png"/>
 </div>
 <div id="root"></div>
