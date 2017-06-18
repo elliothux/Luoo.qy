@@ -47,6 +47,7 @@
                     <span>{{ $store.state.vols.types[$store.state.vols.type][0] }}</span>
                 </div>
                 <div
+                    v-on:click.stop="changeView('userCollection')"
                     v-if="$store.state.user.name !== '' &&
                         ($store.getters.view === 'userCollection' ||
                         $store.getters.view === 'userSetting')"
@@ -57,6 +58,7 @@
                     <span>收藏</span>
                 </div>
                 <div
+                    v-on:click.stop="changeView('userSetting')"
                     v-if="$store.getters.view === 'userCollection' ||
                         $store.getters.view === 'userSetting'"
                     :style="{ borderColor: $store.getters.view === 'userSetting' ?

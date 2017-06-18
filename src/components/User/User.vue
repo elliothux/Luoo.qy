@@ -6,14 +6,12 @@
                 'userShow' : 'userHidden'"
         style="z-index: -2"
     >
-        <UserCollection
-            v-if="this.$store.state.user.name !== ''"
-        />
-        <Login
-            v-else
-            :login="this.user.login"
-            :config="this.config"
-        />
+        <div v-if="$store.getters.view === 'userCollection'">
+            <UserCollection
+                v-if="this.$store.state.user.name !== ''"
+            />
+            <Login :remote="this.remote" v-else/>
+        </div>
     </div>
 </template>
 
@@ -22,12 +20,13 @@
     import Vue from 'vue';
     import Login from './Login.vue';
     import UserCollection from './UserCollection.vue';
+    import UserSetting from './UserSetting.vue';
 
 
     export default {
         name: 'user',
         props: ['remote'],
-        components: { Login, UserCollection }
+        components: { Login, UserCollection, UserSetting }
     }
 </script>
 
