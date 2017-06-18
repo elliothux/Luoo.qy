@@ -23,8 +23,10 @@ export default {
     },
     changeVolType: (state, type) => state.vols.type = type,
     loadMoreVols: (state, options) => {
-        if (options.init)
+        if (options.init) {
+            document.getElementById('vols').scrollTop = 0;
             return state.vols.index = 18;
+        }
         const preIndex = state.vols.index;
         if (preIndex + 18 >= options.max)
             state.vols.index = options.max;

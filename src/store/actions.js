@@ -9,9 +9,10 @@ export default {
         commit('changeView', {view, _getters})
     },
     changeViewVol: ({commit}, vol) => commit('changeViewVol', vol),
-    changeVolType: ({commit, getters}, type) => {
-        commit('changeVolType', type);
+    changeVolType: ({commit, getters, state}, type) => {
         commit('changeView', {view: 'vols', getters});
+        if (type === state.vols.type) return;
+        commit('changeVolType', type);
         commit('loadMoreVols', { init: true })
     },
     loadMore: ({commit}, options) => commit(`loadMore${options.type}`, options),

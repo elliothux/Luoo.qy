@@ -35,15 +35,6 @@
     export default {
         name: 'volTrack',
         props: ['data', 'index', 'type'],
-        data: function () { return {
-            trackStyle: Object.freeze({
-                marginRight: (this.index + 1) % 6 === 0 ?
-                    '0' : '3.2%'
-            }),
-            trackCoverStyle: {
-                backgroundImage: `url(${this.data.cover})`
-            }
-        }},
         methods: {
             show: function () {
                 this.$store.dispatch('changeView', {view: 'playingTrack'});
@@ -71,10 +62,16 @@
                     (this.type === 'likedTrack' ||
                     state.play.vol.vol === this.data.vol) &&
                     state.play.index === this.index
-            }
+            },
+            trackStyle: function () { return {
+                marginRight: (this.index + 1) % 6 === 0 ?
+                    '0' : '3.2%'
+            }},
+            trackCoverStyle: function () { return {
+                backgroundImage: `url(${this.data.cover})`
+            }}
         }
     }
-
 </script>
 
 
