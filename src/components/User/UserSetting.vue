@@ -54,38 +54,38 @@
 <style lang="sass" scoped>
     #userSetting
         width: 100%
-        height: 100%
-        background-color: red
+        height: calc(100% - 20px)
+        margin-top: 20px
+        position: absolute
         transition: all ease 900ms
 
-        #userSettingHeadBar
-            text-align: left
-            margin-bottom: 35px
-            position: fixed
-            margin-left: 5%
+    #userSettingHeadBar
+        text-align: left
+        position: fixed
+        margin-left: 5%
 
-            & > div
-                display: inline-block
-                font-size: 1.3em
-                margin-top: -15px
-                margin-right: 25px
-                padding: 0 3px 2px 3px
-                border-bottom: 1px solid white
-                cursor: pointer
+        & > div
+            display: inline-block
+            font-size: 1.3em
+            margin-top: -15px
+            margin-right: 25px
+            padding: 0 3px 2px 3px
+            border-bottom: 1px solid white
+            cursor: pointer
 
-        #userSettingCommon, #userSettingAbout
-            width: 90%
-            padding: 20px 5% 0 5%
-            height: calc(100% - 90px)
-            position: fixed
-            top: 70px
-            left: 0
-            overflow-y: auto
-            text-align: left
-            display: flex
-            flex-direction: row
-            flex-wrap: wrap
-            justify-content: flex-start
-            transition: all ease 900ms
+    #userSettingCommon, #userSettingAbout
+        width: 90%
+        padding: 10px 5% 0 5%
+        height: calc(100% - 60px)
+        position: fixed
+        top: 45px
+        left: 0
+        overflow-y: auto
+        text-align: left
+        display: flex
+        flex-direction: row
+        flex-wrap: wrap
+        justify-content: flex-start
+        transition: all ease 900ms
 
 </style>

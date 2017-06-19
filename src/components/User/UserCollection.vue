@@ -91,10 +91,11 @@
 </script>
 
 
-<style lang="sass">
+<style lang="sass" scoped>
     #userCollection
         width: 100%
-        height: 100%
+        height: calc(100% - 20px)
+        margin-top: 20px
         overflow-x: hidden
         transition: all ease 900ms
 
@@ -114,10 +115,10 @@
 
     #userCollectionVol, #userCollectionVolTrack, #userCollectionSingle
         width: 90%
-        padding: 20px 5% 0 5%
-        height: calc(100% - 90px)
+        padding: 10px 5% 0 5%
+        height: calc(100% - 60px)
         position: fixed
-        top: 35px
+        top: 45px
         left: 0
         overflow-y: auto
         text-align: left

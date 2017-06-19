@@ -49,12 +49,10 @@
     #user
         position: fixed
         width: 100%
-        height: calc(100% - 180px)
+        height: calc(100% - 150px)
         top: 80px
         left: 0
-        padding-top: 25px
-        overflow-x: hidden
-        overflow-y: auto
+        overflow: hidden
         text-align: center
         display: flex
         flex-direction: column
