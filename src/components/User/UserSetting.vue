@@ -18,7 +18,24 @@
                 '0' : '-100%' })`
             }"
         >
-            <h1>Common</h1>
+            <div>
+                <Toggle/>
+                <span>自动更新</span>
+            </div>
+            <div>
+                <Toggle/>
+                <span>启动时自动同步</span>
+            </div>
+            <div id="settingOperate">
+                <div>
+                    <img :src="'../pic/logout.svg'"/>
+                    <span>登出</span>
+                </div>
+                <div>
+                    <img :src="'../pic/update.png'"/>
+                    <span>检查更新</span>
+                </div>
+            </div>
         </div>
         <div
             id="userSettingAbout"
@@ -27,7 +44,16 @@
             })`
         }"
         >
-            <h1>About</h1>
+            <p>
+                版本: V1.0.0<br/>
+                上次更新: 2017 / 07 / 20
+            </p>
+            <p>
+                Luoo.qy 是独立音乐网站落网的第三方电脑客户端, 软件内的所有内容均来自于落网。<br/>
+                软件基于 Electron、Vue、Node.js、Koa、Python 等开源项目构建, 感谢所有为这些开源项目做出贡献的软将工程师们, 你们的开源项目是 Luoo.qy 的基础!<br/>
+                同时, Page.qy开源并将代码托管在GitHub(https://github.com/HuQingyang/Luoo.qy), 欢迎Star、提交Issues或者参与共同开发。<br/>
+                另外, 欢迎关注我的知乎(ID: WordsAreWeapons)向我提出建议或者Bug。<br/>
+            </p>
         </div>
     </div>
 </template>
@@ -35,10 +61,12 @@
 
 <script>
     import Vue from 'vue';
+    import Toggle from '../Common/Toggle.vue';
 
 
     export default {
         name: 'userSetting',
+        components: { Toggle },
         data: function () { return {
             view: 'common'
         }},
@@ -75,17 +103,44 @@
 
     #userSettingCommon, #userSettingAbout
         width: 90%
-        padding: 10px 5% 0 5%
+        padding: 30px 5% 0 5%
         height: calc(100% - 60px)
         position: fixed
-        top: 45px
+        top: 35px
         left: 0
         overflow-y: auto
         text-align: left
+        transition: all ease 900ms
+
+    #userSettingCommon > div
+        height: 40px
         display: flex
         flex-direction: row
-        flex-wrap: wrap
+        flex-wrap: nowrap
         justify-content: flex-start
-        transition: all ease 900ms
+        align-items: center
+
+        & > span
+            display: inline-block
+            margin-left: 20px
+
+    #settingOperate
+        margin-top: 50px
+
+        & > div
+            height: 55px
+            display: flex
+            flex-direction: column
+            justify-content: space-between
+            align-items: center
+            margin-right: 30px
+
+            img
+                width: auto
+                height: 42%
+
+    #userSettingAbout p
+        margin-bottom: 30px
+
 
 </style>
