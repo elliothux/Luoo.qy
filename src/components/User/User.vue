@@ -1,17 +1,21 @@
 <template>
     <div
         id="user"
-        :class="$store.getters.view === 'userCollection' ||
-            $store.getters.view === 'userSetting' ?
-                'userShow' : 'userHidden'"
+        :class="$store.getters.view === 'user' ? 'userShow' : 'userHidden'"
         style="z-index: -2"
     >
-        <div v-if="$store.getters.view === 'userCollection'">
-            <UserCollection
-                v-if="this.$store.state.user.name !== ''"
-            />
-            <Login :remote="this.remote" v-else/>
-        </div>
+        <Login
+            :remote="this.remote"
+            :style="collectionStyle"
+            v-if="this.$store.state.user.name === ''"
+        />
+        <UserCollection
+            :style="collectionStyle"
+            v-else
+        />
+        <UserSetting
+            :style="settingStyle"
+        />
     </div>
 </template>
 
@@ -26,7 +30,17 @@
     export default {
         name: 'user',
         props: ['remote'],
-        components: { Login, UserCollection, UserSetting }
+        components: { Login, UserCollection, UserSetting },
+        computed: {
+            collectionStyle: function () { return {
+                transform: `translateX(${this.$store.state.view.user === 'collection' ?
+                        '0%' : '-100%'})`
+            }},
+            settingStyle: function () { return {
+                transform: `translateX(${this.$store.state.view.user === 'setting' ?
+                    '0%' : '100%'})`
+            }}
+        }
     }
 </script>
 
@@ -34,11 +48,12 @@
 <style lang="sass" scoped>
     #user
         position: fixed
-        width: 90%
+        width: 100%
         height: calc(100% - 180px)
         top: 80px
         left: 0
-        padding: 25px 5% 0 5%
+        padding-top: 25px
+        overflow-x: hidden
         overflow-y: auto
         text-align: center
         display: flex

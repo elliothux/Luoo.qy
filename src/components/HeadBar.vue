@@ -5,7 +5,7 @@
     >
         <div id="headBarLeft">
             <div
-                v-if="!(['vols', 'singles', 'userCollection', 'userSetting', 'types'].includes($store.getters.view))"
+                v-if="!(['vols', 'singles', 'user', 'types'].includes($store.getters.view))"
                 v-on:click.stop="changeView('prev')"
             >
                 <img :src="'../pic/head-back.svg'"/>
@@ -47,21 +47,18 @@
                     <span>{{ $store.state.vols.types[$store.state.vols.type][0] }}</span>
                 </div>
                 <div
-                    v-on:click.stop="changeView('userCollection')"
-                    v-if="$store.state.user.name !== '' &&
-                        ($store.getters.view === 'userCollection' ||
-                        $store.getters.view === 'userSetting')"
-                    :style="{ borderColor: $store.getters.view === 'userCollection' ?
+                    v-on:click.stop="changeUserView('collection')"
+                    v-if="$store.state.user.name !== '' && $store.getters.view === 'user'"
+                    :style="{ borderColor: $store.state.view.user === 'collection' ?
                         'white' : 'rgba(0, 0, 0, 0)' }"
                 >
                     <img :src="'../pic/head-collection.svg'"/>
                     <span>收藏</span>
                 </div>
                 <div
-                    v-on:click.stop="changeView('userSetting')"
-                    v-if="$store.getters.view === 'userCollection' ||
-                        $store.getters.view === 'userSetting'"
-                    :style="{ borderColor: $store.getters.view === 'userSetting' ?
+                    v-on:click.stop="changeUserView('setting')"
+                    v-if="$store.getters.view === 'user'"
+                    :style="{ borderColor: $store.state.view.user === 'setting' ?
                         'white' : 'rgba(0, 0, 0, 0)' }"
                 >
                     <img :src="'../pic/head-setting.svg'"/>
@@ -87,7 +84,7 @@
             </div>
             <div
                 id="headBarUser"
-                v-on:click.stop="changeView('userCollection')"
+                v-on:click.stop="changeView('user')"
             >
                 <img
                         :src="this.$store.state.user.avatar === '' ?
@@ -122,9 +119,12 @@
                         view = 'volView'
                     }
                     if (this.$store.state.play.type === 'likedSingle')
-                        view = 'userCollection'
+                        view = 'user'
                 }
                 this.$store.dispatch('changeView', {view});
+            },
+            changeUserView: function (view) {
+                this.$store.dispatch('changeUserView', view)
             }
         }
     }

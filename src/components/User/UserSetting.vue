@@ -55,11 +55,14 @@
     #userSetting
         width: 100%
         height: 100%
+        background-color: red
+        transition: all ease 900ms
 
         #userSettingHeadBar
             text-align: left
             margin-bottom: 35px
             position: fixed
+            margin-left: 5%
 
             & > div
                 display: inline-block

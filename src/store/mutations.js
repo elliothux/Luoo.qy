@@ -9,11 +9,12 @@ export default {
         if (view === 'prev') state.view._.pop();
         else state.view._.push(view);
 
-        document.getElementById(formatView(getters.view)).style.zIndex = 2;
+        document.getElementById(getters.view).style.zIndex = 2;
         setTimeout(() => {
-            document.getElementById(formatView(prevView)).style.zIndex = -2
+            document.getElementById(prevView).style.zIndex = -2
         }, 500);
     },
+    changeUserView: (state, view) => state.view.user = view,
     changeViewVol: (state, vol) => {
         !vol.type && (vol = Object.assign({
             type: state.play.type === 'likedVol' ?
@@ -108,7 +109,7 @@ export default {
     },
     updateFromDb: (state, remote) => {
         state.user = remote.config.get();
-        remote.db.vol.get().then(data => state.vols.data = Object.freeze(data));
+        remote.db.vol.get().then(data => state.vols.data = Object.freeze(data.slice(0, 15)));
         remote.db.single.get().then(data => state.singles.data = Object.freeze(data));
         remote.db.vol.getLiked().then(data => state.vols.liked = Object.freeze(data));
         remote.db.single.getLiked().then(data => state.singles.liked = Object.freeze(data));
@@ -133,12 +134,6 @@ function addAudioEvent(audio, getters, commit) {
     );
     audio.addEventListener('ended', () =>
         commit('control', {type: 'next', getters, commit}));
-}
-
-
-function formatView(view) {
-    return view === 'userCollection' || view === 'userSetting' ?
-        'user' : view
 }
 
 

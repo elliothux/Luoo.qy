@@ -58,6 +58,7 @@
         flex-wrap: wrap
         justify-content: center
         align-items: center
+        transition: all ease 900ms
 
         p
             font-size: 2em

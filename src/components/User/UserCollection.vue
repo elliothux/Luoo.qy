@@ -95,11 +95,13 @@
     #userCollection
         width: 100%
         height: 100%
+        overflow-x: hidden
+        transition: all ease 900ms
 
     #userCollectionHeadBar
         text-align: left
-        margin-bottom: 35px
         position: fixed
+        margin-left: 5%
 
         & > div
             display: inline-block
@@ -115,7 +117,7 @@
         padding: 20px 5% 0 5%
         height: calc(100% - 90px)
         position: fixed
-        top: 70px
+        top: 35px
         left: 0
         overflow-y: auto
         text-align: left
