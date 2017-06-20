@@ -207,7 +207,6 @@ async function _getLoginCookie() {
     let resCookie = _formatCookie((await request({
         method: 'GET',
         uri: 'http://www.luoo.net/',
-        jar: cookieJar,
         headers: headers,
         gzip: true,
         resolveWithFullResponse: true
@@ -218,6 +217,7 @@ async function _getLoginCookie() {
         domain: resCookie.domain,
         path: resCookie.path
     });
+    cookieJar.setCookie(cookie);
     config.set({ LUOOSESS: cookie });
 }
 
