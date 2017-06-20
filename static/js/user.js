@@ -25,24 +25,26 @@ const headers = {
     'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36'
 };
 const cookieJar = request.jar();
-!isObjectEmpty(config.get('LUOOSESS')) &&
+if (config.mail !== '' && config.password !== '') {
+    !isObjectEmpty(config.get('LUOOSESS')) &&
     cookieJar.setCookie(new tough.Cookie({
         key: "LUOOSESS",
         value: config.get('LUOOSESS').value,
         domain: config.get('LUOOSESS').domain,
         path: config.get('LUOOSESS').path
     }), 'http://www.luoo.net');
-!isObjectEmpty(config.get('lult')) &&
+    !isObjectEmpty(config.get('lult')) &&
     cookieJar.setCookie(new tough.Cookie({
         key: "lult",
         value: config.get('lult').value,
         domain: config.get('lult').domain,
         path: config.get('lult').path
     }), 'http://www.luoo.net');
+}
 
 
 async function login() {
-    config.set({ LUOOSESS: '', lult: '' });
+    config.init();
     await _getLoginCookie();
     const resCookie = _formatCookie((await request({
         method: 'POST',
@@ -82,8 +84,9 @@ async function login() {
         }),
         gzip: true
     }));
-    if (res.data)
+    if (res.data) {
         await _getUserData(res.data);
+    }
     else throw new Error('Login failed')
 }
 

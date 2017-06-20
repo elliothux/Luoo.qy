@@ -48,7 +48,7 @@
                 </div>
                 <div
                     v-on:click.stop="changeUserView('collection')"
-                    v-if="$store.state.user.name !== '' && $store.getters.view === 'user'"
+                    v-if="$store.getters.view === 'user'"
                     :style="{ borderColor: $store.state.view.user === 'collection' ?
                         'white' : 'rgba(0, 0, 0, 0)' }"
                 >

@@ -27,7 +27,7 @@
                 <span>启动时自动同步</span>
             </div>
             <div id="settingOperate">
-                <div>
+                <div @click.stop="logout">
                     <img :src="'../pic/logout.svg'"/>
                     <span>登出</span>
                 </div>
@@ -51,7 +51,7 @@
             <p>
                 Luoo.qy 是独立音乐网站落网的第三方电脑客户端, 软件内的所有内容均来自于落网。<br/>
                 软件基于 Electron、Vue、Node.js、Koa、Python 等开源项目构建, 感谢所有为这些开源项目做出贡献的软将工程师们, 你们的开源项目是 Luoo.qy 的基础!<br/>
-                同时, Page.qy开源并将代码托管在GitHub(https://github.com/HuQingyang/Luoo.qy), 欢迎Star、提交Issues或者参与共同开发。<br/>
+                同时, Luoo.qy 开源并将代码托管在GitHub(https://github.com/HuQingyang/Luoo.qy), 欢迎Star、提交Issues或者参与共同开发。<br/>
                 另外, 欢迎关注我的知乎(ID: WordsAreWeapons)向我提出建议或者Bug。<br/>
             </p>
         </div>
@@ -66,6 +66,7 @@
 
     export default {
         name: 'userSetting',
+        props: ['remote'],
         components: { Toggle },
         data: function () { return {
             view: 'common'
@@ -73,6 +74,15 @@
         methods: {
             changeView: function (view) {
                 this.view = view
+            },
+            logout: function () {
+                if (window.confirm('确认登出吗?')) {
+                    this.remote.config.init();
+                    this.$store.dispatch('updateData', {
+                        type: 'user',
+                        data: this.remote.config.get()
+                    })
+                }
             }
         }
     }
@@ -126,6 +136,9 @@
 
     #settingOperate
         margin-top: 50px
+
+        *
+            cursor: pointer
 
         & > div
             height: 55px

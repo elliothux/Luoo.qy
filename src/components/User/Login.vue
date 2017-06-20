@@ -8,7 +8,7 @@
             v-else
             id="loginButton"
             :src="'../pic/head-back.svg'"
-            v-on:click.stop="handleLogin"
+            v-on:click.stop="login"
         />
         <a>没有账号? 点击这里注册</a>
     </div>
@@ -28,15 +28,16 @@
             isLoading: false
         }},
         methods: {
-            handleLogin: function () {
+            login: function () {
                 if (this.isLoading || this.mail.trim() === '' || this.password.trim() === '') return;
                 this.isLoading = true;
-                this.config.set({
+                this.remote.config.set({
                     mail: this.mail,
                     password: this.password
                 });
-                this.login(this.mail, this.password).then(function () {
-                    this.$store.commit('updateConfig', this.config.get());
+                this.remote.user.login(this.mail, this.password).then(async function () {
+                    await this.remote.user.getCollection();
+                    this.$store.dispatch('updateFromDb');
                     this.isLoading = false;
                 }.bind(this)).catch(function (error) {
                     this.isLoading = false;

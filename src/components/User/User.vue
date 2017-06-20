@@ -14,6 +14,7 @@
             v-else
         />
         <UserSetting
+            :remote="this.remote"
             :style="settingStyle"
         />
     </div>
