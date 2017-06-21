@@ -31,15 +31,12 @@
             login: function () {
                 if (this.isLoading || this.mail.trim() === '' || this.password.trim() === '') return;
                 this.isLoading = true;
-                this.remote.config.set({
-                    mail: this.mail,
-                    password: this.password
-                });
                 this.remote.user.login(this.mail, this.password).then(async function () {
                     await this.remote.user.getCollection();
-                    this.$store.dispatch('updateFromDb');
+                    this.$store.dispatch('updateFromDb', this.remote);
                     this.isLoading = false;
                 }.bind(this)).catch(function (error) {
+                    this.remote.config.init();
                     this.isLoading = false;
                     console.error(error)
                 }.bind(this))

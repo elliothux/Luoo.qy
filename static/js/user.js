@@ -25,25 +25,9 @@ const headers = {
     'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36'
 };
 const cookieJar = request.jar();
-if (config.mail !== '' && config.password !== '') {
-    !isObjectEmpty(config.get('LUOOSESS')) &&
-    cookieJar.setCookie(new tough.Cookie({
-        key: "LUOOSESS",
-        value: config.get('LUOOSESS').value,
-        domain: config.get('LUOOSESS').domain,
-        path: config.get('LUOOSESS').path
-    }), 'http://www.luoo.net');
-    !isObjectEmpty(config.get('lult')) &&
-    cookieJar.setCookie(new tough.Cookie({
-        key: "lult",
-        value: config.get('lult').value,
-        domain: config.get('lult').domain,
-        path: config.get('lult').path
-    }), 'http://www.luoo.net');
-}
 
 
-async function login() {
+async function login(mail, password) {
     config.init();
     await _getLoginCookie();
     const resCookie = _formatCookie((await request({
@@ -51,8 +35,8 @@ async function login() {
         uri: 'http://www.luoo.net/login/',
         jar: cookieJar,
         form: {
-            name: config.get('mail'),
-            password: config.get('password'),
+            name: mail,
+            password: password,
             remember: 'on'
         },
         headers: Object.assign(headers, {
@@ -86,12 +70,17 @@ async function login() {
     }));
     if (res.data) {
         await _getUserData(res.data);
+        config.set({
+            mail: mail,
+            password: password
+        })
     }
     else throw new Error('Login failed')
 }
 
 
 async function getUserCollection() {
+    _putCookie();
     const likedVols = await _getLikedVols();
     const likedTracks = await _getLikedTracks();
     config.set({
@@ -102,6 +91,7 @@ async function getUserCollection() {
 
 
 async function like(option) {
+    _putCookie();
     const form = {
         id: option.id,
         res: option.type === 'vol' ?
@@ -183,6 +173,7 @@ async function _getLikedTracks() {
 
 
 async function _getUserData(data) {
+    _putCookie();
     typeof data === 'string' &&
         (data = JSON.parse(data));
     config.set({
@@ -211,14 +202,32 @@ async function _getLoginCookie() {
         gzip: true,
         resolveWithFullResponse: true
     })).headers['set-cookie'][0]);
+    console.log(resCookie);
     let cookie = new tough.Cookie({
         key: "LUOOSESS",
         value: resCookie.LUOOSESS,
         domain: resCookie.domain,
         path: resCookie.path
     });
-    cookieJar.setCookie(cookie);
     config.set({ LUOOSESS: cookie });
+}
+
+
+function _putCookie() {
+    !isObjectEmpty(config.get('LUOOSESS')) &&
+    cookieJar.setCookie(new tough.Cookie({
+        key: "LUOOSESS",
+        value: config.get('LUOOSESS').value,
+        domain: config.get('LUOOSESS').domain,
+        path: config.get('LUOOSESS').path
+    }), 'http://www.luoo.net');
+    !isObjectEmpty(config.get('lult')) &&
+    cookieJar.setCookie(new tough.Cookie({
+        key: "lult",
+        value: config.get('lult').value,
+        domain: config.get('lult').domain,
+        path: config.get('lult').path
+    }), 'http://www.luoo.net');
 }
 
 
