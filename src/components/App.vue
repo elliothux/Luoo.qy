@@ -6,7 +6,7 @@
                 this.$store.state.view.vol.cover :
                 '../pic/background.jpg'})` }"
         />
-        <HeadBar/>
+        <HeadBar :remote="remote"/>
         <Types/>
         <Playing/>
         <Vols/>
@@ -36,8 +36,9 @@
         props: ['remote'],
         created: async function () {
             this.$store.dispatch('updateFromDb', this.remote);
-            setTimeout(() => document.getElementById('bootScreen').className = 'bootImageHidden', 1200);
-            setTimeout(() => document.getElementById('bootScreen').style.display = 'none', 2000)
+            this.$store.dispatch('updateFromServer', this.remote);
+            setTimeout(() => document.getElementById('bootScreen').className = 'bootImageHidden', 1500);
+            setTimeout(() => document.getElementById('bootScreen').style.display = 'none', 2500)
         }
     }
 </script>

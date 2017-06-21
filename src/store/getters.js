@@ -26,8 +26,14 @@ export default {
         ratio: Math.ceil(100 * (state.play.time.current / state.play.time.total))
     }),
     task: state => state.tasks.length === 0 ?
-        null : state.tasks[state.tasks.length - 1].failed ?
-            '同步失败' : state.tasks[state.tasks.length - 1].text
+            null : state.tasks[state.tasks.length - 1],
+    taskText: (state, getters) => {
+        if (getters.task) {
+            if (getters.task.failed) return '失败, 点击重试';
+            return getters.task.text
+        }
+        return '更新完成'
+    }
 }
 
 

@@ -18,8 +18,8 @@ module.exports = {
 };
 
 
-async function updateVol(preVol) {
-    const data = JSON.parse(await request(`http://${address}/vols/${preVol}`));
+async function updateVol() {
+    const data = JSON.parse(await request(`http://${address}/vols/${await db.vol.latest()}`));
     if (data.length === 0) return console.log(`All vol updated`);
     for (vol of data) {
         db.vol.add(vol);
@@ -29,8 +29,8 @@ async function updateVol(preVol) {
 }
 
 
-async function updateSingle(preDate) {
-    const data = JSON.parse(await request(`http://${address}/singles/${preDate}`));
+async function updateSingle() {
+    const data = JSON.parse(await request(`http://${address}/singles/${await db.single.latest()}`));
     if (data.length === 0) return console.log(`All single updated`);
     for (single of data)
         db.single.add(single)

@@ -9,6 +9,7 @@ module.exports = {
         add: addVol,
         get: getVolList,
         getLiked: getLikedVolList,
+        latest: getLatestVol,
         isExist: async volIndex => await isExist({ vol: volIndex }, vol),
     },
     track: {
@@ -21,6 +22,7 @@ module.exports = {
         add: addSingle,
         get: getSingleList,
         getLiked: getLikedSingleList,
+        latest: getLatestSingle,
         isExist: async date => await isExist({ date: date }, single),
     }
 };
@@ -52,6 +54,11 @@ async function addVol(data) {
 
 async function getVolList() {
     return await _find({}, vol, {vol: -1})
+}
+
+
+async function getLatestVol() {
+    return (await _find({}, vol, {vol: -1}))[0].vol
 }
 
 
@@ -92,6 +99,11 @@ async function addSingle(data) {
 
 async function getSingleList() {
     return await _find({}, single, {date: -1})
+}
+
+
+async function getLatestSingle() {
+    return (await _find({}, single, {date: -1}))[0].date
 }
 
 

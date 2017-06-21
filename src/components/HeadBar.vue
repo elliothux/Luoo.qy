@@ -74,21 +74,24 @@
             </p>
         </div>
         <div id="headBarRight">
-            <div id="headBarTask">
+            <div
+                id="headBarTask"
+                @click.stop="handleTask"
+            >
                 <img
                     :src="'../pic/loading.svg'"
                     :style="{ animation: $store.getters.task ?
-                     'task ease-out 800ms infinite' : 'none' }"
+                        'task ease-out 800ms infinite' : 'none' }"
                 />
-                <span>{{ $store.getters.task || '同步完成' }}</span>
+                <span>{{ $store.getters.taskText }}</span>
             </div>
             <div
                 id="headBarUser"
                 v-on:click.stop="changeView('user')"
             >
                 <img
-                        :src="this.$store.state.user.avatar === '' ?
-                    '../pic/avatar.png' : this.$store.state.user.avatar"
+                    :src="this.$store.state.user.avatar === '' ?
+                        '../pic/avatar.png' : this.$store.state.user.avatar"
                 />
                 <p>
                     {{ $store.state.user.name === '' ?
@@ -106,6 +109,7 @@
 
     export default {
         name: 'headBar',
+        props: ['remote'],
         methods: {
             changeView: function (view) {
                 if (view === 'source') {
@@ -125,6 +129,13 @@
             },
             changeUserView: function (view) {
                 this.$store.dispatch('changeUserView', view)
+            },
+            handleTask: function () {
+                const task = this.$store.getters.task;
+                if (!task)
+                    return this.$store.dispatch('updateFromServer', this.remote);
+                if (task.failed)
+                    return this.$store.dispatch('task', {type: 'retry'});
             }
         }
     }
@@ -213,13 +224,9 @@
             & > img
                 height: 45%
                 margin-right: 10px
-                cursor: pointer
 
-            @keyframes task
-                0%
-                    transform: rotate(0deg)
-                100%
-                    transform: rotate(180deg)
+            *
+                cursor: pointer
 
         #headBarUser
             height: 100%

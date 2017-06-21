@@ -102,18 +102,41 @@ export default {
         state.tasks = tasks.slice(0, index).concat(tasks.slice(index + 1, tasks.length))
     },
     execTask: (state, {task, commit}) => {
+        !task && (task = state.tasks[state.tasks.length - 1]);
         task.failed = false;
         task.exec()
-            .then(() => commit('doneTask', task))
-            .catch(() => task.failed = true)
+            .then(setTimeout(() => commit('doneTask', task), 3000))
+            .catch((e) => (task.failed = true) && console.error(e))
     },
-    updateFromDb: (state, remote) => {
+    updateFromDb: (state, {remote, commit}) => {
         state.user = remote.config.get();
         remote.db.vol.get().then(data => state.vols.data = Object.freeze(data));
         remote.db.single.get().then(data => state.singles.data = Object.freeze(data));
         remote.db.vol.getLiked().then(data => state.vols.liked = Object.freeze(data));
         remote.db.single.getLiked().then(data => state.singles.liked = Object.freeze(data));
         remote.db.track.getLiked().then(data => state.tracks.liked = Object.freeze(data));
+    },
+    updateFromServer: (state, {remote, commit}) => {
+        commit('addTask', {
+            task: {
+                exec: () => Promise.all([
+                    remote.sync.vol.update(),
+                    remote.sync.single.update()
+                ]).then(commit('updateFromDb', {remote, commit})),
+                text: '更新期刊',
+                failed: false
+            },
+            commit: commit
+        });
+        commit('addTask', {
+            task: {
+                exec: () => remote.user.getCollection()
+                    .then(commit('updateFromDb', {remote, commit})),
+                text: '更新用户数据',
+                failed: false
+            },
+            commit: commit
+        })
     }
 }
 
