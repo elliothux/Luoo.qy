@@ -50,6 +50,7 @@ async function likeVol(volIndex, volId, liked) {
         likedVols = likedVols.slice(0, index)
             .concat(likedVols.slice(index + 1, likedVols.length))
     }
+    console.log(likedVols);
     config.set({ likedVols: likedVols })
 }
 
@@ -77,7 +78,7 @@ async function likeSingle(singleId, fromId, liked) {
 function _likedTrackToConfig(id, liked) {
     let index;
     let likedTracks = config.get('likedTracks');
-    if (liked) likedTracks.unshift(id)
+    if (liked) likedTracks.unshift(id);
     else  {
         index = likedTracks.indexOf(id);
         likedTracks = likedTracks.slice(0, index)

@@ -42,5 +42,6 @@ export default {
         }
     },
     updateFromDb: ({commit}, remote) => commit('updateFromDb', {remote, commit}),
-    updateFromServer: ({commit}, remote) => commit('updateFromServer', {remote, commit})
+    updateFromServer: ({commit}, remote) => commit('updateFromServer', {remote, commit}),
+    like: ({commit}, {type, data, remote}) => commit('like', {type, data, remote, commit})
 }

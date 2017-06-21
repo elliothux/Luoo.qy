@@ -13,16 +13,17 @@
             <p class="volInfoTitle">{{ data.title }}</p>
             <div class="volOperate">
                 <img
+                    @click.stop="like"
                     class="volLike"
-                    :src="$store.state.user.likedVols.includes(data.vol) ?
-                    '../pic/liked.svg' :
-                    '../pic/like.svg'"
+                    :src="isThisLiked ?
+                        '../pic/liked.svg' :
+                        '../pic/like.svg'"
                 />
                 <img
                     class="volPlay"
                     :src="isThisPlaying ?
-                            '../pic/controller-pause.svg' :
-                            '../pic/controller-play.svg'"
+                        '../pic/controller-pause.svg' :
+                        '../pic/controller-play.svg'"
                     v-on:click.stop="play"
                 />
             </div>
@@ -37,7 +38,7 @@
 
     export default {
         name: 'vol',
-        props: ['data', 'index', 'type'],
+        props: ['data', 'index', 'type', 'remote'],
         methods: {
             show: function () {
                 this.$store.dispatch('showVol', Object.freeze(
@@ -56,6 +57,18 @@
                         data: this.data,
                         index: 0
                     })
+            },
+            like: function () {
+                console.log(this.remote);
+                this.$store.dispatch('like', {
+                    type: 'vol',
+                    data: {
+                        id: this.data.vol_id,
+                        vol: this.data.vol,
+                        liked: !this.isThisLiked
+                    },
+                    remote: this.remote
+                })
             }
         },
         computed: {
@@ -64,6 +77,9 @@
                 return state.play.type === this.type &&
                     state.play.playing &&
                     state.play.vol.vol === this.data.vol
+            },
+            isThisLiked : function () {
+                return this.$store.state.user.likedVols.includes(this.data.vol)
             }
         },
     }

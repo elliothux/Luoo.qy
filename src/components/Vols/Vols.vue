@@ -10,6 +10,7 @@
             :index="index"
             :type="'vol'"
             :key="`${vol.vol}-${index}`"
+            :remote="remote"
         />
         <div
             id="loadMoreVols"
@@ -33,6 +34,7 @@
     export default {
         name: 'vols',
         components: { Vol },
+        props: ['remote'],
         methods: {
             loadMore: function () {
                 this.$store.dispatch('loadMore', {

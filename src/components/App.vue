@@ -8,12 +8,12 @@
         />
         <HeadBar :remote="remote"/>
         <Types/>
-        <Playing/>
-        <Vols/>
-        <Singles/>
+        <Playing :remote="remote"/>
+        <Vols :remote="remote"/>
+        <Singles :remote="remote"/>
         <User :remote="remote"/>
-        <VolView/>
-        <PlayingTrack/>
+        <VolView :remote="remote"/>
+        <PlayingTrack :remote="remote"/>
     </div>
 </template>
 

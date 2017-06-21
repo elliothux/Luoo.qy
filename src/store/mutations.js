@@ -41,7 +41,7 @@ export default {
             state.singles.index = state.singles.data.length;
         else state.singles.index = preIndex + 18
     },
-    play:(state, {options, getters, commit}) => {
+    play: (state, {options, getters, commit}) => {
         if (options.type) {
             state.play.type = options.type;
             if (options.type === 'vol' || options.type === 'likedVol')
@@ -80,11 +80,11 @@ export default {
                 0 : index + 1;
         else index = index - 1 === -1 ?
                 getters.playList.length - 1 : index - 1;
-        const options = { index : index };
+        const options = {index: index};
         commit('play', {options, getters})
     },
     changePlayMode: state => state.play.mode === 2 ?
-        state.play.mode = 0 : state.play.mode ++,
+        state.play.mode = 0 : state.play.mode++,
     changePlayRatio: (state, ratio) => state.play.audio.currentTime =
         state.play.audio.duration * ratio / 100,
     changePlayVolume: (state, volume) => {
@@ -110,8 +110,8 @@ export default {
     },
     updateFromDb: (state, {remote, commit}) => {
         state.user = remote.config.get();
-        remote.db.vol.get().then(data => state.vols.data = Object.freeze(data));
-        remote.db.single.get().then(data => state.singles.data = Object.freeze(data));
+        remote.db.vol.get().then(data => state.vols.data = Object.freeze(data.slice(0, 15)));
+        remote.db.single.get().then(data => state.singles.data = Object.freeze(data.slice(0, 15)));
         remote.db.vol.getLiked().then(data => state.vols.liked = Object.freeze(data));
         remote.db.single.getLiked().then(data => state.singles.liked = Object.freeze(data));
         remote.db.track.getLiked().then(data => state.tracks.liked = Object.freeze(data));
@@ -131,27 +131,26 @@ export default {
         commit('addTask', {
             task: {
                 exec: () => remote.user.getCollection()
-                    .then(commit('updateUserData', remote.config.get())),
+                    .then(commit('updateFromDb', {remote, commit})),
                 text: '更新用户数据',
                 failed: false
             },
             commit: commit
         })
     },
-    like: (state, {type, data, remote, commit}) => {
-        commit('addTask', {
-            task: {
-                exec: () => (type === 'vol' ?
-                    remote.sync.vol.like(data.vol, data.id, data.liked) :
-                    remote.sync.single.like(data.id, data.from, data.liked))
-                        .then(commit('updateUserData', remote.config.get())),
-                text: '同步收藏',
-                failed: false
-            },
-            commit: commit
-        })
-    }
+    like: (state, {type, data, remote, commit}) => commit('addTask', {
+        task: {
+            exec: () => (type === 'vol' ?
+                remote.sync.vol.like(data.vol, data.id, data.liked) :
+                remote.sync.single.like(data.id, data.from, data.liked))
+                    .then(commit('updateFromDb', {remote, commit})),
+            text: '同步收藏',
+            failed: false
+        },
+        commit: commit
+    })
 }
+
 
 
 function addAudioEvent(audio, getters, commit) {
