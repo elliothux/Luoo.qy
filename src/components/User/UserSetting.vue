@@ -95,6 +95,7 @@
         height: calc(100% - 20px)
         margin-top: 20px
         position: absolute
+        overflow-x: hidden
         transition: all ease 900ms
 
     #userSettingHeadBar

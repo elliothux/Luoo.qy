@@ -4,7 +4,7 @@
   "description": "Luoo.qy",
   "main": "main.js",
   "config": {
-    "server": "127.0.0.1:2333"
+    "server": "115.159.29.32:80"
   },
   "dependencies": {
     "cheerio": "^1.0.0-rc.1",
