@@ -1,7 +1,10 @@
 <template>
     <div
         class="vol"
-        :style="volStyle"
+        :style="{
+            backgroundColor: `rgba(${this.data.color[0]}, ${this.data.color[1]}, ${this.data.color[2]}, 0.55)`,
+            marginRight: (this.index + 1) % 3 === 0 ? 0 : '8%'
+        }"
         v-on:click.stop="show"
     >
         <img :src="data.cover" class="volCover"/>
@@ -30,43 +33,29 @@
 
 <script>
     import Vue from 'vue';
-    import { getAverageColor } from '../../lib/colorLib';
 
 
     export default {
         name: 'vol',
         props: ['data', 'index', 'type'],
-        data: function() { return {
-            volStyle: {
-                backgroundColor: 'rgba(255, 255, 255, 0.55)',
-                marginRight: (this.index + 1) % 3 === 0 ? 0 : '8%'
-            }
-        }},
-        created: function () {
-            const cover = new Image();
-            cover.src = this.data.cover;
-            cover.onload = function () {
-                const color = getAverageColor(cover);
-                this.volStyle.backgroundColor = `rgba(${color.r}, ${color.g}, ${color.b}, 0.55)`
-            }.bind(this)
-        },
         methods: {
             show: function () {
                 this.$store.dispatch('showVol', Object.freeze(
-                    Object.assign(
-                        { index: this.index, type: this.type },
-                        this.volStyle, this.data)
+                    Object.assign({
+                        index: this.index,
+                        type: this.type
+                    }, this.data)
                 ));
             },
             play: function () {
                 this.$store.state.play.type === this.type &&
                 this.$store.state.play.vol.vol === this.data.vol ?
                     this.$store.dispatch('toggle', 'play') :
-                    this.$store.dispatch('play', Object.freeze({
+                    this.$store.dispatch('play', {
                         type: this.type,
                         data: this.data,
                         index: 0
-                    }))
+                    })
             }
         },
         computed: {

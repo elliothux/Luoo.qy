@@ -1,7 +1,9 @@
 <template>
     <div
         class="single"
-        :style="singleStyle"
+        :style="{
+            backgroundColor: `rgba(${data.color[0]}, ${data.color[1]}, ${data.color[2]}, 0.55)`
+        }"
         v-on:click.stop="show"
     >
         <div class="singleTop">
@@ -48,19 +50,6 @@
     export default {
         name: 'single',
         props: ['data', 'index', 'type'],
-        data: () => ({
-            singleStyle: {
-                backgroundColor: 'rgba(255, 255, 255, 0.55)'
-            }
-        }),
-        created: function () {
-            const cover = new Image();
-            cover.src = this.data.cover;
-            cover.onload = function () {
-                const color = getAverageColor(cover);
-                this.singleStyle.backgroundColor = `rgba(${color.r}, ${color.g}, ${color.b}, 0.55)`
-            }.bind(this)
-        },
         methods: {
             show: function () {
                 this.$store.dispatch('changeView', {view: 'playingTrack'});

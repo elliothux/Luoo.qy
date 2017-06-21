@@ -8,7 +8,10 @@
         <template v-if="$store.state.view.vol">
             <div
                 id="volViewInfo"
-                :style="volStyle"
+                :style="{
+                    backgroundColor: $store.state.view.vol.color ?
+                        `rgba(${$store.state.view.vol.color[0]}, ${$store.state.view.vol.color[1]}, ${$store.state.view.vol.color[2]}, 0.35)` :
+                        'rgba(0, 0, 0, 0.35)'}"
             >
                 <div
                     id="volViewCover"
@@ -64,24 +67,11 @@
 <script>
     import Vue from 'vue';
     import VolTrack from './VolTrack.vue';
-    import { getAverageColor } from '../../lib/colorLib';
 
 
     export default {
         name: 'volView',
         components: { VolTrack },
-        data: function () { return {
-            volStyle: {
-                backgroundColor: 'rgba(0, 0, 0, 0.35)'
-            },
-            cover: ''
-        }},
-        created: function () {
-            this.setStyle()
-        },
-        updated: function () {
-            this.setStyle()
-        },
         methods: {
             play: function () {
                 const state = this.$store.state;
@@ -89,26 +79,11 @@
                 state.play.type === state.view.vol.type &&
                 state.play.vol.vol === state.view.vol.vol ?
                     this.$store.dispatch('toggle', 'play') :
-                    this.$store.dispatch('play', Object.freeze({
+                    this.$store.dispatch('play', {
                         type: state.view.vol.type,
                         data: Object.freeze(state.view.vol),
                         index: 0
-                    }))
-            },
-            setStyle: function () {
-                if (!this.$store.state.view.vol ||
-                    this.$store.state.view.vol.cover === this.cover) return;
-                this.cover = this.$store.state.view.vol.cover;
-                if (this.$store.state.view.vol.backgroundColor)
-                    this.volStyle.backgroundColor = this.$store.state.view.vol.backgroundColor;
-                else {
-                    const cover = new Image();
-                    cover.src = this.cover;
-                    cover.onload = function () {
-                        const color = getAverageColor(cover);
-                        this.volStyle.backgroundColor = `rgba(${color.r}, ${color.g}, ${color.b}, 0.55)`
-                    }.bind(this)
-                }
+                    })
             }
         },
         computed: {
