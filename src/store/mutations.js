@@ -131,8 +131,21 @@ export default {
         commit('addTask', {
             task: {
                 exec: () => remote.user.getCollection()
-                    .then(commit('updateFromDb', {remote, commit})),
+                    .then(commit('updateUserData', remote.config.get())),
                 text: '更新用户数据',
+                failed: false
+            },
+            commit: commit
+        })
+    },
+    like: (state, {type, data, remote, commit}) => {
+        commit('addTask', {
+            task: {
+                exec: () => (type === 'vol' ?
+                    remote.sync.vol.like(data.vol, data.id, data.liked) :
+                    remote.sync.single.like(data.id, data.from, data.liked))
+                        .then(commit('updateUserData', remote.config.get())),
+                text: '同步收藏',
                 failed: false
             },
             commit: commit
