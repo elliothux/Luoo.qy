@@ -67,6 +67,6 @@
         filter: blur(30px)
         z-index: -1
         transition: all ease 850ms
-        opacity: 0.8
+        opacity: 0.85
 
 </style>

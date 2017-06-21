@@ -53,7 +53,7 @@
                         'white' : 'rgba(0, 0, 0, 0)' }"
                 >
                     <img :src="'../pic/head-collection.svg'"/>
-                    <span>收藏</span>
+                    <span>{{ $store.state.user.mail === '' ? '登录' : '收藏' }}</span>
                 </div>
                 <div
                     v-on:click.stop="changeUserView('setting')"
