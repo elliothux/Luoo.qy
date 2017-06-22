@@ -44,13 +44,15 @@ export default {
         else state.singles.index = preIndex + 18
     },
     play: (state, {options, getters, commit}) => {
-        if (options.type) {
-            state.play.type = options.type;
-            if (options.type === 'vol' || options.type === 'likedVol')
-                state.play.vol = options.data;
+        if(options) {
+            if (options.type) {
+                state.play.type = options.type;
+                if (options.type === 'vol' || options.type === 'likedVol')
+                    state.play.vol = options.data;
+            }
+            state.play.index = options.index;
+            state.play.playing = true;
         }
-        state.play.index = options.index;
-        state.play.playing = true;
 
         if (!state.play.audio) {
             state.play.audio = new Audio();
@@ -144,13 +146,24 @@ export default {
             commit: commit
         })
     },
-    like: (state, {type, data, remote, commit}) => commit('addTask', {
+    like: (state, {type, data, remote, commit, getters}) => commit('addTask', {
         task: {
             exec: async () => {
                 type === 'vol' ?
-                await remote.sync.vol.like(data.vol, data.id, data.liked) :
-                await remote.sync.single.like(data.id, data.from, data.liked);
+                    await remote.sync.vol.like(data.vol, data.id, data.liked) :
+                    await remote.sync.single.like(data.id, data.from, data.liked);
                 commit('updateFromDb', {remote, commit});
+
+                if (!getters.playing) return;
+                let id;
+                if (getters.playData.hasOwnProperty('vol_id'))
+                    id = getters.playData.vol_id;
+                if (getters.playData.hasOwnProperty('track_id'))
+                    id = getters.playData.track_id;
+                else id = getters.playData.single_id;
+
+                if (data.id === id)
+                    commit('play')
             },
             text: '同步收藏',
             failed: false
