@@ -23,22 +23,24 @@ export default {
         state.view.vol = vol
     },
     changeVolType: (state, type) => state.vols.type = type,
-    loadMoreVols: (state, options) => {
+    loadMoreVols: (state, {options, getters}) => {
         if (options.init) {
             document.getElementById('vols').scrollTop = 0;
             return state.vols.index = 18;
         }
+        const max = getters._vols.length;
         const preIndex = state.vols.index;
-        if (preIndex + 18 >= options.max)
-            state.vols.index = options.max;
+        if (preIndex + 18 >= max)
+            state.vols.index = max;
         else state.vols.index = preIndex + 18
     },
-    loadMoreSingles: (state, options) => {
+    loadMoreSingles: (state, {options, getters}) => {
         if (options.init)
             return state.singles.index = 18;
+        const max = state.singles.data.length;
         const preIndex = state.singles.index;
-        if (preIndex + 18 >= state.singles.data.length)
-            state.singles.index = state.singles.data.length;
+        if (preIndex + 18 >= max)
+            state.singles.index = max;
         else state.singles.index = preIndex + 18
     },
     play: (state, {options, getters, commit}) => {

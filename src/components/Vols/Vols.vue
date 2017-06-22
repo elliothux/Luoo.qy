@@ -39,7 +39,6 @@
             loadMore: function () {
                 this.$store.dispatch('loadMore', {
                     type: 'Vols',
-                    max: this.$store.getters._vols.length,
                     init: false
                 })
             }
