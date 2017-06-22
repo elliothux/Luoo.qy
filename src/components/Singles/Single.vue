@@ -14,8 +14,9 @@
                 <div class="singleOperate">
                     <img
                         class="singleOperateLike"
-                        :src="`../pic/${$store.state.user.likedTracks.includes(data.single_id) ?
+                        :src="`../pic/${isThisLiked ?
                             'liked' : 'like'}.svg`"
+                        @click.stop="like"
                     />
                     <img
                         class="singleOperateToggle"
@@ -49,7 +50,7 @@
 
     export default {
         name: 'single',
-        props: ['data', 'index', 'type'],
+        props: ['data', 'index', 'type', 'remote'],
         methods: {
             show: function () {
                 this.$store.dispatch('changeView', {view: 'playingTrack'});
@@ -64,6 +65,17 @@
                         type: this.type,
                         index: this.index
                     }))
+            },
+            like: function () {
+                this.$store.dispatch('like', {
+                    type: 'single',
+                    data: {
+                        id: this.data.single_id,
+                        from: this.data.from_id,
+                        liked: !this.isThisLiked
+                    },
+                    remote: this.remote
+                })
             }
         },
         computed: {
@@ -72,6 +84,9 @@
                 return state.play.playing &&
                     state.play.type === this.type &&
                     state.play.index === this.index
+            },
+            isThisLiked: function () {
+                return this.$store.state.user.likedTracks.includes(this.data.single_id)
             }
         }
     }

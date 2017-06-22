@@ -11,6 +11,7 @@
             :type="'single'"
             :index="index"
             :key="`${single.single_id}-${index}`"
+            :remote="remote"
         />
         <div
             id="loadMoreSingles"
@@ -33,6 +34,7 @@
 
     export default {
         name: 'singles',
+        props: ['remote'],
         components: { Single },
         methods: {
             loadMore: function () {
