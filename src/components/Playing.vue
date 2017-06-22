@@ -61,9 +61,8 @@ K<template>
             </div>
             <div id="playingOperateRight">
                 <img
-                    :src="`../pic/${($store.getters.playData && $store.state.user.likedTracks.includes(
-                        $store.getters.playData.track_id || $store.getters.playData.single_id)) ?
-                            'liked' : 'like'}.svg`"
+                    :src="`../pic/${isThisLiked ? 'liked' : 'like'}.svg`"
+                    @click.stop="like"
                 />
                 <p>{{ $store.getters.time.total }}</p>
             </div>
@@ -108,6 +107,7 @@ K<template>
 
     export default {
         name: 'playing',
+        props: ['remote'],
         data: function () { return {
             showVolumeController: false,
         }},
@@ -133,6 +133,25 @@ K<template>
                         'volume' : 'ratio',
                     value: event.target.value
                 })
+            },
+            like: function () {
+                const data = this.$store.getters.playData;
+                if (!data) return;
+                this.$store.dispatch('like', {
+                    type: 'track',
+                    data: {
+                        id: data.track_id || data.single_id,
+                        from: data.from_id,
+                        liked: !this.isThisLiked
+                    },
+                    remote: this.remote
+                })
+            }
+        },
+        computed: {
+            isThisLiked: function () {
+                return this.$store.getters.playData && this.$store.state.user.likedTracks.includes(
+                    this.$store.getters.playData.track_id || this.$store.getters.playData.single_id)
             }
         }
     }

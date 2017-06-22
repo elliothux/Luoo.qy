@@ -59,7 +59,6 @@
                     })
             },
             like: function () {
-                console.log(this.remote);
                 this.$store.dispatch('like', {
                     type: 'vol',
                     data: {

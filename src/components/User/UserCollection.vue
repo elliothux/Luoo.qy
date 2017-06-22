@@ -31,6 +31,7 @@
                 :type="'likedVol'"
                 :index="index"
                 :key="`${vol.vol}-${index}`"
+                :remote="remote"
             />
         </div>
         <div
@@ -47,6 +48,7 @@
                 :type="'likedTrack'"
                 :key="`${track.track_id}-${index}`"
                 :index="index"
+                :remote="remote"
             />
         </div>
         <div
@@ -63,6 +65,7 @@
                 :type="'likedSingle'"
                 :index="index"
                 :key="`${single.single_id}-${index}`"
+                :remote="remote"
             />
         </div>
     </div>
@@ -78,6 +81,7 @@
 
     export default {
         name: 'userCollection',
+        props: ['remote'],
         components: { Vol, VolTrack, Single },
         data: function () { return {
             view: 'vols'

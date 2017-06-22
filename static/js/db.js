@@ -52,8 +52,10 @@ async function addVol(data) {
 }
 
 
-async function getVolList() {
-    return await _find({}, vol, {vol: -1})
+async function getVolList(volIndex) {
+    const options = volIndex ? { vol: volIndex } : {};
+    const result = await _find(options, vol, {vol: -1});
+    return volIndex ? result[0] : result
 }
 
 

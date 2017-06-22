@@ -58,10 +58,9 @@
                             :src="`../pic/${$store.state.user.likedTracks.includes(
                                 $store.getters.playData.track_id || $store.getters.playData.single_id) ?
                                     'liked' : 'like'}.svg`"
+                            @click.stop="like"
                         />
-                        <p>{{ $store.state.user.likedTracks.includes(
-                                $store.getters.playData.track_id || $store.getters.playData.single_id) ?
-                                    '已喜欢' : '喜欢' }}</p>
+                        <p>{{ isThisLiked ? '已喜欢' : '喜欢' }}</p>
                     </div>
                     <div>
                         <img
@@ -132,6 +131,7 @@
 
     export default {
         name: 'playingTrack',
+        props: ['remote'],
         data: function () { return {
             showVolumeController: false,
         }},
@@ -153,6 +153,25 @@
                         'volume' : 'ratio',
                     value: event.target.value
                 })
+            },
+            like: function () {
+                const data = this.$store.getters.playData;
+                if (!data) return;
+                this.$store.dispatch('like', {
+                    type: 'track',
+                    data: {
+                        id: data.track_id || data.single_id,
+                        from: data.from_id,
+                        liked: !this.isThisLiked
+                    },
+                    remote: this.remote
+                })
+            }
+        },
+        computed: {
+            isThisLiked: function () {
+                return this.$store.state.user.likedTracks.includes(
+                    this.$store.getters.playData.track_id || this.$store.getters.playData.single_id)
             }
         }
     }

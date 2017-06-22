@@ -37,8 +37,6 @@
         created: async function () {
             this.$store.dispatch('updateFromDb', this.remote);
             this.$store.dispatch('updateFromServer', this.remote);
-            setTimeout(() => document.getElementById('bootScreen').className = 'bootImageHidden', 1500);
-            setTimeout(() => document.getElementById('bootScreen').style.display = 'none', 2500)
         }
     }
 </script>

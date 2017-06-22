@@ -114,7 +114,11 @@ export default {
         remote.db.single.get().then(data => state.singles.data = Object.freeze(data.slice(0, 15)));
         remote.db.vol.getLiked().then(data => state.vols.liked = Object.freeze(data));
         remote.db.single.getLiked().then(data => state.singles.liked = Object.freeze(data));
-        remote.db.track.getLiked().then(data => state.tracks.liked = Object.freeze(data));
+        remote.db.track.getLiked().then(data => state.tracks.liked = Object.freeze(data)).then(() => {
+            if (document.getElementById('bootScreen').style.display === 'none') return;
+            setTimeout(() => document.getElementById('bootScreen').className = 'bootImageHidden', 1000);
+            setTimeout(() => document.getElementById('bootScreen').style.display = 'none', 2000)
+        });
     },
     updateFromServer: (state, {remote, commit}) => {
         commit('addTask', {
@@ -140,10 +144,12 @@ export default {
     },
     like: (state, {type, data, remote, commit}) => commit('addTask', {
         task: {
-            exec: () => (type === 'vol' ?
-                remote.sync.vol.like(data.vol, data.id, data.liked) :
-                remote.sync.single.like(data.id, data.from, data.liked))
-                    .then(commit('updateFromDb', {remote, commit})),
+            exec: async () => {
+                type === 'vol' ?
+                await remote.sync.vol.like(data.vol, data.id, data.liked) :
+                await remote.sync.single.like(data.id, data.from, data.liked);
+                commit('updateFromDb', {remote, commit});
+            },
             text: '同步收藏',
             failed: false
         },

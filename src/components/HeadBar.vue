@@ -77,6 +77,7 @@
             <div
                 id="headBarTask"
                 @click.stop="handleTask"
+                :style="{ opacity: $store.getters.task ? 1 : 0.7}"
             >
                 <img
                     :src="'../pic/loading.svg'"
@@ -111,15 +112,13 @@
         name: 'headBar',
         props: ['remote'],
         methods: {
-            changeView: function (view) {
+            changeView: async function (view) {
                 if (view === 'source') {
                     if (['vol', 'likedVol', 'likedTrack'].includes(this.$store.state.play.type)) {
                         if (!this.$store.state.view.vol ||
                             this.$store.state.view.vol.vol !== this.$store.getters.playData.vol)
                             this.$store.dispatch('changeViewVol',
-                                this.$store.state.vols.data.filter(function (vol) {
-                                    return vol.vol === this.$store.getters.playData.vol
-                                }.bind(this))[0]);
+                                await this.remote.db.vol.get(this.$store.getters.playData.vol));
                         view = 'volView'
                     }
                     if (this.$store.state.play.type === 'likedSingle')
@@ -216,7 +215,6 @@
             position: relative
             top: -10px
             font-size: 0.9em
-            opacity: 0.7
 
             &:hover
                 opacity: 1

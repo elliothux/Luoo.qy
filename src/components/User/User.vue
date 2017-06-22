@@ -11,6 +11,7 @@
         />
         <UserCollection
             :style="collectionStyle"
+            :remote="this.remote"
             v-else
         />
         <UserSetting

@@ -7,8 +7,8 @@
         <div class="trackCoverContainer">
             <img
                 class="trackOperateLike"
-                :src="`../pic/${$store.state.user.likedTracks.includes(data.track_id) ?
-                    'liked' : 'like'}.svg`"
+                :src="`../pic/${isThisLiked ? 'liked' : 'like'}.svg`"
+                @click.stop="like"
             />
             <img
                 class="trackOperateToggle"
@@ -34,7 +34,7 @@
 
     export default {
         name: 'volTrack',
-        props: ['data', 'index', 'type'],
+        props: ['data', 'index', 'type', 'remote'],
         methods: {
             show: function () {
                 this.$store.dispatch('changeView', {view: 'playingTrack'});
@@ -52,6 +52,17 @@
                         index: this.index,
                         data: this.$store.state.view.vol
                     }))
+            },
+            like: function () {
+                this.$store.dispatch('like', {
+                    type: 'track',
+                    data: {
+                        id: this.data.track_id,
+                        from: this.data.from_id,
+                        liked: !this.isThisLiked
+                    },
+                    remote: this.remote
+                })
             }
         },
         computed: {
@@ -62,6 +73,9 @@
                     (this.type === 'likedTrack' ||
                     state.play.vol.vol === this.data.vol) &&
                     state.play.index === this.index
+            },
+            isThisLiked: function () {
+                return this.$store.state.user.likedTracks.includes(this.data.track_id)
             },
             trackStyle: function () { return {
                 marginRight: (this.index + 1) % 6 === 0 ?

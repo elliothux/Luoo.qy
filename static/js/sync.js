@@ -9,11 +9,13 @@ module.exports = {
     vol: {
         update: updateVol,
         like: likeVol,
-        likeTrack: likeVolTrack
+        likeTrack: likeVolTrack,
+        isLiked: vol => config.get('likedVols').includes(vol)
     },
     single: {
         update: updateSingle,
-        like: likeSingle
+        like: likeSingle,
+        isLiked: id => config.get('liedSingles').includes(id)
     }
 };
 
@@ -50,8 +52,8 @@ async function likeVol(volIndex, volId, liked) {
         likedVols = likedVols.slice(0, index)
             .concat(likedVols.slice(index + 1, likedVols.length))
     }
-    console.log(likedVols);
-    config.set({ likedVols: likedVols })
+    config.set({ likedVols: likedVols });
+    return likedVols;
 }
 
 
@@ -61,7 +63,7 @@ async function likeVolTrack(volId, trackId, liked) {
         id: trackId,
         from: volId,
     });
-    _likedTrackToConfig(trackId, liked);
+    return _likedTrackToConfig(trackId, liked);
 }
 
 
@@ -71,7 +73,7 @@ async function likeSingle(singleId, fromId, liked) {
         id: singleId,
         from: fromId,
     });
-    _likedTrackToConfig(singleId, liked);
+    return _likedTrackToConfig(singleId, liked);
 }
 
 
@@ -84,5 +86,6 @@ function _likedTrackToConfig(id, liked) {
         likedTracks = likedTracks.slice(0, index)
             .concat(likedTracks.slice(index + 1, likedTracks.length))
     }
-    config.set({ likedTracks: likedTracks })
+    config.set({ likedTracks: likedTracks });
+    return likedTracks;
 }

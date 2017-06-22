@@ -23,14 +23,14 @@
                             <div>
                                 <img
                                     id="volViewOperateLike"
-                                    :src="`../pic/${$store.state.user.likedVols.includes($store.state.view.vol.vol) ?
-                                        'liked' : 'like'}.svg`"
+                                    :src="`../pic/${isThisLiked ? 'liked' : 'like'}.svg`"
+                                    @click.stop="like"
                                 />
                                 <img
                                     id="volViewToggle"
                                     :src="isThisPlaying ?
-                                            '../pic/controller-pause.svg' :
-                                            '../pic/controller-play.svg'"
+                                        '../pic/controller-pause.svg' :
+                                        '../pic/controller-play.svg'"
                                     v-on:click.stop="play"
                                 />
                             </div>
@@ -57,6 +57,7 @@
                     :type="$store.state.view.vol.type"
                     :key="`${track.track_id}-${index}`"
                     :index="index"
+                    :remote="remote"
                 />
             </div>
         </template>
@@ -71,6 +72,7 @@
 
     export default {
         name: 'volView',
+        props: ['remote'],
         components: { VolTrack },
         methods: {
             play: function () {
@@ -84,6 +86,17 @@
                         data: Object.freeze(state.view.vol),
                         index: 0
                     })
+            },
+            like: function () {
+                this.$store.dispatch('like', {
+                    type: 'vol',
+                    data: {
+                        id: this.$store.state.view.vol.vol_id,
+                        vol: this.$store.state.view.vol.vol,
+                        liked: !this.isThisLiked
+                    },
+                    remote: this.remote
+                })
             }
         },
         computed: {
@@ -92,6 +105,9 @@
                 return state.play.playing && state.play.vol &&
                     state.play.type === state.view.vol.type &&
                     state.play.vol.vol === state.view.vol.vol
+            },
+            isThisLiked : function () {
+                return this.$store.state.user.likedVols.includes(this.$store.state.view.vol.vol)
             }
         }
     }
