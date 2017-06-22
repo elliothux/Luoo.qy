@@ -44,15 +44,13 @@ export default {
         else state.singles.index = preIndex + 18
     },
     play: (state, {options, getters, commit}) => {
-        if(options) {
-            if (options.type) {
-                state.play.type = options.type;
-                if (options.type === 'vol' || options.type === 'likedVol')
-                    state.play.vol = options.data;
-            }
-            state.play.index = options.index;
-            state.play.playing = true;
+        if (options.type) {
+            state.play.type = options.type;
+            if (options.type === 'vol' || options.type === 'likedVol')
+                state.play.vol = options.data;
         }
+        state.play.index = options.index;
+        state.play.playing = true;
 
         if (!state.play.audio) {
             state.play.audio = new Audio();
@@ -112,13 +110,14 @@ export default {
             .then(setTimeout(() => commit('doneTask', task), 3000))
             .catch((e) => (task.failed = true) && console.error(e))
     },
-    updateFromDb: (state, {remote, commit}) => {
+    updateFromDb: (state, {remote, commit, callback}) => {
         state.user = remote.config.get();
         remote.db.vol.get().then(data => state.vols.data = Object.freeze(data.slice(0, 15)));
         remote.db.single.get().then(data => state.singles.data = Object.freeze(data.slice(0, 15)));
         remote.db.vol.getLiked().then(data => state.vols.liked = Object.freeze(data));
         remote.db.single.getLiked().then(data => state.singles.liked = Object.freeze(data));
         remote.db.track.getLiked().then(data => state.tracks.liked = Object.freeze(data)).then(() => {
+            callback && callback();
             if (document.getElementById('bootScreen').style.display === 'none') return;
             setTimeout(() => document.getElementById('bootScreen').className = 'bootImageHidden', 1000);
             setTimeout(() => document.getElementById('bootScreen').style.display = 'none', 2000)
@@ -149,21 +148,25 @@ export default {
     like: (state, {type, data, remote, commit, getters}) => commit('addTask', {
         task: {
             exec: async () => {
+                let callback;
+                if (getters.playData && !data.liked) {
+                    let id;
+                    if (getters.playData.hasOwnProperty('vol_id'))
+                        id = getters.playData.vol_id;
+                    else if (getters.playData.hasOwnProperty('track_id'))
+                        id = getters.playData.track_id;
+                    else id = getters.playData.single_id;
+
+                    data.id === id && (callback = function () {
+                        commit('play',
+                            {options: {index: state.play.index}, getters, commit})
+                    }.bind(this))
+                }
+
                 type === 'vol' ?
                     await remote.sync.vol.like(data.vol, data.id, data.liked) :
                     await remote.sync.single.like(data.id, data.from, data.liked);
-                commit('updateFromDb', {remote, commit});
-
-                if (!getters.playing) return;
-                let id;
-                if (getters.playData.hasOwnProperty('vol_id'))
-                    id = getters.playData.vol_id;
-                if (getters.playData.hasOwnProperty('track_id'))
-                    id = getters.playData.track_id;
-                else id = getters.playData.single_id;
-
-                if (data.id === id)
-                    commit('play')
+                commit('updateFromDb', {remote, commit, callback});
             },
             text: '同步收藏',
             failed: false
