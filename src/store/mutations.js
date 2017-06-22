@@ -43,6 +43,15 @@ export default {
             state.singles.index = max;
         else state.singles.index = preIndex + 18
     },
+    loadMoreCollection: (state, type) => {
+        const scale = type === 'vols' || type === 'singles' ?
+            18 : 24;
+        const max = state[type].liked.length;
+        const preIndex = state[type].collectionIndex;
+        if (preIndex + scale >= max)
+            state[type].collectionIndex = max;
+        else state[type].collectionIndex = preIndex + scale
+    },
     play: (state, {options, getters, commit}) => {
         if (options.type) {
             state.play.type = options.type;
@@ -112,8 +121,8 @@ export default {
     },
     updateFromDb: (state, {remote, commit, callback}) => {
         state.user = remote.config.get();
-        remote.db.vol.get().then(data => state.vols.data = Object.freeze(data.slice(0, 15)));
-        remote.db.single.get().then(data => state.singles.data = Object.freeze(data.slice(0, 15)));
+        remote.db.vol.get().then(data => state.vols.data = Object.freeze(data));
+        remote.db.single.get().then(data => state.singles.data = Object.freeze(data));
         remote.db.vol.getLiked().then(data => state.vols.liked = Object.freeze(data));
         remote.db.single.getLiked().then(data => state.singles.liked = Object.freeze(data));
         remote.db.track.getLiked().then(data => state.tracks.liked = Object.freeze(data)).then(() => {

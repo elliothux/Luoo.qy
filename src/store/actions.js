@@ -16,7 +16,15 @@ export default {
         commit('changeVolType', type);
         commit('loadMoreVols', { init: true })
     },
-    loadMore: ({commit, getters}, options) => commit(`loadMore${options.type}`, {options, getters}),
+    loadMore: ({commit, getters}, options) => {
+        if (options.type === 'CollectionVols')
+            return commit('loadMoreCollection', 'vols');
+        else if (options.type === 'CollectionTracks')
+            return commit('loadMoreCollection', 'tracks');
+        else if (options.type === 'CollectionSingles')
+            return commit('loadMoreCollection', 'singles');
+        commit(`loadMore${options.type}`, {options, getters})
+    },
     showVol: ({commit, getters}, vol) => {
         commit('changeViewVol', vol);
         commit('changeView', {view: 'volView', getters});

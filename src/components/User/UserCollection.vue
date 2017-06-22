@@ -26,13 +26,23 @@
             }"
         >
             <Vol
-                v-for="(vol, index) in $store.state.vols.liked"
+                v-for="(vol, index) in $store.getters.likedVols"
                 :data="Object.freeze(vol)"
                 :type="'likedVol'"
                 :index="index"
                 :key="`${vol.vol}-${index}`"
                 :remote="remote"
             />
+            <div
+                class="loadMoreCollection"
+                :style="{ opacity: $store.state.vols.collectionIndex <
+                    $store.state.vols.liked.length ? 1 : 0 }"
+            >
+                <div @click.stop="loadMore('CollectionVols')">
+                    <img :src="'../pic/loadMore-stroked.svg'"/>
+                    <p>更多</p>
+                </div>
+            </div>
         </div>
         <div
             id="userCollectionVolTrack"
@@ -43,13 +53,23 @@
             }"
         >
             <VolTrack
-                v-for="(track, index) in $store.state.tracks.liked"
+                v-for="(track, index) in $store.getters.likedTracks"
                 :data="Object.freeze(track)"
                 :type="'likedTrack'"
                 :key="`${track.track_id}-${index}`"
                 :index="index"
                 :remote="remote"
             />
+            <div
+                class="loadMoreCollection"
+                :style="{ opacity: $store.state.tracks.collectionIndex <
+                    $store.state.tracks.liked.length ? 1 : 0 }"
+            >
+                <div @click.stop="loadMore('CollectionTracks')">
+                    <img :src="'../pic/loadMore-stroked.svg'"/>
+                    <p>更多</p>
+                </div>
+            </div>
         </div>
         <div
             id="userCollectionSingle"
@@ -60,13 +80,23 @@
             }"
         >
             <Single
-                v-for="(single, index) in $store.state.singles.liked"
+                v-for="(single, index) in  $store.getters.likedSingles"
                 :data="Object.freeze(single)"
                 :type="'likedSingle'"
                 :index="index"
                 :key="`${single.single_id}-${index}`"
                 :remote="remote"
             />
+            <div
+                class="loadMoreCollection"
+                :style="{ opacity: $store.state.singles.collectionIndex <
+                    $store.state.singles.liked.length ? 1 : 0 }"
+            >
+                <div v-on:click.stop="loadMore('CollectionSingles')">
+                    <img :src="'../pic/loadMore-stroked.svg'"/>
+                    <p>更多</p>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -89,7 +119,11 @@
         methods: {
             changeView: function (view) {
                 this.view = view
+            },
+            loadMore: function (type) {
+                this.$store.dispatch('loadMore', {type: type})
             }
+
         }
     }
 </script>
@@ -134,5 +168,27 @@
 
     #userCollectionSingle
         justify-content: space-between
+
+    .loadMoreCollection
+        width: 100%
+        margin: 15px 0 30px 0
+        font-weight: 400
+        text-align: center
+
+        & > div
+            margin-left: 47%
+            cursor: pointer
+            font-size: 0.9em
+            opacity: 0.8
+            width: 6%
+
+            &:hover
+                opacity: 1
+
+            img
+                height: 50%
+
+            *
+                cursor: pointer
 
 </style>

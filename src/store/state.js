@@ -34,6 +34,7 @@ export default {
     vols: {
         data: [],
         index: 12,
+        collectionIndex: 12,
         type: 0,
         types: volsTypes,
         liked: []
@@ -41,10 +42,12 @@ export default {
     singles: {
         data: [],
         index: 10,
-        liked: []
+        liked: [],
+        collectionIndex: 10
     },
     tracks: {
-        liked: []
+        liked: [],
+        collectionIndex: 18
     },
     tasks: []
 }
