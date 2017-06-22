@@ -18,12 +18,12 @@
                 '0' : '-100%' })`
             }"
         >
-            <div>
-                <Toggle/>
+            <div @click.stop="set('autoUpdate')">
+                <Toggle :on="$store.state.user.autoUpdate"/>
                 <span>自动更新</span>
             </div>
-            <div>
-                <Toggle/>
+            <div @click.stop="set('autoSync')">
+                <Toggle :on="$store.state.user.autoSync"/>
                 <span>启动时自动同步</span>
             </div>
             <div id="settingOperate">
@@ -83,6 +83,15 @@
                         data: this.remote.config.get()
                     })
                 }
+            },
+            set: function (key) {
+                const option = Object.assign({}, this.$store.state.user);
+                option[key] = !option[key];
+                this.$store.dispatch('updateData', {
+                    type: 'user',
+                    data: option
+                });
+                this.remote.config.set(option)
             }
         }
     }
@@ -123,23 +132,25 @@
         text-align: left
         transition: all ease 900ms
 
-    #userSettingCommon > div
-        height: 40px
-        display: flex
-        flex-direction: row
-        flex-wrap: nowrap
-        justify-content: flex-start
-        align-items: center
-
-        & > span
-            display: inline-block
-            margin-left: 20px
-
-    #settingOperate
-        margin-top: 50px
+    #userSettingCommon
 
         *
             cursor: pointer
+
+        & > div
+            height: 40px
+            display: flex
+            flex-direction: row
+            flex-wrap: nowrap
+            justify-content: flex-start
+            align-items: center
+
+            & > span
+                display: inline-block
+                margin-left: 20px
+
+    #settingOperate
+        margin-top: 50px
 
         & > div
             height: 55px

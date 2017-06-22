@@ -1,5 +1,5 @@
 <template>
-    <div class="toggle" v-on:click.stop="handler">
+    <div class="toggle">
         <div :style="{
             transform: `translateX(${on ? 21 : 4}px)`,
             backgroundColor: `rgba(255, 255, 255, ${on ? 1 : 0})`
@@ -14,15 +14,7 @@
 
     export default {
         name: 'Toggle',
-        props: ['on_', 'handler_'],
-        data: function () { return {
-            on: false
-        }},
-        methods: {
-            handler: function () {
-                this.on = !this.on
-            }
-        }
+        props: ['on']
     }
 </script>
 

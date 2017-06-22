@@ -33,9 +33,11 @@ function initConfig() {
         "name": "",
         "id": "",
         "avatar": "",
+        "autoUpdate": true,
+        "autoSync": true,
         "LUOOSESS": "",
         "lult": "",
         "likedVols": [],
-        "likedTracks": []
+        "likedTracks": [],
     })
 }
