@@ -76,12 +76,11 @@
                 this.view = view
             },
             logout: function () {
+                if (!this.$store.state.user.mail) return;
                 if (window.confirm('确认登出吗?')) {
                     this.remote.config.init();
-                    this.$store.dispatch('updateData', {
-                        type: 'user',
-                        data: this.remote.config.get()
-                    })
+                    this.remote.app.relaunch();
+                    this.remote.app.exit(0);
                 }
             },
             set: function (key) {

@@ -33,7 +33,8 @@ exports = Object.assign(exports, {
     db: db,
     user: user,
     config: config,
-    sync: sync
+    sync: sync,
+    app: app
 });
 
 

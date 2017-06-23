@@ -30,6 +30,7 @@ const cookieJar = request.jar();
 async function login(mail, password) {
     config.init();
     await _getLoginCookie();
+    _putCookie();
     const resCookie = _formatCookie((await request({
         method: 'POST',
         uri: 'http://www.luoo.net/login/',
@@ -80,6 +81,7 @@ async function login(mail, password) {
 
 
 async function getUserCollection() {
+    if (!config.get('mail')) return;
     _putCookie();
     const likedVols = await _getLikedVols();
     const likedTracks = await _getLikedTracks();
@@ -91,6 +93,7 @@ async function getUserCollection() {
 
 
 async function like(option) {
+    if (!config.get('mail')) return;
     _putCookie();
     const form = {
         id: option.id,
