@@ -107,3 +107,5 @@ fabric.properties
 
 /user/config.json
 /build/Luoo.qy-darwin-x64/
+/build/Luoo.qy-win32-x64/
+/build/Luoo.qy-win32-x64.zip

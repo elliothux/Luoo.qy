@@ -45,7 +45,6 @@
 
 <script>
     import Vue from 'vue';
-    import { getAverageColor } from '../../lib/colorLib';
 
 
     export default {

@@ -50,7 +50,7 @@ function openWindow(filePath, options, isMax) {
             minHeight: 550,
             center: true,
             show: false,
-            'auto-hide-menu-bar': !platform === 'darwin'
+            autoHideMenuBar: true
         },
         options
     );

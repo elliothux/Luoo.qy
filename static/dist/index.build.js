@@ -10177,7 +10177,7 @@ var Component = __webpack_require__(2)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "/Users/huqingyang/Desktop/Luoo.qy/src/components/Singles/Single.vue"
+Component.options.__file = "C:\\Users\\HuQingyang\\Desktop\\Luoo.qy\\src\\components\\Singles\\Single.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Single.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -10221,7 +10221,7 @@ var Component = __webpack_require__(2)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "/Users/huqingyang/Desktop/Luoo.qy/src/components/VolView/VolTrack.vue"
+Component.options.__file = "C:\\Users\\HuQingyang\\Desktop\\Luoo.qy\\src\\components\\VolView\\VolTrack.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] VolTrack.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -10265,7 +10265,7 @@ var Component = __webpack_require__(2)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "/Users/huqingyang/Desktop/Luoo.qy/src/components/Vols/Vol.vue"
+Component.options.__file = "C:\\Users\\HuQingyang\\Desktop\\Luoo.qy\\src\\components\\Vols\\Vol.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Vol.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -10309,7 +10309,7 @@ var Component = __webpack_require__(2)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "/Users/huqingyang/Desktop/Luoo.qy/src/components/App.vue"
+Component.options.__file = "C:\\Users\\HuQingyang\\Desktop\\Luoo.qy\\src\\components\\App.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] App.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -10340,10 +10340,10 @@ module.exports = Component.exports
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex__ = __webpack_require__(87);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__actions__ = __webpack_require__(90);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__state__ = __webpack_require__(93);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__getters__ = __webpack_require__(91);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__mutations__ = __webpack_require__(92);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__actions__ = __webpack_require__(89);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__state__ = __webpack_require__(92);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__getters__ = __webpack_require__(90);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__mutations__ = __webpack_require__(91);
 
 
 
@@ -10961,7 +10961,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__lib_colorLib__ = __webpack_require__(89);
 //
 //
 //
@@ -11007,7 +11006,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-
 
 
 
@@ -12109,7 +12107,7 @@ var Component = __webpack_require__(2)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "/Users/huqingyang/Desktop/Luoo.qy/src/components/Common/Toggle.vue"
+Component.options.__file = "C:\\Users\\HuQingyang\\Desktop\\Luoo.qy\\src\\components\\Common\\Toggle.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Toggle.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -12153,7 +12151,7 @@ var Component = __webpack_require__(2)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "/Users/huqingyang/Desktop/Luoo.qy/src/components/HeadBar.vue"
+Component.options.__file = "C:\\Users\\HuQingyang\\Desktop\\Luoo.qy\\src\\components\\HeadBar.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] HeadBar.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -12197,7 +12195,7 @@ var Component = __webpack_require__(2)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "/Users/huqingyang/Desktop/Luoo.qy/src/components/Playing.vue"
+Component.options.__file = "C:\\Users\\HuQingyang\\Desktop\\Luoo.qy\\src\\components\\Playing.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Playing.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -12241,7 +12239,7 @@ var Component = __webpack_require__(2)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "/Users/huqingyang/Desktop/Luoo.qy/src/components/PlayingTrack.vue"
+Component.options.__file = "C:\\Users\\HuQingyang\\Desktop\\Luoo.qy\\src\\components\\PlayingTrack.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] PlayingTrack.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -12285,7 +12283,7 @@ var Component = __webpack_require__(2)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "/Users/huqingyang/Desktop/Luoo.qy/src/components/Singles/Singles.vue"
+Component.options.__file = "C:\\Users\\HuQingyang\\Desktop\\Luoo.qy\\src\\components\\Singles\\Singles.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Singles.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -12329,7 +12327,7 @@ var Component = __webpack_require__(2)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "/Users/huqingyang/Desktop/Luoo.qy/src/components/Types.vue"
+Component.options.__file = "C:\\Users\\HuQingyang\\Desktop\\Luoo.qy\\src\\components\\Types.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Types.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -12373,7 +12371,7 @@ var Component = __webpack_require__(2)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "/Users/huqingyang/Desktop/Luoo.qy/src/components/User/Login.vue"
+Component.options.__file = "C:\\Users\\HuQingyang\\Desktop\\Luoo.qy\\src\\components\\User\\Login.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Login.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -12417,7 +12415,7 @@ var Component = __webpack_require__(2)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "/Users/huqingyang/Desktop/Luoo.qy/src/components/User/User.vue"
+Component.options.__file = "C:\\Users\\HuQingyang\\Desktop\\Luoo.qy\\src\\components\\User\\User.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] User.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -12461,7 +12459,7 @@ var Component = __webpack_require__(2)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "/Users/huqingyang/Desktop/Luoo.qy/src/components/User/UserCollection.vue"
+Component.options.__file = "C:\\Users\\HuQingyang\\Desktop\\Luoo.qy\\src\\components\\User\\UserCollection.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] UserCollection.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -12505,7 +12503,7 @@ var Component = __webpack_require__(2)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "/Users/huqingyang/Desktop/Luoo.qy/src/components/User/UserSetting.vue"
+Component.options.__file = "C:\\Users\\HuQingyang\\Desktop\\Luoo.qy\\src\\components\\User\\UserSetting.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] UserSetting.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -12549,7 +12547,7 @@ var Component = __webpack_require__(2)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "/Users/huqingyang/Desktop/Luoo.qy/src/components/VolView/VolView.vue"
+Component.options.__file = "C:\\Users\\HuQingyang\\Desktop\\Luoo.qy\\src\\components\\VolView\\VolView.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] VolView.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -12593,7 +12591,7 @@ var Component = __webpack_require__(2)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "/Users/huqingyang/Desktop/Luoo.qy/src/components/Vols/Vols.vue"
+Component.options.__file = "C:\\Users\\HuQingyang\\Desktop\\Luoo.qy\\src\\components\\Vols\\Vols.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Vols.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -15395,144 +15393,6 @@ new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* unused harmony export RGB2HSL */
-/* unused harmony export HSL2RGB */
-/* unused harmony export RGB2HEX */
-/* unused harmony export HEX2RGB */
-/* unused harmony export getAverageColor */
-// Basic function to convert color values
-
-
-// Convert RGB to HSL
-function RGB2HSL(r, g, b) {
-    r = r / 255; g = g / 255; b = b / 255;
-    const max = Math.max(r, g, b);
-    const min = Math.min(r, g, b);
-    return {
-        H: Math.round(getH()),
-        S: Math.round(getS() * Math.pow(10, 2)) / Math.pow(10, 2),
-        L: Math.round(getL() * Math.pow(10, 2)) / Math.pow(10, 2)
-    };
-
-    function getH() {
-        if (max === min) return 0;
-        else if (max === g)
-            return 60 * (b - r) / (max -min) + 120;
-        else if (max === b)
-            return 60 * (r - g) / (max -min) + 240;
-        else if (max === r && g >= b)
-            return 60 * (g - b) / (max -min);
-        else if (max === r && g < b)
-            return 60 * (g - b) / (max -min) + 360;
-        return 0;
-    }
-
-    function getL() {
-        return 1/2 * (max + min)
-    }
-
-    function getS() {
-        const l = getL();
-        if (l === 0) return 0;
-        else if (l > 0 && l < 0.5)
-            return (max - min) / (max + min);
-        else if (l > 0.5)
-            return (max - min) / (2 - (max + min));
-    }
-}
-
-
-// Convert HSL to RGB
-function HSL2RGB(h, s, l) {
-    const C = (1 - Math.abs(2 * l - 1)) * s;
-    const X = C * (1 - Math.abs((h / 60) % 2 - 1));
-    const m = l - C / 2;
-
-    let {r, g, b} = function () {
-        if (h >= 0 && h < 60) return {r: C, g: X, b: 0};
-        else if (h >= 60 && h < 120) return {r: X, g: C, b: 0};
-        else if (h >= 120 && h < 180) return {r: 0, g: C, b: X};
-        else if (h >= 180 && h < 240) return {r: 0, g: X, b: C};
-        else if (h >= 240 && h < 300) return {r: X, g: 0, b: C};
-        else if (h >= 300 && h <= 360) return {r: C, g: 0, b: X};
-    }();
-
-    return {
-        R: Math.round((r + m) * 255),
-        G: Math.round((g + m) * 255),
-        B: Math.round((b + m) * 255)
-    }
-}
-
-
-// Convert RGB to HEX
-function RGB2HEX(r, g, b) {
-    return `#${r.toString(16)}${g.toString(16)}${b.toString(16)}`;
-}
-
-
-// Convert HEX to RGB
-function HEX2RGB(hex) {
-    if (hex.length === 4)
-        hex = [hex.slice(1, 2), hex.slice(2, 3), hex.slice(3, 4)];
-    else if (hex.length === 7)
-        hex = [hex.slice(1, 3), hex.slice(3, 5), hex.slice(5, 7)];
-    return {
-        R: parseInt(hex[0], 16),
-        G: parseInt(hex[1], 16),
-        B: parseInt(hex[2], 16)
-    }
-}
-
-
-function getAverageColor (img) {
-    let canvas = document.createElement('canvas'),
-        context = canvas.getContext && canvas.getContext('2d'),
-        rgb = {r:102,g:102,b:102}, // Set a base colour as a fallback for non-compliant browsers
-        pixelInterval = 5, // Rather than inspect every single pixel in the image inspect every 5th pixel
-        count = 0,
-        i = -4,
-        data, length;
-
-    // return the base colour for non-compliant browsers
-    if (!context) { return rgb; }
-
-    // set the height and width of the canvas element to that of the image
-    let height = canvas.height = img.naturalHeight || img.offsetHeight || img.height,
-        width = canvas.width = img.naturalWidth || img.offsetWidth || img.width;
-
-    context.drawImage(img, 0, 0);
-
-    try {
-        data = context.getImageData(0, 0, width, height);
-    } catch(e) {
-        // catch errors - usually due to cross domain security issues
-        alert(e);
-        return rgb;
-    }
-
-    data = data.data;
-    length = data.length;
-    while ((i += pixelInterval * 4) < length) {
-        count++;
-        rgb.r += data[i];
-        rgb.g += data[i+1];
-        rgb.b += data[i+2];
-    }
-
-    // floor the average values to give correct rgb values (ie: round number values)
-    rgb.r = Math.floor(rgb.r/count);
-    rgb.g = Math.floor(rgb.g/count);
-    rgb.b = Math.floor(rgb.b/count);
-
-    return rgb;
-}
-
-/***/ }),
-/* 90 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
 
 /* harmony default export */ __webpack_exports__["a"] = ({
     updateData: ({commit}, options) =>
@@ -15591,7 +15451,7 @@ function getAverageColor (img) {
 
 
 /***/ }),
-/* 91 */
+/* 90 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -15646,7 +15506,7 @@ function _formatTime(time) {
 
 
 /***/ }),
-/* 92 */
+/* 91 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -15778,10 +15638,10 @@ function _formatTime(time) {
         remote.db.vol.getLiked().then(data => state.vols.liked = Object.freeze(data));
         remote.db.single.getLiked().then(data => state.singles.liked = Object.freeze(data));
         remote.db.track.getLiked().then(data => state.tracks.liked = Object.freeze(data)).then(() => {
-            callback && callback();
             if (document.getElementById('bootScreen').style.display === 'none') return;
             setTimeout(() => document.getElementById('bootScreen').className = 'bootImageHidden', 1000);
-            setTimeout(() => document.getElementById('bootScreen').style.display = 'none', 2000)
+            setTimeout(() => document.getElementById('bootScreen').style.display = 'none', 2000);
+            callback && callback();
         });
     },
     updateFromServer: (state, {remote, commit}) => {
@@ -15864,7 +15724,7 @@ function findTask(tasks, id) {
 
 
 /***/ }),
-/* 93 */
+/* 92 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

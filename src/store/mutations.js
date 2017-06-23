@@ -126,10 +126,10 @@ export default {
         remote.db.vol.getLiked().then(data => state.vols.liked = Object.freeze(data));
         remote.db.single.getLiked().then(data => state.singles.liked = Object.freeze(data));
         remote.db.track.getLiked().then(data => state.tracks.liked = Object.freeze(data)).then(() => {
-            callback && callback();
             if (document.getElementById('bootScreen').style.display === 'none') return;
             setTimeout(() => document.getElementById('bootScreen').className = 'bootImageHidden', 1000);
-            setTimeout(() => document.getElementById('bootScreen').style.display = 'none', 2000)
+            setTimeout(() => document.getElementById('bootScreen').style.display = 'none', 2000);
+            callback && callback();
         });
     },
     updateFromServer: (state, {remote, commit}) => {
