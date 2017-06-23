@@ -26,26 +26,26 @@ export default {
     loadMoreVols: (state, {options, getters}) => {
         if (options.init) {
             document.getElementById('vols').scrollTop = 0;
-            return state.vols.index = 18;
+            return state.vols.index = 12;
         }
         const max = getters._vols.length;
         const preIndex = state.vols.index;
-        if (preIndex + 18 >= max)
+        if (preIndex + 12 >= max)
             state.vols.index = max;
-        else state.vols.index = preIndex + 18
+        else state.vols.index = preIndex + 12
     },
     loadMoreSingles: (state, {options, getters}) => {
         if (options.init)
-            return state.singles.index = 18;
+            return state.singles.index = 10;
         const max = state.singles.data.length;
         const preIndex = state.singles.index;
-        if (preIndex + 18 >= max)
+        if (preIndex + 10 >= max)
             state.singles.index = max;
-        else state.singles.index = preIndex + 18
+        else state.singles.index = preIndex + 10
     },
     loadMoreCollection: (state, type) => {
         const scale = type === 'vols' || type === 'singles' ?
-            18 : 24;
+            12 : 18;
         const max = state[type].liked.length;
         const preIndex = state[type].collectionIndex;
         if (preIndex + scale >= max)

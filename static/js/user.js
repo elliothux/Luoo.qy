@@ -24,13 +24,15 @@ const headers = {
     'Upgrade-Insecure-Requests': '1',
     'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36'
 };
-const cookieJar = request.jar();
+let cookieJar = request.jar();
 
 
 async function login(mail, password) {
     config.init();
-    await _getLoginCookie();
+    _getLoginCookie();
     _putCookie();
+    console.log(cookieJar);
+
     const resCookie = _formatCookie((await request({
         method: 'POST',
         uri: 'http://www.luoo.net/login/',
@@ -60,6 +62,7 @@ async function login(mail, password) {
     config.set({ lult: cookie });
     cookieJar.setCookie(cookie, 'http://www.luoo.net');
 
+    _putCookie();
     const res = JSON.parse(await request({
         method: 'GET',
         uri: 'http://www.luoo.net/login/user',
@@ -198,21 +201,21 @@ async function _getUserData(data) {
 
 
 async function _getLoginCookie() {
-    let resCookie = _formatCookie((await request({
+    const resCookie = _formatCookie((await request({
         method: 'GET',
         uri: 'http://www.luoo.net/',
         headers: headers,
         gzip: true,
         resolveWithFullResponse: true
     })).headers['set-cookie'][0]);
-    console.log(resCookie);
-    let cookie = new tough.Cookie({
+    const cookie = new tough.Cookie({
         key: "LUOOSESS",
         value: resCookie.LUOOSESS,
         domain: resCookie.domain,
         path: resCookie.path
     });
     config.set({ LUOOSESS: cookie });
+    return cookie;
 }
 
 

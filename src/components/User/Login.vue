@@ -36,7 +36,6 @@
                     this.$store.dispatch('updateFromDb', this.remote);
                     this.isLoading = false;
                 }.bind(this)).catch(function (error) {
-                    this.remote.config.init();
                     this.isLoading = false;
                     console.error(error)
                 }.bind(this))
