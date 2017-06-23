@@ -92,7 +92,7 @@
             >
                 <img
                     :src="this.$store.state.user.avatar === '' ?
-                        '../pic/avatar.png' : this.$store.state.user.avatar"
+                        '../pic/playing-cover.png' : this.$store.state.user.avatar"
                 />
                 <p>
                     {{ $store.state.user.name === '' ?

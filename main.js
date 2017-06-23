@@ -6,7 +6,8 @@ const db = require('./static/js/db');
 const user = require('./static/js/user');
 const config = require('./static/js/config');
 const sync = require('./static/js/sync');
-const {app, BrowserWindow } = electron;
+const menuTemplate = require('./static/js/menuTemplate');
+const { app, BrowserWindow, Menu } = electron;
 
 
 let mainWindow = null;
@@ -15,15 +16,14 @@ let mainWindow = null;
 // App events
 app.on('ready', () => {
     mainWindow = openWindow(null, null, false);
+    Menu.setApplicationMenu(Menu.buildFromTemplate(menuTemplate(app, win)));
 });
 
 app.on('window-all-closed', () => {
-    platform !== 'darwin' && app.quit()
+    app.quit()
 });
 
 app.on('activate', () => {
-    if (!mainWindow)
-        mainWindow = openWindow(null, null, false);
     mainWindow.show();
 });
 
@@ -49,7 +49,8 @@ function openWindow(filePath, options, isMax) {
             minWidth: 800,
             minHeight: 550,
             center: true,
-            show: false
+            show: false,
+            'auto-hide-menu-bar': !platform === 'darwin'
         },
         options
     );
@@ -62,10 +63,6 @@ function openWindow(filePath, options, isMax) {
         protocol: 'file',
         slashes: true
     }));
-
-    win.on('closed', () => {
-        win = null;
-    });
 
     win.on('ready-to-show', () => {
         win.show()

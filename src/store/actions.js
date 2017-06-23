@@ -14,7 +14,7 @@ export default {
         commit('changeView', {view: 'vols', getters});
         if (type === state.vols.type) return;
         commit('changeVolType', type);
-        commit('loadMoreVols', { init: true })
+        commit('loadMoreVols', {options: { init: true }})
     },
     loadMore: ({commit, getters}, options) => {
         if (options.type === 'CollectionVols')
