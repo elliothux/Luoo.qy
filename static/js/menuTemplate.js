@@ -42,6 +42,15 @@ module.exports = (app, window, ipcMain) => [
     //     ]
     // },
     {
+        label: "编辑",
+        submenu: [
+            {label: "剪切", accelerator: "CmdOrCtrl+X", selector: "cut:"},
+            {label: "复制", accelerator: "CmdOrCtrl+C", selector: "copy:"},
+            {label: "粘贴", accelerator: "CmdOrCtrl+V", selector: "paste:"},
+            {label: "全选", accelerator: "CmdOrCtrl+A", selector: "selectAll:"}
+        ]
+    },
+    {
         label: "开发者选项",
         submenu: [
             {
@@ -50,5 +59,5 @@ module.exports = (app, window, ipcMain) => [
                 click: () => { BrowserWindow.getFocusedWindow().webContents.openDevTools() }
             }
         ]
-    }
+    },
 ];

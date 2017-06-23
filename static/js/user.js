@@ -31,7 +31,6 @@ async function login(mail, password) {
     config.init();
     _getLoginCookie();
     _putCookie();
-    console.log(cookieJar);
 
     const resCookie = _formatCookie((await request({
         method: 'POST',
