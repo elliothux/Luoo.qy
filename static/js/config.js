@@ -38,6 +38,6 @@ function initConfig() {
         "LUOOSESS": "",
         "lult": "",
         "likedVols": [],
-        "likedTracks": [],
+        "likedTracks": []
     })
 }

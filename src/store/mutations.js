@@ -154,34 +154,37 @@ export default {
             commit: commit
         })
     },
-    like: (state, {type, data, remote, commit, getters}) => commit('addTask', {
-        task: {
-            exec: async () => {
-                let callback;
-                if (getters.playData && !data.liked) {
-                    let id;
-                    if (getters.playData.hasOwnProperty('vol_id'))
-                        id = getters.playData.vol_id;
-                    else if (getters.playData.hasOwnProperty('track_id'))
-                        id = getters.playData.track_id;
-                    else id = getters.playData.single_id;
+    like: (state, {type, data, remote, commit, getters}) => {
+        if (state.user.mail === '' || state.user.password === '') return;
+        commit('addTask', {
+            task: {
+                exec: async () => {
+                    let callback;
+                    if (getters.playData && !data.liked) {
+                        let id;
+                        if (getters.playData.hasOwnProperty('vol_id'))
+                            id = getters.playData.vol_id;
+                        else if (getters.playData.hasOwnProperty('track_id'))
+                            id = getters.playData.track_id;
+                        else id = getters.playData.single_id;
 
-                    data.id === id && (callback = function () {
-                        commit('play',
-                            {options: {index: state.play.index}, getters, commit})
-                    }.bind(this))
-                }
+                        data.id === id && (callback = function () {
+                            commit('play',
+                                {options: {index: state.play.index}, getters, commit})
+                        }.bind(this))
+                    }
 
-                type === 'vol' ?
-                    await remote.sync.vol.like(data.vol, data.id, data.liked) :
-                    await remote.sync.single.like(data.id, data.from, data.liked);
-                commit('updateFromDb', {remote, commit, callback});
+                    type === 'vol' ?
+                        await remote.sync.vol.like(data.vol, data.id, data.liked) :
+                        await remote.sync.single.like(data.id, data.from, data.liked);
+                    commit('updateFromDb', {remote, commit, callback});
+                },
+                text: '同步收藏',
+                failed: false
             },
-            text: '同步收藏',
-            failed: false
-        },
-        commit: commit
-    })
+            commit: commit
+        })
+    }
 }
 
 

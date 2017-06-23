@@ -88,8 +88,8 @@ async function getUserCollection() {
     const likedVols = await _getLikedVols();
     const likedTracks = await _getLikedTracks();
     config.set({
-        likedVols: likedVols,
-        likedTracks: likedTracks
+        likedVols: likedVols || [],
+        likedTracks: likedTracks || []
     })
 }
 
@@ -128,7 +128,9 @@ async function _getLikedVols() {
     const $ = cheerio.load(await _getData(`http://www.luoo.net/user/vols/${config.get('id')}?p=1`));
     likedVols = likedVols.concat(getFromPage($));
 
-    const lastPage = parseInt($('.page')[$('.page').length - 1].children[0].data);
+    const pages = $('.page');
+    if (pages.length === 0) return;
+    const lastPage = parseInt(pages[pages.length - 1].children[0].data);
     for (let i=2; i<=lastPage; i++)
         likedVols = likedVols.concat(
             getFromPage(cheerio.load(await _getData(
@@ -155,7 +157,9 @@ async function _getLikedTracks() {
     const $ = cheerio.load(await _getData(`http://www.luoo.net/user/singles/${config.get('id')}?p=1`));
     likedTracks = likedTracks.concat(getFromPage($));
 
-    const lastPage = parseInt($('.page')[$('.page').length - 1].children[0].data);
+    const pages = $('.page');
+    if (pages.length === 0) return;
+    const lastPage = parseInt(pages[pages.length - 1].children[0].data);
     for (let i=2; i<=lastPage; i++)
         likedTracks = likedTracks.concat(
             getFromPage(cheerio.load(await _getData(
