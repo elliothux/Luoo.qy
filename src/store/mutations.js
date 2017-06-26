@@ -119,18 +119,17 @@ export default {
             .then(setTimeout(() => commit('doneTask', task), 3000))
             .catch((e) => (task.failed = true) && console.error(e))
     },
-    updateFromDb: (state, {remote, commit, callback}) => {
+    updateFromDb: async (state, {remote, commit, callback}) => {
         state.user = remote.config.get();
-        remote.db.vol.get().then(data => state.vols.data = Object.freeze(data));
-        remote.db.single.get().then(data => state.singles.data = Object.freeze(data));
-        remote.db.vol.getLiked().then(data => state.vols.liked = Object.freeze(data));
-        remote.db.single.getLiked().then(data => state.singles.liked = Object.freeze(data));
-        remote.db.track.getLiked().then(data => state.tracks.liked = Object.freeze(data)).then(() => {
-            if (document.getElementById('bootScreen').style.display === 'none') return;
-            setTimeout(() => document.getElementById('bootScreen').className = 'bootImageHidden', 1000);
-            setTimeout(() => document.getElementById('bootScreen').style.display = 'none', 2000);
-            callback && callback();
-        });
+        state.vols.data = Object.freeze(await remote.db.vol.get());
+        state.singles.data = Object.freeze(await remote.db.single.get());
+        state.vols.liked = Object.freeze(await remote.db.vol.getLiked());
+        state.singles.liked = Object.freeze(await remote.db.single.getLiked());
+        state.tracks.liked = Object.freeze(await remote.db.track.getLiked());
+        callback && callback();
+        if (document.getElementById('bootScreen').style.display === 'none') return;
+        setTimeout(() => document.getElementById('bootScreen').className = 'bootImageHidden', 1000);
+        setTimeout(() => document.getElementById('bootScreen').style.display = 'none', 2000)
     },
     updateFromServer: (state, {remote, commit}) => {
         commit('addTask', {
@@ -154,34 +153,37 @@ export default {
             commit: commit
         })
     },
-    like: (state, {type, data, remote, commit, getters}) => commit('addTask', {
-        task: {
-            exec: async () => {
-                let callback;
-                if (getters.playData && !data.liked) {
-                    let id;
-                    if (getters.playData.hasOwnProperty('vol_id'))
-                        id = getters.playData.vol_id;
-                    else if (getters.playData.hasOwnProperty('track_id'))
-                        id = getters.playData.track_id;
-                    else id = getters.playData.single_id;
+    like: (state, {type, data, remote, commit, getters}) => {
+        if (state.user.mail === '' || state.user.password === '') return;
+        commit('addTask', {
+            task: {
+                exec: async () => {
+                    let callback;
+                    if (getters.playData && !data.liked) {
+                        let id;
+                        if (getters.playData.hasOwnProperty('vol_id'))
+                            id = getters.playData.vol_id;
+                        else if (getters.playData.hasOwnProperty('track_id'))
+                            id = getters.playData.track_id;
+                        else id = getters.playData.single_id;
 
-                    data.id === id && (callback = function () {
-                        commit('play',
-                            {options: {index: state.play.index}, getters, commit})
-                    }.bind(this))
-                }
+                        data.id === id && (callback = function () {
+                            commit('play',
+                                {options: {index: state.play.index}, getters, commit})
+                        }.bind(this))
+                    }
 
-                type === 'vol' ?
-                    await remote.sync.vol.like(data.vol, data.id, data.liked) :
-                    await remote.sync.single.like(data.id, data.from, data.liked);
-                commit('updateFromDb', {remote, commit, callback});
+                    type === 'vol' ?
+                        await remote.sync.vol.like(data.vol, data.id, data.liked) :
+                        await remote.sync.single.like(data.id, data.from, data.liked);
+                    commit('updateFromDb', {remote, commit, callback});
+                },
+                text: '同步收藏',
+                failed: false
             },
-            text: '同步收藏',
-            failed: false
-        },
-        commit: commit
-    })
+            commit: commit
+        })
+    }
 }
 
 

@@ -1,6 +1,6 @@
 {
   "name": "Luoo.qy",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Luoo.qy",
   "main": "main.js",
   "config": {
@@ -9,6 +9,7 @@
   "dependencies": {
     "cheerio": "^1.0.0-rc.1",
     "colors": "^1.1.2",
+    "extract-zip": "^1.6.5",
     "nedb": "^1.8.0",
     "node-fs-extra": "^0.8.2",
     "request": "^2.81.0",

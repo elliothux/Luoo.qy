@@ -24,9 +24,9 @@ async function updateVol() {
     const data = JSON.parse(await request(`http://${address}/vols/${await db.vol.latest()}`));
     if (data.length === 0) return console.log(`All vol updated`);
     for (vol of data) {
-        db.vol.add(vol);
+        await db.vol.add(vol);
         for (track of vol.tracks)
-            db.track.add(track)
+            await db.track.add(track)
     }
 }
 
@@ -35,7 +35,7 @@ async function updateSingle() {
     const data = JSON.parse(await request(`http://${address}/singles/${await db.single.latest()}`));
     if (data.length === 0) return console.log(`All single updated`);
     for (single of data)
-        db.single.add(single)
+        await db.single.add(single)
 }
 
 
