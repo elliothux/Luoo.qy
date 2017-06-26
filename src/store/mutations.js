@@ -119,18 +119,17 @@ export default {
             .then(setTimeout(() => commit('doneTask', task), 3000))
             .catch((e) => (task.failed = true) && console.error(e))
     },
-    updateFromDb: (state, {remote, commit, callback}) => {
+    updateFromDb: async (state, {remote, commit, callback}) => {
         state.user = remote.config.get();
-        remote.db.vol.get().then(data => state.vols.data = Object.freeze(data));
-        remote.db.single.get().then(data => state.singles.data = Object.freeze(data));
-        remote.db.vol.getLiked().then(data => state.vols.liked = Object.freeze(data));
-        remote.db.single.getLiked().then(data => state.singles.liked = Object.freeze(data));
-        remote.db.track.getLiked().then(data => state.tracks.liked = Object.freeze(data)).then(() => {
-            callback && callback();
-            if (document.getElementById('bootScreen').style.display === 'none') return;
-            setTimeout(() => document.getElementById('bootScreen').className = 'bootImageHidden', 1000);
-            setTimeout(() => document.getElementById('bootScreen').style.display = 'none', 2000)
-        });
+        state.vols.data = Object.freeze(await remote.db.vol.get());
+        state.singles.data = Object.freeze(await remote.db.single.get());
+        state.vols.liked = Object.freeze(await remote.db.vol.getLiked());
+        state.singles.liked = Object.freeze(await remote.db.single.getLiked());
+        state.tracks.liked = Object.freeze(await remote.db.track.getLiked());
+        callback && callback();
+        if (document.getElementById('bootScreen').style.display === 'none') return;
+        setTimeout(() => document.getElementById('bootScreen').className = 'bootImageHidden', 1000);
+        setTimeout(() => document.getElementById('bootScreen').style.display = 'none', 2000)
     },
     updateFromServer: (state, {remote, commit}) => {
         commit('addTask', {

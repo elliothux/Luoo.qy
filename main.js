@@ -7,7 +7,7 @@ const user = require('./static/js/user');
 const config = require('./static/js/config');
 const sync = require('./static/js/sync');
 const menuTemplate = require('./static/js/menuTemplate');
-const { app, BrowserWindow, Menu } = electron;
+const { app, BrowserWindow, Menu, dialog } = electron;
 
 
 let mainWindow = null;
@@ -34,7 +34,8 @@ exports = Object.assign(exports, {
     user: user,
     config: config,
     sync: sync,
-    app: app
+    app: app,
+    dialog: dialog
 });
 
 

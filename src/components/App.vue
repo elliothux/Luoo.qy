@@ -36,7 +36,7 @@
         props: ['remote'],
         created: async function () {
             this.$store.dispatch('updateFromDb', this.remote);
-            this.$store.dispatch('updateFromServer', this.remote);
+            this.remote.config.get('user').autoSync && this.$store.dispatch('updateFromServer', this.remote);
         }
     }
 </script>
@@ -52,6 +52,7 @@
         left: 0
         background-color: #000000
         color: white
+        transform: translate3d(0, 0, 0) / translateZ(0)
 
         & > *
             z-index: 1

@@ -76,8 +76,14 @@
                 this.view = view
             },
             logout: function () {
-                if (!this.$store.state.user.mail) return;
-                if (window.confirm('确认登出吗?')) {
+                if (this.$store.state.user.mail === '') return;
+                if (this.remote.dialog.showMessageBox({
+                    type: 'question',
+                    buttons: ['取消', '确认'],
+                    defaultId: 0,
+                    title: '登出',
+                    message: '确认登出吗'
+                }) === 1) {
                     this.remote.config.init();
                     this.remote.app.relaunch();
                     this.remote.app.exit(0);
