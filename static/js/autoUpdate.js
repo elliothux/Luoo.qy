@@ -14,6 +14,13 @@ const URL = `http://115.159.29.32/update/${{ darwin: 0, win32: 1, linux: 2 }[req
 const target = path.join(__dirname, "../../upgrade/");
 
 
+async function test() {
+    const update = await check();
+    console.log(update[1]);
+    await install(update[1]);
+}
+
+
 async function check() {
     fs.existsSync(target) && fs.removeSync(target);
     let data = await _getData(URL);

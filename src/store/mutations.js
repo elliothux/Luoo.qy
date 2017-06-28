@@ -188,10 +188,9 @@ export default {
         const update = await remote.update.check();
         if (!update) return;
         const desc = update[0].desc.map(desc => `· ${desc}\n`).join('');
-        console.log(desc)
         if (remote.dialog.showMessageBox({
                 type: 'question',
-                buttons: ['取消', update[1].type === 'full' ? '下载' : '安装'],
+                buttons: ['取消', update[0].type === 'full' ? '下载' : '安装'],
                 defaultId: 1,
                 title: '更新',
                 message: `Luoo.qy v${update[0].version} 已经迫不及待与你见面~\n\n\n🚀新版本更新了以下内容:\n\n${desc}\n`
@@ -204,10 +203,10 @@ export default {
                     defaultId: 0,
                     title: '更新',
                     message: `${success ? '🌟' : '🙄'}更新${success ? '完成' : '失败'}`
-                }) === 1) {
+                }) === 0) {
                 if (!success) return;
-                this.remote.app.relaunch();
-                this.remote.app.exit(0);
+                remote.app.relaunch();
+                remote.app.exit(0);
             }
         }
     }

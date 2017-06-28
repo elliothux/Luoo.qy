@@ -31,7 +31,7 @@
                     <img :src="'../pic/logout.svg'"/>
                     <span>登出</span>
                 </div>
-                <div>
+                <div @click.stop="update">
                     <img :src="'../pic/update.png'"/>
                     <span>检查更新</span>
                 </div>
@@ -88,6 +88,9 @@
                     this.remote.app.relaunch();
                     this.remote.app.exit(0);
                 }
+            },
+            update: function () {
+                this.$store.dispatch('checkUpdate', this.remote)
             },
             set: function (key) {
                 const option = Object.assign({}, this.$store.state.user);
