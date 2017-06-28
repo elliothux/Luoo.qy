@@ -27,13 +27,21 @@
                 <span>启动时自动同步</span>
             </div>
             <div id="settingOperate">
-                <div @click.stop="logout">
+                <div @click.stop="logout" v-if="$store.state.user.mail">
                     <img :src="'../pic/logout.svg'"/>
                     <span>登出</span>
                 </div>
                 <div @click.stop="update">
-                    <img :src="'../pic/update.png'"/>
+                    <img :src="'../pic/update.svg'"/>
                     <span>检查更新</span>
+                </div>
+                <div @click.stop="openUrl('http://luoo.HuQingyang.top')">
+                    <img :src="'../pic/website.svg'"/>
+                    <span>访问网站</span>
+                </div>
+                <div @click.stop="openUrl('http://page.HuQingyang.top')">
+                    <img :src="'../pic/page.svg'"/>
+                    <span>Page.qy</span>
                 </div>
             </div>
         </div>
