@@ -49,10 +49,10 @@
                 上次更新: 2017 / 07 / 20
             </p>
             <p>
-                Luoo.qy 是独立音乐网站落网的第三方电脑客户端, 软件内的所有内容均来自于落网。<br/>
+                Luoo.qy 是独立音乐网站<span class="userSettingLink" @click.stop="openUrl('http://www.luoo.net/')">落网</span>的第三方电脑客户端, 软件内的所有内容均来自于落网。<br/>
                 软件基于 Electron、Vue、Node.js、Koa、Python 等开源项目构建, 感谢所有为这些开源项目做出贡献的软将工程师们, 你们的开源项目是 Luoo.qy 的基础!<br/>
-                同时, Luoo.qy 开源并将代码托管在GitHub(https://github.com/HuQingyang/Luoo.qy), 欢迎Star、提交Issues或者参与共同开发。<br/>
-                另外, 欢迎关注我的知乎(ID: WordsAreWeapons)向我提出建议或者Bug。<br/>
+                同时, Luoo.qy 开源并将代码托管在 <span class="userSettingLink" @click.stop="openUrl('https://github.com/HuQingyang')">GitHub</span>, 欢迎 Star、提交 Issues 或者参与共同开发。<br/>
+                另外, 欢迎关注我的<span class="userSettingLink" @click.stop="openUrl('https://www.zhihu.com/people/hu-qing-yang-67/pins/posts')">知乎</span>向我提出建议或者Bug。<br/>
             </p>
         </div>
     </div>
@@ -100,6 +100,9 @@
                     data: option
                 });
                 this.remote.config.set(option)
+            },
+            openUrl: function (url) {
+                this.remote.openURL(url)
             }
         }
     }
@@ -173,7 +176,15 @@
                 height: 42%
 
     #userSettingAbout p
-        margin-bottom: 30px
+        margin-bottom: 50px
+        line-height: 30px
+
+    .userSettingLink
+        border-bottom: solid 1px rgba(255, 255, 255, 0.6)
+        cursor: pointer
+
+        &:hover
+            border-bottom: solid 1px rgba(255, 255, 255, 1)
 
 
 </style>

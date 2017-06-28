@@ -37,9 +37,9 @@
         created: async function () {
             this.$store.dispatch('updateFromDb', this.remote);
             this.remote.config.get('autoSync') && this.$store.dispatch('updateFromServer', this.remote);
-            setTimeout(function () {
+            this.remote.config.get('autoUpdate') && setTimeout(function () {
                 this.$store.dispatch('checkUpdate', this.remote)
-            }.bind(this), 1000)
+            }.bind(this), 10000)
         }
     }
 </script>
