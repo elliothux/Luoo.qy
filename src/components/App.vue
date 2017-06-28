@@ -36,7 +36,10 @@
         props: ['remote'],
         created: async function () {
             this.$store.dispatch('updateFromDb', this.remote);
-            this.remote.config.get('user').autoSync && this.$store.dispatch('updateFromServer', this.remote);
+            this.remote.config.get('autoSync') && this.$store.dispatch('updateFromServer', this.remote);
+            setTimeout(function () {
+                this.$store.dispatch('checkUpdate', this.remote)
+            }.bind(this), 1000)
         }
     }
 </script>

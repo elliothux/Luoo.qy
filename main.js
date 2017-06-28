@@ -1,13 +1,13 @@
 const electron = require('electron');
 const path = require('path');
 const url = require('url');
-const platform = require('os').platform();
 const db = require('./static/js/db');
 const user = require('./static/js/user');
 const config = require('./static/js/config');
 const sync = require('./static/js/sync');
+const update = require('./static/js/autoUpdate');
 const menuTemplate = require('./static/js/menuTemplate');
-const { app, BrowserWindow, Menu, dialog } = electron;
+const { app, BrowserWindow, Menu, dialog, shell } = electron;
 
 
 let mainWindow = null;
@@ -35,7 +35,9 @@ exports = Object.assign(exports, {
     config: config,
     sync: sync,
     app: app,
-    dialog: dialog
+    dialog: dialog,
+    update: update,
+    openURL: shell.openExternal
 });
 
 

@@ -2,7 +2,6 @@ const fs = require('node-fs-extra');
 const path = require('path');
 const extract = require('extract-zip');
 const request = require('request');
-const platform = require('os').platform();
 
 
 module.exports = {
@@ -11,16 +10,16 @@ module.exports = {
 };
 
 
-const URL = `http://123.206.184.175/api/update?platform=${platform}`;
+const URL = `http://115.159.29.32/update/${{ darwin: 0, win32: 1, linux: 2 }[require('os').platform()] }/${require('../../package.json').version}`;
 const target = path.join(__dirname, "../../upgrade/");
 
 
 async function check() {
     fs.existsSync(target) && fs.removeSync(target);
     let data = await _getData(URL);
-    if (!data) return;
+    if (!data) return false;
     let info = JSON.parse(data);
-    if (info.version === require('../../package.json').version) return false;
+    if (info.type === 'none') return false;
     fs.mkdirsSync(target);
     let filePath = await _downloadFile(
         info.url, path.join(target, `./v${info.version}.zip`));
@@ -31,9 +30,11 @@ async function check() {
 async function install(filePath) {
     console.log('Start install update...');
     filePath = await _extractUpdateFile(filePath);
+    console.log(filePath);
     for (let paths of  _getInstallPath(filePath))
         _installUpdate(paths);
-    console.log('Done')
+    console.log('Done');
+    return true;
 }
 
 

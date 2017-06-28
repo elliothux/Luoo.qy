@@ -183,6 +183,33 @@ export default {
             },
             commit: commit
         })
+    },
+    checkUpdate: async (state, remote) => {
+        const update = await remote.update.check();
+        if (!update) return;
+        const desc = update[0].desc.map(desc => `· ${desc}\n`).join('');
+        console.log(desc)
+        if (remote.dialog.showMessageBox({
+                type: 'question',
+                buttons: ['取消', update[1].type === 'full' ? '下载' : '安装'],
+                defaultId: 1,
+                title: '更新',
+                message: `Luoo.qy v${update[0].version} 已经迫不及待与你见面~\n\n\n🚀新版本更新了以下内容:\n\n${desc}\n`
+            }) === 1) {
+            if (update[0].type === 'full') return remote.openURL(update[0].url);
+            const success = await remote.update.install(update[1]);
+            if (remote.dialog.showMessageBox({
+                    type: 'question',
+                    buttons: ['完成'],
+                    defaultId: 0,
+                    title: '更新',
+                    message: `${success ? '🌟' : '🙄'}更新${success ? '完成' : '失败'}`
+                }) === 1) {
+                if (!success) return;
+                this.remote.app.relaunch();
+                this.remote.app.exit(0);
+            }
+        }
     }
 }
 

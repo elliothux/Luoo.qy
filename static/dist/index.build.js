@@ -10340,10 +10340,10 @@ module.exports = Component.exports
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex__ = __webpack_require__(87);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__actions__ = __webpack_require__(90);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__state__ = __webpack_require__(93);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__getters__ = __webpack_require__(91);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__mutations__ = __webpack_require__(92);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__actions__ = __webpack_require__(89);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__state__ = __webpack_require__(92);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__getters__ = __webpack_require__(90);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__mutations__ = __webpack_require__(91);
 
 
 
@@ -10430,7 +10430,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     props: ['remote'],
     created: async function () {
         this.$store.dispatch('updateFromDb', this.remote);
-        this.$store.dispatch('updateFromServer', this.remote);
+        this.remote.config.get('user').autoSync && this.$store.dispatch('updateFromServer', this.remote);
+        setTimeout(async function () {
+            const update = await this.remote.update.check();
+            if (!update) return;
+            if (this.remote.dialog.showMessageBox({
+                type: 'question',
+                buttons: ['取消', update[1].type === 'full' ? '下载' : '安装'],
+                defaultId: 0,
+                title: '新版的 Luoo.qy 已经迫不及待与你见面~',
+                message: `Luoo.qy ${update[0].version} 更新了以下内容:\n${update[0].desc}`
+            }) === 1) {
+                if (update[0].type === 'full') return this.remote.openURL(update[0].url);
+                if (await this.remote.update.install(update[1])) this.remote.app.relaunch();
+                this.remote.app.exit(0);
+            }
+        }.bind(this), 10000);
     }
 });
 
@@ -10961,7 +10976,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__lib_colorLib__ = __webpack_require__(89);
 //
 //
 //
@@ -11007,7 +11021,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-
 
 
 
@@ -11497,8 +11510,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.view = view;
         },
         logout: function () {
-            if (!this.$store.state.user.mail) return;
-            if (window.confirm('确认登出吗?')) {
+            if (this.$store.state.user.mail === '') return;
+            if (this.remote.dialog.showMessageBox({
+                type: 'question',
+                buttons: ['取消', '确认'],
+                defaultId: 0,
+                title: '登出',
+                message: '确认登出吗'
+            }) === 1) {
                 this.remote.config.init();
                 this.remote.app.relaunch();
                 this.remote.app.exit(0);
@@ -11985,7 +12004,7 @@ exports = module.exports = __webpack_require__(1)(undefined);
 
 
 // module
-exports.push([module.i, "\n#app[data-v-4f944103] {\n  text-align: center;\n  position: fixed;\n  width: 100%;\n  height: 100%;\n  top: 0;\n  left: 0;\n  background-color: #000000;\n  color: white;\n}\n#app > *[data-v-4f944103] {\n    z-index: 1;\n}\n#background[data-v-4f944103] {\n  width: calc(100% + 120px);\n  height: calc(100% + 120px);\n  position: fixed;\n  top: -60px;\n  left: -60px;\n  background-size: cover;\n  filter: blur(30px);\n  z-index: -1;\n  transition: all ease 850ms;\n  opacity: 0.85;\n}\n", ""]);
+exports.push([module.i, "\n#app[data-v-4f944103] {\n  text-align: center;\n  position: fixed;\n  width: 100%;\n  height: 100%;\n  top: 0;\n  left: 0;\n  background-color: #000000;\n  color: white;\n  transform: translate3d(0, 0, 0)/translateZ(0);\n}\n#app > *[data-v-4f944103] {\n    z-index: 1;\n}\n#background[data-v-4f944103] {\n  width: calc(100% + 120px);\n  height: calc(100% + 120px);\n  position: fixed;\n  top: -60px;\n  left: -60px;\n  background-size: cover;\n  filter: blur(30px);\n  z-index: -1;\n  transition: all ease 850ms;\n  opacity: 0.85;\n}\n", ""]);
 
 // exports
 
@@ -15395,144 +15414,6 @@ new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* unused harmony export RGB2HSL */
-/* unused harmony export HSL2RGB */
-/* unused harmony export RGB2HEX */
-/* unused harmony export HEX2RGB */
-/* unused harmony export getAverageColor */
-// Basic function to convert color values
-
-
-// Convert RGB to HSL
-function RGB2HSL(r, g, b) {
-    r = r / 255; g = g / 255; b = b / 255;
-    const max = Math.max(r, g, b);
-    const min = Math.min(r, g, b);
-    return {
-        H: Math.round(getH()),
-        S: Math.round(getS() * Math.pow(10, 2)) / Math.pow(10, 2),
-        L: Math.round(getL() * Math.pow(10, 2)) / Math.pow(10, 2)
-    };
-
-    function getH() {
-        if (max === min) return 0;
-        else if (max === g)
-            return 60 * (b - r) / (max -min) + 120;
-        else if (max === b)
-            return 60 * (r - g) / (max -min) + 240;
-        else if (max === r && g >= b)
-            return 60 * (g - b) / (max -min);
-        else if (max === r && g < b)
-            return 60 * (g - b) / (max -min) + 360;
-        return 0;
-    }
-
-    function getL() {
-        return 1/2 * (max + min)
-    }
-
-    function getS() {
-        const l = getL();
-        if (l === 0) return 0;
-        else if (l > 0 && l < 0.5)
-            return (max - min) / (max + min);
-        else if (l > 0.5)
-            return (max - min) / (2 - (max + min));
-    }
-}
-
-
-// Convert HSL to RGB
-function HSL2RGB(h, s, l) {
-    const C = (1 - Math.abs(2 * l - 1)) * s;
-    const X = C * (1 - Math.abs((h / 60) % 2 - 1));
-    const m = l - C / 2;
-
-    let {r, g, b} = function () {
-        if (h >= 0 && h < 60) return {r: C, g: X, b: 0};
-        else if (h >= 60 && h < 120) return {r: X, g: C, b: 0};
-        else if (h >= 120 && h < 180) return {r: 0, g: C, b: X};
-        else if (h >= 180 && h < 240) return {r: 0, g: X, b: C};
-        else if (h >= 240 && h < 300) return {r: X, g: 0, b: C};
-        else if (h >= 300 && h <= 360) return {r: C, g: 0, b: X};
-    }();
-
-    return {
-        R: Math.round((r + m) * 255),
-        G: Math.round((g + m) * 255),
-        B: Math.round((b + m) * 255)
-    }
-}
-
-
-// Convert RGB to HEX
-function RGB2HEX(r, g, b) {
-    return `#${r.toString(16)}${g.toString(16)}${b.toString(16)}`;
-}
-
-
-// Convert HEX to RGB
-function HEX2RGB(hex) {
-    if (hex.length === 4)
-        hex = [hex.slice(1, 2), hex.slice(2, 3), hex.slice(3, 4)];
-    else if (hex.length === 7)
-        hex = [hex.slice(1, 3), hex.slice(3, 5), hex.slice(5, 7)];
-    return {
-        R: parseInt(hex[0], 16),
-        G: parseInt(hex[1], 16),
-        B: parseInt(hex[2], 16)
-    }
-}
-
-
-function getAverageColor (img) {
-    let canvas = document.createElement('canvas'),
-        context = canvas.getContext && canvas.getContext('2d'),
-        rgb = {r:102,g:102,b:102}, // Set a base colour as a fallback for non-compliant browsers
-        pixelInterval = 5, // Rather than inspect every single pixel in the image inspect every 5th pixel
-        count = 0,
-        i = -4,
-        data, length;
-
-    // return the base colour for non-compliant browsers
-    if (!context) { return rgb; }
-
-    // set the height and width of the canvas element to that of the image
-    let height = canvas.height = img.naturalHeight || img.offsetHeight || img.height,
-        width = canvas.width = img.naturalWidth || img.offsetWidth || img.width;
-
-    context.drawImage(img, 0, 0);
-
-    try {
-        data = context.getImageData(0, 0, width, height);
-    } catch(e) {
-        // catch errors - usually due to cross domain security issues
-        alert(e);
-        return rgb;
-    }
-
-    data = data.data;
-    length = data.length;
-    while ((i += pixelInterval * 4) < length) {
-        count++;
-        rgb.r += data[i];
-        rgb.g += data[i+1];
-        rgb.b += data[i+2];
-    }
-
-    // floor the average values to give correct rgb values (ie: round number values)
-    rgb.r = Math.floor(rgb.r/count);
-    rgb.g = Math.floor(rgb.g/count);
-    rgb.b = Math.floor(rgb.b/count);
-
-    return rgb;
-}
-
-/***/ }),
-/* 90 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
 
 /* harmony default export */ __webpack_exports__["a"] = ({
     updateData: ({commit}, options) =>
@@ -15591,7 +15472,7 @@ function getAverageColor (img) {
 
 
 /***/ }),
-/* 91 */
+/* 90 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -15646,7 +15527,7 @@ function _formatTime(time) {
 
 
 /***/ }),
-/* 92 */
+/* 91 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -15771,18 +15652,17 @@ function _formatTime(time) {
             .then(setTimeout(() => commit('doneTask', task), 3000))
             .catch((e) => (task.failed = true) && console.error(e))
     },
-    updateFromDb: (state, {remote, commit, callback}) => {
+    updateFromDb: async (state, {remote, commit, callback}) => {
         state.user = remote.config.get();
-        remote.db.vol.get().then(data => state.vols.data = Object.freeze(data));
-        remote.db.single.get().then(data => state.singles.data = Object.freeze(data));
-        remote.db.vol.getLiked().then(data => state.vols.liked = Object.freeze(data));
-        remote.db.single.getLiked().then(data => state.singles.liked = Object.freeze(data));
-        remote.db.track.getLiked().then(data => state.tracks.liked = Object.freeze(data)).then(() => {
-            callback && callback();
-            if (document.getElementById('bootScreen').style.display === 'none') return;
-            setTimeout(() => document.getElementById('bootScreen').className = 'bootImageHidden', 1000);
-            setTimeout(() => document.getElementById('bootScreen').style.display = 'none', 2000)
-        });
+        state.vols.data = Object.freeze(await remote.db.vol.get());
+        state.singles.data = Object.freeze(await remote.db.single.get());
+        state.vols.liked = Object.freeze(await remote.db.vol.getLiked());
+        state.singles.liked = Object.freeze(await remote.db.single.getLiked());
+        state.tracks.liked = Object.freeze(await remote.db.track.getLiked());
+        callback && callback();
+        if (document.getElementById('bootScreen').style.display === 'none') return;
+        setTimeout(() => document.getElementById('bootScreen').className = 'bootImageHidden', 1000);
+        setTimeout(() => document.getElementById('bootScreen').style.display = 'none', 2000)
     },
     updateFromServer: (state, {remote, commit}) => {
         commit('addTask', {
@@ -15806,34 +15686,37 @@ function _formatTime(time) {
             commit: commit
         })
     },
-    like: (state, {type, data, remote, commit, getters}) => commit('addTask', {
-        task: {
-            exec: async () => {
-                let callback;
-                if (getters.playData && !data.liked) {
-                    let id;
-                    if (getters.playData.hasOwnProperty('vol_id'))
-                        id = getters.playData.vol_id;
-                    else if (getters.playData.hasOwnProperty('track_id'))
-                        id = getters.playData.track_id;
-                    else id = getters.playData.single_id;
+    like: (state, {type, data, remote, commit, getters}) => {
+        if (state.user.mail === '' || state.user.password === '') return;
+        commit('addTask', {
+            task: {
+                exec: async () => {
+                    let callback;
+                    if (getters.playData && !data.liked) {
+                        let id;
+                        if (getters.playData.hasOwnProperty('vol_id'))
+                            id = getters.playData.vol_id;
+                        else if (getters.playData.hasOwnProperty('track_id'))
+                            id = getters.playData.track_id;
+                        else id = getters.playData.single_id;
 
-                    data.id === id && (callback = function () {
-                        commit('play',
-                            {options: {index: state.play.index}, getters, commit})
-                    }.bind(this))
-                }
+                        data.id === id && (callback = function () {
+                            commit('play',
+                                {options: {index: state.play.index}, getters, commit})
+                        }.bind(this))
+                    }
 
-                type === 'vol' ?
-                    await remote.sync.vol.like(data.vol, data.id, data.liked) :
-                    await remote.sync.single.like(data.id, data.from, data.liked);
-                commit('updateFromDb', {remote, commit, callback});
+                    type === 'vol' ?
+                        await remote.sync.vol.like(data.vol, data.id, data.liked) :
+                        await remote.sync.single.like(data.id, data.from, data.liked);
+                    commit('updateFromDb', {remote, commit, callback});
+                },
+                text: '同步收藏',
+                failed: false
             },
-            text: '同步收藏',
-            failed: false
-        },
-        commit: commit
-    })
+            commit: commit
+        })
+    }
 });
 
 
@@ -15864,7 +15747,7 @@ function findTask(tasks, id) {
 
 
 /***/ }),
-/* 93 */
+/* 92 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
