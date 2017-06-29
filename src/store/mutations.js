@@ -134,10 +134,11 @@ export default {
     updateFromServer: (state, {remote, commit}) => {
         commit('addTask', {
             task: {
-                exec: () => Promise.all([
-                    remote.sync.vol.update(),
-                    remote.sync.single.update()
-                ]).then(commit('updateFromDb', {remote, commit})),
+                exec: async () => {
+                    await remote.sync.vol.update();
+                    await remote.sync.single.update();
+                    commit('updateFromDb', {remote, commit})
+                },
                 text: '更新期刊',
                 failed: false
             },
@@ -145,8 +146,10 @@ export default {
         });
         commit('addTask', {
             task: {
-                exec: () => remote.user.getCollection()
-                    .then(commit('updateFromDb', {remote, commit})),
+                exec: async () => {
+                    await remote.user.getCollection();
+                    commit('updateFromDb', {remote, commit})
+                },
                 text: '更新用户数据',
                 failed: false
             },
