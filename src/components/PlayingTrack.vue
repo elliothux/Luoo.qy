@@ -103,7 +103,7 @@
                     </p>
                 </div>
                 <div id="lyric">
-                    <p>ㄟ(▔,▔)ㄏ 歌词功能正在努力施工中...</p>
+                    <p>ヾ(=･ω･=)o 歌词功能正在努力施工中...</p>
                 </div>
             </div>
             <div id="playingTrackBottom">
@@ -299,13 +299,11 @@
         height: 80%
         display: flex
         flex-direction: column
-        justify-content: center
+        justify-content: space-around
         position: relative
         left: -3%
 
         #playingTrackInfo
-            position: relative
-            top: -10%
 
             #playingTrackTitle
                 font-size: 2em
@@ -313,6 +311,19 @@
             #playingTrackAlbum, #playingTrackArtist
                 font-size: 1em
                 opacity: 0.9
+
+        #lyric
+            max-height: 68%
+            overflow: hidden
+            font-size: 0.9em
+            line-height: 2em
+            /*opacity: 0.8*/
+            position: relative
+            top: -130px
+
+            #playingLyric
+                opacity: 1
+                font-weight: bold
 
     #playingTrackBottom
         width: 94%

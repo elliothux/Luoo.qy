@@ -10430,21 +10430,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     props: ['remote'],
     created: async function () {
         this.$store.dispatch('updateFromDb', this.remote);
-        this.remote.config.get('user').autoSync && this.$store.dispatch('updateFromServer', this.remote);
-        setTimeout(async function () {
-            const update = await this.remote.update.check();
-            if (!update) return;
-            if (this.remote.dialog.showMessageBox({
-                type: 'question',
-                buttons: ['取消', update[1].type === 'full' ? '下载' : '安装'],
-                defaultId: 0,
-                title: '新版的 Luoo.qy 已经迫不及待与你见面~',
-                message: `Luoo.qy ${update[0].version} 更新了以下内容:\n${update[0].desc}`
-            }) === 1) {
-                if (update[0].type === 'full') return this.remote.openURL(update[0].url);
-                if (await this.remote.update.install(update[1])) this.remote.app.relaunch();
-                this.remote.app.exit(0);
-            }
+        this.remote.config.get('autoSync') && this.$store.dispatch('updateFromServer', this.remote);
+        this.remote.config.get('autoUpdate') && setTimeout(function () {
+            this.$store.dispatch('checkUpdate', this.remote);
         }.bind(this), 10000);
     }
 });
@@ -11492,6 +11480,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -11523,6 +11519,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 this.remote.app.exit(0);
             }
         },
+        update: function () {
+            this.$store.dispatch('checkUpdate', this.remote);
+        },
         set: function (key) {
             const option = Object.assign({}, this.$store.state.user);
             option[key] = !option[key];
@@ -11531,6 +11530,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 data: option
             });
             this.remote.config.set(option);
+        },
+        openUrl: function (url) {
+            this.remote.openURL(url);
         }
     }
 });
@@ -12102,7 +12104,7 @@ exports = module.exports = __webpack_require__(1)(undefined);
 
 
 // module
-exports.push([module.i, "\n#userSetting[data-v-f55de5a2] {\n  width: 100%;\n  height: calc(100% - 20px);\n  margin-top: 20px;\n  position: absolute;\n  overflow-x: hidden;\n  transition: all ease 900ms;\n}\n#userSettingHeadBar[data-v-f55de5a2] {\n  text-align: left;\n  position: fixed;\n  margin-left: 5%;\n}\n#userSettingHeadBar > div[data-v-f55de5a2] {\n    display: inline-block;\n    font-size: 1.3em;\n    margin-top: -15px;\n    margin-right: 25px;\n    padding: 0 3px 2px 3px;\n    border-bottom: 1px solid white;\n    cursor: pointer;\n}\n#userSettingCommon[data-v-f55de5a2], #userSettingAbout[data-v-f55de5a2] {\n  width: 90%;\n  padding: 30px 5% 0 5%;\n  height: calc(100% - 60px);\n  position: fixed;\n  top: 35px;\n  left: 0;\n  overflow-y: auto;\n  text-align: left;\n  transition: all ease 900ms;\n}\n#userSettingCommon *[data-v-f55de5a2] {\n  cursor: pointer;\n}\n#userSettingCommon > div[data-v-f55de5a2] {\n  height: 40px;\n  display: flex;\n  flex-direction: row;\n  flex-wrap: nowrap;\n  justify-content: flex-start;\n  align-items: center;\n}\n#userSettingCommon > div > span[data-v-f55de5a2] {\n    display: inline-block;\n    margin-left: 20px;\n}\n#settingOperate[data-v-f55de5a2] {\n  margin-top: 50px;\n}\n#settingOperate > div[data-v-f55de5a2] {\n    height: 55px;\n    display: flex;\n    flex-direction: column;\n    justify-content: space-between;\n    align-items: center;\n    margin-right: 30px;\n}\n#settingOperate > div img[data-v-f55de5a2] {\n      width: auto;\n      height: 42%;\n}\n#userSettingAbout p[data-v-f55de5a2] {\n  margin-bottom: 30px;\n}\n", ""]);
+exports.push([module.i, "\n#userSetting[data-v-f55de5a2] {\n  width: 100%;\n  height: calc(100% - 20px);\n  margin-top: 20px;\n  position: absolute;\n  overflow-x: hidden;\n  transition: all ease 900ms;\n}\n#userSettingHeadBar[data-v-f55de5a2] {\n  text-align: left;\n  position: fixed;\n  margin-left: 5%;\n}\n#userSettingHeadBar > div[data-v-f55de5a2] {\n    display: inline-block;\n    font-size: 1.3em;\n    margin-top: -15px;\n    margin-right: 25px;\n    padding: 0 3px 2px 3px;\n    border-bottom: 1px solid white;\n    cursor: pointer;\n}\n#userSettingCommon[data-v-f55de5a2], #userSettingAbout[data-v-f55de5a2] {\n  width: 90%;\n  padding: 30px 5% 0 5%;\n  height: calc(100% - 60px);\n  position: fixed;\n  top: 35px;\n  left: 0;\n  overflow-y: auto;\n  text-align: left;\n  transition: all ease 900ms;\n}\n#userSettingCommon *[data-v-f55de5a2] {\n  cursor: pointer;\n}\n#userSettingCommon > div[data-v-f55de5a2] {\n  height: 40px;\n  display: flex;\n  flex-direction: row;\n  flex-wrap: nowrap;\n  justify-content: flex-start;\n  align-items: center;\n}\n#userSettingCommon > div > span[data-v-f55de5a2] {\n    display: inline-block;\n    margin-left: 20px;\n}\n#settingOperate[data-v-f55de5a2] {\n  margin-top: 50px;\n}\n#settingOperate > div[data-v-f55de5a2] {\n    height: 55px;\n    display: flex;\n    flex-direction: column;\n    justify-content: space-between;\n    align-items: center;\n    margin-right: 30px;\n}\n#settingOperate > div img[data-v-f55de5a2] {\n      width: auto;\n      height: 42%;\n}\n#userSettingAbout p[data-v-f55de5a2] {\n  margin-bottom: 50px;\n  line-height: 30px;\n}\n.userSettingLink[data-v-f55de5a2] {\n  border-bottom: solid 1px rgba(255, 255, 255, 0.6);\n  cursor: pointer;\n}\n.userSettingLink[data-v-f55de5a2]:hover {\n    border-bottom: solid 1px white;\n}\n", ""]);
 
 // exports
 
@@ -14077,7 +14079,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "id": "settingOperate"
     }
-  }, [_c('div', {
+  }, [(_vm.$store.state.user.mail) ? _c('div', {
     on: {
       "click": function($event) {
         $event.stopPropagation();
@@ -14088,11 +14090,40 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "src": '../pic/logout.svg'
     }
-  }), _vm._v(" "), _c('span', [_vm._v("登出")])]), _vm._v(" "), _c('div', [_c('img', {
-    attrs: {
-      "src": '../pic/update.png'
+  }), _vm._v(" "), _c('span', [_vm._v("登出")])]) : _vm._e(), _vm._v(" "), _c('div', {
+    on: {
+      "click": function($event) {
+        $event.stopPropagation();
+        _vm.update($event)
+      }
     }
-  }), _vm._v(" "), _c('span', [_vm._v("检查更新")])])])]), _vm._v(" "), _c('div', {
+  }, [_c('img', {
+    attrs: {
+      "src": '../pic/update.svg'
+    }
+  }), _vm._v(" "), _c('span', [_vm._v("检查更新")])]), _vm._v(" "), _c('div', {
+    on: {
+      "click": function($event) {
+        $event.stopPropagation();
+        _vm.openUrl('http://l.2met.me/')
+      }
+    }
+  }, [_c('img', {
+    attrs: {
+      "src": '../pic/website.svg'
+    }
+  }), _vm._v(" "), _c('span', [_vm._v("访问网站")])]), _vm._v(" "), _c('div', {
+    on: {
+      "click": function($event) {
+        $event.stopPropagation();
+        _vm.openUrl('http://p.2met.me/')
+      }
+    }
+  }, [_c('img', {
+    attrs: {
+      "src": '../pic/page.svg'
+    }
+  }), _vm._v(" "), _c('span', [_vm._v("Page.qy")])])])]), _vm._v(" "), _c('div', {
     style: ({
       transform: ("translateX(" + (_vm.view === 'about' ?
             '0' : '100%') + ")")
@@ -14100,11 +14131,33 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "id": "userSettingAbout"
     }
-  }, [_vm._m(0), _vm._v(" "), _vm._m(1)])])
+  }, [_vm._m(0), _vm._v(" "), _c('p', [_vm._v("\n            Luoo.qy 是独立音乐网站"), _c('span', {
+    staticClass: "userSettingLink",
+    on: {
+      "click": function($event) {
+        $event.stopPropagation();
+        _vm.openUrl('http://www.luoo.net/')
+      }
+    }
+  }, [_vm._v("落网")]), _vm._v("的第三方电脑客户端, 软件内的所有内容均来自于落网。"), _c('br'), _vm._v("\n            软件基于 Electron、Vue、Node.js、Koa、Python 等开源项目构建, 感谢所有为这些开源项目做出贡献的软将工程师们, 你们的开源项目是 Luoo.qy 的基础!"), _c('br'), _vm._v("\n            同时, Luoo.qy 开源并将代码托管在 "), _c('span', {
+    staticClass: "userSettingLink",
+    on: {
+      "click": function($event) {
+        $event.stopPropagation();
+        _vm.openUrl('https://github.com/HuQingyang')
+      }
+    }
+  }, [_vm._v("GitHub")]), _vm._v(", 欢迎 Star、提交 Issues 或者参与共同开发。"), _c('br'), _vm._v("\n            另外, 欢迎关注我的"), _c('span', {
+    staticClass: "userSettingLink",
+    on: {
+      "click": function($event) {
+        $event.stopPropagation();
+        _vm.openUrl('https://www.zhihu.com/people/hu-qing-yang-67/pins/posts')
+      }
+    }
+  }, [_vm._v("知乎")]), _vm._v("向我提出建议或者Bug。"), _c('br')])])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('p', [_vm._v("\n            版本: V1.0.0"), _c('br'), _vm._v("\n            上次更新: 2017 / 07 / 20\n        ")])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('p', [_vm._v("\n            Luoo.qy 是独立音乐网站落网的第三方电脑客户端, 软件内的所有内容均来自于落网。"), _c('br'), _vm._v("\n            软件基于 Electron、Vue、Node.js、Koa、Python 等开源项目构建, 感谢所有为这些开源项目做出贡献的软将工程师们, 你们的开源项目是 Luoo.qy 的基础!"), _c('br'), _vm._v("\n            同时, Luoo.qy 开源并将代码托管在GitHub(https://github.com/HuQingyang/Luoo.qy), 欢迎Star、提交Issues或者参与共同开发。"), _c('br'), _vm._v("\n            另外, 欢迎关注我的知乎(ID: WordsAreWeapons)向我提出建议或者Bug。"), _c('br')])
 }]}
 module.exports.render._withStripped = true
 if (false) {
@@ -15467,7 +15520,8 @@ new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
     },
     updateFromDb: ({commit}, remote) => commit('updateFromDb', {remote, commit}),
     updateFromServer: ({commit}, remote) => commit('updateFromServer', {remote, commit}),
-    like: ({commit, getters}, {type, data, remote}) => commit('like', {type, data, remote, commit, getters})
+    like: ({commit, getters}, {type, data, remote}) => commit('like', {type, data, remote, commit, getters}),
+    checkUpdate: ({commit}, remote) => commit('checkUpdate', remote)
 });
 
 
@@ -15667,10 +15721,11 @@ function _formatTime(time) {
     updateFromServer: (state, {remote, commit}) => {
         commit('addTask', {
             task: {
-                exec: () => Promise.all([
-                    remote.sync.vol.update(),
-                    remote.sync.single.update()
-                ]).then(commit('updateFromDb', {remote, commit})),
+                exec: async () => {
+                    await remote.sync.vol.update();
+                    await remote.sync.single.update();
+                    commit('updateFromDb', {remote, commit})
+                },
                 text: '更新期刊',
                 failed: false
             },
@@ -15678,8 +15733,10 @@ function _formatTime(time) {
         });
         commit('addTask', {
             task: {
-                exec: () => remote.user.getCollection()
-                    .then(commit('updateFromDb', {remote, commit})),
+                exec: async () => {
+                    await remote.user.getCollection();
+                    commit('updateFromDb', {remote, commit})
+                },
                 text: '更新用户数据',
                 failed: false
             },
@@ -15716,6 +15773,32 @@ function _formatTime(time) {
             },
             commit: commit
         })
+    },
+    checkUpdate: async (state, remote) => {
+        const update = await remote.update.check();
+        if (!update) return;
+        const desc = update[0].desc.map(desc => `· ${desc}\n`).join('');
+        if (remote.dialog.showMessageBox({
+                type: 'question',
+                buttons: ['取消', update[0].type === 'full' ? '下载' : '安装'],
+                defaultId: 1,
+                title: '更新',
+                message: `Luoo.qy v${update[0].version} 已经迫不及待与你见面~\n\n\n🚀新版本更新了以下内容:\n\n${desc}\n`
+            }) === 1) {
+            if (update[0].type === 'full') return remote.openURL(update[0].url);
+            const success = await remote.update.install(update[1]);
+            if (remote.dialog.showMessageBox({
+                    type: 'question',
+                    buttons: ['完成'],
+                    defaultId: 0,
+                    title: '更新',
+                    message: `${success ? '🌟' : '🙄'}更新${success ? '完成' : '失败'}`
+                }) === 0) {
+                if (!success) return;
+                remote.app.relaunch();
+                remote.app.exit(0);
+            }
+        }
     }
 });
 
