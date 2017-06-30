@@ -35,11 +35,11 @@
                     <img :src="'../pic/update.svg'"/>
                     <span>检查更新</span>
                 </div>
-                <div @click.stop="openUrl('http://l.2met.me/')">
+                <div @click.stop="openUrl('http://l.page.中国/')">
                     <img :src="'../pic/website.svg'"/>
                     <span>访问网站</span>
                 </div>
-                <div @click.stop="openUrl('http://p.2met.me/')">
+                <div @click.stop="openUrl('http://page.中国/')">
                     <img :src="'../pic/page.svg'"/>
                     <span>Page.qy</span>
                 </div>
