@@ -10411,8 +10411,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
 
 
 
@@ -13501,9 +13499,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('div', {
     style: ({
-      backgroundImage: ("url(" + (this.$store.state.view.vol ?
-            this.$store.state.view.vol.cover :
-            '../pic/background.jpg') + ")")
+      backgroundImage: ("url(" + (_vm.$store.getters.background) + ")")
     }),
     attrs: {
       "id": "background"
@@ -14157,7 +14153,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v("知乎")]), _vm._v("向我提出建议或者Bug。"), _c('br')])])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('p', [_vm._v("\n            版本: V1.0.0"), _c('br'), _vm._v("\n            上次更新: 2017 / 07 / 20\n        ")])
+  return _c('p', [_vm._v("\n            版本: V1.0.0"), _c('br'), _vm._v("\n            上次更新: 2017 / 07 / 01\n        ")])
 }]}
 module.exports.render._withStripped = true
 if (false) {
@@ -15568,7 +15564,8 @@ new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
             return getters.task.text
         }
         return '更新完成'
-    }
+    },
+    background: state => state.view.vol ? state.view.vol.cover : '../pic/background.jpg'
 });
 
 

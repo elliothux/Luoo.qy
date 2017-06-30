@@ -2,9 +2,7 @@
     <div id="app">
         <div
             id="background"
-            :style="{ backgroundImage: `url(${this.$store.state.view.vol ?
-                this.$store.state.view.vol.cover :
-                '../pic/background.jpg'})` }"
+            :style="{ backgroundImage: `url(${$store.getters.background})` }"
         />
         <HeadBar :remote="remote"/>
         <Types/>
