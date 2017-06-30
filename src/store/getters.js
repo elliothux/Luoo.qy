@@ -36,7 +36,8 @@ export default {
             return getters.task.text
         }
         return '更新完成'
-    }
+    },
+    background: state => state.view.vol ? state.view.vol.cover : '../pic/background.jpg'
 }
 
 

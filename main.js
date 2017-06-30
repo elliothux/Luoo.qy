@@ -1,13 +1,13 @@
 const electron = require('electron');
 const path = require('path');
 const url = require('url');
-const platform = require('os').platform();
 const db = require('./static/js/db');
 const user = require('./static/js/user');
 const config = require('./static/js/config');
 const sync = require('./static/js/sync');
+const update = require('./static/js/autoUpdate');
 const menuTemplate = require('./static/js/menuTemplate');
-const { app, BrowserWindow, Menu, dialog } = electron;
+const { app, BrowserWindow, Menu, dialog, shell } = electron;
 
 
 let mainWindow = null;
@@ -35,7 +35,9 @@ exports = Object.assign(exports, {
     config: config,
     sync: sync,
     app: app,
-    dialog: dialog
+    dialog: dialog,
+    update: update,
+    openURL: shell.openExternal
 });
 
 
@@ -70,9 +72,9 @@ function openWindow(filePath, options, isMax) {
     });
 
     // const devToolsPath = {
-    //     darwin: `/Users/huqingyang/Library/Application Support/Google/Chrome/Default/Extensions/nhdogjmejiglipccpnnnanhbledajbpd/3.1.3_0`,
+    //     darwin: `/Users/huqingyang/Library/Application Support/Google/Chrome/Default/Extensions/nhdogjmejiglipccpnnnanhbledajbpd/3.1.4_0`,
     //     win32: `C:\\Users\\HuQingyang\\AppData\\Local\\Google\\Chrome\\User Data\\Profile 1\\Extensions\\nhdogjmejiglipccpnnnanhbledajbpd\\3.1.2_0`
-    // }[platform];
+    // }[require('os').platform()];
     // BrowserWindow.addDevToolsExtension(devToolsPath);
 
     return win;

@@ -60,7 +60,8 @@ async function getVolList(volIndex) {
 
 
 async function getLatestVol() {
-    return (await _find({}, vol, {vol: -1}))[0].vol
+    const vols = (await _find({}, vol, {vol: -1}));
+    return vols.length > 0? vols[0].vol : 0
 }
 
 
@@ -70,7 +71,7 @@ async function getLikedVolList() {
 
 
 async function addVolTrack(data) {
-    if (await isExist({ track_id: data.track_id }, volTrack))
+    if (await isExist({ vol: data.vol, track_id: data.track_id }, volTrack))
         throw new Error(`Add vol failed for track${data.track_id} already existing`);
 
     const newDoc = await _insert(data, volTrack);
@@ -105,7 +106,8 @@ async function getSingleList() {
 
 
 async function getLatestSingle() {
-    return (await _find({}, single, {date: -1}))[0].date
+    const singles = (await _find({}, single, {date: -1}));
+    return singles.length > 0 ? (await _find({}, single, {date: -1}))[0].date : 0;
 }
 
 

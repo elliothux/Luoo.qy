@@ -10177,7 +10177,7 @@ var Component = __webpack_require__(2)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "C:\\Users\\HuQingyang\\Desktop\\Luoo.qy\\src\\components\\Singles\\Single.vue"
+Component.options.__file = "/Users/huqingyang/Desktop/Luoo.qy/src/components/Singles/Single.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Single.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -10221,7 +10221,7 @@ var Component = __webpack_require__(2)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "C:\\Users\\HuQingyang\\Desktop\\Luoo.qy\\src\\components\\VolView\\VolTrack.vue"
+Component.options.__file = "/Users/huqingyang/Desktop/Luoo.qy/src/components/VolView/VolTrack.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] VolTrack.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -10265,7 +10265,7 @@ var Component = __webpack_require__(2)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "C:\\Users\\HuQingyang\\Desktop\\Luoo.qy\\src\\components\\Vols\\Vol.vue"
+Component.options.__file = "/Users/huqingyang/Desktop/Luoo.qy/src/components/Vols/Vol.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Vol.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -10309,7 +10309,7 @@ var Component = __webpack_require__(2)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "C:\\Users\\HuQingyang\\Desktop\\Luoo.qy\\src\\components\\App.vue"
+Component.options.__file = "/Users/huqingyang/Desktop/Luoo.qy/src/components/App.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] App.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -10411,8 +10411,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
 
 
 
@@ -10430,7 +10428,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     props: ['remote'],
     created: async function () {
         this.$store.dispatch('updateFromDb', this.remote);
-        this.$store.dispatch('updateFromServer', this.remote);
+        this.remote.config.get('autoSync') && this.$store.dispatch('updateFromServer', this.remote);
+        this.remote.config.get('autoUpdate') && setTimeout(function () {
+            this.$store.dispatch('checkUpdate', this.remote);
+        }.bind(this), 10000);
     }
 });
 
@@ -11477,6 +11478,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -11495,12 +11504,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.view = view;
         },
         logout: function () {
-            if (!this.$store.state.user.mail) return;
-            if (window.confirm('确认登出吗?')) {
+            if (this.$store.state.user.mail === '') return;
+            if (this.remote.dialog.showMessageBox({
+                type: 'question',
+                buttons: ['取消', '确认'],
+                defaultId: 0,
+                title: '登出',
+                message: '确认登出吗'
+            }) === 1) {
                 this.remote.config.init();
                 this.remote.app.relaunch();
                 this.remote.app.exit(0);
             }
+        },
+        update: function () {
+            this.$store.dispatch('checkUpdate', this.remote);
         },
         set: function (key) {
             const option = Object.assign({}, this.$store.state.user);
@@ -11510,6 +11528,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 data: option
             });
             this.remote.config.set(option);
+        },
+        openUrl: function (url) {
+            this.remote.openURL(url);
         }
     }
 });
@@ -11885,7 +11906,7 @@ exports = module.exports = __webpack_require__(1)(undefined);
 
 
 // module
-exports.push([module.i, "\n#playingTrack[data-v-0331604b] {\n  position: fixed;\n  width: 90%;\n  height: calc(100% - 23px);\n  top: 0;\n  left: 0;\n  padding: 25px 5% 0 5%;\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  align-items: center;\n  background-color: #000000;\n}\n.playingTrackShow[data-v-0331604b] {\n  transform: scale(1);\n  opacity: 1;\n  transition: all ease 500ms 350ms;\n}\n.playingTrackHidden[data-v-0331604b] {\n  transform: scale(0.9);\n  opacity: 0;\n  transition: all ease 500ms 0ms;\n}\n#playingTrackBackground[data-v-0331604b] {\n  width: calc(100% + 100px);\n  height: calc(100% + 100px);\n  position: fixed;\n  top: -50px;\n  left: -50px;\n  background-size: cover;\n  filter: blur(25px);\n  z-index: -1;\n  transition: all ease 1200ms;\n  opacity: 0.8;\n}\n#playingTrackLeft[data-v-0331604b] {\n  width: 35%;\n  height: 80%;\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  z-index: 2;\n  font-weight: 400;\n}\n#playingTrackLeft #playingTrackCover[data-v-0331604b] {\n    width: 100%;\n    height: 0;\n    padding-bottom: 100%;\n    margin-bottom: 15%;\n    background-size: cover;\n    transition: all ease 800ms;\n}\n#playingTrackLeft #playingTrackController[data-v-0331604b] {\n    height: auto;\n    width: 100%;\n    display: flex;\n    flex-direction: row;\n    justify-content: space-around;\n    align-items: center;\n    margin-bottom: 7%;\n}\n#playingTrackLeft #playingTrackController #playingTrackControllerPre[data-v-0331604b], #playingTrackLeft #playingTrackController #playingTrackControllerNext[data-v-0331604b] {\n      height: auto;\n      width: 9%;\n      cursor: pointer;\n}\n#playingTrackLeft #playingTrackController #playingTrackControllerToggle[data-v-0331604b] {\n      height: auto;\n      width: 7.5%;\n      cursor: pointer;\n}\n#playingTrackLeft #playingTrackOperate[data-v-0331604b] {\n    height: auto;\n    width: 100%;\n    display: flex;\n    flex-direction: row;\n    justify-content: space-around;\n    align-items: center;\n}\n#playingTrackLeft #playingTrackOperate > div[data-v-0331604b] {\n      width: 30%;\n      position: relative;\n}\n#playingTrackLeft #playingTrackOperate > div img[data-v-0331604b] {\n        width: 20%;\n        cursor: pointer;\n}\n#playingTrackLeft #playingTrackOperate > div p[data-v-0331604b] {\n        font-size: 0.7em;\n}\n#playingTrackLeft #playingTrackOperate #playingTrackVolumeController[data-v-0331604b] {\n      width: 160px;\n      height: 36px;\n      position: absolute;\n      bottom: -50px;\n      left: calc(50% - 80px);\n      background-color: rgba(255, 255, 255, 0.3);\n}\n#playingTrackLeft #playingTrackOperate #playingTrackVolumeController > input[data-v-0331604b] {\n        cursor: pointer;\n        width: 86%;\n        height: 100%;\n        background-color: transparent;\n}\n#playingTrackLeft #playingTrackOperate #playingTrackVolumeController #playingTrackVolumeTriangle[data-v-0331604b] {\n        float: left;\n        position: absolute;\n        top: -10px;\n        right: 70px;\n        width: 0;\n        height: 0;\n        border-style: solid;\n        border-width: 0 10px 10px 10px;\n        border-color: transparent transparent rgba(255, 255, 255, 0.3) transparent;\n}\n#playingTrackRight[data-v-0331604b] {\n  width: 55%;\n  height: 80%;\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  position: relative;\n  left: -3%;\n}\n#playingTrackRight #playingTrackInfo[data-v-0331604b] {\n    position: relative;\n    top: -10%;\n}\n#playingTrackRight #playingTrackInfo #playingTrackTitle[data-v-0331604b] {\n      font-size: 2em;\n}\n#playingTrackRight #playingTrackInfo #playingTrackAlbum[data-v-0331604b], #playingTrackRight #playingTrackInfo #playingTrackArtist[data-v-0331604b] {\n      font-size: 1em;\n      opacity: 0.9;\n}\n#playingTrackBottom[data-v-0331604b] {\n  width: 94%;\n  padding: 0 3%;\n  position: fixed;\n  bottom: 5px;\n  left: 0;\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  align-items: center;\n}\n#playingTrackBottom span[data-v-0331604b] {\n    font-size: 0.8em;\n    opacity: 0.8;\n}\n#playingTrackBottom #playingTrackTimerContainer[data-v-0331604b] {\n    position: relative;\n    width: 90%;\n}\n#playingTrackBottom #playingTrackTimerContainer > input[data-v-0331604b] {\n      position: absolute;\n      top: 0;\n      left: 0;\n      width: 100%;\n      height: 100%;\n      z-index: 2;\n      opacity: 0;\n      cursor: pointer;\n}\n#playingTrackBottom #playingTrackTimerContainer #playingTrackTimer[data-v-0331604b] {\n      position: absolute;\n      top: 0;\n      left: 0;\n      width: 100%;\n      height: 2px;\n      background-color: rgba(255, 255, 255, 0.25);\n}\n#playingTrackBottom #playingTrackTimerContainer #playingTrackTimer > div[data-v-0331604b] {\n        height: 100%;\n        float: left;\n        background-color: white;\n}\n", ""]);
+exports.push([module.i, "\n#playingTrack[data-v-0331604b] {\n  position: fixed;\n  width: 90%;\n  height: calc(100% - 23px);\n  top: 0;\n  left: 0;\n  padding: 25px 5% 0 5%;\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  align-items: center;\n  background-color: #000000;\n}\n.playingTrackShow[data-v-0331604b] {\n  transform: scale(1);\n  opacity: 1;\n  transition: all ease 500ms 350ms;\n}\n.playingTrackHidden[data-v-0331604b] {\n  transform: scale(0.9);\n  opacity: 0;\n  transition: all ease 500ms 0ms;\n}\n#playingTrackBackground[data-v-0331604b] {\n  width: calc(100% + 100px);\n  height: calc(100% + 100px);\n  position: fixed;\n  top: -50px;\n  left: -50px;\n  background-size: cover;\n  filter: blur(25px);\n  z-index: -1;\n  transition: all ease 1200ms;\n  opacity: 0.8;\n}\n#playingTrackLeft[data-v-0331604b] {\n  width: 35%;\n  height: 80%;\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  z-index: 2;\n  font-weight: 400;\n}\n#playingTrackLeft #playingTrackCover[data-v-0331604b] {\n    width: 100%;\n    height: 0;\n    padding-bottom: 100%;\n    margin-bottom: 15%;\n    background-size: cover;\n    transition: all ease 800ms;\n}\n#playingTrackLeft #playingTrackController[data-v-0331604b] {\n    height: auto;\n    width: 100%;\n    display: flex;\n    flex-direction: row;\n    justify-content: space-around;\n    align-items: center;\n    margin-bottom: 7%;\n}\n#playingTrackLeft #playingTrackController #playingTrackControllerPre[data-v-0331604b], #playingTrackLeft #playingTrackController #playingTrackControllerNext[data-v-0331604b] {\n      height: auto;\n      width: 9%;\n      cursor: pointer;\n}\n#playingTrackLeft #playingTrackController #playingTrackControllerToggle[data-v-0331604b] {\n      height: auto;\n      width: 7.5%;\n      cursor: pointer;\n}\n#playingTrackLeft #playingTrackOperate[data-v-0331604b] {\n    height: auto;\n    width: 100%;\n    display: flex;\n    flex-direction: row;\n    justify-content: space-around;\n    align-items: center;\n}\n#playingTrackLeft #playingTrackOperate > div[data-v-0331604b] {\n      width: 30%;\n      position: relative;\n}\n#playingTrackLeft #playingTrackOperate > div img[data-v-0331604b] {\n        width: 20%;\n        cursor: pointer;\n}\n#playingTrackLeft #playingTrackOperate > div p[data-v-0331604b] {\n        font-size: 0.7em;\n}\n#playingTrackLeft #playingTrackOperate #playingTrackVolumeController[data-v-0331604b] {\n      width: 160px;\n      height: 36px;\n      position: absolute;\n      bottom: -50px;\n      left: calc(50% - 80px);\n      background-color: rgba(255, 255, 255, 0.3);\n}\n#playingTrackLeft #playingTrackOperate #playingTrackVolumeController > input[data-v-0331604b] {\n        cursor: pointer;\n        width: 86%;\n        height: 100%;\n        background-color: transparent;\n}\n#playingTrackLeft #playingTrackOperate #playingTrackVolumeController #playingTrackVolumeTriangle[data-v-0331604b] {\n        float: left;\n        position: absolute;\n        top: -10px;\n        right: 70px;\n        width: 0;\n        height: 0;\n        border-style: solid;\n        border-width: 0 10px 10px 10px;\n        border-color: transparent transparent rgba(255, 255, 255, 0.3) transparent;\n}\n#playingTrackRight[data-v-0331604b] {\n  width: 55%;\n  height: 80%;\n  display: flex;\n  flex-direction: column;\n  justify-content: space-around;\n  position: relative;\n  left: -3%;\n}\n#playingTrackRight #playingTrackInfo #playingTrackTitle[data-v-0331604b] {\n    font-size: 2em;\n}\n#playingTrackRight #playingTrackInfo #playingTrackAlbum[data-v-0331604b], #playingTrackRight #playingTrackInfo #playingTrackArtist[data-v-0331604b] {\n    font-size: 1em;\n    opacity: 0.9;\n}\n#playingTrackRight #lyric[data-v-0331604b] {\n    max-height: 68%;\n    overflow: hidden;\n    font-size: 0.9em;\n    line-height: 2em;\n    /*opacity: 0.8*/\n    position: relative;\n    top: -130px;\n}\n#playingTrackRight #lyric #playingLyric[data-v-0331604b] {\n      opacity: 1;\n      font-weight: bold;\n}\n#playingTrackBottom[data-v-0331604b] {\n  width: 94%;\n  padding: 0 3%;\n  position: fixed;\n  bottom: 5px;\n  left: 0;\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  align-items: center;\n}\n#playingTrackBottom span[data-v-0331604b] {\n    font-size: 0.8em;\n    opacity: 0.8;\n}\n#playingTrackBottom #playingTrackTimerContainer[data-v-0331604b] {\n    position: relative;\n    width: 90%;\n}\n#playingTrackBottom #playingTrackTimerContainer > input[data-v-0331604b] {\n      position: absolute;\n      top: 0;\n      left: 0;\n      width: 100%;\n      height: 100%;\n      z-index: 2;\n      opacity: 0;\n      cursor: pointer;\n}\n#playingTrackBottom #playingTrackTimerContainer #playingTrackTimer[data-v-0331604b] {\n      position: absolute;\n      top: 0;\n      left: 0;\n      width: 100%;\n      height: 2px;\n      background-color: rgba(255, 255, 255, 0.25);\n}\n#playingTrackBottom #playingTrackTimerContainer #playingTrackTimer > div[data-v-0331604b] {\n        height: 100%;\n        float: left;\n        background-color: white;\n}\n", ""]);
 
 // exports
 
@@ -11983,7 +12004,7 @@ exports = module.exports = __webpack_require__(1)(undefined);
 
 
 // module
-exports.push([module.i, "\n#app[data-v-4f944103] {\n  text-align: center;\n  position: fixed;\n  width: 100%;\n  height: 100%;\n  top: 0;\n  left: 0;\n  background-color: #000000;\n  color: white;\n}\n#app > *[data-v-4f944103] {\n    z-index: 1;\n}\n#background[data-v-4f944103] {\n  width: calc(100% + 120px);\n  height: calc(100% + 120px);\n  position: fixed;\n  top: -60px;\n  left: -60px;\n  background-size: cover;\n  filter: blur(30px);\n  z-index: -1;\n  transition: all ease 850ms;\n  opacity: 0.85;\n}\n", ""]);
+exports.push([module.i, "\n#app[data-v-4f944103] {\n  text-align: center;\n  position: fixed;\n  width: 100%;\n  height: 100%;\n  top: 0;\n  left: 0;\n  background-color: #000000;\n  color: white;\n  transform: translate3d(0, 0, 0)/translateZ(0);\n}\n#app > *[data-v-4f944103] {\n    z-index: 1;\n}\n#background[data-v-4f944103] {\n  width: calc(100% + 120px);\n  height: calc(100% + 120px);\n  position: fixed;\n  top: -60px;\n  left: -60px;\n  background-size: cover;\n  filter: blur(30px);\n  z-index: -1;\n  transition: all ease 850ms;\n  opacity: 0.85;\n}\n", ""]);
 
 // exports
 
@@ -12081,7 +12102,7 @@ exports = module.exports = __webpack_require__(1)(undefined);
 
 
 // module
-exports.push([module.i, "\n#userSetting[data-v-f55de5a2] {\n  width: 100%;\n  height: calc(100% - 20px);\n  margin-top: 20px;\n  position: absolute;\n  overflow-x: hidden;\n  transition: all ease 900ms;\n}\n#userSettingHeadBar[data-v-f55de5a2] {\n  text-align: left;\n  position: fixed;\n  margin-left: 5%;\n}\n#userSettingHeadBar > div[data-v-f55de5a2] {\n    display: inline-block;\n    font-size: 1.3em;\n    margin-top: -15px;\n    margin-right: 25px;\n    padding: 0 3px 2px 3px;\n    border-bottom: 1px solid white;\n    cursor: pointer;\n}\n#userSettingCommon[data-v-f55de5a2], #userSettingAbout[data-v-f55de5a2] {\n  width: 90%;\n  padding: 30px 5% 0 5%;\n  height: calc(100% - 60px);\n  position: fixed;\n  top: 35px;\n  left: 0;\n  overflow-y: auto;\n  text-align: left;\n  transition: all ease 900ms;\n}\n#userSettingCommon *[data-v-f55de5a2] {\n  cursor: pointer;\n}\n#userSettingCommon > div[data-v-f55de5a2] {\n  height: 40px;\n  display: flex;\n  flex-direction: row;\n  flex-wrap: nowrap;\n  justify-content: flex-start;\n  align-items: center;\n}\n#userSettingCommon > div > span[data-v-f55de5a2] {\n    display: inline-block;\n    margin-left: 20px;\n}\n#settingOperate[data-v-f55de5a2] {\n  margin-top: 50px;\n}\n#settingOperate > div[data-v-f55de5a2] {\n    height: 55px;\n    display: flex;\n    flex-direction: column;\n    justify-content: space-between;\n    align-items: center;\n    margin-right: 30px;\n}\n#settingOperate > div img[data-v-f55de5a2] {\n      width: auto;\n      height: 42%;\n}\n#userSettingAbout p[data-v-f55de5a2] {\n  margin-bottom: 30px;\n}\n", ""]);
+exports.push([module.i, "\n#userSetting[data-v-f55de5a2] {\n  width: 100%;\n  height: calc(100% - 20px);\n  margin-top: 20px;\n  position: absolute;\n  overflow-x: hidden;\n  transition: all ease 900ms;\n}\n#userSettingHeadBar[data-v-f55de5a2] {\n  text-align: left;\n  position: fixed;\n  margin-left: 5%;\n}\n#userSettingHeadBar > div[data-v-f55de5a2] {\n    display: inline-block;\n    font-size: 1.3em;\n    margin-top: -15px;\n    margin-right: 25px;\n    padding: 0 3px 2px 3px;\n    border-bottom: 1px solid white;\n    cursor: pointer;\n}\n#userSettingCommon[data-v-f55de5a2], #userSettingAbout[data-v-f55de5a2] {\n  width: 90%;\n  padding: 30px 5% 0 5%;\n  height: calc(100% - 60px);\n  position: fixed;\n  top: 35px;\n  left: 0;\n  overflow-y: auto;\n  text-align: left;\n  transition: all ease 900ms;\n}\n#userSettingCommon *[data-v-f55de5a2] {\n  cursor: pointer;\n}\n#userSettingCommon > div[data-v-f55de5a2] {\n  height: 40px;\n  display: flex;\n  flex-direction: row;\n  flex-wrap: nowrap;\n  justify-content: flex-start;\n  align-items: center;\n}\n#userSettingCommon > div > span[data-v-f55de5a2] {\n    display: inline-block;\n    margin-left: 20px;\n}\n#settingOperate[data-v-f55de5a2] {\n  margin-top: 50px;\n}\n#settingOperate > div[data-v-f55de5a2] {\n    height: 55px;\n    display: flex;\n    flex-direction: column;\n    justify-content: space-between;\n    align-items: center;\n    margin-right: 30px;\n}\n#settingOperate > div img[data-v-f55de5a2] {\n      width: auto;\n      height: 42%;\n}\n#userSettingAbout p[data-v-f55de5a2] {\n  margin-bottom: 50px;\n  line-height: 30px;\n}\n.userSettingLink[data-v-f55de5a2] {\n  border-bottom: solid 1px rgba(255, 255, 255, 0.6);\n  cursor: pointer;\n}\n.userSettingLink[data-v-f55de5a2]:hover {\n    border-bottom: solid 1px white;\n}\n", ""]);
 
 // exports
 
@@ -12107,7 +12128,7 @@ var Component = __webpack_require__(2)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "C:\\Users\\HuQingyang\\Desktop\\Luoo.qy\\src\\components\\Common\\Toggle.vue"
+Component.options.__file = "/Users/huqingyang/Desktop/Luoo.qy/src/components/Common/Toggle.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Toggle.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -12151,7 +12172,7 @@ var Component = __webpack_require__(2)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "C:\\Users\\HuQingyang\\Desktop\\Luoo.qy\\src\\components\\HeadBar.vue"
+Component.options.__file = "/Users/huqingyang/Desktop/Luoo.qy/src/components/HeadBar.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] HeadBar.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -12195,7 +12216,7 @@ var Component = __webpack_require__(2)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "C:\\Users\\HuQingyang\\Desktop\\Luoo.qy\\src\\components\\Playing.vue"
+Component.options.__file = "/Users/huqingyang/Desktop/Luoo.qy/src/components/Playing.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Playing.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -12239,7 +12260,7 @@ var Component = __webpack_require__(2)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "C:\\Users\\HuQingyang\\Desktop\\Luoo.qy\\src\\components\\PlayingTrack.vue"
+Component.options.__file = "/Users/huqingyang/Desktop/Luoo.qy/src/components/PlayingTrack.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] PlayingTrack.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -12283,7 +12304,7 @@ var Component = __webpack_require__(2)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "C:\\Users\\HuQingyang\\Desktop\\Luoo.qy\\src\\components\\Singles\\Singles.vue"
+Component.options.__file = "/Users/huqingyang/Desktop/Luoo.qy/src/components/Singles/Singles.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Singles.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -12327,7 +12348,7 @@ var Component = __webpack_require__(2)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "C:\\Users\\HuQingyang\\Desktop\\Luoo.qy\\src\\components\\Types.vue"
+Component.options.__file = "/Users/huqingyang/Desktop/Luoo.qy/src/components/Types.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Types.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -12371,7 +12392,7 @@ var Component = __webpack_require__(2)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "C:\\Users\\HuQingyang\\Desktop\\Luoo.qy\\src\\components\\User\\Login.vue"
+Component.options.__file = "/Users/huqingyang/Desktop/Luoo.qy/src/components/User/Login.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Login.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -12415,7 +12436,7 @@ var Component = __webpack_require__(2)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "C:\\Users\\HuQingyang\\Desktop\\Luoo.qy\\src\\components\\User\\User.vue"
+Component.options.__file = "/Users/huqingyang/Desktop/Luoo.qy/src/components/User/User.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] User.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -12459,7 +12480,7 @@ var Component = __webpack_require__(2)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "C:\\Users\\HuQingyang\\Desktop\\Luoo.qy\\src\\components\\User\\UserCollection.vue"
+Component.options.__file = "/Users/huqingyang/Desktop/Luoo.qy/src/components/User/UserCollection.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] UserCollection.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -12503,7 +12524,7 @@ var Component = __webpack_require__(2)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "C:\\Users\\HuQingyang\\Desktop\\Luoo.qy\\src\\components\\User\\UserSetting.vue"
+Component.options.__file = "/Users/huqingyang/Desktop/Luoo.qy/src/components/User/UserSetting.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] UserSetting.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -12547,7 +12568,7 @@ var Component = __webpack_require__(2)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "C:\\Users\\HuQingyang\\Desktop\\Luoo.qy\\src\\components\\VolView\\VolView.vue"
+Component.options.__file = "/Users/huqingyang/Desktop/Luoo.qy/src/components/VolView/VolView.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] VolView.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -12591,7 +12612,7 @@ var Component = __webpack_require__(2)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "C:\\Users\\HuQingyang\\Desktop\\Luoo.qy\\src\\components\\Vols\\Vols.vue"
+Component.options.__file = "/Users/huqingyang/Desktop/Luoo.qy/src/components/Vols/Vols.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Vols.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -12916,7 +12937,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "id": "lyric"
     }
-  }, [_c('p', [_vm._v("ㄟ(▔,▔)ㄏ 歌词功能正在努力施工中...")])])
+  }, [_c('p', [_vm._v("ヾ(=･ω･=)o 歌词功能正在努力施工中...")])])
 }]}
 module.exports.render._withStripped = true
 if (false) {
@@ -13478,9 +13499,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('div', {
     style: ({
-      backgroundImage: ("url(" + (this.$store.state.view.vol ?
-            this.$store.state.view.vol.cover :
-            '../pic/background.jpg') + ")")
+      backgroundImage: ("url(" + (_vm.$store.getters.background) + ")")
     }),
     attrs: {
       "id": "background"
@@ -14056,7 +14075,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "id": "settingOperate"
     }
-  }, [_c('div', {
+  }, [(_vm.$store.state.user.mail) ? _c('div', {
     on: {
       "click": function($event) {
         $event.stopPropagation();
@@ -14067,11 +14086,40 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "src": '../pic/logout.svg'
     }
-  }), _vm._v(" "), _c('span', [_vm._v("登出")])]), _vm._v(" "), _c('div', [_c('img', {
-    attrs: {
-      "src": '../pic/update.png'
+  }), _vm._v(" "), _c('span', [_vm._v("登出")])]) : _vm._e(), _vm._v(" "), _c('div', {
+    on: {
+      "click": function($event) {
+        $event.stopPropagation();
+        _vm.update($event)
+      }
     }
-  }), _vm._v(" "), _c('span', [_vm._v("检查更新")])])])]), _vm._v(" "), _c('div', {
+  }, [_c('img', {
+    attrs: {
+      "src": '../pic/update.svg'
+    }
+  }), _vm._v(" "), _c('span', [_vm._v("检查更新")])]), _vm._v(" "), _c('div', {
+    on: {
+      "click": function($event) {
+        $event.stopPropagation();
+        _vm.openUrl('http://l.page.中国/')
+      }
+    }
+  }, [_c('img', {
+    attrs: {
+      "src": '../pic/website.svg'
+    }
+  }), _vm._v(" "), _c('span', [_vm._v("访问网站")])]), _vm._v(" "), _c('div', {
+    on: {
+      "click": function($event) {
+        $event.stopPropagation();
+        _vm.openUrl('http://page.中国/')
+      }
+    }
+  }, [_c('img', {
+    attrs: {
+      "src": '../pic/page.svg'
+    }
+  }), _vm._v(" "), _c('span', [_vm._v("Page.qy")])])])]), _vm._v(" "), _c('div', {
     style: ({
       transform: ("translateX(" + (_vm.view === 'about' ?
             '0' : '100%') + ")")
@@ -14079,11 +14127,33 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "id": "userSettingAbout"
     }
-  }, [_vm._m(0), _vm._v(" "), _vm._m(1)])])
+  }, [_vm._m(0), _vm._v(" "), _c('p', [_vm._v("\n            Luoo.qy 是独立音乐网站"), _c('span', {
+    staticClass: "userSettingLink",
+    on: {
+      "click": function($event) {
+        $event.stopPropagation();
+        _vm.openUrl('http://www.luoo.net/')
+      }
+    }
+  }, [_vm._v("落网")]), _vm._v("的第三方电脑客户端, 软件内的所有内容均来自于落网。"), _c('br'), _vm._v("\n            软件基于 Electron、Vue、Node.js、Koa、Python 等开源项目构建, 感谢所有为这些开源项目做出贡献的软将工程师们, 你们的开源项目是 Luoo.qy 的基础!"), _c('br'), _vm._v("\n            同时, Luoo.qy 开源并将代码托管在 "), _c('span', {
+    staticClass: "userSettingLink",
+    on: {
+      "click": function($event) {
+        $event.stopPropagation();
+        _vm.openUrl('https://github.com/HuQingyang')
+      }
+    }
+  }, [_vm._v("GitHub")]), _vm._v(", 欢迎 Star、提交 Issues 或者参与共同开发。"), _c('br'), _vm._v("\n            另外, 欢迎关注我的"), _c('span', {
+    staticClass: "userSettingLink",
+    on: {
+      "click": function($event) {
+        $event.stopPropagation();
+        _vm.openUrl('https://www.zhihu.com/people/hu-qing-yang-67/pins/posts')
+      }
+    }
+  }, [_vm._v("知乎")]), _vm._v("向我提出建议或者Bug。"), _c('br')])])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('p', [_vm._v("\n            版本: V1.0.0"), _c('br'), _vm._v("\n            上次更新: 2017 / 07 / 20\n        ")])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('p', [_vm._v("\n            Luoo.qy 是独立音乐网站落网的第三方电脑客户端, 软件内的所有内容均来自于落网。"), _c('br'), _vm._v("\n            软件基于 Electron、Vue、Node.js、Koa、Python 等开源项目构建, 感谢所有为这些开源项目做出贡献的软将工程师们, 你们的开源项目是 Luoo.qy 的基础!"), _c('br'), _vm._v("\n            同时, Luoo.qy 开源并将代码托管在GitHub(https://github.com/HuQingyang/Luoo.qy), 欢迎Star、提交Issues或者参与共同开发。"), _c('br'), _vm._v("\n            另外, 欢迎关注我的知乎(ID: WordsAreWeapons)向我提出建议或者Bug。"), _c('br')])
+  return _c('p', [_vm._v("\n            版本: V1.0.0"), _c('br'), _vm._v("\n            上次更新: 2017 / 07 / 01\n        ")])
 }]}
 module.exports.render._withStripped = true
 if (false) {
@@ -15446,7 +15516,8 @@ new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
     },
     updateFromDb: ({commit}, remote) => commit('updateFromDb', {remote, commit}),
     updateFromServer: ({commit}, remote) => commit('updateFromServer', {remote, commit}),
-    like: ({commit, getters}, {type, data, remote}) => commit('like', {type, data, remote, commit, getters})
+    like: ({commit, getters}, {type, data, remote}) => commit('like', {type, data, remote, commit, getters}),
+    checkUpdate: ({commit}, remote) => commit('checkUpdate', remote)
 });
 
 
@@ -15493,7 +15564,8 @@ new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
             return getters.task.text
         }
         return '更新完成'
-    }
+    },
+    background: state => state.view.vol ? state.view.vol.cover : '../pic/background.jpg'
 });
 
 
@@ -15631,26 +15703,26 @@ function _formatTime(time) {
             .then(setTimeout(() => commit('doneTask', task), 3000))
             .catch((e) => (task.failed = true) && console.error(e))
     },
-    updateFromDb: (state, {remote, commit, callback}) => {
+    updateFromDb: async (state, {remote, commit, callback}) => {
         state.user = remote.config.get();
-        remote.db.vol.get().then(data => state.vols.data = Object.freeze(data));
-        remote.db.single.get().then(data => state.singles.data = Object.freeze(data));
-        remote.db.vol.getLiked().then(data => state.vols.liked = Object.freeze(data));
-        remote.db.single.getLiked().then(data => state.singles.liked = Object.freeze(data));
-        remote.db.track.getLiked().then(data => state.tracks.liked = Object.freeze(data)).then(() => {
-            if (document.getElementById('bootScreen').style.display === 'none') return;
-            setTimeout(() => document.getElementById('bootScreen').className = 'bootImageHidden', 1000);
-            setTimeout(() => document.getElementById('bootScreen').style.display = 'none', 2000);
-            callback && callback();
-        });
+        state.vols.data = Object.freeze(await remote.db.vol.get());
+        state.singles.data = Object.freeze(await remote.db.single.get());
+        state.vols.liked = Object.freeze(await remote.db.vol.getLiked());
+        state.singles.liked = Object.freeze(await remote.db.single.getLiked());
+        state.tracks.liked = Object.freeze(await remote.db.track.getLiked());
+        callback && callback();
+        if (document.getElementById('bootScreen').style.display === 'none') return;
+        setTimeout(() => document.getElementById('bootScreen').className = 'bootImageHidden', 1000);
+        setTimeout(() => document.getElementById('bootScreen').style.display = 'none', 2000)
     },
     updateFromServer: (state, {remote, commit}) => {
         commit('addTask', {
             task: {
-                exec: () => Promise.all([
-                    remote.sync.vol.update(),
-                    remote.sync.single.update()
-                ]).then(commit('updateFromDb', {remote, commit})),
+                exec: async () => {
+                    await remote.sync.vol.update();
+                    await remote.sync.single.update();
+                    commit('updateFromDb', {remote, commit})
+                },
                 text: '更新期刊',
                 failed: false
             },
@@ -15658,42 +15730,73 @@ function _formatTime(time) {
         });
         commit('addTask', {
             task: {
-                exec: () => remote.user.getCollection()
-                    .then(commit('updateFromDb', {remote, commit})),
+                exec: async () => {
+                    await remote.user.getCollection();
+                    commit('updateFromDb', {remote, commit})
+                },
                 text: '更新用户数据',
                 failed: false
             },
             commit: commit
         })
     },
-    like: (state, {type, data, remote, commit, getters}) => commit('addTask', {
-        task: {
-            exec: async () => {
-                let callback;
-                if (getters.playData && !data.liked) {
-                    let id;
-                    if (getters.playData.hasOwnProperty('vol_id'))
-                        id = getters.playData.vol_id;
-                    else if (getters.playData.hasOwnProperty('track_id'))
-                        id = getters.playData.track_id;
-                    else id = getters.playData.single_id;
+    like: (state, {type, data, remote, commit, getters}) => {
+        if (state.user.mail === '' || state.user.password === '') return;
+        commit('addTask', {
+            task: {
+                exec: async () => {
+                    let callback;
+                    if (getters.playData && !data.liked) {
+                        let id;
+                        if (getters.playData.hasOwnProperty('vol_id'))
+                            id = getters.playData.vol_id;
+                        else if (getters.playData.hasOwnProperty('track_id'))
+                            id = getters.playData.track_id;
+                        else id = getters.playData.single_id;
 
-                    data.id === id && (callback = function () {
-                        commit('play',
-                            {options: {index: state.play.index}, getters, commit})
-                    }.bind(this))
-                }
+                        data.id === id && (callback = function () {
+                            commit('play',
+                                {options: {index: state.play.index}, getters, commit})
+                        }.bind(this))
+                    }
 
-                type === 'vol' ?
-                    await remote.sync.vol.like(data.vol, data.id, data.liked) :
-                    await remote.sync.single.like(data.id, data.from, data.liked);
-                commit('updateFromDb', {remote, commit, callback});
+                    type === 'vol' ?
+                        await remote.sync.vol.like(data.vol, data.id, data.liked) :
+                        await remote.sync.single.like(data.id, data.from, data.liked);
+                    commit('updateFromDb', {remote, commit, callback});
+                },
+                text: '同步收藏',
+                failed: false
             },
-            text: '同步收藏',
-            failed: false
-        },
-        commit: commit
-    })
+            commit: commit
+        })
+    },
+    checkUpdate: async (state, remote) => {
+        const update = await remote.update.check();
+        if (!update) return;
+        const desc = update[0].desc.map(desc => `· ${desc}\n`).join('');
+        if (remote.dialog.showMessageBox({
+                type: 'question',
+                buttons: ['取消', update[0].type === 'full' ? '下载' : '安装'],
+                defaultId: 1,
+                title: '更新',
+                message: `Luoo.qy v${update[0].version} 已经迫不及待与你见面~\n\n\n🚀新版本更新了以下内容:\n\n${desc}\n`
+            }) === 1) {
+            if (update[0].type === 'full') return remote.openURL(update[0].url);
+            const success = await remote.update.install(update[1]);
+            if (remote.dialog.showMessageBox({
+                    type: 'question',
+                    buttons: ['完成'],
+                    defaultId: 0,
+                    title: '更新',
+                    message: `${success ? '🌟' : '🙄'}更新${success ? '完成' : '失败'}`
+                }) === 0) {
+                if (!success) return;
+                remote.app.relaunch();
+                remote.app.exit(0);
+            }
+        }
+    }
 });
 
 

@@ -2,9 +2,7 @@
     <div id="app">
         <div
             id="background"
-            :style="{ backgroundImage: `url(${this.$store.state.view.vol ?
-                this.$store.state.view.vol.cover :
-                '../pic/background.jpg'})` }"
+            :style="{ backgroundImage: `url(${$store.getters.background})` }"
         />
         <HeadBar :remote="remote"/>
         <Types/>
@@ -36,7 +34,10 @@
         props: ['remote'],
         created: async function () {
             this.$store.dispatch('updateFromDb', this.remote);
-            this.remote.config.get('user').autoSync && this.$store.dispatch('updateFromServer', this.remote);
+            this.remote.config.get('autoSync') && this.$store.dispatch('updateFromServer', this.remote);
+            this.remote.config.get('autoUpdate') && setTimeout(function () {
+                this.$store.dispatch('checkUpdate', this.remote)
+            }.bind(this), 10000)
         }
     }
 </script>

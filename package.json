@@ -1,6 +1,6 @@
 {
   "name": "Luoo.qy",
-  "version": "1.0.1",
+  "version": "1.0",
   "description": "Luoo.qy",
   "main": "main.js",
   "config": {
@@ -44,8 +44,8 @@
   "scripts": {
     "start": "electron-rebuild && electron main.js",
     "dev": "webpack-dev-server --content-base",
-    "build-mac": "electron-packager . Luoo.qy --platform=darwin --arch=x64 --out build --icon=build/icon.icns --ignore=node_modules --ignore=build --ignore=src --ignore=README.md --ignore=.idea --ignore=webpack.config.js --ignore=yarn --ignore=.gitignore --overwrite --rebuild",
-    "build-win": "electron-packager . Luoo.qy --platform=win32 --arch=x64 --out build --icon=build/icon.ico --ignore=node_modules --ignore=build --ignore=src --ignore=README.md --ignore=.idea --ignore=webpack.config.js --ignore=yarn --ignore=.gitignore --overwrite --rebuild"
+    "build-mac": "electron-packager . Luoo.qy --platform=darwin --arch=x64 --out build --icon=build/icon.icns --ignore=node_modules --ignore=upgrade --ignore=src --ignore=README.md --ignore=.idea --ignore=webpack.config.js --ignore=yarn --ignore=.gitignore --overwrite --rebuild",
+    "build-win": "electron-packager . Luoo.qy --platform=win32 --arch=x64 --out build --icon=build/icon.ico --ignore=node_modules --ignore=upgrade --ignore=src --ignore=README.md --ignore=.idea --ignore=webpack.config.js --ignore=yarn --ignore=.gitignore --overwrite --rebuild"
   },
   "keywords": [
     "Luoo.qy",

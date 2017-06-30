@@ -134,10 +134,11 @@ export default {
     updateFromServer: (state, {remote, commit}) => {
         commit('addTask', {
             task: {
-                exec: () => Promise.all([
-                    remote.sync.vol.update(),
-                    remote.sync.single.update()
-                ]).then(commit('updateFromDb', {remote, commit})),
+                exec: async () => {
+                    await remote.sync.vol.update();
+                    await remote.sync.single.update();
+                    commit('updateFromDb', {remote, commit})
+                },
                 text: '更新期刊',
                 failed: false
             },
@@ -145,8 +146,10 @@ export default {
         });
         commit('addTask', {
             task: {
-                exec: () => remote.user.getCollection()
-                    .then(commit('updateFromDb', {remote, commit})),
+                exec: async () => {
+                    await remote.user.getCollection();
+                    commit('updateFromDb', {remote, commit})
+                },
                 text: '更新用户数据',
                 failed: false
             },
@@ -183,6 +186,32 @@ export default {
             },
             commit: commit
         })
+    },
+    checkUpdate: async (state, remote) => {
+        const update = await remote.update.check();
+        if (!update) return;
+        const desc = update[0].desc.map(desc => `· ${desc}\n`).join('');
+        if (remote.dialog.showMessageBox({
+                type: 'question',
+                buttons: ['取消', update[0].type === 'full' ? '下载' : '安装'],
+                defaultId: 1,
+                title: '更新',
+                message: `Luoo.qy v${update[0].version} 已经迫不及待与你见面~\n\n\n🚀新版本更新了以下内容:\n\n${desc}\n`
+            }) === 1) {
+            if (update[0].type === 'full') return remote.openURL(update[0].url);
+            const success = await remote.update.install(update[1]);
+            if (remote.dialog.showMessageBox({
+                    type: 'question',
+                    buttons: ['完成'],
+                    defaultId: 0,
+                    title: '更新',
+                    message: `${success ? '🌟' : '🙄'}更新${success ? '完成' : '失败'}`
+                }) === 0) {
+                if (!success) return;
+                remote.app.relaunch();
+                remote.app.exit(0);
+            }
+        }
     }
 }
 
