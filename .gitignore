@@ -109,3 +109,5 @@ fabric.properties
 /build/Luoo.qy-darwin-x64/
 /upgrade/
 /build/Luoo.qy-win32-x64/
+/build/Luoo.qy-linux-x64/
+/build/Luoo.qy-v1.0.zip
