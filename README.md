@@ -1,5 +1,5 @@
-# Luoo.qy
-全新的V1.0版本, 一个基于 Electron 与 Vue 的落网第三方客户端
+# 全新的 Luoo.qy V1.0版本
+一个基于 Electron 与 Vue 的落网第三方客户端  
 ![Alt text](build/screenShoot/preview.jpg?raw=true "Preview")
 
 ## 关于 / About
@@ -10,9 +10,17 @@
 
 
 ## 预览 / Preview
-![preview-1](http://ojt6rsn4s.bkt.clouddn.com/screenShot01.png)
-![preview-2](http://ojt6rsn4s.bkt.clouddn.com/screenShot02.png)
-![preview-3](http://ojt6rsn4s.bkt.clouddn.com/screenShot03.png)
+### Vol 列表:
+![Alt text](build/screenShoot/vols.png?raw=true "Preview")
+
+### Vol:
+![Alt text](build/screenShoot/vol.png?raw=true "Preview")
+
+### 单曲列表:
+![Alt text](build/screenShoot/singles.png?raw=true "Preview")
+
+### 单曲:
+![Alt text](build/screenShoot/single.png?raw=true "Preview")
 
 
 ## 开发 / Development
