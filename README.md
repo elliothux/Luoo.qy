@@ -1,5 +1,5 @@
 # Luoo.qy v1.0
-### 一个基于 Electron 与 Vue 的落网第三方客户端  
+### 一个基于 Electron 与 Vue 的落网第三方客户端 🎵  
 ![Alt text](build/screenShoot/preview.jpg?raw=true "Preview")
 
 ## 1. 关于 / About
