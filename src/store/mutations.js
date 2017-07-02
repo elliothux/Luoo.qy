@@ -199,7 +199,7 @@ export default {
                 message: `Luoo.qy v${update[0].version} 已经迫不及待与你见面~\n\n\n🚀新版本更新了以下内容:\n\n${desc}\n`
             }) === 1) {
             if (update[0].type === 'full') return remote.openURL(update[0].url);
-            const success = await remote.update.install(update[1]);
+            const success = await remote.update.install(update[0], update[1]);
             if (remote.dialog.showMessageBox({
                     type: 'question',
                     buttons: ['完成'],

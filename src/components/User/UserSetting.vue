@@ -53,8 +53,8 @@
         }"
         >
             <p>
-                版本: V1.0.0<br/>
-                上次更新: 2017 / 07 / 01
+                版本: V{{ remote.info.version }}<br/>
+                上次更新: {{ remote.info.latestUpdate }}
             </p>
             <p>
                 Luoo.qy 是独立音乐网站<span class="userSettingLink" @click.stop="openUrl('http://www.luoo.net/')">落网</span>的第三方电脑客户端, 软件内的所有内容均来自于落网。<br/>

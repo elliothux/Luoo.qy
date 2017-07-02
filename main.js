@@ -1,4 +1,5 @@
 const electron = require('electron');
+const fs = require('node-fs-extra');
 const path = require('path');
 const url = require('url');
 const db = require('./static/js/db');
@@ -37,7 +38,8 @@ exports = Object.assign(exports, {
     app: app,
     dialog: dialog,
     update: update,
-    openURL: shell.openExternal
+    openURL: shell.openExternal,
+    info: fs.readJSONFileSync(path.join(__dirname, './package.json')),
 });
 
 

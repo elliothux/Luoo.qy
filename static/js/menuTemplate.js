@@ -8,16 +8,6 @@ module.exports = (app, window, ipcMain) => [
         label: "Luoo.qy",
         submenu: [
             {
-                label: '关于Page.qy',
-                selector: "orderFrontStandardAboutPanel:"
-            },
-            {type: "separator"},
-            {
-                label: "退出",
-                accelerator: "CmdOrCtrl+Q",
-                click: app.quit
-            },
-            {
                 label: "关闭",
                 accelerator: "CmdOrCtrl+W",
                 click: () => {
@@ -25,6 +15,11 @@ module.exports = (app, window, ipcMain) => [
                         (platform === 'win32' ?  window.minimize() : window.hide()) :
                         BrowserWindow.getFocusedWindow().close()
                 }
+            },
+            {
+                label: "退出",
+                accelerator: "CmdOrCtrl+Q",
+                click: app.quit
             },
             {
                 label: "重新载入",

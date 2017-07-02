@@ -14127,7 +14127,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "id": "userSettingAbout"
     }
-  }, [_vm._m(0), _vm._v(" "), _c('p', [_vm._v("\n            Luoo.qy 是独立音乐网站"), _c('span', {
+  }, [_c('p', [_vm._v("\n            版本: V" + _vm._s(_vm.remote.info.version)), _c('br'), _vm._v("\n            上次更新: " + _vm._s(_vm.remote.info.latestUpdate) + "\n        ")]), _vm._v(" "), _c('p', [_vm._v("\n            Luoo.qy 是独立音乐网站"), _c('span', {
     staticClass: "userSettingLink",
     on: {
       "click": function($event) {
@@ -14152,9 +14152,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }, [_vm._v("知乎")]), _vm._v("向我提出建议或者Bug。"), _c('br')])])])
-},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('p', [_vm._v("\n            版本: V1.0.0"), _c('br'), _vm._v("\n            上次更新: 2017 / 07 / 01\n        ")])
-}]}
+},staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
@@ -15783,7 +15781,7 @@ function _formatTime(time) {
                 message: `Luoo.qy v${update[0].version} 已经迫不及待与你见面~\n\n\n🚀新版本更新了以下内容:\n\n${desc}\n`
             }) === 1) {
             if (update[0].type === 'full') return remote.openURL(update[0].url);
-            const success = await remote.update.install(update[1]);
+            const success = await remote.update.install(update[0], update[1]);
             if (remote.dialog.showMessageBox({
                     type: 'question',
                     buttons: ['完成'],

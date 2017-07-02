@@ -14,12 +14,6 @@ const URL = `http://115.159.29.32/update/${{ darwin: 0, win32: 1, linux: 2 }[req
 const target = path.join(__dirname, "../../upgrade/");
 
 
-async function test() {
-    const update = await check();
-    console.log(update[1]);
-    await install(update[1]);
-}
-
 
 async function check() {
     fs.existsSync(target) && fs.removeSync(target);
@@ -34,7 +28,7 @@ async function check() {
 }
 
 
-async function install(filePath) {
+async function install(info, filePath) {
     console.log('Start install update...');
     filePath = await _extractUpdateFile(filePath);
     console.log(filePath);
