@@ -160,7 +160,7 @@ Koa is cool! 😎
 因为落网官方的歌词很不全而且大多不支持歌词滚动, 因此正在找合适的第三方 API 来获取歌词, 实在不行上爬虫, 但是一定会有的! 另外**可能会**加入自动同步收藏到网易云等功能, 敬请期待...
 
 #### 怎样给我反馈 Bug 或提建议?
-直接在 GitHub 上开 ISSUE 或者关注 [我的知乎](https://www.zhihu.com/people/hu-qing-yang-67/activities) 向我发私信, 你也可以给我发邮件 [hqy841440305@gmail.com](mailto://hqy841440305@gmail.com);
+直接在 GitHub 上开 ISSUE 或者关注 [我的知乎](https://www.zhihu.com/people/hu-qing-yang-67/activities) 向我发私信, 你也可以给我发邮件 [hqy841440305@gmail.com](mailto:hqy841440305@gmail.com);
 
 ## 总结 / Summary
 特别感谢我的好基友 [kylewh @GitHub](https://github.com/kylewh) 在 UI 和 HTTP 请求分析等方面给我提供的宝贵的指导和建议! 欢迎前端的同学特别是 React 技术栈的关注他的 GitHub !  
