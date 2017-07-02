@@ -10,7 +10,7 @@
             :src="'../pic/head-back.svg'"
             v-on:click.stop="login"
         />
-        <a>没有账号? 点击这里注册</a>
+        <a @click.stop="signUp">没有账号? 点击这里注册</a>
     </div>
 </template>
 
@@ -39,6 +39,9 @@
                     this.isLoading = false;
                     console.error(error)
                 }.bind(this))
+            },
+            signUp: function () {
+                this.remote.openURL('http://www.luoo.net/')
             }
         }
     }

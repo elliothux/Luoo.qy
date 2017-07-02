@@ -11197,6 +11197,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 this.isLoading = false;
                 console.error(error);
             }.bind(this));
+        },
+        signUp: function () {
+            this.remote.openURL('http://www.luoo.net/');
         }
     }
 });
@@ -13607,7 +13610,14 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.login($event)
       }
     }
-  }), _vm._v(" "), _c('a', [_vm._v("没有账号? 点击这里注册")])])
+  }), _vm._v(" "), _c('a', {
+    on: {
+      "click": function($event) {
+        $event.stopPropagation();
+        _vm.signUp($event)
+      }
+    }
+  }, [_vm._v("没有账号? 点击这里注册")])])
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
