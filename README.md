@@ -1,3 +1,6 @@
+
+### 🙈 Luoo.qy 新版本正在计划中，老版本因精力有限暂时停止维护
+
 # Luoo.qy v1.0
 ### 一个基于 Electron 与 Vue 的落网第三方客户端 🎵  
 ![Alt text](build/screenShoot/preview.jpg?raw=true "Preview")
