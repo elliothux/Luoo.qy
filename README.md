@@ -1,4 +1,4 @@
-### RIP · 因 luoo.fm 停止运营，Luoo.qy 于2019年1月停止维护 · 落在低处
+### RIP · 因 luoo.net 停止运营，Luoo.qy 于2019年1月停止维护 · 落在低处
 
 # Luoo.qy v1.0
 ### 一个基于 Electron 与 Vue 的落网第三方客户端 🎵  
