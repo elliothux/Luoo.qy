@@ -1,9 +1,0 @@
-Luoo.qy V1.0
-
-全新的 UI
-支持用户登录
-支持同步收藏
-更快的速度
-上百项的细节优化
-
-Development By HuQingyang @Github(https://github.com/HuQingyang)
