@@ -1,0 +1,41 @@
+{
+  "env": {
+    "development": {
+      "application/javascript": {
+        "presets": [
+          [
+            "env",
+            {
+              "targets": {
+                "electron": "4.0"
+              }
+            }
+          ]
+        ],
+        "plugins": [
+          "transform-async-to-generator"
+        ],
+        "sourceMaps": "inline"
+      }
+    },
+    "production": {
+      "application/javascript": {
+        "presets": [
+          [
+            "env",
+            {
+              "targets": {
+                "electron": "4.0"
+              }
+            }
+          ],
+          "react"
+        ],
+        "plugins": [
+          "transform-async-to-generator"
+        ],
+        "sourceMaps": "none"
+      }
+    }
+  }
+}

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="39px" height="42px" viewBox="0 0 39 42" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.3 (57544) - http://www.bohemiancoding.com/sketch -->
+    <title>article</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linejoin="round">
+        <g id="vol" transform="translate(-35.000000, -604.000000)" stroke="#FFFFFF" stroke-width="2">
+            <g id="article" transform="translate(32.000000, 605.000000)">
+                <g transform="translate(4.787234, -0.000000)" id="Shape">
+                    <path d="M3.72900336,7.15881709 L35.4255319,7.15881709 L35.4255319,39.373494 L4.6612542,39.373494 C2.08691473,39.373494 0,37.3703004 0,34.8992333 L0,3.57940854"></path>
+                    <path d="M35.4255319,-3.57931615e-07 L3.72900336,-3.57931615e-07"></path>
+                    <path d="M3.72900336,3.57940854 L34.4932811,3.57940854"></path>
+                    <path d="M3.72900336,7.15881709 C1.66953176,7.15881709 0,5.55626121 0,3.57940854 C0,1.60255588 1.66953176,0 3.72900336,0"></path>
+                    <path d="M21.212766,33 L28.6843019,33"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
