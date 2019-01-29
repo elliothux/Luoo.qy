@@ -13,12 +13,14 @@ const createWindow = () => {
   mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
+    title: 'Luoo.qy'
   });
 
   // mainWindow.loadURL(`file://${__dirname}/index.html`);
   mainWindow.loadURL(`http://localhost:3000/`);
 
   mainWindow.webContents.openDevTools();
+  mainWindow.setTitle('Luoo.qy');
 
   mainWindow.on('closed', () => {
     mainWindow = null;
