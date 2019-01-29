@@ -1,50 +1,32 @@
-
 #nav {
   position: fixed;
-  width: 100px;
-  height: calc(100% - 40px);
-  padding: 20px 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  top: 20px;
   display: flex;
-  flex-direction: column;
   justify-content: space-between;
-  //box-shadow: 4px 0 10px 0 rgba(0,0,0,0.3);
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
 
   #nav-logo {
-    width: 64px;
-    margin: 0 auto;
-    cursor: pointer;
+    width: 66px;
+    height: 60px;
+   margin-top: 10px;
   }
 
+  #nav-actions,
   #nav-buttons {
-    height: 260px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    margin-bottom: 100px;
-
+   margin: 0 20px;
     & > div {
+      display: inline-block;
       text-align: center;
-      cursor: pointer;
-      img {
-        width: 30px;
-        height: 30px;
-        margin-bottom: 2px;
+      margin: 0 6px;
+     cursor: pointer;
+      & > .icon {
+        width: 44px;
       }
-    }
-  }
-
-  #nav-user {
-    text-align: center;
-    cursor: pointer;
-    img {
-      width: 36px;
-      height: 36px;
-      border-radius: 100%;
-    }
-    p {
-      margin-top: 6px;
-      font-size: 14px;
+      & > p {
+        font-size: 14px;
+      }
     }
   }
 }

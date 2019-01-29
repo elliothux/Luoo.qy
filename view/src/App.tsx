@@ -1,8 +1,8 @@
 
 import * as React from 'react';
 // import store from './store';
-import Nav from './components/nav';
-import Background from './components/background';
+import { Nav } from './components/nav';
+import { Background } from './components/background';
 
 
 function App() {
