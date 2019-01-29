@@ -47,6 +47,7 @@
     }
   },
   "dependencies": {
+    "@types/electron": "^1.6.10",
     "electron-compile": "^6.4.4",
     "electron-squirrel-startup": "^1.0.0"
   },
