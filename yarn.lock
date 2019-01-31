@@ -60,6 +60,10 @@
     vue-template-compiler "^2.0.0-alpha.8"
     vue-template-es2015-compiler "^1.4.2"
 
+"@types/caseless@*":
+  version "0.12.1"
+  resolved "http://r.cnpmjs.org/@types/caseless/download/@types/caseless-0.12.1.tgz#9794c69c8385d0192acc471a540d1f8e0d16218a"
+
 "@types/electron@^1.6.10":
   version "1.6.10"
   resolved "http://r.cnpmjs.org/@types/electron/download/@types/electron-1.6.10.tgz#7e87888ed3888767cca68e92772c2c8ea46bc873"
@@ -69,6 +73,12 @@
 "@types/events@*":
   version "3.0.0"
   resolved "http://r.cnpmjs.org/@types/events/download/@types/events-3.0.0.tgz#2862f3f58a9a7f7c3e78d79f130dd4d71c25c2a7"
+
+"@types/form-data@*":
+  version "2.2.1"
+  resolved "http://r.cnpmjs.org/@types/form-data/download/@types/form-data-2.2.1.tgz#ee2b3b8eaa11c0938289953606b745b738c54b1e"
+  dependencies:
+    "@types/node" "*"
 
 "@types/glob@*":
   version "7.1.1"
@@ -97,6 +107,19 @@
 "@types/node@^8.0.24":
   version "8.10.39"
   resolved "http://r.cnpmjs.org/@types/node/download/@types/node-8.10.39.tgz#e7e87ad00364dd7bc485c940926345b8ec1a26ca"
+
+"@types/request@^2.48.1":
+  version "2.48.1"
+  resolved "http://r.cnpmjs.org/@types/request/download/@types/request-2.48.1.tgz#e402d691aa6670fbbff1957b15f1270230ab42fa"
+  dependencies:
+    "@types/caseless" "*"
+    "@types/form-data" "*"
+    "@types/node" "*"
+    "@types/tough-cookie" "*"
+
+"@types/tough-cookie@*":
+  version "2.3.5"
+  resolved "http://r.cnpmjs.org/@types/tough-cookie/download/@types/tough-cookie-2.3.5.tgz#9da44ed75571999b65c37b60c9b2b88db54c585d"
 
 abab@^1.0.0:
   version "1.0.4"
@@ -4931,7 +4954,7 @@ request@2.81.0:
     tunnel-agent "^0.6.0"
     uuid "^3.0.0"
 
-request@2.x, request@^2.45.0, request@^2.55.0, request@^2.87.0:
+request@2.x, request@^2.45.0, request@^2.55.0, request@^2.87.0, request@^2.88.0:
   version "2.88.0"
   resolved "http://r.cnpmjs.org/request/download/request-2.88.0.tgz#9c2fca4f7d35b592efe57c7f0a55e81052124fef"
   dependencies:

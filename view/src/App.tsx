@@ -1,8 +1,8 @@
 
 import * as React from 'react';
-// import store from './store';
 import { Nav } from './components/nav';
 import { Background } from './components/background';
+import { Vols } from './pages/vols';
 
 
 function App() {
@@ -10,6 +10,7 @@ function App() {
         <>
             <Background key={0} />
             <Nav key={1} />
+            <Vols />
         </>
     )
 }

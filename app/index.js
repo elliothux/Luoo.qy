@@ -1,4 +1,5 @@
 import { app, BrowserWindow } from 'electron';
+import { requestVols } from './utils';
 
 
 if (require('electron-squirrel-startup')) {
@@ -39,5 +40,12 @@ app.on('window-all-closed', () => {
 app.on('activate', () => {
   if (mainWindow === null) {
     createWindow();
+  }
+});
+
+
+Object.defineProperty(global, 'ipc', {
+  value: {
+    requestVols
   }
 });
