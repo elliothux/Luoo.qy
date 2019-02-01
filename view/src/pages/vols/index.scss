@@ -1,6 +1,6 @@
-
 #vols {
-  z-index: 1;
-  position: fixed;
-  top: 112px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-column-gap: 3vw;
+  grid-row-gap: 3vw;
 }

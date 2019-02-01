@@ -1,7 +1,6 @@
-import * as React from 'react';
-import BG from '../../static/fake-bg.png';
-import './index.scss';
-
+import * as React from "react";
+import BG from "../../static/fake-bg.png";
+import "./index.scss";
 
 function Background() {
   return (
@@ -12,7 +11,4 @@ function Background() {
   );
 }
 
-
-export {
-    Background
-};
+export { Background };

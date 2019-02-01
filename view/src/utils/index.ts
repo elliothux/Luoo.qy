@@ -1,7 +1,3 @@
+import * as ipc from "./ipc";
 
-import * as ipc from './ipc';
-
-
-export {
-  ipc
-}
+export { ipc };

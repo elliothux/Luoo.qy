@@ -1,9 +1,7 @@
-
 * {
   margin: 0;
   padding: 0;
 }
-
 
 #root {
   width: 100%;
@@ -13,12 +11,33 @@
   font-family: PingFangSC-Light;
   color: white;
 
-  #bg { z-index: 0 }
-  #nav { z-index: 2 }
-  #vols { z-index: 1 }
+  & > * {
+    position: fixed;
+  }
 
-  #nav, #vols {
+  #bg {
+    z-index: 0;
+  }
+  #nav {
+    z-index: 2;
+  }
+  #vols {
+    z-index: 1;
+  }
+
+  #nav {
     padding: 0 25px;
     width: calc(100% - 50px);
+  }
+
+  #vols {
+    padding: 0 35px;
+    width: calc(100% - 70px);
+  }
+
+  #vols {
+    top: 112px;
+    height: calc(100% - 112px);
+    overflow-y: auto;
   }
 }
