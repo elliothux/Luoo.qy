@@ -5,7 +5,6 @@ import { VolItem } from "../../components/vol-item";
 import { VolInfo } from "../../types";
 import "./index.scss";
 
-
 @observer
 class Vols extends React.Component {
   async componentDidMount() {

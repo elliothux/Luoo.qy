@@ -1,4 +1,3 @@
-
 .vol-track-item {
   position: relative;
   cursor: pointer;
@@ -33,7 +32,8 @@
     word-break: break-word;
   }
 
-  .vol-track-item-album, .vol-track-item-artist {
+  .vol-track-item-album,
+  .vol-track-item-artist {
     font-size: 0.7em;
     word-break: break-word;
   }

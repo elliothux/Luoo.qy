@@ -65,14 +65,14 @@ function Icon(props: Props) {
       src = PLAY;
       break;
     case IconTypes.PLAY_SOLID:
-        src = PLAY_SOLID;
-        break;
+      src = PLAY_SOLID;
+      break;
     case IconTypes.LIKE:
       src = LIKE;
       break;
     case IconTypes.LOGO:
-        src = LOGO;
-        break;
+      src = LOGO;
+      break;
     default:
       throw "Invalid icon type";
   }
