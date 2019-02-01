@@ -14,5 +14,11 @@
   color: white;
 
   #bg { z-index: 0 }
-  #nav { z-index: 1 }
+  #nav { z-index: 2 }
+  #vols { z-index: 1 }
+
+  #nav, #vols {
+    padding: 0 25px;
+    width: calc(100% - 50px);
+  }
 }

@@ -5,7 +5,6 @@
   justify-content: space-between;
   flex-direction: row;
   align-items: center;
-  width: 100%;
 
   #nav-logo {
     width: 66px;
@@ -15,11 +14,9 @@
 
   #nav-actions,
   #nav-buttons {
-   margin: 0 20px;
     & > div {
       display: inline-block;
       text-align: center;
-      margin: 0 0.8vw;
      cursor: pointer;
       & > .icon {
         width: 44px;
@@ -28,5 +25,12 @@
         font-size: 14px;
       }
     }
+  }
+
+  #nav-actions > div {
+    margin-right: 0.8vw;
+  }
+  #nav-buttons > div {
+    margin-left: 0.8vw;
   }
 }
