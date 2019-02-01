@@ -2,7 +2,13 @@
 .vol-item {
   cursor: pointer;
   position: relative;
+  transition: all ease 600ms;
   box-shadow: 0 10px 50px 0 rgba(0, 0, 0, 0.5);
+
+  &:hover {
+    transform: scale(1.05);
+    box-shadow: none;
+  }
 
   & > * {
     z-index: 2;
@@ -22,18 +28,56 @@
     width: 100%;
     height: auto;
     position: relative;
+    box-shadow: 0 10px 50px 0 rgba(0, 0, 0, 0.5);
   }
 
   .vol-item-info {
-    padding: 20px;
+    padding: 15px 20px 20px 20px;
     .vol-item-info-index {
       font-size: 2.5em;
       letter-spacing: 0.05em;
       font-family: "Savoye LET", sans-serif;
-      line-height: 0.8em;
-      span {
-        font-size: 0.8em;
-        font-weight: 300;
+    }
+    .vol-item-info-title {
+      font-size: 1.3em;
+      margin-top: 4px;
+    }
+    .vol-item-operate {
+      position: absolute;
+      right: 6%;
+      top: 0;
+      width: 22%;
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      .icon {
+        width: 28px;
+        height: 28px;
+      }
+    }
+  }
+
+  .vol-item-tags {
+    position: absolute;
+    left: 10px;
+    top: 6px;
+    & > span {
+      display: inline-block;
+      color: white;
+      background-color: rgba(0, 0, 0, 0.2);
+      font-size: 10px;
+      line-height: 14px;
+      padding: 0 5px;
+      height: 16px;
+      border-radius: 16px;
+      margin-right: 4px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 2px 5px 0 rgba(0,0,0,0.10);
+      transition: all ease 600ms;
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.5);
+        transform: scale(1.1);
       }
     }
   }

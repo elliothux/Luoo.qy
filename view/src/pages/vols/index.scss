@@ -1,6 +1,7 @@
 #vols {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  grid-column-gap: 3vw;
-  grid-row-gap: 3vw;
+  grid-column-gap: 8vw;
+  grid-row-gap: 4vw;
+  padding-top: 25px !important;
 }

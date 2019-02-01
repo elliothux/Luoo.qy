@@ -1,5 +1,5 @@
 import * as React from "react";
-import BG from "../../static/fake-bg.png";
+import BG from "../../static/fake-bg.jpg";
 import "./index.scss";
 
 function Background() {
