@@ -1,0 +1,41 @@
+#mini-player {
+  bottom: 30px;
+  left: 0;
+  padding-left: 36px;
+  width: 40vw;
+  height: 80px;
+  //background-color: red;
+  display: flex;
+  justify-content: flex-start;
+
+  #mini-player-operation {
+    .icon {
+      display: block;
+      width: 20px;
+      height: 20px;
+      margin: 10px 0;
+      cursor: pointer;
+    }
+  }
+
+  #mini-player-cover {
+    height: 80px;
+    width: 80px;
+    background-size: cover;
+    background-position: center;
+    border: 0.001em solid rgba(255, 255, 255, 1);
+    margin: 0 16px;
+  }
+
+  #mini-player-info {
+    #mini-player-info-name {
+      font-size: 1em;
+      margin-bottom: 7px;
+      word-break: break-word;
+    }
+    #mini-player-info-album {
+      font-size: 0.7em;
+      word-break: break-word;
+    }
+  }
+}

@@ -7,10 +7,6 @@ import "./index.scss";
 
 @observer
 class Vol extends React.Component {
-  async componentDidMount() {
-    console.log(await store.getVols());
-  }
-
   render() {
     const { selectedVol: vol } = store;
     if (!vol) return null;

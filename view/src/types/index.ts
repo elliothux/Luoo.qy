@@ -1,5 +1,13 @@
-export enum Views {
-  VOL
+export enum ViewTypes {
+  VOLS,
+  VOL_INFO,
+  SINGLES,
+  PLAYING
+}
+
+export enum PlayingTypes {
+  VOL,
+  SINGLE
 }
 
 export interface VolInfo {
