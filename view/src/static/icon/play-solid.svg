@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="66px" height="66px" viewBox="0 0 66 66" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.3 (57544) - http://www.bohemiancoding.com/sketch -->
+    <title>play-solid</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="main" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="res" transform="translate(-768.000000, -924.000000)" fill="#FFFFFF">
+            <g id="play-solid" transform="translate(768.000000, 924.000000)">
+                <path d="M54.3309494,33.9877526 L14.0797638,56.7926668 C13.1288687,57.3293421 12,56.7618102 12,55.8049144 L12,10.1950836 C12,9.23818963 13.1288687,8.67065937 14.0797638,9.20733176 L54.4086279,32.0122477 C55.2471132,32.4854776 55.1694347,33.5145226 54.3309494,33.9877526 Z"></path>
+            </g>
+        </g>
+    </g>
+</svg>

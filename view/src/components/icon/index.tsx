@@ -9,6 +9,7 @@ import USER from "../../static/icon/user.svg";
 import VOL from "../../static/icon/vol.svg";
 import LIKE from "../../static/icon/like.svg";
 import PLAY from "../../static/icon/play.svg";
+import PLAY_SOLID from "../../static/icon/play-solid.svg";
 import LOGO from "../../static/icon/logo.png";
 import "./index.scss";
 
@@ -23,7 +24,8 @@ enum IconTypes {
   VOL,
   LIKE,
   PLAY,
-  LOGO
+  LOGO,
+  PLAY_SOLID
 }
 
 export interface Props {
@@ -62,6 +64,9 @@ function Icon(props: Props) {
     case IconTypes.PLAY:
       src = PLAY;
       break;
+    case IconTypes.PLAY_SOLID:
+        src = PLAY_SOLID;
+        break;
     case IconTypes.LIKE:
       src = LIKE;
       break;

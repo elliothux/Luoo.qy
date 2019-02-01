@@ -18,7 +18,7 @@ function VolItem(props: Props) {
           <div className="vol-item-info">
               <p className="vol-item-info-index">vol.{volInfo.vol}</p>
               <p className="vol-item-info-title">{volInfo.title}</p>
-              <div className="vol-item-operate">
+              <div className="vol-item-operation">
                   <Icon type={IconTypes.LIKE} />
                   <Icon type={IconTypes.PLAY} />
               </div>

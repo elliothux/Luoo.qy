@@ -23,14 +23,17 @@
     z-index: 2;
   }
 
-  #vol-info {
+  #vol-info, #vol-tracks {
     position: absolute;
     z-index: 3;
-    width: 50%;
     top: 136px;
-    padding-left: 36px;
     height: calc(100% - 136px);
     overflow-y: auto;
+  }
+
+  #vol-info {
+    width: 50%;
+    padding-left: 36px;
 
     #vol-info-tags {
       margin-bottom: 30px;
@@ -73,7 +76,7 @@
     }
 
     #vol-info-date {
-      font-size: 14px;
+      font-size: 13px;
       line-height: 22px;
       margin-top: 30px;
       margin-bottom: 50px;
@@ -81,9 +84,19 @@
         width: auto;
         height: 22px;
         position: relative;
-        top: 5px;
+        top: 6px;
         margin-right: 6px;
       }
     }
+  }
+
+  #vol-tracks {
+    right: 0;
+    width: 35%;
+    padding: 36px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-column-gap: 3vw;
+    grid-row-gap: 1.5vw;
   }
 }

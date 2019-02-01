@@ -1,8 +1,9 @@
 import * as React from "react";
 import {observer} from "mobx-react";
 import {store} from "../../store";
-import "./index.scss";
 import {Icon, IconTypes} from "../../components/icon";
+import { VolTrackItem } from '../../components/vol-track-item';
+import "./index.scss";
 
 @observer
 class Vol extends React.Component {
@@ -45,7 +46,11 @@ class Vol extends React.Component {
               <span id="vol-info-date">{vol.date}</span>
           </div>
         </div>
-        <div id="vol-tracks" />
+        <div id="vol-tracks">
+            {vol.tracks.map(t => (
+                <VolTrackItem key={t.id} trackInfo={t} />
+            ))}
+        </div>
       </div>
     );
   }
