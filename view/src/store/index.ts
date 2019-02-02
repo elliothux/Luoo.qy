@@ -1,20 +1,44 @@
-import {action, computed, observable} from "mobx";
-import {ipc} from "../utils";
-import {PlayingStatus, PlayingTypes, ViewTypes, VolInfo, VolTrack} from "../types";
+import { action, computed, observable } from "mobx";
+import { ipc } from "../utils";
+import {
+  PlayingStatus,
+  PlayingTypes,
+  ViewTypes,
+  VolInfo,
+  VolTrack
+} from "../types";
 
 class Store {
   @observable
   public view: ViewTypes = ViewTypes.VOLS;
 
   @observable
-  public vols: VolInfo[] = [];
+  private vols: VolInfo[] = [];
 
   @action
-  public getVols = async (): Promise<VolInfo[]> => {
-    const { data } = JSON.parse(await ipc.requestVols(900, 920));
-    this.vols = data as VolInfo[];
+  public fetchVols = async (): Promise<VolInfo[]> => {
+    const { data } = JSON.parse(await ipc.requestVols(1, 997));
+    const sorted = data.sort((i: VolInfo, j: VolInfo) => j.vol - i.vol);
+    this.vols = sorted as VolInfo[];
     return this.vols;
   };
+
+  protected pageScale = 3 * 10;
+
+  @observable
+  public volCurrentPage: number = 0;
+
+  @computed
+  public get volTotalPage(): number {
+    return this.vols.length % this.pageScale;
+  }
+
+  @computed
+  public get displayVols(): VolInfo[] {
+    const start = this.volCurrentPage * this.pageScale;
+    const end = (this.volCurrentPage + 1) * this.pageScale;
+    return this.vols.slice(start, end);
+  }
 
   @observable
   private selectedVolIndex: number = 11;
@@ -50,7 +74,7 @@ class Store {
 
   @computed
   get playingProgress(): number {
-    return Math.ceil(this.totalTime / this.playedTime * 100);
+    return Math.ceil((this.totalTime / this.playedTime) * 100);
   }
 }
 

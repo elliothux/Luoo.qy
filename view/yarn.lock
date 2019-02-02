@@ -808,6 +808,10 @@
   version "0.22.10"
   resolved "https://registry.yarnpkg.com/@types/cheerio/-/cheerio-0.22.10.tgz#780d552467824be4a241b29510a7873a7432c4a6"
 
+"@types/classnames@^2.2.7":
+  version "2.2.7"
+  resolved "http://r.cnpmjs.org/@types/classnames/download/@types/classnames-2.2.7.tgz#fb68cc9be8487e6ea5b13700e759bfbab7e0fefd"
+
 "@types/electron@^1.6.10":
   version "1.6.10"
   resolved "http://r.cnpmjs.org/@types/electron/download/@types/electron-1.6.10.tgz#7e87888ed3888767cca68e92772c2c8ea46bc873"
@@ -836,10 +840,6 @@
 "@types/jest@23.3.13":
   version "23.3.13"
   resolved "https://registry.yarnpkg.com/@types/jest/-/jest-23.3.13.tgz#c81484b6f4ca007bb09887ed15ecb3286d58f928"
-
-"@types/node@*":
-  version "10.12.21"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-10.12.21.tgz#7e8a0c34cf29f4e17a36e9bd0ea72d45ba03908e"
 
 "@types/node@10.12.19", "@types/node@^10.12.18":
   version "10.12.19"
@@ -882,13 +882,6 @@
   dependencies:
     "@types/prop-types" "*"
     csstype "^2.2.0"
-
-"@types/styled-components@^3.0.2":
-  version "3.0.2"
-  resolved "https://registry.yarnpkg.com/@types/styled-components/-/styled-components-3.0.2.tgz#274133bfafaca17f28707b667858bce197ae3b84"
-  dependencies:
-    "@types/node" "*"
-    "@types/react" "*"
 
 "@types/tapable@1.0.2":
   version "1.0.2"
@@ -2343,6 +2336,10 @@ class-utils@^0.3.5:
     define-property "^0.2.5"
     isobject "^3.0.0"
     static-extend "^0.1.1"
+
+classnames@^2.2.6:
+  version "2.2.6"
+  resolved "http://r.cnpmjs.org/classnames/download/classnames-2.2.6.tgz#43935bffdd291f326dad0a205309b38d00f650ce"
 
 clean-css@4.2.x:
   version "4.2.1"
@@ -9145,7 +9142,7 @@ style-loader@0.23.0:
     loader-utils "^1.1.0"
     schema-utils "^0.4.5"
 
-styled-components@2, styled-components@^2.4.0:
+styled-components@^2.4.0:
   version "2.4.1"
   resolved "https://registry.yarnpkg.com/styled-components/-/styled-components-2.4.1.tgz#663bd0485d4b6ab46f946210dc03d2398d1ade74"
   dependencies:

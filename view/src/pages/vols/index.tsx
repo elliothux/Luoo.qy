@@ -2,15 +2,12 @@ import * as React from "react";
 import { observer } from "mobx-react";
 import { store } from "../../store";
 import { VolItem } from "../../components/vol-item";
+import { Pagination } from "../../components/pagination";
 import { VolInfo } from "../../types";
 import "./index.scss";
 
 @observer
 class Vols extends React.Component {
-  async componentDidMount() {
-    console.log(await store.getVols());
-  }
-
   static renderEmpty = () => {
     return <h1>EMPTY</h1>;
   };
@@ -20,11 +17,16 @@ class Vols extends React.Component {
   };
 
   render() {
-    const { vols } = store;
-    if (!vols.length) {
+    const { displayVols } = store;
+    if (!displayVols.length) {
       return Vols.renderEmpty();
     }
-    return <div id="vols">{Vols.renderVols(vols)}</div>;
+    return (
+      <div id="vols">
+        {Vols.renderVols(displayVols)}
+        <Pagination />
+      </div>
+    );
   }
 }
 

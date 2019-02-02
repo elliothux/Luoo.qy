@@ -16,6 +16,8 @@ import WAVE from "../../static/icon/wave.svg";
 import PRE from "../../static/icon/pre.svg";
 import NEXT from "../../static/icon/next.svg";
 import RANDOM from "../../static/icon/random.svg";
+import ARROW_LEFT from "../../static/icon/arrow-left.svg";
+import ARROW_RIGHT from "../../static/icon/arrow-right.svg";
 import "./index.scss";
 
 enum IconTypes {
@@ -35,7 +37,9 @@ enum IconTypes {
   WAVE,
   PRE,
   NEXT,
-  RANDOM
+  RANDOM,
+  ARROW_LEFT,
+  ARROW_RIGHT
 }
 
 export interface Props {
@@ -97,6 +101,12 @@ function Icon(props: Props) {
       break;
     case IconTypes.RANDOM:
       src = RANDOM;
+      break;
+    case IconTypes.ARROW_LEFT:
+      src = ARROW_LEFT;
+      break;
+    case IconTypes.ARROW_RIGHT:
+      src = ARROW_RIGHT;
       break;
     default:
       throw "Invalid icon type";
