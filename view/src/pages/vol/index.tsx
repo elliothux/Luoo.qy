@@ -1,8 +1,8 @@
 import * as React from "react";
-import { observer } from "mobx-react";
-import { store } from "../../store";
-import { Icon, IconTypes } from "../../components/icon";
-import { VolTrackItem } from "../../components/vol-track-item";
+import {observer} from "mobx-react";
+import {store} from "../../store";
+import {Icon, IconTypes} from "../../components/icon";
+import {VolTrackItem} from "../../components/vol-track-item";
 import "./index.scss";
 
 @observer
@@ -26,8 +26,9 @@ class Vol extends React.Component {
             ))}
           </div>
           <p id="vol-info-index">
-            vol.
-            {vol.vol}
+            vol.{vol.vol}
+              <Icon type={IconTypes.LIKE}/>
+              <Icon type={IconTypes.PLAY}/>
           </p>
           <p id="vol-info-title">{vol.title}</p>
           <div
