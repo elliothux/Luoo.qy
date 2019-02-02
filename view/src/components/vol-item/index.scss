@@ -1,8 +1,11 @@
 .vol-item {
-  cursor: pointer;
   position: relative;
   transition: all ease 600ms;
   box-shadow: 0 10px 50px 0 rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+  * {
+    cursor: pointer;
+  }
 
   &:hover {
     transform: scale(1.05);
@@ -20,7 +23,7 @@
     width: 100%;
     height: 100%;
     top: 0;
-    opacity: 0.85;
+    opacity: 0.65;
   }
 
   .vol-item-cover {

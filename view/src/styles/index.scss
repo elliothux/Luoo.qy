@@ -32,7 +32,8 @@
 
   #vols {
     top: 112px;
-    height: calc(100% - 112px);
+    height: calc(100% - 186px);
+    padding-bottom: 50px;
     overflow-y: auto;
   }
 }

@@ -11,8 +11,8 @@ function App() {
       <Background key={0} />
       <Nav key={1} />
       <MiniPlayer />
-      {/*<Vols />*/}
-      <Vol />
+      <Vols />
+      {/*<Vol />*/}
     </>
   );
 }

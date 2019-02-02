@@ -1,8 +1,18 @@
-#mini-player {
+#mini-player-collapsed, #mini-player {
   bottom: 20px;
   left: 0;
-  margin-left: 36px;
-  height: 80px;
+  margin-left: 15px;
+  height: 20px;
+}
+
+#mini-player-collapsed {
+  .icon {
+    width: 30px;
+    height: 30px;
+  }
+}
+
+#mini-player {
   display: flex;
   justify-content: flex-start;
 
