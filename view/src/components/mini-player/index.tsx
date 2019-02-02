@@ -1,8 +1,8 @@
 import * as React from 'react';
 import {observer} from 'mobx-react';
 import {store} from '../../store';
-import "./index.scss";
 import {Icon, IconTypes} from "../icon";
+import "./index.scss";
 
 
 function IMiniPlayer() {
@@ -17,6 +17,12 @@ function IMiniPlayer() {
             <div id="mini-player-info">
                 <p id="mini-player-info-name">{info.name}</p>
                 <p id="mini-player-info-album">{info.album} - {info.artist}</p>
+                <div id="mini-player-controller">
+                    <Icon type={IconTypes.PRE}/>
+                    <Icon className="play" type={IconTypes.PLAY}/>
+                    <Icon type={IconTypes.NEXT}/>
+                    <Icon className="play-mode" type={IconTypes.RANDOM}/>
+                </div>
             </div>
         </div>
     )

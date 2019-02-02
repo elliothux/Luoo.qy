@@ -30,12 +30,23 @@
   #mini-player-info {
     #mini-player-info-name {
       font-size: 1em;
-      margin-bottom: 7px;
+      //margin-bottom: 7px;
       word-break: break-word;
     }
     #mini-player-info-album {
       font-size: 0.7em;
       word-break: break-word;
+    }
+    #mini-player-controller {
+      .icon {
+        height: 28px;
+        width: auto;
+        cursor: pointer;
+        margin-right: 6px;
+        &.play, &.play-mode {
+          margin-left: 7px;
+        }
+      }
     }
   }
 }

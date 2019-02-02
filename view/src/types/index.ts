@@ -10,6 +10,13 @@ export enum PlayingTypes {
   SINGLE
 }
 
+export enum PlayingStatus {
+  STOP,
+  PLAYING,
+  PAUSE,
+  FETCHING
+}
+
 export interface VolInfo {
   id: number;
   vol: number;

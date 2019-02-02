@@ -1,4 +1,5 @@
 import * as React from "react";
+import LOGO from "../../static/icon/logo.png";
 import BACK from "../../static/icon/back.svg";
 import CATEGORY from "../../static/icon/cate.svg";
 import SEARCH from "../../static/icon/search.svg";
@@ -10,8 +11,10 @@ import VOL from "../../static/icon/vol.svg";
 import LIKE from "../../static/icon/like.svg";
 import PLAY from "../../static/icon/play.svg";
 import PLAY_SOLID from "../../static/icon/play-solid.svg";
-import LOGO from "../../static/icon/logo.png";
 import CLOUD from "../../static/icon/cloud.svg";
+import PRE from "../../static/icon/pre.svg";
+import NEXT from "../../static/icon/next.svg";
+import RANDOM from "../../static/icon/random.svg";
 import "./index.scss";
 
 enum IconTypes {
@@ -27,7 +30,10 @@ enum IconTypes {
   PLAY,
   LOGO,
   PLAY_SOLID,
-  CLOUD
+  CLOUD,
+  PRE,
+  NEXT,
+  RANDOM
 }
 
 export interface Props {
@@ -78,6 +84,15 @@ function Icon(props: Props) {
     case IconTypes.CLOUD:
       src = CLOUD;
       break;
+    case IconTypes.PRE:
+      src = PRE;
+      break;
+    case IconTypes.NEXT:
+      src = NEXT;
+      break;
+    case IconTypes.RANDOM:
+        src = RANDOM;
+        break;
     default:
       throw "Invalid icon type";
   }

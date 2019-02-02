@@ -1,6 +1,6 @@
 import {action, computed, observable} from "mobx";
 import {ipc} from "../utils";
-import {PlayingTypes, ViewTypes, VolInfo, VolTrack} from "../types";
+import {PlayingStatus, PlayingTypes, ViewTypes, VolInfo, VolTrack} from "../types";
 
 class Store {
   @observable
@@ -25,7 +25,7 @@ class Store {
   }
 
   @observable
-  public isPlaying = true;
+  public playStatus: PlayingStatus = PlayingStatus.PLAYING;
 
   @observable
   private playingType: PlayingTypes = PlayingTypes.VOL;
