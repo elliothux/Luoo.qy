@@ -1,19 +1,19 @@
 #mini-player {
-  bottom: 30px;
+  bottom: 20px;
   left: 0;
-  padding-left: 36px;
-  width: 40vw;
+  margin-left: 36px;
   height: 80px;
-  //background-color: red;
   display: flex;
   justify-content: flex-start;
 
   #mini-player-operation {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     .icon {
       display: block;
       width: 20px;
       height: 20px;
-      margin: 10px 0;
       cursor: pointer;
     }
   }
@@ -24,19 +24,39 @@
     background-size: cover;
     background-position: center;
     border: 0.001em solid rgba(255, 255, 255, 1);
-    margin: 0 16px;
+    margin: 0 12px;
+    box-shadow: 0 0 30px 5px rgba(0, 0, 0, 0.35);
+    transition: all ease 600ms;
+    &:hover {
+      transform: scale(1.05);
+      box-shadow: none;
+    }
   }
 
   #mini-player-info {
-    #mini-player-info-name {
-      font-size: 1em;
-      //margin-bottom: 7px;
-      word-break: break-word;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 20vw;
+    max-width: 300px;
+
+    #mini-player-info-text {
+      position: relative;
+      top: -5px;
+      & > p {
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        word-break: break-word;
+      }
+      #mini-player-info-name {
+        font-size: 1em;
+      }
+      #mini-player-info-album {
+        font-size: 0.7em;
+      }
     }
-    #mini-player-info-album {
-      font-size: 0.7em;
-      word-break: break-word;
-    }
+
     #mini-player-controller {
       .icon {
         height: 28px;
@@ -46,6 +66,20 @@
         &.play, &.play-mode {
           margin-left: 7px;
         }
+      }
+    }
+
+    #mini-player-progress {
+      width: 100%;
+      height: 2px;
+      background-color: rgba(255, 255, 255, 0.3);
+      position: relative;
+      & > div {
+        height: 100%;
+        position: absolute;
+        left: 0;
+        top: 0;
+        background-color: white;
       }
     }
   }

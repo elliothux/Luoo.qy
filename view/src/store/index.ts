@@ -25,12 +25,6 @@ class Store {
   }
 
   @observable
-  public playStatus: PlayingStatus = PlayingStatus.PLAYING;
-
-  @observable
-  private playingType: PlayingTypes = PlayingTypes.VOL;
-
-  @observable
   private playingVolIndex: number = 11;
 
   @observable
@@ -40,6 +34,23 @@ class Store {
   public get playingInfo(): VolTrack {
     const { tracks } = this.vols[this.playingVolIndex];
     return tracks[this.playingTrackIndex] as VolTrack;
+  }
+
+  @observable
+  public playStatus: PlayingStatus = PlayingStatus.PLAYING;
+
+  @observable
+  private playingType: PlayingTypes = PlayingTypes.VOL;
+
+  @observable
+  public totalTime: number = 33;
+
+  @observable
+  public playedTime: number = 100;
+
+  @computed
+  get playingProgress(): number {
+    return Math.ceil(this.totalTime / this.playedTime * 100);
   }
 }
 

@@ -12,6 +12,7 @@ import LIKE from "../../static/icon/like.svg";
 import PLAY from "../../static/icon/play.svg";
 import PLAY_SOLID from "../../static/icon/play-solid.svg";
 import CLOUD from "../../static/icon/cloud.svg";
+import WAVE from "../../static/icon/wave.svg";
 import PRE from "../../static/icon/pre.svg";
 import NEXT from "../../static/icon/next.svg";
 import RANDOM from "../../static/icon/random.svg";
@@ -31,6 +32,7 @@ enum IconTypes {
   LOGO,
   PLAY_SOLID,
   CLOUD,
+  WAVE,
   PRE,
   NEXT,
   RANDOM
@@ -84,6 +86,9 @@ function Icon(props: Props) {
     case IconTypes.CLOUD:
       src = CLOUD;
       break;
+    case IconTypes.WAVE:
+      src = WAVE;
+      break;
     case IconTypes.PRE:
       src = PRE;
       break;
@@ -91,8 +96,8 @@ function Icon(props: Props) {
       src = NEXT;
       break;
     case IconTypes.RANDOM:
-        src = RANDOM;
-        break;
+      src = RANDOM;
+      break;
     default:
       throw "Invalid icon type";
   }
