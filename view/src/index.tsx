@@ -8,6 +8,8 @@ import "./styles/index.scss";
 import "./styles/font.scss";
 import "./types/images.d.ts";
 
-store.fetchVols().then(() => {
+store.init().then(() => {
   ReactDOM.render(<App />, document.getElementById("root") as HTMLElement);
-}).catch(console.error);
+}).catch((e) => {
+    console.error(e);
+});

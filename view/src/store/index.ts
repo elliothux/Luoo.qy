@@ -1,5 +1,5 @@
 import { action, computed, observable } from "mobx";
-import { ipc } from "../utils";
+import { ipc } from '../utils'
 import {
   PlayingStatus,
   PlayingTypes,
@@ -8,7 +8,14 @@ import {
   VolTrack
 } from "../types";
 
+
+// let ipc: any;
+
 class Store {
+  @action init = async (): Promise<void> => {
+    await this.fetchVols();
+  };
+
   @observable
   public view: ViewTypes = ViewTypes.VOLS;
 
@@ -17,10 +24,14 @@ class Store {
 
   @action
   public fetchVols = async (): Promise<VolInfo[]> => {
-    const { data } = JSON.parse(await ipc.requestVols(1, 997));
-    const sorted = data.sort((i: VolInfo, j: VolInfo) => j.vol - i.vol);
-    this.vols = sorted as VolInfo[];
-    return this.vols;
+      try {
+          const { data } = JSON.parse(await ipc.requestVols(1, 997));
+          const sorted = data.sort((i: VolInfo, j: VolInfo) => j.vol - i.vol);
+          this.vols = sorted as VolInfo[];
+          return this.vols;
+      } catch (e) {
+        throw e;
+      }
   };
 
   protected pageScale = 3 * 10;

@@ -50,7 +50,7 @@
   "dependencies": {
     "@types/electron": "^1.6.10",
     "@types/request": "^2.48.1",
-    "electron": "^4.0.2",
+    "electron": "^4.0.4",
     "electron-compile": "^6.4.4",
     "electron-squirrel-startup": "^1.0.0",
     "request": "^2.88.0"

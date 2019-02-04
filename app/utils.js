@@ -1,4 +1,5 @@
-import * as request from "request";
+const request = require('request');
+
 
 function requestVols(from, to) {
   return new Promise((resolve, reject) => {
@@ -12,4 +13,7 @@ function requestVols(from, to) {
   });
 }
 
-export { requestVols };
+
+module.exports = {
+  requestVols
+};

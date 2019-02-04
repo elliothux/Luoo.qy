@@ -66,7 +66,7 @@
 
 "@types/electron@^1.6.10":
   version "1.6.10"
-  resolved "http://r.cnpmjs.org/@types/electron/download/@types/electron-1.6.10.tgz#7e87888ed3888767cca68e92772c2c8ea46bc873"
+  resolved "http://registry.npm.taobao.org/@types/electron/download/@types/electron-1.6.10.tgz#7e87888ed3888767cca68e92772c2c8ea46bc873"
   dependencies:
     electron "*"
 
@@ -2173,7 +2173,7 @@ electron-wix-msi@^2.1.1:
     lodash "^4.17.10"
     uuid "^3.3.2"
 
-electron@*, electron@^4.0.2:
+electron@*:
   version "4.0.2"
   resolved "http://r.cnpmjs.org/electron/download/electron-4.0.2.tgz#b5e074c149841490825d0785aa2bc4f5e29bbea4"
   dependencies:
@@ -2186,6 +2186,14 @@ electron@4.0.0:
   resolved "http://r.cnpmjs.org/electron/download/electron-4.0.0.tgz#6ccb40cc8bf2d49954dcea73b97ae7ad12ee04b3"
   dependencies:
     "@types/node" "^8.0.24"
+    electron-download "^4.1.0"
+    extract-zip "^1.0.3"
+
+electron@^4.0.4:
+  version "4.0.4"
+  resolved "http://registry.npm.taobao.org/electron/download/electron-4.0.4.tgz#638e32ccbe9ded1124c3e6dbbaa1e16d37c32019"
+  dependencies:
+    "@types/node" "^10.12.18"
     electron-download "^4.1.0"
     extract-zip "^1.0.3"
 
