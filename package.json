@@ -50,9 +50,11 @@
   "dependencies": {
     "@types/electron": "^1.6.10",
     "@types/request": "^2.48.1",
+    "binary-search-tree": "^0.2.6",
     "electron": "^4.0.4",
     "electron-compile": "^6.4.4",
     "electron-squirrel-startup": "^1.0.0",
+    "nedb": "^1.8.0",
     "request": "^2.88.0"
   },
   "devDependencies": {
@@ -65,6 +67,7 @@
     "eslint-config-airbnb": "^15",
     "eslint-plugin-import": "^2",
     "eslint-plugin-jsx-a11y": "^5",
-    "eslint-plugin-react": "^7"
+    "eslint-plugin-react": "^7",
+    "nedb": "^1.8.0"
   }
 }

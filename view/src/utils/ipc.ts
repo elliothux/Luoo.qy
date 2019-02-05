@@ -1,14 +1,30 @@
+import {VolInfo} from "../types";
 
 declare global {
     interface Window {
         require: (p: string) => any;
     }
+
+    interface RetData<T> {
+        code: number,
+        msg: string,
+        data: T,
+    }
+
+    interface IpcObject {
+        requestVols: (start: number, end: number) => Promise<RetData<VolInfo[]>>,
+        // todo
+        db: any
+    }
 }
 
-const electron = window.require("electron");
-const { remote } = electron;
-const ipc = remote.getGlobal("ipc");
+
+function getIPC(): Promise<IpcObject> {
+    const electron = window.require("electron");
+    const { remote } = electron;
+    return remote.getGlobal("ipc");
+}
 
 export {
-  ipc
+  getIPC
 }

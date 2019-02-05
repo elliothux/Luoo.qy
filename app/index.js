@@ -1,5 +1,6 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
 const { requestVols } = require("./utils");
+const db = require('./db');
 
 
 if (require("electron-squirrel-startup")) {
@@ -7,7 +8,8 @@ if (require("electron-squirrel-startup")) {
 } else {
   Object.defineProperty(global, "ipc", {
     value: {
-      requestVols
+      requestVols,
+      db
     }
   });
 }

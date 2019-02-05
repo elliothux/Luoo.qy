@@ -1,5 +1,5 @@
 import { action, computed, observable } from "mobx";
-import { ipc } from '../utils'
+import { getIPC } from "../utils";
 import {
   PlayingStatus,
   PlayingTypes,
@@ -8,12 +8,21 @@ import {
   VolTrack
 } from "../types";
 
-
-// let ipc: any;
+let ipc: IpcObject;
 
 class Store {
-  @action init = async (): Promise<void> => {
-    await this.fetchVols();
+  @action
+  init = async (): Promise<void> => {
+    ipc = await getIPC();
+    let vols: VolInfo[];
+    if (!await ipc.db.vol.isExist()) {
+      vols = await this.fetchVols();
+
+    } else {
+      vols = await this.getVolsFromDB();
+    }
+    debugger;
+    this.vols = vols;
   };
 
   @observable
@@ -22,16 +31,18 @@ class Store {
   @observable
   private vols: VolInfo[] = [];
 
-  @action
-  public fetchVols = async (): Promise<VolInfo[]> => {
-      try {
-          const { data } = JSON.parse(await ipc.requestVols(1, 997));
-          const sorted = data.sort((i: VolInfo, j: VolInfo) => j.vol - i.vol);
-          this.vols = sorted as VolInfo[];
-          return this.vols;
-      } catch (e) {
-        throw e;
-      }
+  private getVolsFromDB = async (): Promise<VolInfo[]> => {
+    const vols = await ipc.db.vol.get();
+    return vols;
+  };
+
+  private fetchVols = async (): Promise<VolInfo[]> => {
+    try {
+      const { data } = await ipc.requestVols(1, 997);
+      return data.sort((i: VolInfo, j: VolInfo) => j.vol - i.vol);
+    } catch (e) {
+      throw e;
+    }
   };
 
   protected pageScale = 3 * 10;
@@ -50,6 +61,12 @@ class Store {
     const end = (this.volCurrentPage + 1) * this.pageScale;
     return this.vols.slice(start, end);
   }
+
+  @observable
+  public paginationCurrentPage: number = 0;
+  //
+  // @computed
+  // public get display
 
   @observable
   private selectedVolIndex: number = 11;

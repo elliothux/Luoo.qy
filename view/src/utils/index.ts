@@ -1,3 +1,2 @@
-import { ipc } from "./ipc";
 
-export { ipc };
+export { getIPC } from './ipc';
