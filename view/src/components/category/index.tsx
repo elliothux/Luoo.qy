@@ -25,3 +25,4 @@ const cates = [
   ["硬核", "Hardcore"],
   ["后朋克", "Post Punk"]
 ];
+
