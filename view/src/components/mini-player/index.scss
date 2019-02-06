@@ -1,4 +1,5 @@
-#mini-player-collapsed, #mini-player {
+#mini-player-collapsed,
+#mini-player {
   bottom: 20px;
   left: 0;
   margin-left: 15px;
@@ -73,7 +74,8 @@
         width: auto;
         cursor: pointer;
         margin-right: 6px;
-        &.play, &.play-mode {
+        &.play,
+        &.play-mode {
           margin-left: 7px;
         }
       }

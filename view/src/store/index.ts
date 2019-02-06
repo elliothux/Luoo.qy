@@ -14,15 +14,19 @@ class Store {
   @action
   init = async (): Promise<void> => {
     ipc = await getIPC();
-    let vols: VolInfo[];
-    if (!await ipc.db.vol.isExist()) {
-      vols = await this.fetchVols();
 
-    } else {
-      vols = await this.getVolsFromDB();
+    this.vols = await this.getVolsFromDB();
+
+    let vols = await this.fetchVols();
+    if (vols.length > 0) {
+      for (let vol of vols) {
+        await ipc.db.vol.add(vol);
+        for (let track of vol.tracks) {
+          await ipc.db.track.add(track);
+        }
+      }
+      this.vols = await this.getVolsFromDB();
     }
-    debugger;
-    this.vols = vols;
   };
 
   @observable
@@ -38,7 +42,8 @@ class Store {
 
   private fetchVols = async (): Promise<VolInfo[]> => {
     try {
-      const { data } = await ipc.requestVols(1, 997);
+      const latest: number = await ipc.db.vol.latest();
+      const { data } = await ipc.requestVols(latest + 1);
       return data.sort((i: VolInfo, j: VolInfo) => j.vol - i.vol);
     } catch (e) {
       throw e;

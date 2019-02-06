@@ -12,6 +12,28 @@
     "publish": "electron-forge publish",
     "lint": "eslint src --color"
   },
+  "dependencies": {
+    "binary-search-tree": "^0.2.6",
+    "electron": "^4.0.4",
+    "electron-squirrel-startup": "^1.0.0",
+    "nedb": "^1.8.0",
+    "request": "^2.88.0"
+  },
+  "devDependencies": {
+    "@types/electron": "^1.6.10",
+    "@types/request": "^2.48.1",
+    "babel-plugin-transform-async-to-generator": "^6.24.1",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
+    "electron-forge": "^5.2.4",
+    "electron-compile": "^6.4.4",
+    "electron-prebuilt-compile": "4.0.0",
+    "eslint": "5.6.0",
+    "eslint-config-airbnb": "^15",
+    "eslint-plugin-import": "^2",
+    "eslint-plugin-jsx-a11y": "^5",
+    "eslint-plugin-react": "^7"
+  },
   "keywords": [],
   "author": "qingyang",
   "license": "MIT",
@@ -46,28 +68,5 @@
         "name": "luoo.qy_"
       }
     }
-  },
-  "dependencies": {
-    "@types/electron": "^1.6.10",
-    "@types/request": "^2.48.1",
-    "binary-search-tree": "^0.2.6",
-    "electron": "^4.0.4",
-    "electron-compile": "^6.4.4",
-    "electron-squirrel-startup": "^1.0.0",
-    "nedb": "^1.8.0",
-    "request": "^2.88.0"
-  },
-  "devDependencies": {
-    "babel-plugin-transform-async-to-generator": "^6.24.1",
-    "babel-preset-env": "^1.7.0",
-    "babel-preset-react": "^6.24.1",
-    "electron-forge": "^5.2.4",
-    "electron-prebuilt-compile": "4.0.0",
-    "eslint": "5.6.0",
-    "eslint-config-airbnb": "^15",
-    "eslint-plugin-import": "^2",
-    "eslint-plugin-jsx-a11y": "^5",
-    "eslint-plugin-react": "^7",
-    "nedb": "^1.8.0"
   }
 }

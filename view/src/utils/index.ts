@@ -1,2 +1,1 @@
-
-export { getIPC } from './ipc';
+export { getIPC } from "./ipc";

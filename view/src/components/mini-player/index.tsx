@@ -1,18 +1,18 @@
 import * as React from "react";
-import {observer} from "mobx-react";
-import {store} from "../../store";
-import {Icon, IconTypes} from "../icon";
+import { observer } from "mobx-react";
+import { store } from "../../store";
+import { Icon, IconTypes } from "../icon";
 import "./index.scss";
-import {ViewTypes} from "../../types";
+import { ViewTypes } from "../../types";
 
 function IMiniPlayer() {
   const { view, playingInfo: info, playingProgress } = store;
   if (view === ViewTypes.VOLS) {
-      return (
-          <div id="mini-player-collapsed">
-              <Icon type={IconTypes.WAVE} />
-          </div>
-      );
+    return (
+      <div id="mini-player-collapsed">
+        <Icon type={IconTypes.WAVE} />
+      </div>
+    );
   }
   return (
     <div id="mini-player">
