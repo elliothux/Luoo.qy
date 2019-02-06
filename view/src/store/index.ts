@@ -10,6 +10,14 @@ import {
 
 let ipc: IpcObject;
 
+function genRange(start: number, end: number): number[] {
+    const result: number[] = [];
+    for (let i = start; i < end; i++) {
+        result.push(i);
+    }
+    return result;
+}
+
 class Store {
   @action
   init = async (): Promise<void> => {
@@ -35,9 +43,8 @@ class Store {
   @observable
   private vols: VolInfo[] = [];
 
-  private getVolsFromDB = async (): Promise<VolInfo[]> => {
-    const vols = await ipc.db.vol.get();
-    return vols;
+  private getVolsFromDB = (): Promise<VolInfo[]> => {
+    return ipc.db.vol.get();
   };
 
   private fetchVols = async (): Promise<VolInfo[]> => {
@@ -50,28 +57,57 @@ class Store {
     }
   };
 
-  protected pageScale = 3 * 10;
+  protected volPageScale = 3 * 4;
 
   @observable
   public volCurrentPage: number = 0;
 
   @computed
   public get volTotalPage(): number {
-    return this.vols.length % this.pageScale;
+    return Math.ceil(this.vols.length / this.volPageScale);
   }
 
   @computed
   public get displayVols(): VolInfo[] {
-    const start = this.volCurrentPage * this.pageScale;
-    const end = (this.volCurrentPage + 1) * this.pageScale;
+    const start = this.volCurrentPage * this.volPageScale;
+    const end = Math.min((this.volCurrentPage + 1) * this.volPageScale, this.vols.length);
     return this.vols.slice(start, end);
   }
 
+  @action
+  public toggleVolIndex = (page: number) => {
+    this.volCurrentPage = page;
+  };
+
+  protected paginationScale = 9;
+
   @observable
-  public paginationCurrentPage: number = 0;
-  //
-  // @computed
-  // public get display
+  public volPaginationCurrentIndex: number = 0;
+
+  @computed
+  public get volPaginationTotalIndex(): number {
+      return Math.ceil(this.volTotalPage / this.paginationScale);
+  }
+
+  @computed
+  public get displayVolPaginations(): number[] {
+      const start = this.volPaginationCurrentIndex * this.paginationScale;
+      const end = Math.min(
+          (this.volPaginationCurrentIndex + 1) * this.paginationScale,
+          this.volTotalPage
+      );
+      return genRange(start, end);
+  }
+
+  @action
+  public nextVolPagination = () => {
+    this.volPaginationCurrentIndex += 1;
+  };
+
+  @action
+  public preVolPagination = () => {
+      this.volPaginationCurrentIndex -= 1;
+  };
 
   @observable
   private selectedVolIndex: number = 11;

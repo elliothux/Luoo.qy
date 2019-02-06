@@ -5,32 +5,27 @@ import { store } from "../../store";
 import { Icon, IconTypes } from "../icon";
 import "./index.scss";
 
-function genRange(start: number, end: number): number[] {
-  const result: number[] = [];
-  for (let i = start; i < end; i++) {
-    result.push(i);
-  }
-  return result;
-}
-
-function genPages(currentPage: number, totalPage: number): number[] {
-  const displayPages = 9;
-  const s = (displayPages - 1) / 2;
-  if (currentPage - s < 0) {
-    return genRange(0, 9);
-  }
-  if (currentPage + s > totalPage) {
-    return genRange(totalPage - displayPages, totalPage);
-  }
-  return genRange(currentPage - s, currentPage + s);
-}
+const noop = () => {};
 
 function IPagination() {
-  const { volCurrentPage, volTotalPage } = store;
-  const pages: number[] = genPages(volCurrentPage, volTotalPage);
+  const {
+    displayVolPaginations: pages,
+    volCurrentPage,
+    toggleVolIndex,
+    volPaginationCurrentIndex,
+      volPaginationTotalIndex,
+    nextVolPagination,
+    preVolPagination
+  } = store;
+  const isFirst = volPaginationCurrentIndex === 0;
+  const isLast = volPaginationCurrentIndex + 1 === volPaginationTotalIndex;
   return (
     <div id="pagination">
-      <Icon type={IconTypes.ARROW_LEFT} />
+      <Icon
+        type={IconTypes.ARROW_LEFT}
+        className={classnames({ disable: isFirst })}
+        onClick={isFirst ? noop : preVolPagination}
+      />
       {pages.map(p => (
         <span
           key={p}
@@ -38,11 +33,16 @@ function IPagination() {
             "pagination-item": true,
             activated: p === volCurrentPage
           })}
+          onClick={() => toggleVolIndex(p)}
         >
           {p + 1}
         </span>
       ))}
-      <Icon type={IconTypes.ARROW_RIGHT} />
+      <Icon
+        type={IconTypes.ARROW_RIGHT}
+        className={classnames({ disable: isLast })}
+        onClick={isLast ? noop : nextVolPagination}
+      />
     </div>
   );
 }

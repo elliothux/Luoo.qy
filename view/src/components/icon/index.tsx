@@ -45,10 +45,13 @@ enum IconTypes {
 export interface Props {
   type: IconTypes;
   className?: string;
+  onClick?: () => void;
 }
 
+const noop = () => {};
+
 function Icon(props: Props) {
-  const { type, className } = props;
+  const { type, className, onClick } = props;
   let src;
   switch (type) {
     case IconTypes.BACK:
@@ -111,7 +114,13 @@ function Icon(props: Props) {
     default:
       throw "Invalid icon type";
   }
-  return <img className={className ? `icon ${className}` : "icon"} src={src} />;
+  return (
+    <img
+      className={className ? `icon ${className}` : "icon"}
+      src={src}
+      onClick={onClick || noop}
+    />
+  );
 }
 
 export { Icon, IconTypes };
