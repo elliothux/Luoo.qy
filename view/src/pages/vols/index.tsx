@@ -1,6 +1,6 @@
 import * as React from "react";
 import { observer } from "mobx-react";
-import { store } from "../../store";
+import { volStore } from "../../store";
 import { VolItem } from "../../components/vol-item";
 import { Pagination } from "../../components/pagination";
 import { VolInfo } from "../../types";
@@ -17,14 +17,22 @@ class Vols extends React.Component {
   };
 
   render() {
-    const { displayVols } = store;
+    const { displayVols } = volStore;
     if (!displayVols.length) {
       return Vols.renderEmpty();
     }
     return (
       <div id="vols">
         {Vols.renderVols(displayVols)}
-        <Pagination />
+        <Pagination
+          pages={volStore.displayVolPaginations}
+          currentPage={volStore.volCurrentPage}
+          togglePage={volStore.toggleVolIndex}
+          paginationCurrentIndex={volStore.volPaginationCurrentIndex}
+          paginationTotalIndex={volStore.volPaginationTotalIndex}
+          onNext={volStore.nextVolPagination}
+          onPre={volStore.preVolPagination}
+        />
       </div>
     );
   }

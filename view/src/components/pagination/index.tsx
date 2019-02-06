@@ -1,39 +1,40 @@
 import * as React from "react";
 import { observer } from "mobx-react";
 import classnames from "classnames";
-import { store } from "../../store";
+import { volStore } from "../../store";
 import { Icon, IconTypes } from "../icon";
 import "./index.scss";
 
 const noop = () => {};
 
-function IPagination() {
-  const {
-    displayVolPaginations: pages,
-    volCurrentPage,
-    toggleVolIndex,
-    volPaginationCurrentIndex,
-      volPaginationTotalIndex,
-    nextVolPagination,
-    preVolPagination
-  } = store;
-  const isFirst = volPaginationCurrentIndex === 0;
-  const isLast = volPaginationCurrentIndex + 1 === volPaginationTotalIndex;
+interface Props {
+    pages: number[],
+    currentPage: number,
+    togglePage: (index: number) => void,
+    paginationCurrentIndex: number,
+    paginationTotalIndex: number,
+    onNext: () => void,
+    onPre: () => void
+}
+
+function IPagination(props: Props) {
+  const isFirst = props.paginationCurrentIndex === 0;
+  const isLast = props.paginationCurrentIndex + 1 === props.paginationTotalIndex;
   return (
     <div id="pagination">
       <Icon
         type={IconTypes.ARROW_LEFT}
         className={classnames({ disable: isFirst })}
-        onClick={isFirst ? noop : preVolPagination}
+        onClick={isFirst ? noop : props.onPre}
       />
-      {pages.map(p => (
+      {props.pages.map(p => (
         <span
           key={p}
           className={classnames({
             "pagination-item": true,
-            activated: p === volCurrentPage
+            activated: p === props.currentPage
           })}
-          onClick={() => toggleVolIndex(p)}
+          onClick={() => props.togglePage(p)}
         >
           {p + 1}
         </span>
@@ -41,7 +42,7 @@ function IPagination() {
       <Icon
         type={IconTypes.ARROW_RIGHT}
         className={classnames({ disable: isLast })}
-        onClick={isLast ? noop : nextVolPagination}
+        onClick={isLast ? noop : props.onNext}
       />
     </div>
   );
