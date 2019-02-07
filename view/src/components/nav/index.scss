@@ -1,3 +1,5 @@
+@import "../../styles/helper";
+
 #nav {
   position: fixed;
   top: 20px;
@@ -17,10 +19,7 @@
     & > div {
       display: inline-block;
       text-align: center;
-      cursor: pointer;
-      * {
-        cursor: pointer;
-      }
+      @include cursor;
       & > .icon {
         width: 44px;
       }

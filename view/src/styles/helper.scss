@@ -1,0 +1,11 @@
+
+@mixin transition {
+  transition: all ease 600ms;
+}
+
+@mixin cursor {
+  cursor: pointer;
+  * {
+    cursor: pointer;
+  }
+}

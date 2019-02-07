@@ -1,3 +1,5 @@
+@import "../../styles/helper";
+
 #mini-player-collapsed,
 #mini-player {
   bottom: 20px;
@@ -25,7 +27,7 @@
       display: block;
       width: 20px;
       height: 20px;
-      cursor: pointer;
+      @include cursor;
     }
   }
 
@@ -37,7 +39,7 @@
     border: 0.001em solid rgba(255, 255, 255, 1);
     margin: 0 12px;
     box-shadow: 0 0 30px 5px rgba(0, 0, 0, 0.35);
-    transition: all ease 600ms;
+    @include transition;
     &:hover {
       transform: scale(1.05);
       box-shadow: none;
@@ -72,8 +74,8 @@
       .icon {
         height: 28px;
         width: auto;
-        cursor: pointer;
         margin-right: 6px;
+        @include cursor;
         &.play,
         &.play-mode {
           margin-left: 7px;

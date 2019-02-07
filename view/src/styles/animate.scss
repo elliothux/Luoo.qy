@@ -1,0 +1,17 @@
+#vols {
+  z-index: 1 !important;
+  transform: scale(1) !important;
+  opacity: 1 !important;
+}
+
+.page.show {
+  transform: scale(1) !important;
+  opacity: 1 !important;
+  transition: all ease 500ms 350ms !important;
+}
+
+.page {
+  transform: scale(0.9) !important;
+  opacity: 0 !important;
+  transition: all ease 500ms 0ms !important;
+}

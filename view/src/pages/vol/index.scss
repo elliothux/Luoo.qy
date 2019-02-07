@@ -1,3 +1,5 @@
+@import "../../styles/helper";
+
 #vol {
   position: fixed;
   width: 100%;
@@ -55,8 +57,8 @@
         margin-right: 8px;
         border: 1px solid rgba(255, 255, 255, 0.1);
         box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.1);
-        transition: all ease 600ms;
-        cursor: pointer;
+        @include transition;
+        @include cursor;
         &:hover {
           background-color: rgba(0, 0, 0, 0.5);
           transform: scale(1.1);
@@ -73,7 +75,7 @@
         height: 29px;
         position: relative;
         top: 4px;
-        cursor: pointer;
+        @include cursor;
         &:first-child {
           margin-left: 42px;
           margin-right: 8px;

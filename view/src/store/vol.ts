@@ -1,6 +1,8 @@
-import { action, computed, observable } from "mobx";
-import { genRange } from "../utils";
-import { VolInfo, VolTrack } from "../types";
+import {action, computed, observable} from "mobx";
+import {genRange} from "../utils";
+import {ViewTypes, VolInfo, VolTypes} from "../types";
+import {store} from './index';
+
 
 let ipc: IpcObject;
 
@@ -25,6 +27,15 @@ class VolStore {
 
   @observable
   public vols: VolInfo[] = [];
+
+  @observable
+  public volType: VolTypes = VolTypes.ALL;
+
+  @action
+  public changeVolType = (type: VolTypes) => {
+    this.volType = type;
+    store.changeView(ViewTypes.VOLS);
+  };
 
   private getVolsFromDB = (): Promise<VolInfo[]> => {
     return ipc.db.vol.get();

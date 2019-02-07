@@ -4,12 +4,13 @@ import {volStore} from "../../store";
 import { Icon, IconTypes } from "../../components/icon";
 import { VolTrackItem } from "../../components/vol-track-item";
 import "./index.scss";
+import {ViewTypes} from "../../types";
 
 function IVol() {
     const { selectedVol: vol } = volStore;
     if (!vol) return null;
     return (
-        <div id="vol">
+        <div id="vol" className={`page view-${ViewTypes.VOL_INFO}`}>
             <div
                 id="vol-bg"
                 style={{

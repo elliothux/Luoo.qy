@@ -1,10 +1,9 @@
+@import "../../styles/helper";
+
 .vol-track-item {
   position: relative;
-  transition: all ease 600ms;
-  cursor: pointer;
-  * {
-    cursor: pointer;
-  }
+  @include transition;
+  @include cursor;
 
   &:hover {
     transform: scale(1.1);
@@ -30,7 +29,7 @@
     background-position: center;
     box-shadow: 0 10px 30px 0 rgba(0, 0, 0, 0.5);
     margin-bottom: 8px;
-    transition: all ease 600ms;
+    @include transition;
   }
 
   .vol-track-item-name {
@@ -60,7 +59,7 @@
       left: 30%;
       filter: drop-shadow(0 5px 5px rgba(0, 0, 0, 0.5));
       opacity: 0;
-      transition: all ease 600ms;
+      @include transition;
       &:hover {
         opacity: 1;
         transform: scale(1.1);

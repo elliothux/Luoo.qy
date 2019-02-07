@@ -1,12 +1,16 @@
 import * as React from "react";
-// import store from '../../store';
-import { Icon, IconTypes } from "../icon";
+import { observer } from 'mobx-react';
+import { store } from '../../store';
+import {ViewTypes} from "../../types";
+import {Icon, IconTypes} from "../icon";
 import LOGO from "../../static/logo.png";
 import "./index.scss";
 
-function Nav() {
+function INav() {
   return (
-    <div id="nav">
+    <div id="nav" style={{
+      opacity: store.view === ViewTypes.VOLS_TYPE ? 0 : 1
+    }}>
       <div id="nav-actions">
         <div>
           <Icon type={IconTypes.BACK} />
@@ -16,7 +20,7 @@ function Nav() {
           <Icon type={IconTypes.SOURCE} />
           <p>来源</p>
         </div>
-        <div>
+        <div onClick={() => store.changeView(ViewTypes.VOLS_TYPE)}>
           <Icon type={IconTypes.CATEGORY} />
           <p>分类</p>
         </div>
@@ -47,5 +51,7 @@ function Nav() {
     </div>
   );
 }
+
+const Nav = observer(INav);
 
 export { Nav };

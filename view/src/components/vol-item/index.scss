@@ -1,11 +1,10 @@
+@import "../../styles/helper";
+
 .vol-item {
   position: relative;
-  transition: all ease 600ms;
   box-shadow: 0 10px 50px 0 rgba(0, 0, 0, 0.5);
-  cursor: pointer;
-  * {
-    cursor: pointer;
-  }
+  @include cursor;
+  @include transition;
 
   &:hover {
     transform: scale(1.05);
@@ -76,7 +75,7 @@
       margin-right: 4px;
       border: 1px solid rgba(255, 255, 255, 0.1);
       box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.1);
-      transition: all ease 600ms;
+      @include transition;
       &:hover {
         background-color: rgba(0, 0, 0, 0.5);
         transform: scale(1.1);
