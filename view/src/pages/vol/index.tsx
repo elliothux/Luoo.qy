@@ -33,7 +33,10 @@ function IVol() {
                 <p id="vol-info-title">{vol.title}</p>
                 <div
                     id="vol-info-desc"
-                    dangerouslySetInnerHTML={{ __html: vol.desc }}
+                    dangerouslySetInnerHTML={{ __html: vol.desc
+                            .replace(/style="*?"/g, '')
+                            .replace(/href="*?"/g, '')
+                    }}
                 />
                 <div id="vol-info-date">
                     <Icon type={IconTypes.LOGO} />

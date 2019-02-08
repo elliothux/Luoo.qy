@@ -9,13 +9,19 @@
   align-items: center;
 
   #nav-logo {
+    position: absolute;
     width: 66px;
     height: 60px;
     margin-top: 10px;
+    margin-left: calc(50% - 66px);
   }
 
   #nav-actions,
   #nav-buttons {
+    .nav-item-hide {
+      display: none;
+    }
+
     & > div {
       display: inline-block;
       text-align: center;

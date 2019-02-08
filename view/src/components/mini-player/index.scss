@@ -1,14 +1,17 @@
 @import "../../styles/helper";
 
+$mini-player-height: 80px;
+
+
 #mini-player-collapsed,
 #mini-player {
   bottom: 20px;
   left: 0;
   margin-left: 15px;
-  height: 20px;
 }
 
 #mini-player-collapsed {
+  height: 20px;
   .icon {
     width: 30px;
     height: 30px;
@@ -18,6 +21,11 @@
 #mini-player {
   display: flex;
   justify-content: flex-start;
+  height: $mini-player-height;
+  transform: translateY(-100%);
+  bottom: -60px;
+  transition-delay: 200ms;
+  @include transition;
 
   #mini-player-operation {
     display: flex;
@@ -32,8 +40,8 @@
   }
 
   #mini-player-cover {
-    height: 80px;
-    width: 80px;
+    height: $mini-player-height;
+    width: $mini-player-height;
     background-size: cover;
     background-position: center;
     border: 0.001em solid rgba(255, 255, 255, 1);

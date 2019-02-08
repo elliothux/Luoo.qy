@@ -1,10 +1,15 @@
 import * as React from "react";
 import {observer} from 'mobx-react';
+import classnames from 'classnames';
 import {store, volStore} from '../../store';
 import {ViewTypes, VolTypes} from "../../types";
 import {Icon, IconTypes} from "../icon";
 import LOGO from "../../static/logo.png";
 import "./index.scss";
+
+function hideClassName(willHide: boolean) {
+    return classnames({'nav-item-hide': willHide });
+}
 
 function INav() {
   return (
@@ -12,11 +17,11 @@ function INav() {
       opacity: store.view === ViewTypes.VOLS_TYPE ? 0 : 1
     }}>
       <div id="nav-actions">
-        <div>
+        <div className={hideClassName([ViewTypes.VOLS, ViewTypes.SINGLES].includes(store.view))}>
           <Icon type={IconTypes.BACK} />
           <p>返回</p>
         </div>
-        <div>
+        <div className={hideClassName(store.view !== ViewTypes.VOL_INFO)}>
           <Icon type={IconTypes.SOURCE} />
           <p>来源</p>
         </div>

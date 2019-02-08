@@ -6,8 +6,8 @@ import "./index.scss";
 import { ViewTypes } from "../../types";
 
 function IMiniPlayer() {
-  const { view, playingInfo: info, playingProgress } = store;
-  if (view === ViewTypes.VOLS) {
+  const { playingInfo: info, playingProgress } = store;
+  if (store.view === ViewTypes.VOLS) {
     return (
       <div id="mini-player-collapsed">
         <Icon type={IconTypes.WAVE} />
