@@ -1,10 +1,10 @@
 import * as React from "react";
 import anime from "animejs";
-import {VolInfo} from "../../types";
+import { VolInfo } from "../../types";
 import "./index.scss";
-import {Icon, IconTypes} from "../icon";
-import {volStore} from "../../store";
-import {events, EventTypes, px} from "../../utils";
+import { Icon, IconTypes } from "../icon";
+import { volStore } from "../../store";
+import { events, EventTypes, px } from "../../utils";
 
 export interface Props {
   volInfo: VolInfo;
@@ -12,13 +12,7 @@ export interface Props {
 }
 
 class VolItem extends React.Component<Props> {
-    private coverRef: HTMLImageElement | null = null;
-    private root: HTMLImageElement | null = null;
-
-    componentDidMount() {
-        this.root = document.querySelector('#root');
-    }
-
+  private coverRef: HTMLImageElement | null = null;
 
   private getCoverRef = (i: HTMLImageElement | null) => {
     if (i) {
@@ -27,38 +21,12 @@ class VolItem extends React.Component<Props> {
   };
 
   private onClick = () => {
-      // this.createBackgroundElement();
-      events.emit(EventTypes.ShowVolBackground, this.props.volInfo.cover);
-  };
-
-  private createBackgroundElement = () => {
-      const { coverRef, root } = this;
-      if (!coverRef || !root) {
-          throw new Error("Invalid cover or root Element");
-      }
-
-      const { top, right, bottom, left } = coverRef.getBoundingClientRect();
-
-      const clone = coverRef.cloneNode(true) as HTMLImageElement;
-      clone.className = "vol-item-cover-clone";
-      clone.style.top = px(top);
-      clone.style.left = px(left);
-      clone.style.width = px(right - left);
-      clone.style.height = px(bottom - top);
-      root.appendChild(clone);
-
-      anime({
-          targets: clone,
-          easing: "spring(1, 80, 100, 0)",
-          width: "100%",
-          height: "100%",
-          duration: 100,
-          top: 0,
-          left: 0,
-          complete: () => {
-              volStore.selectVol(this.props.index);
-          }
-      });
+    events.emit(
+      EventTypes.ShowVolBackground,
+      this.props.volInfo.cover,
+      this.coverRef,
+      () => volStore.selectVol(this.props.index)
+    );
   };
 
   public render() {

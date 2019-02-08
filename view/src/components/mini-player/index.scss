@@ -21,10 +21,16 @@ $mini-player-height: 80px;
   display: flex;
   justify-content: flex-start;
   height: $mini-player-height;
-  transform: translateY(-100%);
-  bottom: -60px;
-  transition-delay: 200ms;
-  @include transition;
+  bottom: -$mini-player-height;
+  animation: mini-player 500ms 1200ms ease forwards;
+  @keyframes mini-player {
+    0% {
+      transform: none;
+    }
+    100% {
+      transform: translateY(-($mini-player-height + 10px));
+    }
+  }
 
   #mini-player-operation {
     display: flex;

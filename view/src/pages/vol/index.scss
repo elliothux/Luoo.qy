@@ -5,6 +5,24 @@
   width: 100%;
   height: 100%;
 
+  &.show-with-cover {
+    #vol-bg-mask {
+      opacity: 0.5;
+    }
+    #vol-info, #vol-tracks {
+      transform: none;
+      opacity: 1;
+    }
+    #vol-tracks {
+      transition-delay: 800ms;
+    }
+  }
+
+  #vol-bg-mask, #vol-info, #vol-tracks {
+    @include transition;
+    transition-delay: 600ms;
+  }
+
   #vol-bg,
   #vol-bg-mask {
     width: 100%;
@@ -21,7 +39,7 @@
   }
 
   #vol-bg-mask {
-    opacity: 0.5;
+    opacity: 0;
     background-image: linear-gradient(
       -90deg,
       rgba(0, 0, 0, 0) 0%,
@@ -36,6 +54,8 @@
     z-index: 3;
     top: 136px;
     overflow-y: auto;
+    transform: translateY(260px);
+    opacity: 0;
   }
 
   #vol-info {

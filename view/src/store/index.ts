@@ -1,5 +1,5 @@
 import { action, computed, observable } from "mobx";
-import { getIPC } from "../utils";
+import { events, EventTypes, getIPC } from "../utils";
 import { PlayingStatus, PlayingTypes, ViewTypes, VolTrack } from "../types";
 import { volStore } from "./vol";
 
@@ -38,8 +38,25 @@ class Store {
       this.viewHistory.push(prevView);
     }
 
-    viewElement.className += " show";
-    prevViewElement.className = prevViewElement.className.replace(" show", "");
+    if (prevView === ViewTypes.VOLS && viewType === ViewTypes.VOL_INFO) {
+      viewElement.className += " show-with-cover";
+        prevViewElement.className = prevViewElement.className.replace(
+            " show",
+            ""
+        );
+    } else if (prevView === ViewTypes.VOL_INFO && viewType === ViewTypes.VOLS) {
+        viewElement.className += " show";
+        prevViewElement.className = prevViewElement.className.replace(
+        " show-with-cover",
+        ""
+      );
+    } else {
+      viewElement.className += " show";
+      prevViewElement.className = prevViewElement.className.replace(
+        " show",
+        ""
+      );
+    }
 
     viewElement.style.zIndex = viewType === ViewTypes.VOLS_TYPE ? "20" : "5";
     setTimeout(() => {
