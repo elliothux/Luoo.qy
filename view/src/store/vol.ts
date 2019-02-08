@@ -124,12 +124,18 @@ class VolStore {
   };
 
   @observable
-  private selectedVolIndex: number = 11;
+  private selectedVolIndex: number = 0;
 
   @computed
   public get selectedVol(): VolInfo {
-    return this.vols[this.selectedVolIndex];
+    return this.displayVols[this.selectedVolIndex];
   }
+
+  @action
+  public selectVol = (volIndex: number) => {
+    this.selectedVolIndex = volIndex;
+    store.changeView(ViewTypes.VOL_INFO);
+  };
 
   @observable
   public playingVolIndex: number = 11;

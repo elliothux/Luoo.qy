@@ -89,9 +89,11 @@
       margin-bottom: 30px;
     }
 
-    #vol-info-desc {
-      font-size: 14px;
-      line-height: 24px;
+    #vol-info-desc, #vol-info-desc * {
+      font-size: 14px !important;
+      line-height: 24px !important;
+      color: white !important;
+      background-color: rgba(0, 0, 0, 0);
     }
 
     #vol-info-date {

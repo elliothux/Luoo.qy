@@ -13,7 +13,7 @@ class Vols extends React.Component {
   };
 
   static renderVols = (vols: VolInfo[]) => {
-    return vols.map((vol: VolInfo) => <VolItem key={vol.id} volInfo={vol} />);
+    return vols.map((vol: VolInfo, index: number) => <VolItem key={vol.id} volInfo={vol} index={index} />);
   };
 
   render() {

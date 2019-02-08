@@ -31,7 +31,7 @@ function INav() {
       </div>
       <img id="nav-logo" src={LOGO} />
       <div id="nav-buttons">
-        <div>
+        <div onClick={() => store.changeView(ViewTypes.VOLS)}>
           <Icon type={IconTypes.VOL} />
           <p>期刊</p>
         </div>

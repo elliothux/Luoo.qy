@@ -3,15 +3,17 @@ import { VolInfo } from "../../types";
 
 import "./index.scss";
 import { Icon, IconTypes } from "../icon";
+import {volStore} from "../../store";
 
 export interface Props {
   volInfo: VolInfo;
+  index: number
 }
 
 function VolItem(props: Props) {
-  const { volInfo } = props;
+  const { volInfo, index } = props;
   return (
-    <div className="vol-item">
+    <div className="vol-item" onClick={() => volStore.selectVol(index)}>
       {/*<div className="vol-item-cover" style={{ backgroundImage: `url(${volInfo.cover})` }}/>*/}
       <img className="vol-item-cover" src={volInfo.cover} />
       <div className="vol-item-info">

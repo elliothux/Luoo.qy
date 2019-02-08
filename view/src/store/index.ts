@@ -22,12 +22,12 @@ class Store {
     const prevView = this.view;
     this.view = viewType;
 
-    const prevViewElement: HTMLElement | null = document.querySelector(
+    const prevViewElement = document.querySelector(
       `.view-${prevView}`
-    );
-    const viewElement: HTMLElement | null = document.querySelector(
+    ) as HTMLElement | null;
+    const viewElement = document.querySelector(
       `.view-${viewType}`
-    );
+    ) as HTMLElement | null;
     if (!prevViewElement || !viewElement) return;
 
     viewElement.className += " show";
