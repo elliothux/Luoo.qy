@@ -30,29 +30,12 @@ class Store {
     );
     if (!prevViewElement || !viewElement) return;
 
-    // anime({
-    //   targets: prevViewElement,
-    //   duration: 400,
-    //   easing: "linear",
-    //   scale: 0.9,
-    //   opacity: 0
-    // });
-    // anime({
-    //   targets: viewElement,
-    //   duration: 400,
-    //   easing: "linear",
-    //   scale: 1,
-    //   opacity: 1,
-    //   delay: 350,
-    //   complete: () => {
-    //     prevViewElement.style.zIndex = "-1";
-    //   }
-    // });
-      viewElement.className += ' show';
-      prevViewElement.className = prevViewElement.className.replace(' show', '');
-      viewElement.style.zIndex = viewType === ViewTypes.VOLS_TYPE ? "20" : "2";
+    viewElement.className += " show";
+    prevViewElement.className = prevViewElement.className.replace(" show", "");
+
+    viewElement.style.zIndex = viewType === ViewTypes.VOLS_TYPE ? "20" : "1";
     setTimeout(() => {
-        prevViewElement.style.zIndex = "-1";
+      prevViewElement.style.zIndex = "-1";
     }, 500);
   };
 

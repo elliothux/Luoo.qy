@@ -3,7 +3,7 @@ import { observer } from "mobx-react";
 import { volStore } from "../../store";
 import { VolItem } from "../../components/vol-item";
 import { Pagination } from "../../components/pagination";
-import {ViewTypes, VolInfo} from "../../types";
+import { ViewTypes, VolInfo } from "../../types";
 import "./index.scss";
 
 @observer
@@ -22,7 +22,11 @@ class Vols extends React.Component {
       return Vols.renderEmpty();
     }
     return (
-      <div id="vols" className={`page view-${ViewTypes.VOLS}`}>
+      <div
+        id="vols"
+        className={`page show view-${ViewTypes.VOLS}`}
+        style={{ zIndex: 1 }}
+      >
         {Vols.renderVols(displayVols)}
         <Pagination
           pages={volStore.displayVolPaginations}

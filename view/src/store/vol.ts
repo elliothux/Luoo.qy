@@ -1,6 +1,6 @@
 import {action, computed, observable} from "mobx";
 import {genRange} from "../utils";
-import {ViewTypes, VolInfo, VolTypes} from "../types";
+import {ViewTypes, VolInfo, VolTypeItem, VolTypes, VolTypesList} from "../types";
 import {store} from './index';
 
 
@@ -11,7 +11,7 @@ class VolStore {
   init = async (IPC: IpcObject) => {
     ipc = IPC;
 
-    this.vols = await this.getVolsFromDB();
+    this.allVols = await this.getVolsFromDB();
 
     let vols = await this.fetchVols();
     if (vols.length > 0) {
@@ -21,15 +21,32 @@ class VolStore {
           await ipc.db.track.add(track);
         }
       }
-      this.vols = await this.getVolsFromDB();
+      this.allVols = await this.getVolsFromDB();
     }
   };
 
   @observable
-  public vols: VolInfo[] = [];
+  private allVols: VolInfo[] = [];
+
+  @computed
+  public get vols(): VolInfo[] {
+    if (this.volType === VolTypes.ALL) {
+      return this.allVols;
+    }
+    return this.allVols.filter(vol => vol.tags.includes(this.volTypeItem.name));
+  };
 
   @observable
   public volType: VolTypes = VolTypes.ALL;
+
+  @computed
+  public get volTypeItem(): VolTypeItem {
+      const item = VolTypesList.find((t: VolTypeItem) => t.value === this.volType);
+      if (!item) {
+        throw new Error(`Invalid Vol Type`);
+      }
+      return item;
+  }
 
   @action
   public changeVolType = (type: VolTypes) => {

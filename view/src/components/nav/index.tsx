@@ -1,7 +1,7 @@
 import * as React from "react";
-import { observer } from 'mobx-react';
-import { store } from '../../store';
-import {ViewTypes} from "../../types";
+import {observer} from 'mobx-react';
+import {store, volStore} from '../../store';
+import {ViewTypes, VolTypes} from "../../types";
 import {Icon, IconTypes} from "../icon";
 import LOGO from "../../static/logo.png";
 import "./index.scss";
@@ -22,7 +22,7 @@ function INav() {
         </div>
         <div onClick={() => store.changeView(ViewTypes.VOLS_TYPE)}>
           <Icon type={IconTypes.CATEGORY} />
-          <p>分类</p>
+          <p>{volStore.volType === VolTypes.ALL ? '分类' : volStore.volTypeItem.name}</p>
         </div>
         <div>
           <Icon type={IconTypes.SEARCH} />
