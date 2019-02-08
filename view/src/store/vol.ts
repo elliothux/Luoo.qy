@@ -1,8 +1,13 @@
-import {action, computed, observable} from "mobx";
-import {genRange} from "../utils";
-import {ViewTypes, VolInfo, VolTypeItem, VolTypes, VolTypesList} from "../types";
-import {store} from './index';
-
+import { action, computed, observable } from "mobx";
+import { genRange } from "../utils";
+import {
+  ViewTypes,
+  VolInfo,
+  VolTypeItem,
+  VolTypes,
+  VolTypesList
+} from "../types";
+import { store } from "./index";
 
 let ipc: IpcObject;
 
@@ -34,18 +39,20 @@ class VolStore {
       return this.allVols;
     }
     return this.allVols.filter(vol => vol.tags.includes(this.volTypeItem.name));
-  };
+  }
 
   @observable
   public volType: VolTypes = VolTypes.ALL;
 
   @computed
   public get volTypeItem(): VolTypeItem {
-      const item = VolTypesList.find((t: VolTypeItem) => t.value === this.volType);
-      if (!item) {
-        throw new Error(`Invalid Vol Type`);
-      }
-      return item;
+    const item = VolTypesList.find(
+      (t: VolTypeItem) => t.value === this.volType
+    );
+    if (!item) {
+      throw new Error(`Invalid Vol Type`);
+    }
+    return item;
   }
 
   @action

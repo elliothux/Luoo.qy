@@ -8,18 +8,19 @@ import "./index.scss";
 const noop = () => {};
 
 interface Props {
-    pages: number[],
-    currentPage: number,
-    togglePage: (index: number) => void,
-    paginationCurrentIndex: number,
-    paginationTotalIndex: number,
-    onNext: () => void,
-    onPre: () => void
+  pages: number[];
+  currentPage: number;
+  togglePage: (index: number) => void;
+  paginationCurrentIndex: number;
+  paginationTotalIndex: number;
+  onNext: () => void;
+  onPre: () => void;
 }
 
 function IPagination(props: Props) {
   const isFirst = props.paginationCurrentIndex === 0;
-  const isLast = props.paginationCurrentIndex + 1 === props.paginationTotalIndex;
+  const isLast =
+    props.paginationCurrentIndex + 1 === props.paginationTotalIndex;
   return (
     <div id="pagination">
       <Icon

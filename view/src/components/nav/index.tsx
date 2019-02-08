@@ -1,33 +1,48 @@
 import * as React from "react";
-import {observer} from 'mobx-react';
-import classnames from 'classnames';
-import {store, volStore} from '../../store';
-import {ViewTypes, VolTypes} from "../../types";
-import {Icon, IconTypes} from "../icon";
+import { observer } from "mobx-react";
+import classnames from "classnames";
+import { store, volStore } from "../../store";
+import { ViewTypes, VolTypes } from "../../types";
+import { Icon, IconTypes } from "../icon";
 import LOGO from "../../static/logo.png";
 import "./index.scss";
 
 function hideClassName(willHide: boolean) {
-    return classnames({'nav-item-hide': willHide });
+  return classnames({ "nav-item-hide": willHide });
 }
 
 function INav() {
   return (
-    <div id="nav" style={{
-      opacity: store.view === ViewTypes.VOLS_TYPE ? 0 : 1
-    }}>
+    <div
+      id="nav"
+      style={{
+        opacity: store.view === ViewTypes.VOLS_TYPE ? 0 : 1
+      }}
+    >
       <div id="nav-actions">
-        <div className={hideClassName([ViewTypes.VOLS, ViewTypes.SINGLES].includes(store.view))}>
+        <div
+          className={hideClassName(
+            [ViewTypes.VOLS, ViewTypes.SINGLES].includes(store.view)
+          )}
+          onClick={store.backView}
+        >
           <Icon type={IconTypes.BACK} />
           <p>返回</p>
         </div>
-        <div className={hideClassName(store.view !== ViewTypes.VOL_INFO)}>
+        <div className={hideClassName(store.view !== ViewTypes.PLAYING)}>
           <Icon type={IconTypes.SOURCE} />
           <p>来源</p>
         </div>
-        <div onClick={() => store.changeView(ViewTypes.VOLS_TYPE)}>
+        <div
+          className={hideClassName(store.view !== ViewTypes.VOLS)}
+          onClick={() => store.changeView(ViewTypes.VOLS_TYPE)}
+        >
           <Icon type={IconTypes.CATEGORY} />
-          <p>{volStore.volType === VolTypes.ALL ? '分类' : volStore.volTypeItem.name}</p>
+          <p>
+            {volStore.volType === VolTypes.ALL
+              ? "分类"
+              : volStore.volTypeItem.name}
+          </p>
         </div>
         <div>
           <Icon type={IconTypes.SEARCH} />

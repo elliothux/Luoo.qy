@@ -1,5 +1,4 @@
 import { action, computed, observable } from "mobx";
-import anime from "animejs";
 import { getIPC } from "../utils";
 import { PlayingStatus, PlayingTypes, ViewTypes, VolTrack } from "../types";
 import { volStore } from "./vol";
@@ -13,12 +12,17 @@ class Store {
     await volStore.init(ipc);
   };
 
+  protected viewHistory: ViewTypes[] = [];
+
   @observable
   public view: ViewTypes = ViewTypes.VOLS;
 
   @action
-  public changeView = (viewType: ViewTypes) => {
-    if (this.view === viewType) return;
+  public changeView = (viewType: ViewTypes, isBack: boolean = false) => {
+    if (viewType === this.view) {
+      return;
+    }
+
     const prevView = this.view;
     this.view = viewType;
 
@@ -30,6 +34,10 @@ class Store {
     ) as HTMLElement | null;
     if (!prevViewElement || !viewElement) return;
 
+    if (!isBack) {
+      this.viewHistory.push(prevView);
+    }
+
     viewElement.className += " show";
     prevViewElement.className = prevViewElement.className.replace(" show", "");
 
@@ -37,6 +45,15 @@ class Store {
     setTimeout(() => {
       prevViewElement.style.zIndex = "-1";
     }, 500);
+  };
+
+  @action
+  public backView = () => {
+    const prevView = this.viewHistory.pop();
+    if (prevView === undefined) {
+      throw new Error("Invalid previous view");
+    }
+    this.changeView(prevView, true);
   };
 
   @computed

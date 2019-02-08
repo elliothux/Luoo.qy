@@ -1,7 +1,7 @@
 import * as React from "react";
-import {ViewTypes, VolTypeItem, VolTypesList} from "../../types";
+import { ViewTypes, VolTypeItem, VolTypesList } from "../../types";
 import "./index.scss";
-import {volStore} from "../../store";
+import { volStore } from "../../store";
 
 function renderCategoryItem(i: VolTypeItem) {
   const { type, name, img, value } = i;
@@ -23,7 +23,7 @@ function renderCategoryItem(i: VolTypeItem) {
 function Category() {
   return (
     <div id="vol-types" className={`page view-${ViewTypes.VOLS_TYPE}`}>
-        {VolTypesList.map(renderCategoryItem)}
+      {VolTypesList.map(renderCategoryItem)}
     </div>
   );
 }

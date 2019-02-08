@@ -3,11 +3,11 @@ import { VolInfo } from "../../types";
 
 import "./index.scss";
 import { Icon, IconTypes } from "../icon";
-import {volStore} from "../../store";
+import { volStore } from "../../store";
 
 export interface Props {
   volInfo: VolInfo;
-  index: number
+  index: number;
 }
 
 function VolItem(props: Props) {
