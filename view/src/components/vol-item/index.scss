@@ -27,9 +27,12 @@
 
   .vol-item-cover {
     width: 100%;
-    height: auto;
+    height: 0;
+    padding-bottom: 70.6%;
     position: relative;
     box-shadow: 0 10px 50px 0 rgba(0, 0, 0, 0.5);
+    background-size: cover;
+    background-position: center;
   }
 
   .vol-item-info {

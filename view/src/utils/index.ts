@@ -8,4 +8,8 @@ function genRange(start: number, end: number): number[] {
   return result;
 }
 
-export { genRange };
+function px(i: number) {
+    return `${i}px`;
+}
+
+export { genRange, px };
