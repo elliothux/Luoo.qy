@@ -1,10 +1,22 @@
 import * as React from "react";
-import { observer } from "mobx-react";
-import { volStore } from "../../store";
-import { Icon, IconTypes } from "../../components/icon";
-import { VolTrackItem } from "../../components/vol-track-item";
+import {observer} from "mobx-react";
+import {volStore} from "../../store";
+import {Icon, IconTypes} from "../../components/icon";
+import {VolTrackItem} from "../../components/vol-track-item";
 import "./index.scss";
-import { ViewTypes } from "../../types";
+import {ViewTypes} from "../../types";
+import {events, EventTypes} from "../../utils";
+
+let coverRef: HTMLDivElement;
+
+function getCoverRef(i: HTMLImageElement | null) {
+    coverRef = i as HTMLDivElement
+}
+
+events.on(EventTypes.ShowVolBackground, (src) => {
+    console.log(src);
+    debugger;
+});
 
 function IVol() {
   const { selectedVol: vol } = volStore;
@@ -13,6 +25,7 @@ function IVol() {
     <div id="vol" className={`page view-${ViewTypes.VOL_INFO}`}>
       <div
         id="vol-bg"
+        ref={getCoverRef}
         style={{
           backgroundImage: `url(${vol.cover})`
         }}

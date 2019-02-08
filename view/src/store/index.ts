@@ -41,7 +41,7 @@ class Store {
     viewElement.className += " show";
     prevViewElement.className = prevViewElement.className.replace(" show", "");
 
-    viewElement.style.zIndex = viewType === ViewTypes.VOLS_TYPE ? "20" : "1";
+    viewElement.style.zIndex = viewType === ViewTypes.VOLS_TYPE ? "20" : "5";
     setTimeout(() => {
       prevViewElement.style.zIndex = "-1";
     }, 500);

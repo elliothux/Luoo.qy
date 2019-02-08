@@ -1,4 +1,5 @@
 export { getIPC } from "./ipc";
+export { events, EventTypes } from './event';
 
 function genRange(start: number, end: number): number[] {
   const result: number[] = [];
