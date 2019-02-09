@@ -18,15 +18,19 @@ class VolStore {
 
     this.allVols = await this.getVolsFromDB();
 
-    let vols = await this.fetchVols();
-    if (vols.length > 0) {
-      for (let vol of vols) {
-        await ipc.db.vol.add(vol);
-        for (let track of vol.tracks) {
-          await ipc.db.track.add(track);
+    try {
+        let vols = await this.fetchVols();
+        if (vols.length > 0) {
+            for (let vol of vols) {
+                await ipc.db.vol.add(vol);
+                for (let track of vol.tracks) {
+                    await ipc.db.track.add(track);
+                }
+            }
+            this.allVols = await this.getVolsFromDB();
         }
-      }
-      this.allVols = await this.getVolsFromDB();
+    } catch (e) {
+        console.error(e);
     }
   };
 

@@ -14,13 +14,13 @@
       opacity: 1;
     }
     #vol-tracks {
-      transition-delay: 800ms;
+      transition-delay: 600ms;
     }
   }
 
   #vol-bg-mask, #vol-info, #vol-tracks {
     @include transition;
-    transition-delay: 600ms;
+    transition-delay: 400ms;
   }
 
   #vol-bg,

@@ -22,7 +22,7 @@ $mini-player-height: 80px;
   justify-content: flex-start;
   height: $mini-player-height;
   bottom: -$mini-player-height;
-  animation: mini-player 500ms 1200ms ease forwards;
+  animation: mini-player 300ms 1200ms ease forwards;
   @keyframes mini-player {
     0% {
       transform: none;

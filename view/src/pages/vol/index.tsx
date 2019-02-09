@@ -4,9 +4,9 @@ import {observer} from "mobx-react";
 import {volStore} from "../../store";
 import {Icon, IconTypes} from "../../components/icon";
 import {VolTrackItem} from "../../components/vol-track-item";
-import "./index.scss";
 import {ViewTypes} from "../../types";
 import {events, EventTypes, px} from "../../utils";
+import "./index.scss";
 
 interface ElementPosition {
     top: number,
@@ -27,6 +27,7 @@ events.on(EventTypes.ShowVolBackground, (src, cover, callback) => {
     coverPos = { top, right, bottom, left} as ElementPosition;
 
     coverRef.style.backgroundImage = `url(${src})`;
+    coverRef.style.opacity = '1';
     coverRef.style.top = px(top);
     coverRef.style.left = px(left);
     coverRef.style.width = px(right - left);
@@ -34,10 +35,10 @@ events.on(EventTypes.ShowVolBackground, (src, cover, callback) => {
 
     anime({
         targets: coverRef,
-        easing: "spring(1, 80, 100, 0)",
+        easing: "easeInOutExpo",
         width: "100%",
         height: "100%",
-        duration: 100,
+        duration: 500,
         top: 0,
         left: 0,
         begin: callback,
