@@ -1,7 +1,5 @@
 import * as React from "react";
-import { observer } from "mobx-react";
 import classnames from "classnames";
-import { volStore } from "../../store";
 import { Icon, IconTypes } from "../icon";
 import "./index.scss";
 
@@ -17,7 +15,7 @@ interface Props {
   onPre: () => void;
 }
 
-function IPagination(props: Props) {
+function Pagination(props: Props) {
   const isFirst = props.paginationCurrentIndex === 0;
   const isLast =
     props.paginationCurrentIndex + 1 === props.paginationTotalIndex;
@@ -49,6 +47,5 @@ function IPagination(props: Props) {
   );
 }
 
-const Pagination = observer(IPagination);
 
 export { Pagination };

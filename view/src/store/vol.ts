@@ -19,18 +19,18 @@ class VolStore {
     this.allVols = await this.getVolsFromDB();
 
     try {
-        let vols = await this.fetchVols();
-        if (vols.length > 0) {
-            for (let vol of vols) {
-                await ipc.db.vol.add(vol);
-                for (let track of vol.tracks) {
-                    await ipc.db.track.add(track);
-                }
-            }
-            this.allVols = await this.getVolsFromDB();
+      let vols = await this.fetchVols();
+      if (vols.length > 0) {
+        for (let vol of vols) {
+          await ipc.db.vol.add(vol);
+          for (let track of vol.tracks) {
+            await ipc.db.track.add(track);
+          }
         }
+        this.allVols = await this.getVolsFromDB();
+      }
     } catch (e) {
-        console.error(e);
+      console.error(e);
     }
   };
 
@@ -61,6 +61,7 @@ class VolStore {
 
   @action
   public changeVolType = (type: VolTypes) => {
+    this.volCurrentPage = 0;
     this.volType = type;
     store.changeView(ViewTypes.VOLS);
   };
