@@ -10,7 +10,10 @@ class Store {
   @action
   init = async (): Promise<void> => {
     ipc = await getIPC();
-    await volStore.init(ipc);
+    await Promise.all([
+        volStore.init(ipc),
+        singleStore.init(ipc)
+    ]);
   };
 
   protected viewHistory: ViewTypes[] = [];

@@ -54,7 +54,7 @@ class SingleStore {
   }
 
   @computed
-  public get displayVols(): Single[] {
+  public get displaySingles(): Single[] {
     const start = this.singleCurrentPage * this.singlePageScale;
     const end = Math.min(
       (this.singleCurrentPage + 1) * this.singlePageScale,
@@ -74,12 +74,12 @@ class SingleStore {
   public singlePaginationCurrentIndex: number = 0;
 
   @computed
-  public get volPaginationTotalIndex(): number {
+  public get singlePaginationTotalIndex(): number {
     return Math.ceil(this.singleTotalPage / this.paginationScale);
   }
 
   @computed
-  public get displayVolPaginations(): number[] {
+  public get displaySinglePaginations(): number[] {
     const start = this.singlePaginationCurrentIndex * this.paginationScale;
     const end = Math.min(
       (this.singlePaginationCurrentIndex + 1) * this.paginationScale,
@@ -89,12 +89,12 @@ class SingleStore {
   }
 
   @action
-  public nextVolPagination = () => {
+  public nextSinglePagination = () => {
     this.singlePaginationCurrentIndex += 1;
   };
 
   @action
-  public preVolPagination = () => {
+  public preSinglePagination = () => {
     this.singlePaginationCurrentIndex -= 1;
   };
 
@@ -102,8 +102,8 @@ class SingleStore {
   private selectedSingleIndex: number = 0;
 
   @computed
-  public get selectedVol(): Single {
-    return this.displayVols[this.selectedSingleIndex];
+  public get selectedSingle(): Single {
+    return this.displaySingles[this.selectedSingleIndex];
   }
 
   @action

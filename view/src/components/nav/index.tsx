@@ -55,7 +55,7 @@ function INav() {
           <Icon type={IconTypes.VOL} />
           <p>期刊</p>
         </div>
-        <div>
+        <div onClick={() => store.changeView(ViewTypes.SINGLES)}>
           <Icon type={IconTypes.SINGLE} />
           <p>单曲</p>
         </div>
