@@ -71,6 +71,18 @@ export interface VolTrack {
   color: string;
 }
 
+export interface Single {
+    id: number;
+    name: string;
+    artist: string;
+    cover: string;
+    desc: string;
+    date: string;
+    recommender: string;
+    url: string;
+    color: string;
+}
+
 type VolTypeName = string;
 type VolTypeText = string;
 type VolTypeImg = string;

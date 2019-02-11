@@ -2,6 +2,7 @@ import { action, computed, observable } from "mobx";
 import { events, EventTypes, getIPC } from "../utils";
 import { PlayingStatus, PlayingTypes, ViewTypes, VolTrack } from "../types";
 import { volStore } from "./vol";
+import { singleStore } from "./single";
 
 let ipc: IpcObject;
 
@@ -99,4 +100,4 @@ class Store {
 
 const store = new Store();
 
-export { store, volStore };
+export { store, volStore, singleStore };

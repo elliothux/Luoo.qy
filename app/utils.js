@@ -5,6 +5,11 @@ function requestVols(from) {
   return getJSON(url);
 }
 
+function requestSingles(from) {
+  const url = `http://127.0.0.1:8087/api/singles/${from}`;
+  return getJSON(url);
+}
+
 function getJSON(url) {
   return new Promise((resolve, reject) => {
     try {
@@ -21,5 +26,6 @@ function getJSON(url) {
 }
 
 module.exports = {
-  requestVols
+  requestVols,
+  requestSingles
 };
