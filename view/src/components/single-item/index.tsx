@@ -11,15 +11,36 @@ export interface Props {
 }
 
 class SingleItem extends React.Component<Props> {
-  private onClick = () => {
-
-  };
+  private onClick = () => {};
 
   public render() {
     const { singleInfo } = this.props;
     return (
       <div className="single-item" onClick={this.onClick}>
-          <h1>{singleInfo.name}</h1>
+        <div
+          className="single-item-cover"
+          style={{
+            backgroundImage: `url(${singleInfo.cover})`
+          }}
+        />
+
+        <div className="single-item-info">
+          <p className="single-item-info-name">{singleInfo.name}</p>
+          <div className="single-item-operation">
+            <Icon type={IconTypes.LIKE} />
+            <Icon type={IconTypes.PLAY} />
+          </div>
+        </div>
+        <div className="vol-item-tags">
+            {volInfo.tags.map(t => (
+                <span key={t}>#{t}</span>
+            ))}
+        </div>
+        <div
+          className="vol-item-bg"
+          style={{ backgroundColor: volInfo.color }}
+        />
+      </div>
       </div>
     );
   }

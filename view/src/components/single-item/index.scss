@@ -1,6 +1,6 @@
 @import "../../styles/helper";
 
-.vol-item {
+.single-item {
   position: relative;
   box-shadow: 0 10px 50px 0 rgba(0, 0, 0, 0.5);
   @include cursor;
@@ -16,16 +16,7 @@
     position: relative;
   }
 
-  .vol-item-bg {
-    z-index: 1;
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    opacity: 0.65;
-  }
-
-  .vol-item-cover {
+  .single-item-cover {
     width: 100%;
     height: 0;
     padding-bottom: 70.6%;
@@ -33,6 +24,19 @@
     box-shadow: 0 10px 50px 0 rgba(0, 0, 0, 0.5);
     background-size: cover;
     background-position: center;
+  }
+
+
+
+
+
+  .vol-item-bg {
+    z-index: 1;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    opacity: 0.65;
   }
 
   .vol-item-info {
