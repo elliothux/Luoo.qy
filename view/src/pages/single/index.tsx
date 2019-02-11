@@ -1,9 +1,8 @@
 import * as React from "react";
 import anime from "animejs";
 import {observer} from "mobx-react";
-import {volStore} from "../../store";
+import {singleStore} from "../../store";
 import {Icon, IconTypes} from "../../components/icon";
-import {VolTrackItem} from "../../components/vol-track-item";
 import {ViewTypes, ElementPosition} from "../../types";
 import {events, EventTypes, px} from "../../utils";
 import "./index.scss";
@@ -16,7 +15,7 @@ function getCoverRef(i: HTMLImageElement | null) {
     coverRef = i as HTMLDivElement
 }
 
-events.on(EventTypes.ShowVolBackground, (src, cover, callback) => {
+events.on(EventTypes.ShowSingleBackground, (src, cover, callback) => {
     const { top, right, bottom, left } = cover.getBoundingClientRect();
     coverPos = { top, right, bottom, left} as ElementPosition;
 
@@ -39,55 +38,54 @@ events.on(EventTypes.ShowVolBackground, (src, cover, callback) => {
     });
 });
 
-function IVol() {
-  const { selectedVol: vol } = volStore;
-  if (!vol) return null;
+function formatDate(date: number): string {
+    const d = date.toString();
+    return `${d.slice(0, 4)}/${d.slice(4, 6)}/${d.slice(6, 8)}`;
+}
+
+function formatRecommender(recommender: string): string {
+    if (!recommender.trim()) return 'LUO';
+    return recommender.replace(/-/g, '').trim();
+}
+
+function ISingle() {
+  const { selectedSingle: single } = singleStore;
+  if (!single) return null;
   return (
-    <div id="vol" className={`page view-${ViewTypes.VOL_INFO}`}>
+    <div id="single" className={`page view-${ViewTypes.SINGLE_INFO}`}>
       <div
-        id="vol-bg"
+        id="single-bg"
         ref={getCoverRef}
         style={{
-          backgroundImage: `url(${vol.cover})`
+          backgroundImage: `url(${single.cover})`
         }}
       />
-      <div id="vol-bg-mask" />
-      <div id="vol-info">
-        <div id="vol-info-tags">
-          {vol.tags.map(t => (
-            <span key={t}>#{t}</span>
-          ))}
-        </div>
-        <p id="vol-info-index">
-          vol.
-          {vol.vol}
+      <div id="single-bg-mask" />
+      <div id="single-info">
+        <p id="single-info-name">
+            {single.name}
           <Icon type={IconTypes.LIKE} />
           <Icon type={IconTypes.PLAY} />
         </p>
-        <p id="vol-info-title">{vol.title}</p>
+        <p id="single-info-artist">{single.artist}</p>
         <div
-          id="vol-info-desc"
+          id="single-info-desc"
           dangerouslySetInnerHTML={{
-            __html: vol.desc
+            __html: single.desc
               .replace(/style="*?"/g, "")
               .replace(/href="*?"/g, "")
           }}
         />
-        <div id="vol-info-date">
+        <div id="single-info-date">
           <Icon type={IconTypes.LOGO} />
-          <span id="vol-info-author">{vol.author} · </span>
-          <span id="vol-info-date">{vol.date}</span>
+          <span id="vol-info-recommender">推荐人：{formatRecommender(single.recommender)} · </span>
+          <span id="vol-info-date">{formatDate(single.date)}</span>
         </div>
-      </div>
-      <div id="vol-tracks">
-        {vol.tracks.map(t => (
-          <VolTrackItem key={t.id} trackInfo={t} />
-        ))}
       </div>
     </div>
   );
 }
 
-const Vol = observer(IVol);
+const Single = observer(ISingle);
 
-export { Vol };
+export { Single };

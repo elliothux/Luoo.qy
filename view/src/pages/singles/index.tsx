@@ -15,7 +15,7 @@ class Singles extends React.Component {
 
   static renderSingles = (singles: Single[]) => {
     return singles.map((single: Single, index: number) => (
-        <SingleItem singleInfo={single} index={index}/>
+        <SingleItem key={single.date} singleInfo={single} index={index}/>
     ));
   };
 

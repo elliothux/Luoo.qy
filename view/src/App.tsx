@@ -5,8 +5,8 @@ import { MiniPlayer } from "./components/mini-player";
 import { Category } from "./pages/category";
 import { Vols } from "./pages/vols";
 import { Vol } from "./pages/vol";
-import {Singles} from "./pages/singles";
-
+import { Singles } from "./pages/singles";
+import { Single } from "./pages/single";
 
 function App() {
   return (
@@ -16,7 +16,8 @@ function App() {
       <MiniPlayer />
       <Vols />
       <Vol />
-    <Singles/>
+      <Singles />
+      <Single />
       <Category />
     </>
   );

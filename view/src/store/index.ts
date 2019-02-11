@@ -54,6 +54,18 @@ class Store {
         " show-with-cover",
         ""
       );
+    } else if (prevView === ViewTypes.SINGLES && viewType === ViewTypes.SINGLE_INFO) {
+        viewElement.className += " show-with-cover";
+        prevViewElement.className = prevViewElement.className.replace(
+            " show",
+            ""
+        );
+    } else if (prevView === ViewTypes.SINGLE_INFO && viewType === ViewTypes.SINGLES) {
+        viewElement.className += " show";
+        prevViewElement.className = prevViewElement.className.replace(
+            " show-with-cover",
+            ""
+        );
     } else {
       viewElement.className += " show";
       prevViewElement.className = prevViewElement.className.replace(

@@ -109,7 +109,7 @@ class SingleStore {
   @action
   public selectSingle = (singleIndex: number) => {
     this.selectedSingleIndex = singleIndex;
-    // store.changeView(ViewTypes.VOL_INFO);
+    store.changeView(ViewTypes.SINGLE_INFO);
   };
 
   @observable

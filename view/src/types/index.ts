@@ -29,6 +29,7 @@ export enum ViewTypes {
   VOLS_TYPE,
   VOL_INFO,
   SINGLES,
+  SINGLE_INFO,
   PLAYING
 }
 
@@ -42,6 +43,13 @@ export enum PlayingStatus {
   PLAYING,
   PAUSE,
   FETCHING
+}
+
+export interface ElementPosition {
+    top: number,
+    right: number,
+    bottom: number,
+    left: number,
 }
 
 export interface VolInfo {
@@ -77,7 +85,7 @@ export interface Single {
     artist: string;
     cover: string;
     desc: string;
-    date: string;
+    date: number;
     recommender: string;
     url: string;
     color: string;
