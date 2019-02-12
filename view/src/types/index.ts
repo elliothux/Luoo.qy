@@ -30,6 +30,8 @@ export enum ViewTypes {
   VOL_INFO,
   SINGLES,
   SINGLE_INFO,
+  ARTICLES,
+  ARTICLE_INFO,
   PLAYING
 }
 
@@ -91,13 +93,31 @@ export interface Single {
     color: string;
 }
 
-type VolTypeName = string;
-type VolTypeText = string;
-type VolTypeImg = string;
+export interface Article {
+    id: number;
+    title: string;
+    metaInfo: string;
+    url: string,
+    desc: string;
+    author: string;
+    authorAvatar: string;
+    tracks: ArticleTrack[];
+}
+
+export interface ArticleTrack {
+    id: number;
+    name: string;
+    artist: string;
+    album: string;
+    cover: string;
+    url: string;
+    color: string;
+}
+
 export type VolTypeItem = {
-  name: VolTypeName;
-  type: VolTypeText;
-  img: VolTypeImg;
+  name: string;
+  type: string;
+  img: string;
   value: VolTypes;
 };
 export enum VolTypes {
