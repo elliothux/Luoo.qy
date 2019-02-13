@@ -1,14 +1,4 @@
-const request = require("request");
-
-function requestVols(from) {
-  const url = `http://127.0.0.1:8087/api/vols/${from}`;
-  return getJSON(url);
-}
-
-function requestSingles(from) {
-  const url = `http://127.0.0.1:8087/api/singles/${from}`;
-  return getJSON(url);
-}
+const request = require('request');
 
 function getJSON(url) {
   return new Promise((resolve, reject) => {
@@ -25,7 +15,23 @@ function getJSON(url) {
   });
 }
 
+function requestVols(from) {
+  const url = `http://127.0.0.1:8087/api/vols/${from}`;
+  return getJSON(url);
+}
+
+function requestSingles(from) {
+  const url = `http://127.0.0.1:8087/api/singles/${from}`;
+  return getJSON(url);
+}
+
+function requestArticles(from) {
+  const url = `http://127.0.0.1:8087/api/articles/${from}`;
+  return getJSON(url);
+}
+
 module.exports = {
   requestVols,
-  requestSingles
+  requestSingles,
+  requestArticles,
 };

@@ -1,119 +1,128 @@
 import { action, computed, observable } from "mobx";
 import { genRange } from "../utils";
-import { ViewTypes, Article } from "../types";
+import {
+  Article,
+  ViewTypes,
+} from "../types";
 import { store } from "./index";
 
 let ipc: IpcObject;
 
 class ArticleStore {
-    @action
-    init = async (IPC: IpcObject) => {
-        ipc = IPC;
+  @action
+  init = async (IPC: IpcObject) => {
+    ipc = IPC;
 
-        this.singles = await this.getSinglesFromDB();
+    this.articles = await this.getArticlesFromDB();
 
-        try {
-            let singles = await this.fetchSingles();
-            if (singles.length > 0) {
-                for (let single of singles) {
-                    await ipc.db.single.add(single);
-                }
-                this.singles = await this.getSinglesFromDB();
-            }
-        } catch (e) {
-            console.error(e);
+    try {
+      let articles: Article[] = await this.fetchArticles();
+      if (articles.length > 0) {
+        for (let article of articles) {
+          await ipc.db.article.add(article);
+          for (let track of article.tracks) {
+            await ipc.db.articleTrack.add(track);
+          }
         }
-    };
+        this.articles = await this.getArticlesFromDB();
 
-    @observable
-    public singles: Single[] = [];
-
-    private getSinglesFromDB = (): Promise<Single[]> => {
-        return ipc.db.single.get();
-    };
-
-    private fetchSingles = async (): Promise<Single[]> => {
-        try {
-            const latest: number = await ipc.db.single.latest();
-            const { data } = await ipc.requestSingles(latest + 1);
-            // TODO: REMOVE after Typescript fix issue: https://github.com/Microsoft/TypeScript/issues/5710
-            return data.sort((i: Single, j: Single) => +j.date - +i.date);
-        } catch (e) {
-            throw e;
-        }
-    };
-
-    protected singlePageScale = 3 * 4;
-
-    @observable
-    public singleCurrentPage: number = 0;
-
-    @computed
-    public get singleTotalPage(): number {
-        return Math.ceil(this.singles.length / this.singlePageScale);
+      }
+    } catch (e) {
+      console.error(e);
     }
+  };
 
-    @computed
-    public get displaySingles(): Single[] {
-        const start = this.singleCurrentPage * this.singlePageScale;
-        const end = Math.min(
-            (this.singleCurrentPage + 1) * this.singlePageScale,
-            this.singles.length
-        );
-        return this.singles.slice(start, end);
+  @observable
+  private articles: Article[] = [];
+
+  private getArticlesFromDB = (): Promise<Article[]> => {
+    return ipc.db.article.get();
+  };
+
+  private fetchArticles = async (): Promise<Article[]> => {
+    try {
+      const latest: number = await ipc.db.article.latest();
+      const { data } = await ipc.requestArticles(latest + 1);
+      return data.sort((i: Article, j: Article) => j.id - i.id);
+    } catch (e) {
+      throw e;
     }
+  };
 
-    @action
-    public toggleSingleIndex = (page: number) => {
-        this.singleCurrentPage = page;
-    };
+  protected articlePageScale = 3 * 4;
 
-    protected paginationScale = 9;
+  @observable
+  public articleCurrentPage: number = 0;
 
-    @observable
-    public singlePaginationCurrentIndex: number = 0;
+  @computed
+  public get articleTotalPage(): number {
+    return Math.ceil(this.articles.length / this.articlePageScale);
+  }
 
-    @computed
-    public get singlePaginationTotalIndex(): number {
-        return Math.ceil(this.singleTotalPage / this.paginationScale);
-    }
+  @computed
+  public get displayVols(): Article[] {
+    const start = this.articleCurrentPage * this.articlePageScale;
+    const end = Math.min(
+      (this.articleCurrentPage + 1) * this.articlePageScale,
+      this.articles.length
+    );
+    return this.articles.slice(start, end);
+  }
 
-    @computed
-    public get displaySinglePaginations(): number[] {
-        const start = this.singlePaginationCurrentIndex * this.paginationScale;
-        const end = Math.min(
-            (this.singlePaginationCurrentIndex + 1) * this.paginationScale,
-            this.singleTotalPage
-        );
-        return genRange(start, end);
-    }
+  @action
+  public toggleArticleIndex = (page: number) => {
+    this.articleCurrentPage = page;
+  };
 
-    @action
-    public nextSinglePagination = () => {
-        this.singlePaginationCurrentIndex += 1;
-    };
+  protected paginationScale = 9;
 
-    @action
-    public preSinglePagination = () => {
-        this.singlePaginationCurrentIndex -= 1;
-    };
+  @observable
+  public articlePaginationCurrentIndex: number = 0;
 
-    @observable
-    private selectedSingleIndex: number = 0;
+  @computed
+  public get articlePaginationTotalIndex(): number {
+    return Math.ceil(this.articleTotalPage / this.paginationScale);
+  }
 
-    @computed
-    public get selectedSingle(): Single {
-        return this.displaySingles[this.selectedSingleIndex];
-    }
+  @computed
+  public get displayArticlePaginations(): number[] {
+    const start = this.articlePaginationCurrentIndex * this.paginationScale;
+    const end = Math.min(
+      (this.articlePaginationCurrentIndex + 1) * this.paginationScale,
+      this.articleTotalPage
+    );
+    return genRange(start, end);
+  }
 
-    @action
-    public selectSingle = (singleIndex: number) => {
-        this.selectedSingleIndex = singleIndex;
-        store.changeView(ViewTypes.SINGLE_INFO);
-    };
+  @action
+  public nextVolPagination = () => {
+    this.articlePaginationCurrentIndex += 1;
+  };
 
-    @observable
-    public playingSingleIndex: number = 0;
+  @action
+  public preVolPagination = () => {
+    this.articlePaginationCurrentIndex -= 1;
+  };
+
+  @observable
+  private selectedArticleIndex: number = 0;
+
+  @computed
+  public get selectedArticle(): Article {
+    return this.displayVols[this.selectedArticleIndex];
+  }
+
+  @action
+  public selectArticle = (articleIndex: number) => {
+    this.selectedArticleIndex = articleIndex;
+    store.changeView(ViewTypes.VOL_INFO);
+  };
+
+  @observable
+  public playingArticleIndex: number = 0;
+
+  @observable
+  public playingTrackIndex: number = 0;
 }
 
 const articleStore = new ArticleStore();

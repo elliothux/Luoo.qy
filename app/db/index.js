@@ -8,5 +8,5 @@ module.exports = {
   volTrack,
   single,
   article,
-  articleTrack
+  articleTrack,
 };

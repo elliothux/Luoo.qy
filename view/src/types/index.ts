@@ -94,24 +94,27 @@ export interface Single {
 }
 
 export interface Article {
-    id: number;
-    title: string;
-    metaInfo: string;
-    url: string,
-    desc: string;
-    author: string;
-    authorAvatar: string;
-    tracks: ArticleTrack[];
+  id: number;
+  title: string;
+  cover: string;
+  color: string,
+  metaInfo: string;
+  url: string;
+  desc: string;
+  author: string;
+  authorAvatar: string;
+  tracks: ArticleTrack[];
 }
 
 export interface ArticleTrack {
-    id: number;
-    name: string;
-    artist: string;
-    album: string;
-    cover: string;
-    url: string;
-    color: string;
+  id: number;
+  articleId: number;
+  name: string;
+  artist: string;
+  album: string;
+  cover: string;
+  url: string;
+  color: string;
 }
 
 export type VolTypeItem = {

@@ -1,20 +1,20 @@
-const DataStore = require("nedb");
-const path = require("path");
+const DataStore = require('nedb');
+const path = require('path');
 const { isExist, _insert, _find } = require('./utils');
 
 
 const vol = new DataStore({
-  filename: path.join(__dirname, "../db/vol"),
-  autoload: true
+  filename: path.join(__dirname, '../../db/vol'),
+  autoload: true,
 });
 
 const volTrack = new DataStore({
-  filename: path.join(__dirname, "../db/volTracks"),
-  autoload: true
+  filename: path.join(__dirname, '../../db/vol_track'),
+  autoload: true,
 });
 
 async function addVol(data) {
-  if (await isExist({ vol: data.vol }, vol)) {
+  if (await isExist({ id: data.id }, vol)) {
     throw new Error(`Add vol failed for vol${data.vol} already existing`);
   }
 
@@ -37,7 +37,7 @@ async function getLatestVol() {
 async function addVolTrack(data) {
   if (await isExist({ vol: data.vol, track_id: data.track_id }, volTrack)) {
     throw new Error(
-      `Add vol failed for track${data.track_id} already existing`
+      `Add vol failed for track${data.track_id} already existing`,
     );
   }
 
@@ -56,11 +56,11 @@ module.exports = {
     add: addVol,
     get: getVolList,
     latest: getLatestVol,
-    isExist: async volIndex => await isExist({ vol: volIndex }, vol)
+    isExist: async volIndex => await isExist({ vol: volIndex }, vol),
   },
   volTrack: {
     add: addVolTrack,
     get: getVolTrackList,
-    isExist: async track_id => await isExist({ track_id }, volTrack)
+    isExist: async track_id => await isExist({ track_id }, volTrack),
   },
 };

@@ -3,6 +3,7 @@ import { events, EventTypes, getIPC } from "../utils";
 import { PlayingStatus, PlayingTypes, ViewTypes, VolTrack } from "../types";
 import { volStore } from "./vol";
 import { singleStore } from "./single";
+import { articleStore } from "./article";
 
 let ipc: IpcObject;
 
@@ -11,8 +12,9 @@ class Store {
   init = async (): Promise<void> => {
     ipc = await getIPC();
     await Promise.all([
-        volStore.init(ipc),
-        singleStore.init(ipc)
+      volStore.init(ipc),
+      singleStore.init(ipc),
+      articleStore.init(ipc)
     ]);
   };
 
@@ -44,28 +46,34 @@ class Store {
 
     if (prevView === ViewTypes.VOLS && viewType === ViewTypes.VOL_INFO) {
       viewElement.className += " show-with-cover";
-        prevViewElement.className = prevViewElement.className.replace(
-            " show",
-            ""
-        );
+      prevViewElement.className = prevViewElement.className.replace(
+        " show",
+        ""
+      );
     } else if (prevView === ViewTypes.VOL_INFO && viewType === ViewTypes.VOLS) {
-        viewElement.className += " show";
-        prevViewElement.className = prevViewElement.className.replace(
+      viewElement.className += " show";
+      prevViewElement.className = prevViewElement.className.replace(
         " show-with-cover",
         ""
       );
-    } else if (prevView === ViewTypes.SINGLES && viewType === ViewTypes.SINGLE_INFO) {
-        viewElement.className += " show-with-cover";
-        prevViewElement.className = prevViewElement.className.replace(
-            " show",
-            ""
-        );
-    } else if (prevView === ViewTypes.SINGLE_INFO && viewType === ViewTypes.SINGLES) {
-        viewElement.className += " show";
-        prevViewElement.className = prevViewElement.className.replace(
-            " show-with-cover",
-            ""
-        );
+    } else if (
+      prevView === ViewTypes.SINGLES &&
+      viewType === ViewTypes.SINGLE_INFO
+    ) {
+      viewElement.className += " show-with-cover";
+      prevViewElement.className = prevViewElement.className.replace(
+        " show",
+        ""
+      );
+    } else if (
+      prevView === ViewTypes.SINGLE_INFO &&
+      viewType === ViewTypes.SINGLES
+    ) {
+      viewElement.className += " show";
+      prevViewElement.className = prevViewElement.className.replace(
+        " show-with-cover",
+        ""
+      );
     } else {
       viewElement.className += " show";
       prevViewElement.className = prevViewElement.className.replace(

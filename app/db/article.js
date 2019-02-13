@@ -1,16 +1,16 @@
-const DataStore = require("nedb");
-const path = require("path");
+const DataStore = require('nedb');
+const path = require('path');
 const { isExist, _insert, _find } = require('./utils');
 
 
 const article = new DataStore({
-  filename: path.join(__dirname, "../db/article"),
-  autoload: true
+  filename: path.join(__dirname, '../../db/article'),
+  autoload: true,
 });
 
 const articleTrack = new DataStore({
-  filename: path.join(__dirname, "../db/articleTrack"),
-  autoload: true
+  filename: path.join(__dirname, '../../db/article_track'),
+  autoload: true,
 });
 
 async function addArticle(data) {
@@ -37,7 +37,7 @@ async function getLatestArticleId() {
 async function addArticleTrack(data) {
   if (await isExist({ articleId: data.articleId, id: data.id }, articleTrack)) {
     throw new Error(
-      `Add article failed for track${data.id} already existing`
+      `Add article failed for track${data.id} already existing`,
     );
   }
 
@@ -46,8 +46,8 @@ async function addArticleTrack(data) {
   return newDoc;
 }
 
-async function getArticleTrackList() {
-  return await _find({}, articleTrack, { track_id: -1 });
+function getArticleTrackList() {
+  return _find({}, articleTrack, { track_id: -1 });
 }
 
 
@@ -56,11 +56,11 @@ module.exports = {
     add: addArticle,
     get: getArticleList,
     latest: getLatestArticleId,
-    isExist: async articleId => await isExist({ id: articleId }, article)
+    isExist: articleId => isExist({ id: articleId }, article),
   },
   articleTrack: {
-    add: addArticleTrack(),
+    add: addArticleTrack,
     get: getArticleTrackList,
-    isExist: async trackId => await isExist({ id: trackId }, articleTrack)
+    isExist: trackId => isExist({ id: trackId }, articleTrack),
   },
 };

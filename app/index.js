@@ -1,16 +1,17 @@
-const { app, BrowserWindow } = require("electron");
-const { requestVols, requestSingles } = require("./utils");
-const db = require("./db");
+const { app, BrowserWindow } = require('electron');
+const { requestVols, requestSingles, requestArticles } = require('./utils');
+const db = require('./db');
 
-if (require("electron-squirrel-startup")) {
+if (require('electron-squirrel-startup')) {
   app.quit();
 } else {
-  Object.defineProperty(global, "ipc", {
+  Object.defineProperty(global, 'ipc', {
     value: {
       requestVols,
       requestSingles,
-      db
-    }
+      requestArticles,
+      db,
+    },
   });
 }
 
@@ -20,32 +21,32 @@ const createWindow = () => {
   mainWindow = new BrowserWindow({
     width: 1200,
     height: 800,
-    title: "Luoo.qy",
+    title: 'Luoo.qy',
     webPreferences: {
-      nodeIntegration: true
-    }
+      nodeIntegration: true,
+    },
   });
 
   // mainWindow.loadURL(`file://${__dirname}/index.html`);
-  mainWindow.loadURL("http://localhost:3000/");
+  mainWindow.loadURL('http://localhost:3000/');
 
   mainWindow.webContents.openDevTools();
-  mainWindow.setTitle("Luoo.qy");
+  mainWindow.setTitle('Luoo.qy');
 
-  mainWindow.on("closed", () => {
+  mainWindow.on('closed', () => {
     mainWindow = null;
   });
 };
 
-app.on("ready", createWindow);
+app.on('ready', createWindow);
 
-app.on("window-all-closed", () => {
-  if (process.platform !== "darwin") {
+app.on('window-all-closed', () => {
+  if (process.platform !== 'darwin') {
     app.quit();
   }
 });
 
-app.on("activate", () => {
+app.on('activate', () => {
   if (mainWindow === null) {
     createWindow();
   }

@@ -24,7 +24,7 @@ class VolStore {
         for (let vol of vols) {
           await ipc.db.vol.add(vol);
           for (let track of vol.tracks) {
-            await ipc.db.track.add(track);
+            await ipc.db.volTrack.add(track);
           }
         }
         this.allVols = await this.getVolsFromDB();
@@ -150,7 +150,7 @@ class VolStore {
   };
 
   @observable
-  public playingVolIndex: number = 11;
+  public playingVolIndex: number = 0;
 
   @observable
   public playingTrackIndex: number = 0;
