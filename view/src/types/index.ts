@@ -99,6 +99,7 @@ export interface Article {
   cover: string;
   color: string,
   metaInfo: string;
+  intro: string;
   url: string;
   desc: string;
   author: string;

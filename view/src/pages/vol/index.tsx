@@ -32,7 +32,7 @@ events.on(EventTypes.ShowVolBackground, (src, cover, callback) => {
         easing: "easeInOutExpo",
         width: "100%",
         height: "100%",
-        duration: 500,
+        duration: 600,
         top: 0,
         left: 0,
         begin: callback,
