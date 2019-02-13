@@ -69,8 +69,6 @@ function IVol() {
           id="vol-info-desc"
           dangerouslySetInnerHTML={{
             __html: vol.desc
-              .replace(/style="*?"/g, "")
-              .replace(/href="*?"/g, "")
           }}
         />
         <div id="vol-info-date">

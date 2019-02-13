@@ -72,8 +72,6 @@ function ISingle() {
           id="single-info-desc"
           dangerouslySetInnerHTML={{
             __html: single.desc
-              .replace(/style="*?"/g, "")
-              .replace(/href="*?"/g, "")
           }}
         />
         <div id="single-info-date">

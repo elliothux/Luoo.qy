@@ -7,7 +7,7 @@ import {ViewTypes} from "../../types";
 
 function IMiniPlayer() {
   const { playingInfo: info, playingProgress } = store;
-  if (![ViewTypes.VOL_INFO, ViewTypes.SINGLE_INFO].includes(store.view)) {
+  if (![ViewTypes.VOL_INFO, ViewTypes.SINGLE_INFO, ViewTypes.ARTICLE_INFO].includes(store.view)) {
     return (
       <div id="mini-player-collapsed">
         <Icon type={IconTypes.WAVE} />

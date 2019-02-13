@@ -133,7 +133,7 @@
   }
 
   #vol-tracks {
-    height: calc(100% - 146px);
+    max-height: calc(100% - 146px);
     right: 0;
     width: 35%;
     padding: 36px;

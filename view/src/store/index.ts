@@ -1,9 +1,9 @@
-import { action, computed, observable } from "mobx";
-import { events, EventTypes, getIPC } from "../utils";
-import { PlayingStatus, PlayingTypes, ViewTypes, VolTrack } from "../types";
-import { volStore } from "./vol";
-import { singleStore } from "./single";
-import { articleStore } from "./article";
+import {action, computed, observable} from "mobx";
+import {getIPC} from "../utils";
+import {PlayingStatus, PlayingTypes, ViewTypes, VolTrack} from "../types";
+import {volStore} from "./vol";
+import {singleStore} from "./single";
+import {articleStore} from "./article";
 
 let ipc: IpcObject;
 
@@ -44,31 +44,20 @@ class Store {
       this.viewHistory.push(prevView);
     }
 
-    if (prevView === ViewTypes.VOLS && viewType === ViewTypes.VOL_INFO) {
+    const isEnterInfoPage = (prevView === ViewTypes.VOLS && viewType === ViewTypes.VOL_INFO) ||
+        (prevView === ViewTypes.SINGLES && viewType === ViewTypes.SINGLE_INFO) ||
+        (prevView === ViewTypes.ARTICLES && viewType === ViewTypes.ARTICLE_INFO);
+    const isExitInfoPage = (prevView === ViewTypes.VOL_INFO && viewType === ViewTypes.VOLS) ||
+        (prevView === ViewTypes.SINGLE_INFO && viewType === ViewTypes.SINGLES) ||
+        (prevView === ViewTypes.ARTICLE_INFO && viewType === ViewTypes.ARTICLES);
+
+    if (isEnterInfoPage) {
       viewElement.className += " show-with-cover";
       prevViewElement.className = prevViewElement.className.replace(
         " show",
         ""
       );
-    } else if (prevView === ViewTypes.VOL_INFO && viewType === ViewTypes.VOLS) {
-      viewElement.className += " show";
-      prevViewElement.className = prevViewElement.className.replace(
-        " show-with-cover",
-        ""
-      );
-    } else if (
-      prevView === ViewTypes.SINGLES &&
-      viewType === ViewTypes.SINGLE_INFO
-    ) {
-      viewElement.className += " show-with-cover";
-      prevViewElement.className = prevViewElement.className.replace(
-        " show",
-        ""
-      );
-    } else if (
-      prevView === ViewTypes.SINGLE_INFO &&
-      viewType === ViewTypes.SINGLES
-    ) {
+    } else if (isExitInfoPage) {
       viewElement.className += " show";
       prevViewElement.className = prevViewElement.className.replace(
         " show-with-cover",

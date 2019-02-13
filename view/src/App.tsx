@@ -8,6 +8,7 @@ import { Vol } from "./pages/vol";
 import { Singles } from "./pages/singles";
 import { Single } from "./pages/single";
 import { Articles } from "./pages/articles";
+import { Article } from "./pages/article";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
       <Singles />
       <Single />
       <Articles />
+      <Article />
     </>
   );
 }

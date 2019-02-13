@@ -97,9 +97,10 @@ export interface ArticleInfo {
   id: number;
   title: string;
   cover: string;
+  intro: string;
   color: string,
   metaInfo: string;
-  intro: string;
+  date: string;
   url: string;
   desc: string;
   author: string;

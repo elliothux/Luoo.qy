@@ -22,7 +22,7 @@ function INav() {
       <div id="nav-actions">
         <div
           className={hideClassName(
-            [ViewTypes.VOLS, ViewTypes.SINGLES].includes(store.view)
+            [ViewTypes.VOLS, ViewTypes.SINGLES, ViewTypes.ARTICLES].includes(store.view)
           )}
           onClick={store.backView}
         >

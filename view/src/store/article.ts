@@ -115,7 +115,7 @@ class ArticleStore {
   @action
   public selectArticle = (articleIndex: number) => {
     this.selectedArticleIndex = articleIndex;
-    store.changeView(ViewTypes.VOL_INFO);
+    store.changeView(ViewTypes.ARTICLE_INFO);
   };
 
   @observable
