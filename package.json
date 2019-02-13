@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "binary-search-tree": "^0.2.6",
+    "camelcase-keys": "^5.0.0",
     "electron": "^4.0.4",
     "electron-squirrel-startup": "^1.0.0",
     "nedb": "^1.8.0",
@@ -25,8 +26,8 @@
     "babel-plugin-transform-async-to-generator": "^6.24.1",
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
-    "electron-forge": "^5.2.4",
     "electron-compile": "^6.4.4",
+    "electron-forge": "^5.2.4",
     "electron-prebuilt-compile": "4.0.0",
     "eslint": "5.6.0",
     "eslint-config-airbnb": "^15",

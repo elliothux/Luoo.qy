@@ -1,4 +1,5 @@
 const request = require('request');
+const camelcase = require('camelcase-keys');
 
 function getJSON(url) {
   return new Promise((resolve, reject) => {
@@ -7,7 +8,7 @@ function getJSON(url) {
         if (error || !response || response.statusCode !== 200) {
           return reject(error);
         }
-        resolve(JSON.parse(body));
+        return resolve(camelcase(JSON.parse(body), { deep: true }));
       });
     } catch (e) {
       reject(e);
