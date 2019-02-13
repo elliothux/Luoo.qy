@@ -59,9 +59,9 @@ function INav() {
           <Icon type={IconTypes.SINGLE} />
           <p>单曲</p>
         </div>
-        <div>
+        <div onClick={() => store.changeView(ViewTypes.ARTICLES)}>
           <Icon type={IconTypes.ARTICLE} />
-          <p>文章</p>
+          <p>专栏</p>
         </div>
         <div>
           <Icon type={IconTypes.USER} />

@@ -7,6 +7,7 @@ import { Vols } from "./pages/vols";
 import { Vol } from "./pages/vol";
 import { Singles } from "./pages/singles";
 import { Single } from "./pages/single";
+import { Articles } from "./pages/articles";
 
 function App() {
   return (
@@ -14,11 +15,12 @@ function App() {
       <Background key={0} />
       <Nav key={1} />
       <MiniPlayer />
+      <Category />
       <Vols />
       <Vol />
       <Singles />
       <Single />
-      <Category />
+      <Articles />
     </>
   );
 }

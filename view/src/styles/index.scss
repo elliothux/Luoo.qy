@@ -33,15 +33,12 @@
     padding: 0 25px;
     width: calc(100% - 50px);
   }
-  #vols, #singles {
-    padding: 0 70px;
-    width: calc(100% - 140px);
-  }
 
-  #vols, #singles {
+  #vols, #singles, #articles {
+    padding: 0 70px 50px 70px;
+    width: calc(100% - 140px);
     top: 112px;
     height: calc(100% - 186px);
-    padding-bottom: 50px;
     overflow-y: auto;
   }
 }

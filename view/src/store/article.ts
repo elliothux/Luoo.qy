@@ -1,7 +1,7 @@
 import { action, computed, observable } from "mobx";
 import { genRange } from "../utils";
 import {
-  Article,
+  ArticleInfo,
   ViewTypes,
 } from "../types";
 import { store } from "./index";
@@ -16,7 +16,7 @@ class ArticleStore {
     this.articles = await this.getArticlesFromDB();
 
     try {
-      let articles: Article[] = await this.fetchArticles();
+      let articles: ArticleInfo[] = await this.fetchArticles();
       if (articles.length > 0) {
         for (let article of articles) {
           await ipc.db.article.add(article);
@@ -33,17 +33,17 @@ class ArticleStore {
   };
 
   @observable
-  private articles: Article[] = [];
+  private articles: ArticleInfo[] = [];
 
-  private getArticlesFromDB = (): Promise<Article[]> => {
+  private getArticlesFromDB = (): Promise<ArticleInfo[]> => {
     return ipc.db.article.get();
   };
 
-  private fetchArticles = async (): Promise<Article[]> => {
+  private fetchArticles = async (): Promise<ArticleInfo[]> => {
     try {
       const latest: number = await ipc.db.article.latest();
       const { data } = await ipc.requestArticles(latest + 1);
-      return data.sort((i: Article, j: Article) => j.id - i.id);
+      return data.sort((i: ArticleInfo, j: ArticleInfo) => j.id - i.id);
     } catch (e) {
       throw e;
     }
@@ -60,7 +60,7 @@ class ArticleStore {
   }
 
   @computed
-  public get displayVols(): Article[] {
+  public get displayArticles(): ArticleInfo[] {
     const start = this.articleCurrentPage * this.articlePageScale;
     const end = Math.min(
       (this.articleCurrentPage + 1) * this.articlePageScale,
@@ -95,12 +95,12 @@ class ArticleStore {
   }
 
   @action
-  public nextVolPagination = () => {
+  public nextArticlePagination = () => {
     this.articlePaginationCurrentIndex += 1;
   };
 
   @action
-  public preVolPagination = () => {
+  public preArticlePagination = () => {
     this.articlePaginationCurrentIndex -= 1;
   };
 
@@ -108,8 +108,8 @@ class ArticleStore {
   private selectedArticleIndex: number = 0;
 
   @computed
-  public get selectedArticle(): Article {
-    return this.displayVols[this.selectedArticleIndex];
+  public get selectedArticle(): ArticleInfo {
+    return this.displayArticles[this.selectedArticleIndex];
   }
 
   @action

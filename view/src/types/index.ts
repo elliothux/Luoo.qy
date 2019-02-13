@@ -93,7 +93,7 @@ export interface Single {
     color: string;
 }
 
-export interface Article {
+export interface ArticleInfo {
   id: number;
   title: string;
   cover: string;

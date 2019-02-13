@@ -55,6 +55,7 @@ class EventProxy {
 enum EventTypes {
   ShowVolBackground,
   ShowSingleBackground,
+  ShowArticleBackground,
 }
 
 

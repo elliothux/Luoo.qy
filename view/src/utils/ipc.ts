@@ -1,4 +1,4 @@
-import {Article, Single, VolInfo} from "../types";
+import {ArticleInfo, Single, VolInfo} from "../types";
 
 declare global {
   interface Window {
@@ -14,7 +14,7 @@ declare global {
   interface IpcObject {
     requestVols: (startVol: number) => Promise<RetData<VolInfo[]>>;
     requestSingles: (startDate: number) => Promise<RetData<Single[]>>;
-    requestArticles: (startId: number) => Promise<RetData<Article[]>>;
+    requestArticles: (startId: number) => Promise<RetData<ArticleInfo[]>>;
     // todo
     db: any;
   }

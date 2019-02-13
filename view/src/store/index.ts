@@ -123,4 +123,4 @@ class Store {
 
 const store = new Store();
 
-export { store, volStore, singleStore };
+export { store, volStore, singleStore, articleStore };
