@@ -31,7 +31,6 @@ class ArticleItem extends React.Component<Props> {
 
   public render() {
     const { articleInfo } = this.props;
-    console.log(articleInfo);
     return (
       <div className="article-item" onClick={this.onClick}>
         <div
@@ -43,8 +42,8 @@ class ArticleItem extends React.Component<Props> {
         />
         <div className="article-item-info">
           <div className="article-item-info-container">
-            <p className="article-item-info-title">{articleInfo.title}</p>
             <p className="article-item-info-meta">{articleInfo.metaInfo}</p>
+              <p className="article-item-info-title">{articleInfo.title}</p>
           </div>
           <div className="article-item-operation">
             <Icon type={IconTypes.LIKE} />
