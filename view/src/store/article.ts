@@ -25,7 +25,6 @@ class ArticleStore {
           }
         }
         this.articles = await this.getArticlesFromDB();
-
       }
     } catch (e) {
       console.error(e);
