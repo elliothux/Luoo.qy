@@ -46,9 +46,10 @@ class Lyrics {
     if (text) {
       this.load(text);
     }
-    this.ID_TAGS.find(
-      i => i.name === "offset"
-    ).handler = this.setTimestampOffset;
+    const offset = this.ID_TAGS.find(i => i.name === "offset");
+    if (offset) {
+      offset.handler = this.setTimestampOffset;
+    }
   }
 
   private load = (text: string) => {
@@ -69,11 +70,9 @@ class Lyrics {
 
         isIdTag = true;
         const value = match[1].replace(/(^\s*)|(\s*$)/g, "");
-        if (typeof this.ID_TAGS[j].handler == "function") {
-          this.metaInfo[this.ID_TAGS[j].name] = this.ID_TAGS[j].handler.call(
-            this,
-            value
-          );
+        const handler = this.ID_TAGS[j].handler;
+        if (handler) {
+          this.metaInfo[this.ID_TAGS[j].name] = handler.call(this, value);
         } else {
           this.metaInfo[String(this.ID_TAGS[j].name)] = String(value);
         }
@@ -113,12 +112,12 @@ class Lyrics {
       return a.timestamp > b.timestamp ? 1 : -1;
     });
     if (!this.lyricsAll.length) {
-      this.lyricsAll = undefined;
+      this.lyricsAll = [];
     }
     if (isEmpty(this.metaInfo)) {
-      this.metaInfo = undefined;
+      this.metaInfo = {};
     }
-    return this.lyricsAll !== undefined || this.metaInfo !== undefined;
+    return this.lyricsAll.length !== 0 || !isEmpty(this.metaInfo);
   };
 
   private setTimestampOffset = (offset: number): number => {
