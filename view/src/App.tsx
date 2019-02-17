@@ -9,6 +9,7 @@ import { Singles } from "./pages/singles";
 import { Single } from "./pages/single";
 import { Articles } from "./pages/articles";
 import { Article } from "./pages/article";
+import { Player } from "./pages/player";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
       <Single />
       <Articles />
       <Article />
+      <Player />
     </>
   );
 }

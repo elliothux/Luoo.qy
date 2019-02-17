@@ -31,7 +31,6 @@ class ArticleItem extends React.Component<Props> {
 
   public render() {
     const { articleInfo } = this.props;
-    console.log(articleInfo);
     return (
       <div className="article-item" onClick={this.onClick}>
         <div

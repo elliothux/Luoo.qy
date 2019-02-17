@@ -1,9 +1,10 @@
 import {action, computed, observable} from "mobx";
 import {getIPC} from "../utils";
-import {PlayingStatus, PlayingTypes, ViewTypes, VolTrack} from "../types";
+import {ViewTypes} from "../types";
 import {volStore} from "./vol";
 import {singleStore} from "./single";
 import {articleStore} from "./article";
+import {playerStore} from "./player";
 
 let ipc: IpcObject;
 
@@ -85,31 +86,12 @@ class Store {
     }
     this.changeView(prevView, true);
   };
-
-  @computed
-  public get playingInfo(): VolTrack {
-    const { tracks } = volStore.vols[volStore.playingVolIndex];
-    return tracks[volStore.playingTrackIndex] as VolTrack;
-  }
-
-  @observable
-  public playStatus: PlayingStatus = PlayingStatus.PLAYING;
-
-  @observable
-  private playingType: PlayingTypes = PlayingTypes.VOL;
-
-  @observable
-  public totalTime: number = 33;
-
-  @observable
-  public playedTime: number = 100;
-
-  @computed
-  get playingProgress(): number {
-    return Math.ceil((this.totalTime / this.playedTime) * 100);
-  }
 }
 
 const store = new Store();
+setTimeout(() => {
+  console.log(111);
+  store.changeView(ViewTypes.PLAYING);
+}, 2000);
 
-export { store, volStore, singleStore, articleStore };
+export { store, volStore, singleStore, articleStore, playerStore };

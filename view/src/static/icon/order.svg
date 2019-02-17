@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="66px" height="66px" viewBox="0 0 66 66" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.3 (57544) - http://www.bohemiancoding.com/sketch -->
+    <title>order</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="main" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="res" transform="translate(-618.000000, -752.000000)" stroke="#FFFFFF" stroke-width="2">
+            <g id="order" transform="translate(618.000000, 752.000000)">
+                <g transform="translate(11.000000, 13.000000)" id="Shape">
+                    <polyline points="38 24 45 30.4998813 38 37"></polyline>
+                    <path d="M0,31 L44,31"></path>
+                    <polyline points="38 0 45 6.49988125 38 13"></polyline>
+                    <path d="M0,7 L44,7"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

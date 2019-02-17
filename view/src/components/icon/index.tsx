@@ -9,6 +9,7 @@ import SINGLE from "../../static/icon/single.svg";
 import USER from "../../static/icon/user.svg";
 import VOL from "../../static/icon/vol.svg";
 import LIKE from "../../static/icon/like.svg";
+import LIKE2 from "../../static/icon/like2.svg";
 import PLAY from "../../static/icon/play.svg";
 import PLAY_SOLID from "../../static/icon/play-solid.svg";
 import CLOUD from "../../static/icon/cloud.svg";
@@ -18,6 +19,12 @@ import NEXT from "../../static/icon/next.svg";
 import RANDOM from "../../static/icon/random.svg";
 import ARROW_LEFT from "../../static/icon/arrow-left.svg";
 import ARROW_RIGHT from "../../static/icon/arrow-right.svg";
+import PRE2 from '../../static/icon/pre2.svg';
+import NEXT2 from '../../static/icon/next2.svg';
+import SHUFFLE from '../../static/icon/shuffle.svg';
+import LOOP from '../../static/icon/loop.svg';
+import ORDER from '../../static/icon/order.svg';
+
 import "./index.scss";
 
 enum IconTypes {
@@ -30,16 +37,22 @@ enum IconTypes {
   USER,
   VOL,
   LIKE,
+  LIKE2,
   PLAY,
   LOGO,
   PLAY_SOLID,
   CLOUD,
   WAVE,
   PRE,
+  PRE2,
   NEXT,
+  NEXT2,
   RANDOM,
   ARROW_LEFT,
-  ARROW_RIGHT
+  ARROW_RIGHT,
+  SHUFFLE,
+  LOOP,
+  ORDER
 }
 
 export interface Props {
@@ -87,6 +100,9 @@ function Icon(props: Props) {
     case IconTypes.LIKE:
       src = LIKE;
       break;
+    case IconTypes.LIKE2:
+      src = LIKE2;
+      break;
     case IconTypes.LOGO:
       src = LOGO;
       break;
@@ -102,6 +118,12 @@ function Icon(props: Props) {
     case IconTypes.NEXT:
       src = NEXT;
       break;
+    case IconTypes.PRE2:
+      src = PRE2;
+      break;
+    case IconTypes.NEXT2:
+      src = NEXT2;
+      break;
     case IconTypes.RANDOM:
       src = RANDOM;
       break;
@@ -111,6 +133,15 @@ function Icon(props: Props) {
     case IconTypes.ARROW_RIGHT:
       src = ARROW_RIGHT;
       break;
+    case IconTypes.SHUFFLE:
+      src = SHUFFLE;
+      break;
+    case IconTypes.ORDER:
+      src = ORDER;
+      break;
+    case IconTypes.LOOP:
+      src = LOOP;
+      break;
     default:
       throw "Invalid icon type";
   }
@@ -119,6 +150,7 @@ function Icon(props: Props) {
       className={className ? `icon ${className}` : "icon"}
       src={src}
       onClick={onClick || noop}
+      alt="icon"
     />
   );
 }

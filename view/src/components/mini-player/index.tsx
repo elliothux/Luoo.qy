@@ -1,12 +1,13 @@
 import * as React from "react";
 import {observer} from "mobx-react";
-import {store} from "../../store";
+import {playerStore, store} from "../../store";
 import {Icon, IconTypes} from "../icon";
 import "./index.scss";
 import {ViewTypes} from "../../types";
 
 function IMiniPlayer() {
-  const { playingInfo: info, playingProgress } = store;
+  const { playingInfo: info, playingProgress } = playerStore;
+  if (store.view === ViewTypes.PLAYING) return null;
   if (![ViewTypes.VOL_INFO, ViewTypes.SINGLE_INFO, ViewTypes.ARTICLE_INFO].includes(store.view)) {
     return (
       <div id="mini-player-collapsed">

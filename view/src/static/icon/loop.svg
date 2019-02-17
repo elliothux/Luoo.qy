@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="66px" height="66px" viewBox="0 0 66 66" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.3 (57544) - http://www.bohemiancoding.com/sketch -->
+    <title>loop</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="main" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="res" transform="translate(-693.000000, -752.000000)">
+            <g id="loop" transform="translate(693.000000, 752.000000)">
+                <g transform="translate(9.000000, 13.000000)">
+                    <polyline id="Shape" stroke="#FFFFFF" stroke-width="2" points="34 -1.77635684e-15 40 7 34 14"></polyline>
+                    <path d="M0,25 L0,17.0962146 C0,11.5307804 3.89376434,7 8.7743334,7 L40,7" id="Shape" stroke="#FFFFFF" stroke-width="2"></path>
+                    <polyline id="Shape" stroke="#FFFFFF" stroke-width="2" points="13 38 7 30.9998779 13 24"></polyline>
+                    <path d="M49,13 L49,20.914 C49,26.47936 44.9758198,31 39.9777069,31 L8,31" id="Shape" stroke="#FFFFFF" stroke-width="2"></path>
+                    <text id="1" font-family="PingFangSC-Regular, PingFang SC" font-size="18" font-weight="normal" fill="#FFFFFF">
+                        <tspan x="19.391" y="26">1</tspan>
+                    </text>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

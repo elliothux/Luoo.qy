@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="66px" height="66px" viewBox="0 0 66 66" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.3 (57544) - http://www.bohemiancoding.com/sketch -->
+    <title>like2</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="main" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="res" transform="translate(-393.000000, -752.000000)" stroke="#FFFFFF" stroke-width="2.5">
+            <g id="like2" transform="translate(393.000000, 752.000000)">
+                <path d="M52.5324792,16.4901591 C47.9090505,11.8366136 40.4138916,11.8366136 35.7908689,16.4901591 L32.9999239,19.2986713 L30.2095878,16.4905677 C25.5861591,11.8370222 18.0903913,11.8370222 13.4675715,16.4905677 C8.84414282,21.1441132 8.84414282,28.6880952 13.4675715,33.3416407 L33.0001269,53 L52.5320733,33.3416407 C57.1559079,28.6882995 57.1559079,21.1437046 52.5324792,16.4901591 L52.5324792,16.4901591 Z" id="like"></path>
+            </g>
+        </g>
+    </g>
+</svg>
