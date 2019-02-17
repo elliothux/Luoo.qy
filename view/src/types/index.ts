@@ -47,6 +47,12 @@ export enum PlayingStatus {
   FETCHING
 }
 
+export enum PlayingMode {
+  ORDER,
+  SHUFFLE,
+  LOOP
+}
+
 export interface ElementPosition {
     top: number,
     right: number,

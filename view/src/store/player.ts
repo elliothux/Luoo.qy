@@ -1,6 +1,7 @@
-import { action, computed, observable } from "mobx";
+import {action, computed, observable} from "mobx";
+import {Howler, Howl} from 'howler';
 import {volStore} from "./vol";
-import {PlayingStatus, PlayingTypes, VolTrack} from "../types";
+import {PlayingMode, PlayingStatus, PlayingTypes, VolTrack} from "../types";
 
 let ipc: IpcObject;
 
@@ -18,6 +19,9 @@ class PlayerStore {
 
     @observable
     public playStatus: PlayingStatus = PlayingStatus.PLAYING;
+
+    @observable
+    public playMode: PlayingMode = PlayingMode.ORDER;
 
     @observable
     private playingType: PlayingTypes = PlayingTypes.VOL;
