@@ -20,9 +20,10 @@ $mini-player-height: 80px;
 #mini-player {
   display: flex;
   justify-content: flex-start;
+  z-index: 6;
   height: $mini-player-height;
   bottom: -$mini-player-height;
-  animation: mini-player 300ms 1100ms ease forwards;
+  animation: mini-player 260ms 1100ms ease forwards;
   @keyframes mini-player {
     0% {
       transform: none;
@@ -53,6 +54,7 @@ $mini-player-height: 80px;
     margin: 0 12px;
     box-shadow: 0 0 30px 5px rgba(0, 0, 0, 0.35);
     @include transition;
+    @include cursor;
     &:hover {
       transform: scale(1.05);
       box-shadow: none;

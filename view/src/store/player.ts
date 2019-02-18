@@ -1,7 +1,19 @@
 import {action, computed, observable} from "mobx";
-import {Howler, Howl} from 'howler';
+import {Howl, Howler} from 'howler';
 import {volStore} from "./vol";
-import {PlayingMode, PlayingStatus, PlayingTypes, VolTrack} from "../types";
+import {
+    ArticleInfo,
+    ArticleTrack,
+    PlayingMode,
+    PlayingStatus,
+    PlayingTypes,
+    Single,
+    Track,
+    VolInfo,
+    VolTrack
+} from "../types";
+import {singleStore} from "./single";
+import {articleStore} from "./article";
 
 let ipc: IpcObject;
 
@@ -11,10 +23,66 @@ class PlayerStore {
         ipc = IPC;
     };
 
+    /*
+    * @desc Vol
+     */
+    @observable
+    private playingVolIndex: number = 0;
+
+    @observable
+    private playingVolTrackIndex: number = 0;
+
     @computed
-    public get playingInfo(): VolTrack {
-        const { tracks } = volStore.vols[volStore.playingVolIndex];
-        return tracks[volStore.playingTrackIndex] as VolTrack;
+    private get playingVol(): VolInfo {
+        return volStore.vols[this.playingVolIndex];
+    }
+
+    @computed
+    private get playingVolTrack(): VolTrack {
+        const { tracks } = this.playingVol;
+        return tracks[this.playingVolTrackIndex];
+    }
+
+    /*
+    * @desc Single
+     */
+    @observable
+    private playingSingleIndex: number = 0;
+
+    @computed
+    private get playingSingle(): Single {
+        return singleStore.singles[this.playingSingleIndex];
+    }
+
+    /*
+    * @desc Article
+     */
+    @observable
+    private playingArticleIndex: number = 0;
+
+    @observable
+    private playingArticleTrackIndex: number = 0;
+
+    @computed
+    private get playingArticle(): ArticleInfo {
+        return articleStore.articles[this.playingArticleIndex];
+    }
+
+    @computed
+    private get playingArticleTrack(): ArticleTrack {
+        return this.playingArticle.tracks[this.playingArticleTrackIndex];
+    }
+
+    /*
+    * @desc Playing
+     */
+    @computed
+    public get playingInfo(): Track {
+        switch (this.playingType) {
+            case PlayingTypes.VOL: return this.playingVolTrack;
+            case PlayingTypes.SINGLE: return this.playingSingle;
+            case PlayingTypes.ARTICLE: return this.playingArticleTrack;
+        }
     }
 
     @observable
@@ -26,22 +94,24 @@ class PlayerStore {
     @observable
     private playingType: PlayingTypes = PlayingTypes.VOL;
 
-    @observable
-    public totalTime: number = 100;
-
-    @computed
-    public get formatedTotalTime() {
-        return formatPlayingTime(this.totalTime);
-    }
-
+    /*
+    * @desc Duration
+     */
     @observable
     public playedTime: number = 33;
+
+    @observable
+    public totalTime: number = 100;
 
     @computed
     public get formatedPlayedTime() {
         return formatPlayingTime(this.playedTime);
     }
 
+    @computed
+    public get formatedTotalTime() {
+        return formatPlayingTime(this.totalTime);
+    }
 
     @computed
     get playingProgress(): number {

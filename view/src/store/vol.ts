@@ -148,12 +148,6 @@ class VolStore {
     this.selectedVolIndex = volIndex;
     store.changeView(ViewTypes.VOL_INFO);
   };
-
-  @observable
-  public playingVolIndex: number = 0;
-
-  @observable
-  public playingTrackIndex: number = 0;
 }
 
 const volStore = new VolStore();

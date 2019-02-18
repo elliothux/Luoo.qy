@@ -25,19 +25,20 @@ import Hardcore from "../static/types/Hardcore.png";
 import PostPunk from "../static/types/PostPunk.png";
 
 export enum ViewTypes {
+  PLAYING,
   VOLS,
   VOLS_TYPE,
   VOL_INFO,
   SINGLES,
   SINGLE_INFO,
   ARTICLES,
-  ARTICLE_INFO,
-  PLAYING
+  ARTICLE_INFO
 }
 
 export enum PlayingTypes {
   VOL,
-  SINGLE
+  SINGLE,
+  ARTICLE
 }
 
 export enum PlayingStatus {
@@ -54,10 +55,18 @@ export enum PlayingMode {
 }
 
 export interface ElementPosition {
-    top: number,
-    right: number,
-    bottom: number,
-    left: number,
+  top: number;
+  right: number;
+  bottom: number;
+  left: number;
+}
+
+export interface Track {
+  name: string;
+  artist: string;
+  album: string;
+  cover: string;
+  url: string;
 }
 
 export interface VolInfo {
@@ -76,27 +85,18 @@ export interface VolInfo {
   tracks: VolTrack[];
 }
 
-export interface VolTrack {
+export interface VolTrack extends Track {
   id: number;
   vol: number;
-  name: string;
-  artist: string;
-  album: string;
-  cover: string;
-  url: string;
   color: string;
 }
 
-export interface Single {
-    id: number;
-    name: string;
-    artist: string;
-    cover: string;
-    desc: string;
-    date: number;
-    recommender: string;
-    url: string;
-    color: string;
+export interface Single extends Track {
+  id: number;
+  desc: string;
+  date: number;
+  recommender: string;
+  color: string;
 }
 
 export interface ArticleInfo {
@@ -104,7 +104,7 @@ export interface ArticleInfo {
   title: string;
   cover: string;
   intro: string;
-  color: string,
+  color: string;
   metaInfo: string;
   date: string;
   url: string;
@@ -114,14 +114,9 @@ export interface ArticleInfo {
   tracks: ArticleTrack[];
 }
 
-export interface ArticleTrack {
+export interface ArticleTrack extends Track {
   id: number;
   articleId: number;
-  name: string;
-  artist: string;
-  album: string;
-  cover: string;
-  url: string;
   color: string;
 }
 

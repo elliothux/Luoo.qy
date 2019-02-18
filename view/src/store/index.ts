@@ -1,4 +1,4 @@
-import {action, computed, observable} from "mobx";
+import {action, observable} from "mobx";
 import {getIPC} from "../utils";
 import {ViewTypes} from "../types";
 import {volStore} from "./vol";
@@ -33,6 +33,14 @@ class Store {
     const prevView = this.view;
     this.view = viewType;
 
+    if (!isBack) {
+      this.viewHistory.push(prevView);
+    }
+
+    if (viewType === ViewTypes.PLAYING || prevView === ViewTypes.PLAYING) {
+      return;
+    }
+
     const prevViewElement = document.querySelector(
       `.view-${prevView}`
     ) as HTMLElement | null;
@@ -40,10 +48,6 @@ class Store {
       `.view-${viewType}`
     ) as HTMLElement | null;
     if (!prevViewElement || !viewElement) return;
-
-    if (!isBack) {
-      this.viewHistory.push(prevView);
-    }
 
     const isEnterInfoPage = (prevView === ViewTypes.VOLS && viewType === ViewTypes.VOL_INFO) ||
         (prevView === ViewTypes.SINGLES && viewType === ViewTypes.SINGLE_INFO) ||
@@ -89,9 +93,5 @@ class Store {
 }
 
 const store = new Store();
-setTimeout(() => {
-  console.log(111);
-  store.changeView(ViewTypes.PLAYING);
-}, 2000);
 
 export { store, volStore, singleStore, articleStore, playerStore };

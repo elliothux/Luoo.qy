@@ -1,48 +1,58 @@
 import * as React from "react";
-import {observer} from "mobx-react";
-import {playerStore, store} from "../../store";
-import {Icon, IconTypes} from "../icon";
+import { observer } from "mobx-react";
+import { playerStore, store } from "../../store";
+import { Icon, IconTypes } from "../icon";
 import "./index.scss";
-import {ViewTypes} from "../../types";
+import { ViewTypes } from "../../types";
 
 function IMiniPlayer() {
+  const { view } = store;
   const { playingInfo: info, playingProgress } = playerStore;
-  if (store.view === ViewTypes.PLAYING) return null;
-  if (![ViewTypes.VOL_INFO, ViewTypes.SINGLE_INFO, ViewTypes.ARTICLE_INFO].includes(store.view)) {
+
+  const show = [
+    ViewTypes.VOL_INFO,
+    ViewTypes.SINGLE_INFO,
+    ViewTypes.ARTICLE_INFO,
+    ViewTypes.PLAYING
+  ].includes(view);
+
+  if (show) {
     return (
-      <div id="mini-player-collapsed">
-        <Icon type={IconTypes.WAVE} />
+      <div id="mini-player">
+        <div id="mini-player-operation">
+          <Icon type={IconTypes.WAVE} />
+          <Icon type={IconTypes.CLOUD} />
+          <Icon type={IconTypes.LIKE} />
+        </div>
+        <div
+          id="mini-player-cover"
+          style={{ backgroundImage: `url(${info.cover})` }}
+          onClick={() => store.changeView(ViewTypes.PLAYING)}
+        />
+        <div id="mini-player-info">
+          <div id="mini-player-info-text">
+            <p id="mini-player-info-name">{info.name}</p>
+            <p id="mini-player-info-album">
+              {info.album} / {info.artist}
+            </p>
+          </div>
+          <div id="mini-player-controller">
+            <Icon type={IconTypes.PRE} />
+            <Icon className="play" type={IconTypes.PLAY} />
+            <Icon type={IconTypes.NEXT} />
+            <Icon className="play-mode" type={IconTypes.RANDOM} />
+          </div>
+          <div id="mini-player-progress">
+            <div style={{ width: `${playingProgress}%` }} />
+          </div>
+        </div>
       </div>
     );
   }
+
   return (
-    <div id="mini-player">
-      <div id="mini-player-operation">
-        <Icon type={IconTypes.WAVE} />
-        <Icon type={IconTypes.CLOUD} />
-        <Icon type={IconTypes.LIKE} />
-      </div>
-      <div
-        id="mini-player-cover"
-        style={{ backgroundImage: `url(${info.cover})` }}
-      />
-      <div id="mini-player-info">
-        <div id="mini-player-info-text">
-          <p id="mini-player-info-name">{info.name}</p>
-          <p id="mini-player-info-album">
-            {info.album} / {info.artist}
-          </p>
-        </div>
-        <div id="mini-player-controller">
-          <Icon type={IconTypes.PRE} />
-          <Icon className="play" type={IconTypes.PLAY} />
-          <Icon type={IconTypes.NEXT} />
-          <Icon className="play-mode" type={IconTypes.RANDOM} />
-        </div>
-        <div id="mini-player-progress">
-          <div style={{ width: `${playingProgress}%` }} />
-        </div>
-      </div>
+    <div id="mini-player-collapsed">
+      <Icon type={IconTypes.WAVE} />
     </div>
   );
 }

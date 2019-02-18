@@ -32,7 +32,7 @@ class ArticleStore {
   };
 
   @observable
-  private articles: ArticleInfo[] = [];
+  public articles: ArticleInfo[] = [];
 
   private getArticlesFromDB = (): Promise<ArticleInfo[]> => {
     return ipc.db.article.get();
