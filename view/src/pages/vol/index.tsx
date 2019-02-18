@@ -1,7 +1,7 @@
 import * as React from "react";
 import anime from "animejs";
 import {observer} from "mobx-react";
-import {volStore} from "../../store";
+import {playerStore, volStore} from "../../store";
 import {Icon, IconTypes} from "../../components/icon";
 import {VolTrackItem} from "../../components/vol-track-item";
 import {ViewTypes, ElementPosition} from "../../types";
@@ -62,7 +62,7 @@ function IVol() {
           vol.
           {vol.vol}
           <Icon type={IconTypes.LIKE} />
-          <Icon type={IconTypes.PLAY} />
+          <Icon type={IconTypes.PLAY} onClick={() => playerStore.playVolTrack(volStore.selectedVolIndex)} />
         </p>
         <p id="vol-info-title">{vol.title}</p>
         <div

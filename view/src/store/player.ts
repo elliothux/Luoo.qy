@@ -27,10 +27,10 @@ class PlayerStore {
     * @desc Vol
      */
     @observable
-    private playingVolIndex: number = 0;
+    public playingVolIndex: number = 0;
 
     @observable
-    private playingVolTrackIndex: number = 0;
+    public playingVolTrackIndex: number = 0;
 
     @computed
     private get playingVol(): VolInfo {
@@ -86,13 +86,13 @@ class PlayerStore {
     }
 
     @observable
-    public playStatus: PlayingStatus = PlayingStatus.PLAYING;
+    public playingStatus: PlayingStatus = PlayingStatus.STOP;
 
     @observable
-    public playMode: PlayingMode = PlayingMode.ORDER;
+    public playingMode: PlayingMode = PlayingMode.ORDER;
 
     @observable
-    private playingType: PlayingTypes = PlayingTypes.VOL;
+    public playingType: PlayingTypes = PlayingTypes.VOL;
 
     /*
     * @desc Duration
@@ -116,6 +116,21 @@ class PlayerStore {
     @computed
     get playingProgress(): number {
         return Math.ceil((this.playedTime / this.totalTime) * 100);
+    }
+
+    /*
+    * @desc Control
+     */
+    @action
+    public playVolTrack(volIndex: number, trackIndex: number = 0) {
+        this.playingVolIndex = volIndex;
+        this.playingVolTrackIndex = trackIndex;
+        this.playingStatus = PlayingStatus.PLAYING;
+    }
+
+    @action
+    public pause() {
+        this.playingStatus = PlayingStatus.PAUSE;
     }
 }
 

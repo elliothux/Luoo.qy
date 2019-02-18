@@ -1,9 +1,9 @@
 import * as React from "react";
 import { observer } from "mobx-react";
-import { volStore } from "../../store";
+import { playerStore, volStore } from "../../store";
 import { VolItem } from "../../components/vol-item";
 import { Pagination } from "../../components/pagination";
-import { ViewTypes, VolInfo } from "../../types";
+import { PlayingTypes, ViewTypes, VolInfo } from "../../types";
 import "./index.scss";
 
 @observer
@@ -14,7 +14,16 @@ class Vols extends React.Component {
 
   static renderVols = (vols: VolInfo[]) => {
     return vols.map((vol: VolInfo, index: number) => (
-      <VolItem key={vol.id} volInfo={vol} index={index} />
+      <VolItem
+        key={vol.id}
+        volInfo={vol}
+        index={index}
+        isPlaying={
+          playerStore.playingType === PlayingTypes.VOL &&
+          index === playerStore.playingVolIndex
+        }
+        isLiked={false}
+      />
     ));
   };
 

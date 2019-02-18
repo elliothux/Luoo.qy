@@ -136,7 +136,7 @@ class VolStore {
   };
 
   @observable
-  private selectedVolIndex: number = 0;
+  public selectedVolIndex: number = 0;
 
   @computed
   public get selectedVol(): VolInfo {

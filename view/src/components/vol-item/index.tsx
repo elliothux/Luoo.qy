@@ -1,14 +1,15 @@
 import * as React from "react";
-import anime from "animejs";
 import { VolInfo } from "../../types";
 import "./index.scss";
 import { Icon, IconTypes } from "../icon";
-import { volStore } from "../../store";
+import {playerStore, volStore} from "../../store";
 import { events, EventTypes, px } from "../../utils";
 
 export interface Props {
   volInfo: VolInfo;
   index: number;
+  isPlaying: boolean;
+  isLiked: boolean;
 }
 
 class VolItem extends React.Component<Props> {
@@ -30,7 +31,7 @@ class VolItem extends React.Component<Props> {
   };
 
   public render() {
-    const { volInfo } = this.props;
+    const { volInfo, isPlaying } = this.props;
     return (
       <div className="vol-item" onClick={this.onClick}>
         <div
@@ -48,7 +49,11 @@ class VolItem extends React.Component<Props> {
           <p className="vol-item-info-title">{volInfo.title}</p>
           <div className="vol-item-operation">
             <Icon type={IconTypes.LIKE} />
-            <Icon type={IconTypes.PLAY} />
+            {isPlaying ? (
+              <Icon type={IconTypes.SHUFFLE} onClick={playerStore.pause} />
+            ) : (
+              <Icon type={IconTypes.PLAY} onClick={() => playerStore.playVolTrack()} />
+            )}
           </div>
         </div>
         <div className="vol-item-tags">
