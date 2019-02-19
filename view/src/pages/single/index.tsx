@@ -1,7 +1,7 @@
 import * as React from "react";
 import anime from "animejs";
 import {observer} from "mobx-react";
-import {singleStore} from "../../store";
+import {playerStore, singleStore} from "../../store";
 import {Icon, IconTypes} from "../../components/icon";
 import {ViewTypes, ElementPosition} from "../../types";
 import {events, EventTypes, px} from "../../utils";
@@ -65,7 +65,19 @@ function ISingle() {
         <p id="single-info-name">
             {single.name}
           <Icon type={IconTypes.LIKE} />
-          <Icon type={IconTypes.PLAY} />
+            {playerStore.isSinglePlaying(single.id) ? (
+                <Icon
+                    preventDefault
+                    type={IconTypes.PAUSE}
+                    onClick={playerStore.pause}
+                />
+            ) : (
+                <Icon
+                    preventDefault
+                    type={IconTypes.PLAY}
+                    onClick={() => playerStore.playSingle(single.id)}
+                />
+            )}
         </p>
         <p id="single-info-artist">{single.artist}</p>
         <div

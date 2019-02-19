@@ -1,11 +1,10 @@
 import * as React from "react";
 import { observer } from "mobx-react";
-import { singleStore } from "../../store";
+import { playerStore, singleStore } from "../../store";
 import { Pagination } from "../../components/pagination";
-import { ViewTypes, Single } from "../../types";
+import { Single, ViewTypes } from "../../types";
 import "./index.scss";
-import {SingleItem} from "../../components/single-item";
-
+import { SingleItem } from "../../components/single-item";
 
 @observer
 class Singles extends React.Component {
@@ -15,7 +14,13 @@ class Singles extends React.Component {
 
   static renderSingles = (singles: Single[]) => {
     return singles.map((single: Single, index: number) => (
-        <SingleItem key={single.date} singleInfo={single} index={index}/>
+      <SingleItem
+        key={single.date}
+        singleInfo={single}
+        index={index}
+        isPlaying={playerStore.isSinglePlaying(single.id)}
+        isLiked={false}
+      />
     ));
   };
 
@@ -25,10 +30,7 @@ class Singles extends React.Component {
       return Singles.renderEmpty();
     }
     return (
-      <div
-        id="singles"
-        className={`page view-${ViewTypes.SINGLES}`}
-      >
+      <div id="singles" className={`page view-${ViewTypes.SINGLES}`}>
         {Singles.renderSingles(displaySingles)}
         <Pagination
           pages={singleStore.displaySinglePaginations}

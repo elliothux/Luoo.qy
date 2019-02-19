@@ -1,13 +1,15 @@
 import * as React from "react";
 import { Single } from "../../types";
 import { Icon, IconTypes } from "../icon";
-import { singleStore, volStore } from "../../store";
-import { events, EventTypes, px } from "../../utils";
+import { playerStore, singleStore } from "../../store";
+import { events, EventTypes } from "../../utils";
 import "./index.scss";
 
 export interface Props {
   singleInfo: Single;
-  index: number;
+  index: number,
+  isPlaying: boolean;
+  isLiked: boolean;
 }
 
 class SingleItem extends React.Component<Props> {
@@ -29,9 +31,9 @@ class SingleItem extends React.Component<Props> {
   };
 
   public render() {
-    const { singleInfo, index } = this.props;
+    const { singleInfo, isPlaying, isLiked } = this.props;
     return (
-      <div key={index} className="single-item" onClick={this.onClick}>
+      <div key={singleInfo.id} className="single-item" onClick={this.onClick}>
         <div
           ref={this.getCoverRef}
           className="single-item-cover"
@@ -46,7 +48,19 @@ class SingleItem extends React.Component<Props> {
           </div>
           <div className="single-item-operation">
             <Icon type={IconTypes.LIKE} />
-            <Icon type={IconTypes.PLAY} />
+            {isPlaying ? (
+              <Icon
+                preventDefault
+                type={IconTypes.PAUSE}
+                onClick={playerStore.pause}
+              />
+            ) : (
+              <Icon
+                preventDefault
+                type={IconTypes.PLAY}
+                onClick={() => playerStore.playSingle(singleInfo.id)}
+              />
+            )}
           </div>
         </div>
         <div

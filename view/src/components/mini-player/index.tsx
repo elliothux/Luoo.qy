@@ -37,13 +37,13 @@ function IMiniPlayer() {
             </p>
           </div>
           <div id="mini-player-controller">
-            <Icon type={IconTypes.PRE} onClick={playerStore.pre.bind(playerStore)} />
+            <Icon type={IconTypes.PRE} onClick={playerStore.pre} />
             {
               playerStore.playingStatus === PlayingStatus.PLAYING ?
-                  <Icon className="play" type={IconTypes.PAUSE} onClick={playerStore.pause.bind(playerStore)}/> :
-                  <Icon className="play" type={IconTypes.PLAY} onClick={playerStore.play.bind(playerStore)} />
+                  <Icon className="play" type={IconTypes.PAUSE} onClick={playerStore.pause}/> :
+                  <Icon className="play" type={IconTypes.PLAY} onClick={playerStore.play} />
             }
-            <Icon type={IconTypes.NEXT} onClick={playerStore.next.bind(playerStore)} />
+            <Icon type={IconTypes.NEXT} onClick={playerStore.next} />
             <Icon className="play-mode" type={IconTypes.RANDOM} />
           </div>
           <div id="mini-player-progress">

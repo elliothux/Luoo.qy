@@ -50,7 +50,7 @@ class VolItem extends React.Component<Props> {
           <div className="vol-item-operation">
             <Icon type={IconTypes.LIKE} />
             {isPlaying ? (
-              <Icon type={IconTypes.PAUSE} onClick={playerStore.pause.bind(playerStore)} preventDefault />
+              <Icon type={IconTypes.PAUSE} onClick={playerStore.pause} preventDefault />
             ) : (
               <Icon type={IconTypes.PLAY} onClick={() => playerStore.playVolTrack(volInfo.id)} preventDefault />
             )}

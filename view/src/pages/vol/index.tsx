@@ -46,10 +46,6 @@ events.on(EventTypes.ShowVolBackground, (src, cover, callback) => {
 function IVol() {
   const { selectedVol: vol } = volStore;
   if (!vol) return null;
-  const isPlaying =
-    playerStore.playingStatus === PlayingStatus.PLAYING &&
-    playerStore.playingType === PlayingTypes.VOL &&
-    playerStore.playingVolId === vol.id;
   return (
     <div id="vol" className={`page view-${ViewTypes.VOL_INFO}`}>
       <div
@@ -70,10 +66,10 @@ function IVol() {
           vol.
           {vol.vol}
           <Icon type={IconTypes.LIKE} />
-          {isPlaying ? (
+          {playerStore.isVolPlaying(vol.id) ? (
             <Icon
               type={IconTypes.PAUSE}
-              onClick={playerStore.pause.bind(playerStore)}
+              onClick={playerStore.pause}
             />
           ) : (
             <Icon
@@ -101,9 +97,9 @@ function IVol() {
             key={t.id}
             trackInfo={t}
             isLiked={false}
-            isPlaying={isPlaying && playerStore.playingVolTrackIndex === index}
+            isPlaying={playerStore.isVolTrackPlaying(vol.id, index)}
             onPlay={() => playerStore.playVolTrack(vol.id, index)}
-            onPause={playerStore.pause.bind(playerStore)}
+            onPause={playerStore.pause}
           />
         ))}
       </div>

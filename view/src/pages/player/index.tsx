@@ -31,8 +31,8 @@ function IPlayer() {
             <Icon type={IconTypes.PRE2} />
             {
               playerStore.playingStatus === PlayingStatus.PLAYING ?
-                  <Icon type={IconTypes.PAUSE} onClick={playerStore.pause.bind(playerStore)}/> :
-                  <Icon type={IconTypes.PLAY} onClick={playerStore.play.bind(playerStore)} />
+                  <Icon type={IconTypes.PAUSE} onClick={playerStore.pause}/> :
+                  <Icon type={IconTypes.PLAY} onClick={playerStore.play} />
             }
             <Icon type={IconTypes.NEXT2} />
           </div>
