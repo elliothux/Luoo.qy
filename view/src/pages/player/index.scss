@@ -33,6 +33,7 @@
     filter: blur(10px);
     transform: scale(1.05);
     opacity: 0.76;
+    @include transition;
   }
 
   #player-time {
@@ -93,6 +94,7 @@
       background-size: cover;
       background-position: center;
       margin-bottom: 5vh;
+      @include transition;
     }
 
     #player-control {

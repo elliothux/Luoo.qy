@@ -198,12 +198,16 @@ class PlayerStore {
         this.nextVolTrack();
         break;
       }
+      case PlayingTypes.SINGLE: {
+        this.nextSingle();
+        break;
+      }
     }
     this.playingStatus = PlayingStatus.PLAYING;
   };
 
   @action
-  nextVolTrack = () => {
+  private nextVolTrack = () => {
     const { tracks } = this.playingVol;
     if (tracks.length === 1) return;
 
@@ -214,17 +218,20 @@ class PlayerStore {
     }
   };
 
-    @action
-    nextSingle = () => {
-        // const { singles } = singleStore;
-        // if (singles.length === 1) return;
-        //
-        // if (this.playingS + 1 === tracks.length) {
-        //     this.playingVolTrackIndex = 0;
-        // } else {
-        //     this.playingVolTrackIndex += 1;
-        // }
-    };
+  @action
+  private nextSingle = () => {
+    const { singles } = singleStore;
+    if (singles.length === 1) return;
+
+    const singleIndex = singles.findIndex(
+      single => single.id === this.playingSingleId
+    );
+    if (singleIndex + 1 === singles.length) {
+      this.playingSingleId = singles[0].id;
+    } else {
+      this.playingSingleId = singles[singleIndex + 1].id;
+    }
+  };
 
   @action
   public pre = () => {
@@ -233,12 +240,16 @@ class PlayerStore {
         this.preVolTrack();
         break;
       }
+      case PlayingTypes.SINGLE: {
+        this.preSingle();
+        break;
+      }
     }
     this.playingStatus = PlayingStatus.PLAYING;
   };
 
   @action
-  public preVolTrack = () => {
+  private preVolTrack = () => {
     const { tracks } = this.playingVol;
     if (tracks.length === 1) return;
 
@@ -246,6 +257,21 @@ class PlayerStore {
       this.playingVolTrackIndex = tracks.length - 1;
     } else {
       this.playingVolTrackIndex -= 1;
+    }
+  };
+
+  @action
+  private preSingle = () => {
+    const { singles } = singleStore;
+    if (singles.length === 1) return;
+
+    const singleIndex = singles.findIndex(
+      single => single.id === this.playingSingleId
+    );
+    if (singleIndex === 0) {
+      this.playingSingleId = singles[singles.length - 1].id;
+    } else {
+      this.playingSingleId = singles[singleIndex - 1].id;
     }
   };
 }

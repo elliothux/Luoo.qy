@@ -28,13 +28,13 @@ function IPlayer() {
         <div id="player-cover" style={{ backgroundImage: `url(${cover})` }} />
         <div>
           <div id="player-control">
-            <Icon type={IconTypes.PRE2} />
+            <Icon type={IconTypes.PRE2} onClick={playerStore.pre} />
             {
               playerStore.playingStatus === PlayingStatus.PLAYING ?
                   <Icon type={IconTypes.PAUSE} onClick={playerStore.pause}/> :
                   <Icon type={IconTypes.PLAY} onClick={playerStore.play} />
             }
-            <Icon type={IconTypes.NEXT2} />
+            <Icon type={IconTypes.NEXT2} onClick={playerStore.next} />
           </div>
 
           <div id="player-operation">
