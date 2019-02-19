@@ -26,6 +26,7 @@ import NEXT2 from "../../static/icon/next2.svg";
 import SHUFFLE from "../../static/icon/shuffle.svg";
 import LOOP from "../../static/icon/loop.svg";
 import ORDER from "../../static/icon/order.svg";
+import EXPAND from "../../static/icon/expand.svg";
 
 import "./index.scss";
 import { preventSyntheticEvent } from "../../utils";
@@ -57,7 +58,8 @@ enum IconTypes {
   ARROW_RIGHT,
   SHUFFLE,
   LOOP,
-  ORDER
+  ORDER,
+  EXPAND
 }
 
 export interface Props {
@@ -152,6 +154,9 @@ function Icon(props: Props) {
       break;
     case IconTypes.LOOP:
       src = LOOP;
+      break;
+    case IconTypes.EXPAND:
+      src = EXPAND;
       break;
     default:
       throw "Invalid icon type";

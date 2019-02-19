@@ -63,19 +63,26 @@ function IPlayer() {
         <div id="player-lyric">歌词加载中</div>
       </div>
 
-      <div
-        id="player-bg"
-        style={{
-          backgroundImage: `url(${cover})`
-        }}
-      />
+      <div id="player-bg">
+        <div
+          style={{
+            backgroundImage: `url(${cover})`
+          }}
+        />
+      </div>
 
       <div id="player-time">
         <p>{formatedPlayedTime}</p>
         <div id="player-time-control">
-          <input min="0" max="100" step="1" type="range" onChange={(e) => {
-            playerStore.changePlayingRatio(+e.target.value);
-          }} />
+          <input
+            min="0"
+            max="100"
+            step="1"
+            type="range"
+            onChange={e => {
+              playerStore.changePlayingRatio(+e.target.value);
+            }}
+          />
           <div
             id="player-time-progress"
             style={{ width: `${playingProgress}%` }}

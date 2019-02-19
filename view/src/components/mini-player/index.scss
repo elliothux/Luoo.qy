@@ -7,6 +7,7 @@ $mini-player-height: 80px;
   bottom: 20px;
   left: 0;
   margin-left: 15px;
+  z-index: 6;
 }
 
 #mini-player-collapsed {
@@ -14,13 +15,13 @@ $mini-player-height: 80px;
   .icon {
     width: 30px;
     height: 30px;
+    cursor: pointer;
   }
 }
 
 #mini-player {
   display: flex;
   justify-content: flex-start;
-  z-index: 6;
   height: $mini-player-height;
   bottom: -$mini-player-height;
   animation: mini-player 260ms 1100ms ease forwards;
@@ -58,6 +59,16 @@ $mini-player-height: 80px;
     &:hover {
       transform: scale(1.05);
       box-shadow: none;
+      .icon {
+        opacity: 0.8;
+      }
+    }
+    .icon {
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      background-color: rgba(0, 0, 0, 0.3);
+      @include transition;
     }
   }
 

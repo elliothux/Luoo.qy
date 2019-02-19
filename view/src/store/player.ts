@@ -201,6 +201,9 @@ class PlayerStore {
     * @desc Control
      */
   private changeAudio = (src: string) => {
+    if (src === audio.src) {
+      return;
+    }
     audio.pause();
     audio.src = src;
     audio.load();
@@ -214,7 +217,7 @@ class PlayerStore {
 
   @action
   public changePlayingRatio = (ratio: number) => {
-    const time = audio.duration * ratio / 100;
+    const time = (audio.duration * ratio) / 100;
     this.setPlayedTime(time);
     audio.currentTime = time;
   };
@@ -303,7 +306,9 @@ class PlayerStore {
   @action
   private nextVolTrack = () => {
     const { tracks } = this.playingVol;
-    if (tracks.length === 1) return;
+    if (tracks.length === 1) {
+      return;
+    }
 
     if (this.playingVolTrackIndex + 1 === tracks.length) {
       this.playingVolTrackIndex = 0;
