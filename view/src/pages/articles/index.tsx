@@ -1,6 +1,6 @@
 import * as React from "react";
 import { observer } from "mobx-react";
-import { articleStore } from "../../store";
+import { articleStore, playerStore } from "../../store";
 import { ArticleItem } from "../../components/article-item";
 import { Pagination } from "../../components/pagination";
 import { ViewTypes, ArticleInfo } from "../../types";
@@ -14,7 +14,13 @@ class Articles extends React.Component {
 
   static renderArticles = (articles: ArticleInfo[]) => {
     return articles.map((article: ArticleInfo, index: number) => (
-      <ArticleItem key={article.id} articleInfo={article} index={index} />
+      <ArticleItem
+        key={article.id}
+        articleInfo={article}
+        index={index}
+        isPlaying={playerStore.isArticlePlaying(article.id)}
+        isLiked={false}
+      />
     ));
   };
 
@@ -24,10 +30,7 @@ class Articles extends React.Component {
       return Articles.renderEmpty();
     }
     return (
-      <div
-        id="articles"
-        className={`page view-${ViewTypes.ARTICLES}`}
-      >
+      <div id="articles" className={`page view-${ViewTypes.ARTICLES}`}>
         {Articles.renderArticles(displayArticles)}
         <Pagination
           pages={articleStore.displayArticlePaginations}

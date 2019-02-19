@@ -1,14 +1,15 @@
 import * as React from "react";
 import { ArticleInfo } from "../../types";
 import { Icon, IconTypes } from "../icon";
-import { articleStore } from "../../store";
+import { articleStore, playerStore } from "../../store";
 import { events, EventTypes } from "../../utils";
 import "./index.scss";
-
 
 export interface Props {
   articleInfo: ArticleInfo;
   index: number;
+  isPlaying: boolean;
+  isLiked: boolean;
 }
 
 class ArticleItem extends React.Component<Props> {
@@ -30,15 +31,15 @@ class ArticleItem extends React.Component<Props> {
   };
 
   public render() {
-    const { articleInfo } = this.props;
+    const { articleInfo, isPlaying, isLiked } = this.props;
     return (
       <div className="article-item" onClick={this.onClick}>
         <div
-            ref={this.getCoverRef}
-            className="article-item-cover"
-            style={{
-              backgroundImage: `url(${articleInfo.cover})`
-            }}
+          ref={this.getCoverRef}
+          className="article-item-cover"
+          style={{
+            backgroundImage: `url(${articleInfo.cover})`
+          }}
         />
         <div className="article-item-info">
           <div className="article-item-info-container">
@@ -47,12 +48,24 @@ class ArticleItem extends React.Component<Props> {
           </div>
           <div className="article-item-operation">
             <Icon type={IconTypes.LIKE} />
-            <Icon type={IconTypes.PLAY} />
+            {isPlaying ? (
+              <Icon
+                type={IconTypes.PAUSE}
+                onClick={playerStore.pause}
+                preventDefault
+              />
+            ) : (
+              <Icon
+                type={IconTypes.PLAY}
+                onClick={() => playerStore.playArticleTrack(articleInfo.id)}
+                preventDefault
+              />
+            )}
           </div>
         </div>
         <div
-            className="article-item-bg"
-            style={{ backgroundColor: articleInfo.color }}
+          className="article-item-bg"
+          style={{ backgroundColor: articleInfo.color }}
         />
       </div>
     );

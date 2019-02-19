@@ -1,42 +1,41 @@
 import * as React from "react";
 import anime from "animejs";
-import {observer} from "mobx-react";
-import {articleStore} from "../../store";
-import {Icon, IconTypes} from "../../components/icon";
-import {ArticleTrackItem} from "../../components/article-track-item";
-import {ViewTypes, ElementPosition} from "../../types";
-import {events, EventTypes, px} from "../../utils";
+import { observer } from "mobx-react";
+import { articleStore, playerStore } from "../../store";
+import { Icon, IconTypes } from "../../components/icon";
+import { ArticleTrackItem } from "../../components/article-track-item";
+import { ViewTypes, ElementPosition } from "../../types";
+import { events, EventTypes, px } from "../../utils";
 import "./index.scss";
-
 
 let coverRef: HTMLDivElement;
 let coverPos: ElementPosition;
 
 function getCoverRef(i: HTMLImageElement | null) {
-    coverRef = i as HTMLDivElement
+  coverRef = i as HTMLDivElement;
 }
 
 events.on(EventTypes.ShowArticleBackground, (src, cover, callback) => {
-    const { top, right, bottom, left } = cover.getBoundingClientRect();
-    coverPos = { top, right, bottom, left} as ElementPosition;
+  const { top, right, bottom, left } = cover.getBoundingClientRect();
+  coverPos = { top, right, bottom, left } as ElementPosition;
 
-    coverRef.style.backgroundImage = `url(${src})`;
-    coverRef.style.opacity = '1';
-    coverRef.style.top = px(top);
-    coverRef.style.left = px(left);
-    coverRef.style.width = px(right - left);
-    coverRef.style.height = px(bottom - top);
+  coverRef.style.backgroundImage = `url(${src})`;
+  coverRef.style.opacity = "1";
+  coverRef.style.top = px(top);
+  coverRef.style.left = px(left);
+  coverRef.style.width = px(right - left);
+  coverRef.style.height = px(bottom - top);
 
-    anime({
-        targets: coverRef,
-        easing: "easeInOutExpo",
-        width: "100%",
-        height: "100%",
-        duration: 600,
-        top: 0,
-        left: 0,
-        begin: callback,
-    });
+  anime({
+    targets: coverRef,
+    easing: "easeInOutExpo",
+    width: "100%",
+    height: "100%",
+    duration: 600,
+    top: 0,
+    left: 0,
+    begin: callback
+  });
 });
 
 function IArticle() {
@@ -56,7 +55,14 @@ function IArticle() {
         <p id="article-info-title">
           {article.title}
           <Icon type={IconTypes.LIKE} />
-          <Icon type={IconTypes.PLAY} />
+          {playerStore.isArticlePlaying(article.id) ? (
+            <Icon type={IconTypes.PAUSE} onClick={playerStore.pause} />
+          ) : (
+            <Icon
+              type={IconTypes.PLAY}
+              onClick={() => playerStore.playArticleTrack(article.id)}
+            />
+          )}
         </p>
         <p id="article-info-meta">{article.metaInfo}</p>
         <div
@@ -72,8 +78,15 @@ function IArticle() {
         </div>
       </div>
       <div id="article-tracks">
-        {article.tracks.map(t => (
-          <ArticleTrackItem key={t.id} trackInfo={t} />
+        {article.tracks.map((t, index) => (
+          <ArticleTrackItem
+            key={t.id}
+            trackInfo={t}
+            isLiked={false}
+            isPlaying={playerStore.isArticleTrackPlaying(article.id, index)}
+            onPause={playerStore.pause}
+            onPlay={() => playerStore.playArticleTrack(article.id, index)}
+          />
         ))}
       </div>
     </div>

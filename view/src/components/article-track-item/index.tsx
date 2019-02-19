@@ -5,10 +5,14 @@ import "./index.scss";
 
 export interface Props {
   trackInfo: ArticleTrack;
+  isPlaying: boolean;
+  isLiked: boolean;
+  onPlay: () => void;
+  onPause: () => void;
 }
 
 function ArticleTrackItem(props: Props) {
-  const { trackInfo: track } = props;
+  const { trackInfo: track, isPlaying, isLiked, onPause, onPlay } = props;
   return (
     <div className="article-track-item">
       <div
@@ -21,7 +25,15 @@ function ArticleTrackItem(props: Props) {
       <p className="article-track-item-album">{track.album}</p>
       <p className="article-track-item-artist">{track.artist}</p>
       <div className="article-track-item-operation">
-        <Icon className="play" type={IconTypes.PLAY_SOLID} />
+        {isPlaying ? (
+          <Icon
+            className="play"
+            type={IconTypes.PAUSE_SOLID}
+            onClick={onPause}
+          />
+        ) : (
+          <Icon className="play" type={IconTypes.PLAY_SOLID} onClick={onPlay} />
+        )}
         <Icon className="like" type={IconTypes.LIKE} />
       </div>
     </div>

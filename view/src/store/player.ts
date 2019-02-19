@@ -1,6 +1,6 @@
-import { action, computed, observable } from "mobx";
-import { Howl, Howler } from "howler";
-import { volStore } from "./vol";
+import {action, computed, observable} from "mobx";
+import {Howl, Howler} from "howler";
+import {volStore} from "./vol";
 import {
   ArticleInfo,
   ArticleTrack,
@@ -12,8 +12,8 @@ import {
   VolInfo,
   VolTrack
 } from "../types";
-import { singleStore } from "./single";
-import { articleStore } from "./article";
+import {singleStore} from "./single";
+import {articleStore} from "./article";
 
 let ipc: IpcObject;
 
@@ -182,6 +182,14 @@ class PlayerStore {
   };
 
   @action
+  public playArticleTrack = (articleId: number, trackIndex: number = 0) => {
+    this.playingArticleId = articleId;
+    this.playingArticleTrackIndex = trackIndex;
+    this.playingType = PlayingTypes.ARTICLE;
+    this.playingStatus = PlayingStatus.PLAYING;
+  };
+
+  @action
   public play = () => {
     this.playingStatus = PlayingStatus.PLAYING;
   };
@@ -200,6 +208,10 @@ class PlayerStore {
       }
       case PlayingTypes.SINGLE: {
         this.nextSingle();
+        break;
+      }
+      case PlayingTypes.ARTICLE: {
+        this.nextArticleTrack();
         break;
       }
     }
@@ -234,6 +246,18 @@ class PlayerStore {
   };
 
   @action
+  private nextArticleTrack = () => {
+    const { tracks } = this.playingArticle;
+    if (tracks.length === 1) return;
+
+    if (this.playingArticleTrackIndex + 1 === tracks.length) {
+      this.playingArticleTrackIndex = 0;
+    } else {
+      this.playingArticleTrackIndex += 1;
+    }
+  };
+
+  @action
   public pre = () => {
     switch (this.playingType) {
       case PlayingTypes.VOL: {
@@ -242,6 +266,10 @@ class PlayerStore {
       }
       case PlayingTypes.SINGLE: {
         this.preSingle();
+        break;
+      }
+      case PlayingTypes.ARTICLE: {
+        this.preArticleTrack();
         break;
       }
     }
@@ -272,6 +300,18 @@ class PlayerStore {
       this.playingSingleId = singles[singles.length - 1].id;
     } else {
       this.playingSingleId = singles[singleIndex - 1].id;
+    }
+  };
+
+  @action
+  private preArticleTrack = () => {
+    const { tracks } = this.playingArticle;
+    if (tracks.length === 1) return;
+
+    if (this.playingArticleTrackIndex === 0) {
+      this.playingArticleTrackIndex = tracks.length - 1;
+    } else {
+      this.playingArticleTrackIndex -= 1;
     }
   };
 }
