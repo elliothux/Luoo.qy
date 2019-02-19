@@ -3,7 +3,6 @@ type Proxies = {
   [eventName: number]: Handler[];
 };
 
-
 class EventProxy {
   proxies: Proxies = {};
   onceProxies: Proxies = {};
@@ -51,13 +50,11 @@ class EventProxy {
   };
 }
 
-
 enum EventTypes {
   ShowVolBackground,
   ShowSingleBackground,
-  ShowArticleBackground,
+  ShowArticleBackground
 }
-
 
 const events = new EventProxy();
 

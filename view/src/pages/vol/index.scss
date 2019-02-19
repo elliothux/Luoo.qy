@@ -9,7 +9,8 @@
     #vol-bg-mask {
       opacity: 0.5;
     }
-    #vol-info, #vol-tracks {
+    #vol-info,
+    #vol-tracks {
       transform: none;
       opacity: 1;
     }
@@ -18,7 +19,9 @@
     }
   }
 
-  #vol-bg-mask, #vol-info, #vol-tracks {
+  #vol-bg-mask,
+  #vol-info,
+  #vol-tracks {
     @include transition;
     transition-delay: 400ms;
   }

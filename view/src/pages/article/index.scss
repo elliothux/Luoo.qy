@@ -9,7 +9,8 @@
     #article-bg-mask {
       opacity: 0.88;
     }
-    #article-info, #article-tracks {
+    #article-info,
+    #article-tracks {
       transform: none;
       opacity: 1;
     }
@@ -18,7 +19,9 @@
     }
   }
 
-  #article-bg-mask, #article-info, #article-tracks {
+  #article-bg-mask,
+  #article-info,
+  #article-tracks {
     @include transition;
     transition-delay: 400ms;
   }
@@ -94,7 +97,8 @@
       background-color: rgba(0, 0, 0, 0);
     }
     #article-info-desc {
-      img, iframe {
+      img,
+      iframe {
         max-width: 100%;
       }
       img {

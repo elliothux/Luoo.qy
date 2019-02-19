@@ -1,10 +1,10 @@
-import {action, observable} from "mobx";
-import {getIPC} from "../utils";
-import {ViewTypes} from "../types";
-import {volStore} from "./vol";
-import {singleStore} from "./single";
-import {articleStore} from "./article";
-import {playerStore} from "./player";
+import { action, observable } from "mobx";
+import { getIPC } from "../utils";
+import { ViewTypes } from "../types";
+import { volStore } from "./vol";
+import { singleStore } from "./single";
+import { articleStore } from "./article";
+import { playerStore } from "./player";
 
 let ipc: IpcObject;
 
@@ -49,12 +49,14 @@ class Store {
     ) as HTMLElement | null;
     if (!prevViewElement || !viewElement) return;
 
-    const isEnterInfoPage = (prevView === ViewTypes.VOLS && viewType === ViewTypes.VOL_INFO) ||
-        (prevView === ViewTypes.SINGLES && viewType === ViewTypes.SINGLE_INFO) ||
-        (prevView === ViewTypes.ARTICLES && viewType === ViewTypes.ARTICLE_INFO);
-    const isExitInfoPage = (prevView === ViewTypes.VOL_INFO && viewType === ViewTypes.VOLS) ||
-        (prevView === ViewTypes.SINGLE_INFO && viewType === ViewTypes.SINGLES) ||
-        (prevView === ViewTypes.ARTICLE_INFO && viewType === ViewTypes.ARTICLES);
+    const isEnterInfoPage =
+      (prevView === ViewTypes.VOLS && viewType === ViewTypes.VOL_INFO) ||
+      (prevView === ViewTypes.SINGLES && viewType === ViewTypes.SINGLE_INFO) ||
+      (prevView === ViewTypes.ARTICLES && viewType === ViewTypes.ARTICLE_INFO);
+    const isExitInfoPage =
+      (prevView === ViewTypes.VOL_INFO && viewType === ViewTypes.VOLS) ||
+      (prevView === ViewTypes.SINGLE_INFO && viewType === ViewTypes.SINGLES) ||
+      (prevView === ViewTypes.ARTICLE_INFO && viewType === ViewTypes.ARTICLES);
 
     if (isEnterInfoPage) {
       viewElement.className += " show-with-cover";

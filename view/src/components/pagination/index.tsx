@@ -47,5 +47,4 @@ function Pagination(props: Props) {
   );
 }
 
-
 export { Pagination };

@@ -22,4 +22,17 @@ function preventSyntheticEvent<T>(e: React.FormEvent<T>) {
   return false;
 }
 
-export { genRange, px, noop, preventSyntheticEvent };
+function formatPlayingTime(time: number): string {
+  let minutes: number | string = Math.floor(time / 60);
+  let seconds: number | string = time - minutes * 60;
+
+  if (minutes < 10) {
+    minutes = "0" + minutes;
+  }
+  if (seconds < 10) {
+    seconds = "0" + seconds;
+  }
+  return `${minutes}:${seconds}`;
+}
+
+export { genRange, px, noop, preventSyntheticEvent, formatPlayingTime };

@@ -1,9 +1,6 @@
 import { action, computed, observable } from "mobx";
 import { genRange } from "../utils";
-import {
-  ArticleInfo,
-  ViewTypes,
-} from "../types";
+import { ArticleInfo, ViewTypes } from "../types";
 import { store } from "./index";
 
 let ipc: IpcObject;

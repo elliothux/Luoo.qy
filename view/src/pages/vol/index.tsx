@@ -67,10 +67,7 @@ function IVol() {
           {vol.vol}
           <Icon type={IconTypes.LIKE} />
           {playerStore.isVolPlaying(vol.id) ? (
-            <Icon
-              type={IconTypes.PAUSE}
-              onClick={playerStore.pause}
-            />
+            <Icon type={IconTypes.PAUSE} onClick={playerStore.pause} />
           ) : (
             <Icon
               type={IconTypes.PLAY}

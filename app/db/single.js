@@ -1,11 +1,10 @@
-const DataStore = require('nedb');
-const path = require('path');
-const { isExist, _insert, _find } = require('./utils');
-
+const DataStore = require("nedb");
+const path = require("path");
+const { isExist, _insert, _find } = require("./utils");
 
 const single = new DataStore({
-  filename: path.join(__dirname, '../../db/single'),
-  autoload: true,
+  filename: path.join(__dirname, "../../db/single"),
+  autoload: true
 });
 
 async function addSingle(data) {
@@ -29,12 +28,11 @@ async function getLatestSingle() {
     : 0;
 }
 
-
 module.exports = {
   single: {
     add: addSingle,
     get: getSingleList,
     latest: getLatestSingle,
-    isExist: async date => await isExist({ date }, single),
-  },
+    isExist: async date => await isExist({ date }, single)
+  }
 };

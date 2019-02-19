@@ -1,4 +1,4 @@
-import {ArticleInfo, Single, VolInfo} from "../types";
+import { ArticleInfo, Single, VolInfo } from "../types";
 
 declare global {
   interface Window {

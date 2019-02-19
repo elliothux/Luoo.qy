@@ -28,7 +28,7 @@ import LOOP from "../../static/icon/loop.svg";
 import ORDER from "../../static/icon/order.svg";
 
 import "./index.scss";
-import {preventSyntheticEvent} from "../../utils";
+import { preventSyntheticEvent } from "../../utils";
 
 enum IconTypes {
   BACK,
@@ -64,7 +64,7 @@ export interface Props {
   type: IconTypes;
   className?: string;
   onClick?: (e: any) => void;
-  preventDefault?: boolean
+  preventDefault?: boolean;
 }
 
 function Icon(props: Props) {

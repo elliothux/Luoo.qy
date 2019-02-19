@@ -15,7 +15,8 @@
     }
   }
 
-  #single-bg-mask, #single-info {
+  #single-bg-mask,
+  #single-info {
     @include transition;
     transition-delay: 400ms;
   }

@@ -1,4 +1,3 @@
-
 async function isExist(arg, db) {
   const doc = await _find(arg, db);
   return doc.length > 0;
@@ -11,9 +10,9 @@ async function remove(arg, db) {
 }
 
 function _insert(arg, db) {
-  if (!arg || typeof arg !== 'object') {
+  if (!arg || typeof arg !== "object") {
     throw new Error(
-      `Function 'insert' except an object not ${typeof arg} as the first argument.`,
+      `Function 'insert' except an object not ${typeof arg} as the first argument.`
     );
   }
   return new Promise((resolve, reject) => {
@@ -43,7 +42,7 @@ function _find(arg = {}, db, sort, limit) {
 }
 
 function _update(arg, newArg, db) {
-  (!arg || typeof arg !== 'object') && (arg = {});
+  (!arg || typeof arg !== "object") && (arg = {});
   return new Promise((resolve, reject) => {
     db.update(arg, { $set: newArg }, {}, (error, numReplaced) => {
       error && reject(`An error happened whiling handling find: ${error}`);
@@ -53,23 +52,22 @@ function _update(arg, newArg, db) {
 }
 
 function _remove(arg, db) {
-  if (!arg || typeof arg !== 'object') {
+  if (!arg || typeof arg !== "object") {
     throw new Error(
-      `Function 'insert' except an object not ${typeof arg} as the first argument.`,
+      `Function 'insert' except an object not ${typeof arg} as the first argument.`
     );
   }
   return new Promise((resolve, reject) => {
-    db.remove(arg, {}, (error) => {
+    db.remove(arg, {}, error => {
       error && reject(`An error happened while handling remove: ${error}`);
       resolve();
     });
   });
 }
 
-
 module.exports = {
   _insert,
   _find,
   isExist,
-  remove,
+  remove
 };

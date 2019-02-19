@@ -1,7 +1,7 @@
 import * as React from "react";
 import { observer } from "mobx-react";
 import { playerStore, store } from "../../store";
-import {PlayingStatus, ViewTypes} from "../../types";
+import { PlayingStatus, ViewTypes } from "../../types";
 import classnames from "classnames";
 import { Icon, IconTypes } from "../../components/icon";
 import "./index.scss";
@@ -29,11 +29,11 @@ function IPlayer() {
         <div>
           <div id="player-control">
             <Icon type={IconTypes.PRE2} onClick={playerStore.pre} />
-            {
-              playerStore.playingStatus === PlayingStatus.PLAYING ?
-                  <Icon type={IconTypes.PAUSE} onClick={playerStore.pause}/> :
-                  <Icon type={IconTypes.PLAY} onClick={playerStore.play} />
-            }
+            {playerStore.playingStatus === PlayingStatus.PLAYING ? (
+              <Icon type={IconTypes.PAUSE} onClick={playerStore.pause} />
+            ) : (
+              <Icon type={IconTypes.PLAY} onClick={playerStore.play} />
+            )}
             <Icon type={IconTypes.NEXT2} onClick={playerStore.next} />
           </div>
 
@@ -64,10 +64,10 @@ function IPlayer() {
       </div>
 
       <div
-          id="player-bg"
-          style={{
-            backgroundImage: `url(${cover})`
-          }}
+        id="player-bg"
+        style={{
+          backgroundImage: `url(${cover})`
+        }}
       />
 
       <div id="player-time">
@@ -75,8 +75,8 @@ function IPlayer() {
         <div id="player-time-control">
           <input min="0" max="100" step="1" type="range" />
           <div
-              id="player-time-progress"
-              style={{ width: `${playingProgress}%` }}
+            id="player-time-progress"
+            style={{ width: `${playingProgress}%` }}
           />
         </div>
         <p>{formatedTotalTime}</p>

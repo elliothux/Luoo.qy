@@ -1,5 +1,5 @@
-const request = require('request');
-const camelcase = require('camelcase-keys');
+const request = require("request");
+const camelcase = require("camelcase-keys");
 
 function getJSON(url) {
   return new Promise((resolve, reject) => {
@@ -34,5 +34,5 @@ function requestArticles(from) {
 module.exports = {
   requestVols,
   requestSingles,
-  requestArticles,
+  requestArticles
 };

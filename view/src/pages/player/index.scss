@@ -76,7 +76,8 @@
     }
   }
 
-  #player-left-block, #player-right-block {
+  #player-left-block,
+  #player-right-block {
     height: 76%;
     display: flex;
     flex-direction: column;
@@ -141,8 +142,8 @@
       #player-info-name {
         font-size: 2em;
       }
-      #player-info-album, #player-info-artist {
-
+      #player-info-album,
+      #player-info-artist {
       }
     }
 

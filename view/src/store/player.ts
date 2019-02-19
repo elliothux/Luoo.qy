@@ -1,6 +1,6 @@
-import {action, computed, observable} from "mobx";
-import {Howl, Howler} from "howler";
-import {volStore} from "./vol";
+import { action, computed, observable } from "mobx";
+import { Howl, Howler } from "howler";
+import { volStore } from "./vol";
 import {
   ArticleInfo,
   ArticleTrack,
@@ -12,17 +12,11 @@ import {
   VolInfo,
   VolTrack
 } from "../types";
-import {singleStore} from "./single";
-import {articleStore} from "./article";
-
-let ipc: IpcObject;
+import { formatPlayingTime } from "../utils";
+import { singleStore } from "./single";
+import { articleStore } from "./article";
 
 class PlayerStore {
-  @action
-  init = async (IPC: IpcObject) => {
-    ipc = IPC;
-  };
-
   /*
     * @desc Vol
      */
@@ -314,19 +308,6 @@ class PlayerStore {
       this.playingArticleTrackIndex -= 1;
     }
   };
-}
-
-function formatPlayingTime(time: number): string {
-  let minutes: number | string = Math.floor(time / 60);
-  let seconds: number | string = time - minutes * 60;
-
-  if (minutes < 10) {
-    minutes = "0" + minutes;
-  }
-  if (seconds < 10) {
-    seconds = "0" + seconds;
-  }
-  return `${minutes}:${seconds}`;
 }
 
 const playerStore = new PlayerStore();

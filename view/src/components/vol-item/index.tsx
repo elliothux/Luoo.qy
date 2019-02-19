@@ -2,7 +2,7 @@ import * as React from "react";
 import { VolInfo } from "../../types";
 import "./index.scss";
 import { Icon, IconTypes } from "../icon";
-import {playerStore, volStore} from "../../store";
+import { playerStore, volStore } from "../../store";
 import { events, EventTypes, px } from "../../utils";
 
 export interface Props {
@@ -50,9 +50,17 @@ class VolItem extends React.Component<Props> {
           <div className="vol-item-operation">
             <Icon type={IconTypes.LIKE} />
             {isPlaying ? (
-              <Icon type={IconTypes.PAUSE} onClick={playerStore.pause} preventDefault />
+              <Icon
+                type={IconTypes.PAUSE}
+                onClick={playerStore.pause}
+                preventDefault
+              />
             ) : (
-              <Icon type={IconTypes.PLAY} onClick={() => playerStore.playVolTrack(volInfo.id)} preventDefault />
+              <Icon
+                type={IconTypes.PLAY}
+                onClick={() => playerStore.playVolTrack(volInfo.id)}
+                preventDefault
+              />
             )}
           </div>
         </div>

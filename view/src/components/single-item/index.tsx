@@ -7,7 +7,7 @@ import "./index.scss";
 
 export interface Props {
   singleInfo: Single;
-  index: number,
+  index: number;
   isPlaying: boolean;
   isLiked: boolean;
 }
