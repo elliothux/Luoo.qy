@@ -73,7 +73,9 @@ function IPlayer() {
       <div id="player-time">
         <p>{formatedPlayedTime}</p>
         <div id="player-time-control">
-          <input min="0" max="100" step="1" type="range" />
+          <input min="0" max="100" step="1" type="range" onChange={(e) => {
+            playerStore.changePlayingRatio(+e.target.value);
+          }} />
           <div
             id="player-time-progress"
             style={{ width: `${playingProgress}%` }}

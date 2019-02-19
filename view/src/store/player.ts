@@ -20,13 +20,13 @@ let audio: HTMLAudioElement;
 
 class PlayerStore {
   @action
-  init = async (IPC: IpcObject) => {
+  public init = async (IPC: IpcObject) => {
     ipc = IPC;
     this.initAudio();
   };
 
   @action
-  initAudio = () => {
+  private initAudio = () => {
     audio = new Audio(this.playingInfo.url);
     audio.addEventListener("canplay", () => {
       if (
@@ -48,12 +48,6 @@ class PlayerStore {
     audio.load();
   };
 
-  changeAudio = (src: string) => {
-    audio.pause();
-    audio.src = src;
-    audio.load();
-    return audio.play();
-  };
   /*
     * @desc Vol
      */
@@ -206,9 +200,23 @@ class PlayerStore {
   /*
     * @desc Control
      */
+  private changeAudio = (src: string) => {
+    audio.pause();
+    audio.src = src;
+    audio.load();
+    return audio.play();
+  };
+
   @action
-  updatePlayingAudio = () => {
+  private updatePlayingAudio = () => {
     return this.changeAudio(this.playingInfo.url);
+  };
+
+  @action
+  public changePlayingRatio = (ratio: number) => {
+    const time = audio.duration * ratio / 100;
+    this.setPlayedTime(time);
+    audio.currentTime = time;
   };
 
   @action
