@@ -1,11 +1,11 @@
 import * as React from "react";
 import anime from "animejs";
-import { observer } from "mobx-react";
-import { articleStore, playerStore } from "../../store";
-import { Icon, IconTypes } from "../../components/icon";
-import { ArticleTrackItem } from "../../components/article-track-item";
-import { ViewTypes, ElementPosition } from "../../types";
-import { events, EventTypes, px } from "../../utils";
+import {observer} from "mobx-react";
+import {articleStore, playerStore, store} from "../../store";
+import {Icon, IconTypes} from "../../components/icon";
+import {ArticleTrackItem} from "../../components/article-track-item";
+import {ElementPosition, ViewTypes} from "../../types";
+import {events, EventTypes, px} from "../../utils";
 import "./index.scss";
 
 let coverRef: HTMLDivElement;
@@ -86,6 +86,10 @@ function IArticle() {
             isPlaying={playerStore.isArticleTrackPlaying(article.id, index)}
             onPause={playerStore.pause}
             onPlay={() => playerStore.playArticleTrack(article.id, index)}
+            onClick={() => {
+              store.changeView(ViewTypes.PLAYING);
+              return playerStore.playArticleTrack(article.id, index);
+            }}
           />
         ))}
       </div>

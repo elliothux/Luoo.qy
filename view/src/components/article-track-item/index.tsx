@@ -9,12 +9,13 @@ export interface Props {
   isLiked: boolean;
   onPlay: () => void;
   onPause: () => void;
+  onClick: () => void;
 }
 
 function ArticleTrackItem(props: Props) {
-  const { trackInfo: track, isPlaying, isLiked, onPause, onPlay } = props;
+  const { trackInfo: track, isPlaying, isLiked, onPause, onPlay, onClick } = props;
   return (
-    <div className="article-track-item">
+    <div className="article-track-item" onClick={onClick}>
       <div
         className="article-track-item-cover"
         style={{
@@ -30,11 +31,12 @@ function ArticleTrackItem(props: Props) {
             className="play"
             type={IconTypes.PAUSE_SOLID}
             onClick={onPause}
+            preventDefault
           />
         ) : (
-          <Icon className="play" type={IconTypes.PLAY_SOLID} onClick={onPlay} />
+          <Icon className="play" type={IconTypes.PLAY_SOLID} onClick={onPlay} preventDefault />
         )}
-        <Icon className="like" type={IconTypes.LIKE} />
+        <Icon className="like" type={IconTypes.LIKE} preventDefault />
       </div>
     </div>
   );

@@ -1,16 +1,11 @@
 import * as React from "react";
 import anime from "animejs";
-import { observer } from "mobx-react";
-import { playerStore, volStore } from "../../store";
-import { Icon, IconTypes } from "../../components/icon";
-import { VolTrackItem } from "../../components/vol-track-item";
-import {
-  ElementPosition,
-  PlayingStatus,
-  PlayingTypes,
-  ViewTypes
-} from "../../types";
-import { events, EventTypes, px } from "../../utils";
+import {observer} from "mobx-react";
+import {playerStore, store, volStore} from "../../store";
+import {Icon, IconTypes} from "../../components/icon";
+import {VolTrackItem} from "../../components/vol-track-item";
+import {ElementPosition, ViewTypes} from "../../types";
+import {events, EventTypes, px} from "../../utils";
 import "./index.scss";
 
 let coverRef: HTMLDivElement;
@@ -97,6 +92,10 @@ function IVol() {
             isPlaying={playerStore.isVolTrackPlaying(vol.id, index)}
             onPlay={() => playerStore.playVolTrack(vol.id, index)}
             onPause={playerStore.pause}
+            onClick={() => {
+              store.changeView(ViewTypes.PLAYING);
+              return playerStore.playVolTrack(vol.id, index);
+            }}
           />
         ))}
       </div>

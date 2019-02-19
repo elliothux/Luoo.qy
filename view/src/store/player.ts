@@ -1,5 +1,4 @@
 import { action, computed, observable } from "mobx";
-import { Howl, Howler } from "howler";
 import { volStore } from "./vol";
 import {
   ArticleInfo,
@@ -16,7 +15,45 @@ import { formatPlayingTime } from "../utils";
 import { singleStore } from "./single";
 import { articleStore } from "./article";
 
+let ipc: IpcObject;
+let audio: HTMLAudioElement;
+
 class PlayerStore {
+  @action
+  init = async (IPC: IpcObject) => {
+    ipc = IPC;
+    this.initAudio();
+  };
+
+  @action
+  initAudio = () => {
+    audio = new Audio(this.playingInfo.url);
+    audio.addEventListener("canplay", () => {
+      if (
+        this.playingStatus === PlayingStatus.PLAYING ||
+        this.playingStatus === PlayingStatus.FETCHING
+      ) {
+        return audio.play();
+      }
+    });
+    audio.addEventListener("durationchange", () => {
+      this.setTotalTime(audio.duration);
+    });
+    audio.addEventListener("timeupdate", () => {
+      this.setPlayedTime(audio.currentTime);
+    });
+    audio.addEventListener("ended", () => {
+      this.next();
+    });
+    audio.load();
+  };
+
+  changeAudio = (src: string) => {
+    audio.pause();
+    audio.src = src;
+    audio.load();
+    return audio.play();
+  };
   /*
     * @desc Vol
      */
@@ -137,10 +174,20 @@ class PlayerStore {
     * @desc Duration
      */
   @observable
-  private playedTime: number = 33;
+  private playedTime: number = 0;
 
   @observable
-  private totalTime: number = 100;
+  private totalTime: number = 0;
+
+  @action
+  private setPlayedTime = (time: number) => {
+    this.playedTime = time;
+  };
+
+  @action
+  private setTotalTime = (time: number) => {
+    this.totalTime = time;
+  };
 
   @computed
   public get formatedPlayedTime() {
@@ -156,41 +203,73 @@ class PlayerStore {
   public get playingProgress(): number {
     return Math.ceil((this.playedTime / this.totalTime) * 100);
   }
-
   /*
     * @desc Control
      */
   @action
+  updatePlayingAudio = () => {
+    return this.changeAudio(this.playingInfo.url);
+  };
+
+  @action
   public playVolTrack = (volId: number, trackIndex: number = 0) => {
+    if (
+      this.playingType === PlayingTypes.VOL &&
+      volId === this.playingVolId &&
+      trackIndex === this.playingVolTrackIndex
+    ) {
+      return this.play();
+    }
+
     this.playingVolId = volId;
     this.playingVolTrackIndex = trackIndex;
     this.playingType = PlayingTypes.VOL;
     this.playingStatus = PlayingStatus.PLAYING;
+    return this.updatePlayingAudio();
   };
 
   @action
   public playSingle = (singleId: number) => {
+    if (
+      this.playingType === PlayingTypes.SINGLE &&
+      singleId === this.playingSingleId
+    ) {
+      return this.play();
+    }
+
     this.playingSingleId = singleId;
     this.playingType = PlayingTypes.SINGLE;
     this.playingStatus = PlayingStatus.PLAYING;
+    return this.updatePlayingAudio();
   };
 
   @action
   public playArticleTrack = (articleId: number, trackIndex: number = 0) => {
+    if (
+      this.playingType === PlayingTypes.ARTICLE &&
+      articleId === this.playingArticleId &&
+      trackIndex === this.playingArticleTrackIndex
+    ) {
+      return this.play();
+    }
+
     this.playingArticleId = articleId;
     this.playingArticleTrackIndex = trackIndex;
     this.playingType = PlayingTypes.ARTICLE;
     this.playingStatus = PlayingStatus.PLAYING;
+    return this.updatePlayingAudio();
   };
 
   @action
   public play = () => {
     this.playingStatus = PlayingStatus.PLAYING;
+    return audio.play();
   };
 
   @action
   public pause = () => {
     this.playingStatus = PlayingStatus.PAUSE;
+    return audio.pause();
   };
 
   @action
@@ -210,6 +289,7 @@ class PlayerStore {
       }
     }
     this.playingStatus = PlayingStatus.PLAYING;
+    return this.updatePlayingAudio();
   };
 
   @action
@@ -268,6 +348,7 @@ class PlayerStore {
       }
     }
     this.playingStatus = PlayingStatus.PLAYING;
+    return this.updatePlayingAudio();
   };
 
   @action

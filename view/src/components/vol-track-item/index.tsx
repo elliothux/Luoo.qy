@@ -9,12 +9,13 @@ export interface Props {
   isLiked: boolean;
   onPlay: () => void;
   onPause: () => void;
+  onClick: () => void;
 }
 
 function VolTrackItem(props: Props) {
-  const { trackInfo: track, isLiked, isPlaying, onPlay, onPause } = props;
+  const { trackInfo: track, isLiked, isPlaying, onPlay, onPause, onClick } = props;
   return (
-    <div className="vol-track-item">
+    <div className="vol-track-item" onClick={onClick}>
       <div
         className="vol-track-item-cover"
         style={{
@@ -30,11 +31,12 @@ function VolTrackItem(props: Props) {
             className="play"
             type={IconTypes.PAUSE_SOLID}
             onClick={onPause}
+            preventDefault
           />
         ) : (
-          <Icon className="play" type={IconTypes.PLAY_SOLID} onClick={onPlay} />
+          <Icon className="play" type={IconTypes.PLAY_SOLID} onClick={onPlay} preventDefault />
         )}
-        <Icon className="like" type={IconTypes.LIKE} />
+        <Icon className="like" type={IconTypes.LIKE} preventDefault />
       </div>
     </div>
   );
