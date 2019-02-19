@@ -11,15 +11,29 @@ import { store } from "./index";
 
 let ipc: IpcObject;
 
+function getVolsFromDB(): Promise<VolInfo[]> {
+  return ipc.db.vol.get();
+}
+
+async function fetchVols(): Promise<VolInfo[]> {
+  try {
+    const latest: number = await ipc.db.vol.latest();
+    const { data } = await ipc.requestVols(latest + 1);
+    return data.sort((i: VolInfo, j: VolInfo) => j.vol - i.vol);
+  } catch (e) {
+    throw e;
+  }
+}
+
 class VolStore {
   @action
   init = async (IPC: IpcObject) => {
     ipc = IPC;
 
-    this.allVols = await this.getVolsFromDB();
+    this.allVols = await getVolsFromDB();
 
     try {
-      let vols = await this.fetchVols();
+      let vols = await fetchVols();
       if (vols.length > 0) {
         for (let vol of vols) {
           await ipc.db.vol.add(vol);
@@ -27,7 +41,7 @@ class VolStore {
             await ipc.db.volTrack.add(track);
           }
         }
-        this.allVols = await this.getVolsFromDB();
+        this.allVols = await getVolsFromDB();
       }
     } catch (e) {
       console.error(e);
@@ -35,7 +49,7 @@ class VolStore {
   };
 
   @observable
-  private allVols: VolInfo[] = [];
+  public allVols: VolInfo[] = [];
 
   @computed
   public get vols(): VolInfo[] {
@@ -64,20 +78,6 @@ class VolStore {
     this.volCurrentPage = 0;
     this.volType = type;
     store.changeView(ViewTypes.VOLS);
-  };
-
-  private getVolsFromDB = (): Promise<VolInfo[]> => {
-    return ipc.db.vol.get();
-  };
-
-  private fetchVols = async (): Promise<VolInfo[]> => {
-    try {
-      const latest: number = await ipc.db.vol.latest();
-      const { data } = await ipc.requestVols(latest + 1);
-      return data.sort((i: VolInfo, j: VolInfo) => j.vol - i.vol);
-    } catch (e) {
-      throw e;
-    }
   };
 
   protected volPageScale = 3 * 4;

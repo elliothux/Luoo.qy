@@ -12,6 +12,8 @@ import LIKE from "../../static/icon/like.svg";
 import LIKE2 from "../../static/icon/like2.svg";
 import PLAY from "../../static/icon/play.svg";
 import PLAY_SOLID from "../../static/icon/play-solid.svg";
+import PAUSE from "../../static/icon/pause.svg";
+import PAUSE_SOLID from "../../static/icon/pause-solid.svg";
 import CLOUD from "../../static/icon/cloud.svg";
 import WAVE from "../../static/icon/wave.svg";
 import PRE from "../../static/icon/pre.svg";
@@ -19,13 +21,14 @@ import NEXT from "../../static/icon/next.svg";
 import RANDOM from "../../static/icon/random.svg";
 import ARROW_LEFT from "../../static/icon/arrow-left.svg";
 import ARROW_RIGHT from "../../static/icon/arrow-right.svg";
-import PRE2 from '../../static/icon/pre2.svg';
-import NEXT2 from '../../static/icon/next2.svg';
-import SHUFFLE from '../../static/icon/shuffle.svg';
-import LOOP from '../../static/icon/loop.svg';
-import ORDER from '../../static/icon/order.svg';
+import PRE2 from "../../static/icon/pre2.svg";
+import NEXT2 from "../../static/icon/next2.svg";
+import SHUFFLE from "../../static/icon/shuffle.svg";
+import LOOP from "../../static/icon/loop.svg";
+import ORDER from "../../static/icon/order.svg";
 
 import "./index.scss";
+import {preventSyntheticEvent} from "../../utils";
 
 enum IconTypes {
   BACK,
@@ -39,8 +42,10 @@ enum IconTypes {
   LIKE,
   LIKE2,
   PLAY,
-  LOGO,
   PLAY_SOLID,
+  PAUSE,
+  PAUSE_SOLID,
+  LOGO,
   CLOUD,
   WAVE,
   PRE,
@@ -58,13 +63,13 @@ enum IconTypes {
 export interface Props {
   type: IconTypes;
   className?: string;
-  onClick?: () => void;
+  onClick?: (e: any) => void;
+  preventDefault?: boolean
 }
 
-const noop = () => {};
-
 function Icon(props: Props) {
-  const { type, className, onClick } = props;
+  const { type, className, onClick, preventDefault } = props;
+
   let src;
   switch (type) {
     case IconTypes.BACK:
@@ -96,6 +101,12 @@ function Icon(props: Props) {
       break;
     case IconTypes.PLAY_SOLID:
       src = PLAY_SOLID;
+      break;
+    case IconTypes.PAUSE:
+      src = PAUSE;
+      break;
+    case IconTypes.PAUSE_SOLID:
+      src = PAUSE_SOLID;
       break;
     case IconTypes.LIKE:
       src = LIKE;
@@ -145,11 +156,22 @@ function Icon(props: Props) {
     default:
       throw "Invalid icon type";
   }
+
+  const handleClick = (e: React.FormEvent<HTMLImageElement>) => {
+    if (preventDefault) {
+      preventSyntheticEvent(e);
+    }
+    if (typeof onClick === "function") {
+      onClick(e);
+    }
+    return false;
+  };
+
   return (
     <img
       className={className ? `icon ${className}` : "icon"}
       src={src}
-      onClick={onClick || noop}
+      onClick={handleClick}
       alt="icon"
     />
   );

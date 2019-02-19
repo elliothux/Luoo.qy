@@ -1,5 +1,5 @@
 export { getIPC } from "./ipc";
-export { events, EventTypes } from './event';
+export { events, EventTypes } from "./event";
 
 function genRange(start: number, end: number): number[] {
   const result: number[] = [];
@@ -10,7 +10,16 @@ function genRange(start: number, end: number): number[] {
 }
 
 function px(i: number) {
-    return `${i}px`;
+  return `${i}px`;
 }
 
-export { genRange, px };
+function noop() {}
+
+function preventSyntheticEvent<T>(e: React.FormEvent<T>) {
+  e.preventDefault();
+  e.stopPropagation();
+  e.nativeEvent.stopImmediatePropagation();
+  return false;
+}
+
+export { genRange, px, noop, preventSyntheticEvent };

@@ -1,9 +1,9 @@
 import * as React from "react";
-import { observer } from "mobx-react";
-import { playerStore, store } from "../../store";
-import { Icon, IconTypes } from "../icon";
+import {observer} from "mobx-react";
+import {playerStore, store} from "../../store";
+import {Icon, IconTypes} from "../icon";
 import "./index.scss";
-import { ViewTypes } from "../../types";
+import {PlayingStatus, ViewTypes} from "../../types";
 
 function IMiniPlayer() {
   const { view } = store;
@@ -37,9 +37,13 @@ function IMiniPlayer() {
             </p>
           </div>
           <div id="mini-player-controller">
-            <Icon type={IconTypes.PRE} />
-            <Icon className="play" type={IconTypes.PLAY} />
-            <Icon type={IconTypes.NEXT} />
+            <Icon type={IconTypes.PRE} onClick={playerStore.pre.bind(playerStore)} />
+            {
+              playerStore.playingStatus === PlayingStatus.PLAYING ?
+                  <Icon className="play" type={IconTypes.PAUSE} onClick={playerStore.pause.bind(playerStore)}/> :
+                  <Icon className="play" type={IconTypes.PLAY} onClick={playerStore.play.bind(playerStore)} />
+            }
+            <Icon type={IconTypes.NEXT} onClick={playerStore.next.bind(playerStore)} />
             <Icon className="play-mode" type={IconTypes.RANDOM} />
           </div>
           <div id="mini-player-progress">

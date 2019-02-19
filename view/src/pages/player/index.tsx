@@ -1,7 +1,7 @@
 import * as React from "react";
 import { observer } from "mobx-react";
 import { playerStore, store } from "../../store";
-import { ViewTypes } from "../../types";
+import {PlayingStatus, ViewTypes} from "../../types";
 import classnames from "classnames";
 import { Icon, IconTypes } from "../../components/icon";
 import "./index.scss";
@@ -29,7 +29,11 @@ function IPlayer() {
         <div>
           <div id="player-control">
             <Icon type={IconTypes.PRE2} />
-            <Icon type={IconTypes.PLAY} />
+            {
+              playerStore.playingStatus === PlayingStatus.PLAYING ?
+                  <Icon type={IconTypes.PAUSE} onClick={playerStore.pause.bind(playerStore)}/> :
+                  <Icon type={IconTypes.PLAY} onClick={playerStore.play.bind(playerStore)} />
+            }
             <Icon type={IconTypes.NEXT2} />
           </div>
 

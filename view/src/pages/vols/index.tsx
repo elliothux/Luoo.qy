@@ -1,9 +1,9 @@
 import * as React from "react";
-import { observer } from "mobx-react";
-import { playerStore, volStore } from "../../store";
-import { VolItem } from "../../components/vol-item";
-import { Pagination } from "../../components/pagination";
-import { PlayingTypes, ViewTypes, VolInfo } from "../../types";
+import {observer} from "mobx-react";
+import {playerStore, volStore} from "../../store";
+import {VolItem} from "../../components/vol-item";
+import {Pagination} from "../../components/pagination";
+import {PlayingStatus, PlayingTypes, ViewTypes, VolInfo} from "../../types";
 import "./index.scss";
 
 @observer
@@ -19,8 +19,9 @@ class Vols extends React.Component {
         volInfo={vol}
         index={index}
         isPlaying={
+          playerStore.playingStatus === PlayingStatus.PLAYING &&
           playerStore.playingType === PlayingTypes.VOL &&
-          index === playerStore.playingVolIndex
+          vol.id === playerStore.playingVolId
         }
         isLiked={false}
       />

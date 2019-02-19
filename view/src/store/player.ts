@@ -27,14 +27,14 @@ class PlayerStore {
     * @desc Vol
      */
     @observable
-    public playingVolIndex: number = 0;
+    public playingVolId: number = volStore.allVols[0].id;
 
     @observable
     public playingVolTrackIndex: number = 0;
 
     @computed
     private get playingVol(): VolInfo {
-        return volStore.vols[this.playingVolIndex];
+        return volStore.allVols.find(vol => vol.id === this.playingVolId) as VolInfo;
     }
 
     @computed
@@ -122,15 +122,56 @@ class PlayerStore {
     * @desc Control
      */
     @action
-    public playVolTrack(volIndex: number, trackIndex: number = 0) {
-        this.playingVolIndex = volIndex;
+    public playVolTrack(volId: number, trackIndex: number = 0) {
+        this.playingVolId = volId;
         this.playingVolTrackIndex = trackIndex;
+        this.playingStatus = PlayingStatus.PLAYING;
+    }
+
+    @action
+    public play() {
         this.playingStatus = PlayingStatus.PLAYING;
     }
 
     @action
     public pause() {
         this.playingStatus = PlayingStatus.PAUSE;
+    }
+
+    @action
+    public next() {
+        switch (this.playingType) {
+            case PlayingTypes.VOL: {
+                const { tracks } = this.playingVol;
+                if (tracks.length === 1) return;
+
+                if (this.playingVolTrackIndex + 1 === tracks.length) {
+                    this.playingVolTrackIndex = 0;
+                } else {
+                    this.playingVolTrackIndex += 1;
+                }
+                break;
+            }
+        }
+        this.playingStatus = PlayingStatus.PLAYING;
+    }
+
+    @action
+    public pre() {
+        switch (this.playingType) {
+            case PlayingTypes.VOL: {
+                const { tracks } = this.playingVol;
+                if (tracks.length === 1) return;
+
+                if (this.playingVolTrackIndex === 0) {
+                    this.playingVolTrackIndex = tracks.length - 1;
+                } else {
+                    this.playingVolTrackIndex -= 1;
+                }
+                break;
+            }
+        }
+        this.playingStatus = PlayingStatus.PLAYING;
     }
 }
 
