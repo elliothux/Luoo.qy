@@ -11,7 +11,7 @@ function IPlayer() {
     formatedTotalTime,
     formatedPlayedTime,
     playingProgress,
-    playingInfo: { cover, name, artist, album }
+    playingInfo: { cover, name, artist, album, lyric }
   } = playerStore;
 
   return (
@@ -60,7 +60,7 @@ function IPlayer() {
           <p id="player-info-album">{album}</p>
           <p id="player-info-artist">{artist}</p>
         </div>
-        <div id="player-lyric">歌词加载中</div>
+        <div id="player-lyric">{lyric}</div>
       </div>
 
       <div id="player-bg">
