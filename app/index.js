@@ -1,17 +1,21 @@
-const { app, BrowserWindow } = require("electron");
-const { requestVols, requestSingles, requestArticles } = require("./utils");
-const db = require("./db");
+const path = require('path');
+const { app, BrowserWindow } = require('electron');
+const { requestVols, requestSingles, requestArticles } = require('./utils');
+const db = require('./db');
 
-if (require("electron-squirrel-startup")) {
+const isProduction = process.env.NODE_ENV === 'production';
+
+// eslint-disable-next-line global-require
+if (require('electron-squirrel-startup')) {
   app.quit();
 } else {
-  Object.defineProperty(global, "ipc", {
+  Object.defineProperty(global, 'ipc', {
     value: {
       requestVols,
       requestSingles,
       requestArticles,
-      db
-    }
+      db,
+    },
   });
 }
 
@@ -21,32 +25,34 @@ const createWindow = () => {
   mainWindow = new BrowserWindow({
     width: 1200,
     height: 800,
-    title: "Luoo.qy",
+    title: 'Luoo.qy',
     webPreferences: {
-      nodeIntegration: true
-    }
+      nodeIntegration: true,
+    },
   });
 
-  // mainWindow.loadURL(`file://${__dirname}/index.html`);
-  mainWindow.loadURL("http://localhost:3000/");
+  const htmlPath = path.join(__dirname, '../view/build/index.html');
+  mainWindow.loadURL(
+    isProduction ? `file://${htmlPath}` : 'http://localhost:3000/',
+  );
 
   mainWindow.webContents.openDevTools();
-  mainWindow.setTitle("Luoo.qy");
+  mainWindow.setTitle('Luoo.qy');
 
-  mainWindow.on("closed", () => {
+  mainWindow.on('closed', () => {
     mainWindow = null;
   });
 };
 
-app.on("ready", createWindow);
+app.on('ready', createWindow);
 
-app.on("window-all-closed", () => {
-  if (process.platform !== "darwin") {
+app.on('window-all-closed', () => {
+  if (process.platform !== 'darwin') {
     app.quit();
   }
 });
 
-app.on("activate", () => {
+app.on('activate', () => {
   if (mainWindow === null) {
     createWindow();
   }

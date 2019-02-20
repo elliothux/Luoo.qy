@@ -5,9 +5,10 @@
   "description": "My Electron application description",
   "main": "app/index.js",
   "scripts": {
-    "start": "electron-forge start",
+    "start": "NODE_ENV=development electron-forge start",
     "start:render": "cd ./view; npm start",
-    "package": "electron-forge package",
+    "pack": "electron-forge package",
+    "pack:view": "cd ./view; npm run build",
     "make": "electron-forge make",
     "publish": "electron-forge publish",
     "lint": "eslint src --color"
