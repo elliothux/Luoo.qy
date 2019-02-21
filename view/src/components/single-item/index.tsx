@@ -26,9 +26,7 @@ class SingleItem extends React.Component<Props> {
       EventTypes.ShowSingleBackground,
       this.props.singleInfo.cover,
       this.coverRef,
-      () => {
-        singleStore.selectSingle(this.props.index);
-      }
+      () => singleStore.selectSingle(this.props.index)
     );
   };
 

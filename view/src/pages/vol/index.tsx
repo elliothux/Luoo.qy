@@ -8,21 +8,11 @@ import { ElementPosition, ViewTypes } from "../../types";
 import { events, EventTypes, px } from "../../utils";
 import "./index.scss";
 
-let infoRef: HTMLDivElement;
-let tracksRef: HTMLDivElement;
 let coverRef: HTMLDivElement;
 let coverPos: ElementPosition;
 
 function getCoverRef(i: HTMLImageElement | null) {
   coverRef = i as HTMLDivElement;
-}
-
-function getInfoRef(i: HTMLDivElement | null) {
-  infoRef = i as HTMLDivElement;
-}
-
-function getTracksRef(i: HTMLDivElement | null) {
-  tracksRef = i as HTMLDivElement;
 }
 
 events.on(EventTypes.ShowVolBackground, (src, cover, callback) => {
@@ -48,11 +38,6 @@ events.on(EventTypes.ShowVolBackground, (src, cover, callback) => {
   });
 });
 
-events.on(EventTypes.ScrollBackVol, () => {
-  infoRef.scrollTo(0, 0);
-  tracksRef.scrollTo(0, 0);
-});
-
 function IVol() {
   const { selectedVol: vol } = volStore;
   if (!vol) return null;
@@ -65,10 +50,8 @@ function IVol() {
           backgroundImage: `url(${vol.cover})`
         }}
       />
-
       <div id="vol-bg-mask" />
-
-      <div id="vol-info" ref={getInfoRef}>
+      <div id="vol-info">
         <div id="vol-info-tags">
           {vol.tags.map(t => (
             <span key={t}>#{t}</span>
@@ -100,8 +83,7 @@ function IVol() {
           <span id="vol-info-date">{vol.date}</span>
         </div>
       </div>
-
-      <div id="vol-tracks" ref={getTracksRef}>
+      <div id="vol-tracks">
         {vol.tracks.map((t, index) => (
           <VolTrackItem
             key={t.id}

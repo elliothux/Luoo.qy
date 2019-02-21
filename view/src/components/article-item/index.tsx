@@ -26,10 +26,7 @@ class ArticleItem extends React.Component<Props> {
       EventTypes.ShowArticleBackground,
       this.props.articleInfo.cover,
       this.coverRef,
-      () => {
-        events.emit(EventTypes.ScrollBackArticle);
-        articleStore.selectArticle(this.props.index);
-      }
+      () => articleStore.selectArticle(this.props.index)
     );
   };
 
@@ -51,7 +48,6 @@ class ArticleItem extends React.Component<Props> {
           </div>
           <div className="article-item-operation">
             <Icon type={IconTypes.LIKE} />
-            <Icon type={IconTypes.PLAY} />
             {isPlaying ? (
               <Icon
                 type={IconTypes.PAUSE}

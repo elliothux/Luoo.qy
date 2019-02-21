@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@types/animejs": "^2.0.1",
     "animejs": "^3.0.1",
     "classnames": "^2.2.6",
     "mobx": "^5.9.0",
@@ -13,6 +12,7 @@
     "react-dom": "^16.7.0"
   },
   "devDependencies": {
+    "@types/animejs": "^2.0.1",
     "@types/classnames": "^2.2.7",
     "@types/electron": "^1.6.10",
     "@types/node": "10.12.19",
