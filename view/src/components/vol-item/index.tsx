@@ -1,9 +1,9 @@
 import * as React from "react";
-import { VolInfo } from "../../types";
+import {VolInfo} from "../../types";
 import "./index.scss";
-import { Icon, IconTypes } from "../icon";
-import { playerStore, volStore } from "../../store";
-import { events, EventTypes, px } from "../../utils";
+import {Icon, IconTypes} from "../icon";
+import {playerStore, volStore} from "../../store";
+import {events, EventTypes} from "../../utils";
 
 export interface Props {
   volInfo: VolInfo;
@@ -26,7 +26,10 @@ class VolItem extends React.Component<Props> {
       EventTypes.ShowVolBackground,
       this.props.volInfo.cover,
       this.coverRef,
-      () => volStore.selectVol(this.props.index)
+      () => {
+          events.emit(EventTypes.ScrollBackVol);
+          volStore.selectVol(this.props.index);
+      }
     );
   };
 
