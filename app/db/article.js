@@ -1,21 +1,21 @@
-const DataStore = require('nedb');
-const path = require('path');
-const { isExist, _insert, _find } = require('./utils');
+const DataStore = require("nedb");
+const path = require("path");
+const { isExist, _insert, _find } = require("./utils");
 
 const article = new DataStore({
-  filename: path.join(__dirname, '../../db/article'),
-  autoload: true,
+  filename: path.join(__dirname, "../../db/article"),
+  autoload: true
 });
 
 const articleTrack = new DataStore({
-  filename: path.join(__dirname, '../../db/article_track'),
-  autoload: true,
+  filename: path.join(__dirname, "../../db/article_track"),
+  autoload: true
 });
 
 async function addArticle(data) {
   if (await isExist({ id: data.id }, article)) {
     throw new Error(
-      `Add article failed for article ${data.id} already existing`,
+      `Add article failed for article ${data.id} already existing`
     );
   }
 
@@ -54,11 +54,11 @@ module.exports = {
     add: addArticle,
     get: getArticleList,
     latest: getLatestArticleId,
-    isExist: articleId => isExist({ id: articleId }, article),
+    isExist: articleId => isExist({ id: articleId }, article)
   },
   articleTrack: {
     add: addArticleTrack,
     get: getArticleTrackList,
-    isExist: trackId => isExist({ id: trackId }, articleTrack),
-  },
+    isExist: trackId => isExist({ id: trackId }, articleTrack)
+  }
 };

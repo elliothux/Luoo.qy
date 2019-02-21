@@ -426,11 +426,11 @@ class PlayerStore {
 
   @computed
   public get playingLyrics(): string[] | null {
-    const {lyrics, currentLyricIndex: i } = this;
+    const { lyrics, currentLyricIndex: i } = this;
     if (!lyrics) {
       return null;
     }
-    const empty = { text: ' ' };
+    const empty = { text: " " };
     return [
       lyrics[i - 4] || empty,
       lyrics[i - 3] || empty,
@@ -440,7 +440,7 @@ class PlayerStore {
       lyrics[i + 1] || empty,
       lyrics[i + 2] || empty,
       lyrics[i + 3] || empty,
-      lyrics[i + 4] || empty,
+      lyrics[i + 4] || empty
     ].map(i => i.text);
   }
 

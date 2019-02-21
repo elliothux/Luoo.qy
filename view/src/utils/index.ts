@@ -1,6 +1,6 @@
 export { getIPC } from "./ipc";
 export { events, EventTypes } from "./event";
-export { LyricParser } from './lyric-parser';
+export { LyricParser } from "./lyric-parser";
 
 function genRange(start: number, end: number): number[] {
   const result: number[] = [];

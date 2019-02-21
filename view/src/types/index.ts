@@ -67,7 +67,7 @@ export interface Track {
   album: string;
   cover: string;
   url: string;
-  lyric?: string
+  lyric?: string;
 }
 
 export interface VolInfo {

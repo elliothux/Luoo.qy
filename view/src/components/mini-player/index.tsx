@@ -1,10 +1,9 @@
 import * as React from "react";
-import {observer} from "mobx-react";
-import {playerStore, store} from "../../store";
-import {Icon, IconTypes} from "../icon";
-import {PlayingStatus, ViewTypes} from "../../types";
+import { observer } from "mobx-react";
+import { playerStore, store } from "../../store";
+import { Icon, IconTypes } from "../icon";
+import { PlayingStatus, ViewTypes } from "../../types";
 import "./index.scss";
-
 
 function IMiniPlayer() {
   const { view } = store;
@@ -67,7 +66,10 @@ function IMiniPlayer() {
 
   return (
     <div id="mini-player-collapsed">
-      <Icon type={IconTypes.WAVE} onClick={() => store.changeView(ViewTypes.PLAYING)} />
+      <Icon
+        type={IconTypes.WAVE}
+        onClick={() => store.changeView(ViewTypes.PLAYING)}
+      />
     </div>
   );
 }

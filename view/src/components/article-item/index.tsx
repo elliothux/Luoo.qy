@@ -12,64 +12,63 @@ export interface Props {
   isLiked: boolean;
 }
 
-class ArticleItem extends React.Component<Props> {
-  private coverRef: HTMLImageElement | null = null;
+let coverRef: HTMLImageElement;
 
-  private getCoverRef = (i: HTMLImageElement | null) => {
-    if (i) {
-      this.coverRef = i;
-    }
-  };
+function getCoverRef(i: HTMLImageElement | null) {
+  coverRef = i as HTMLImageElement;
+}
 
-  private onClick = () => {
-    events.emit(
-      EventTypes.ShowArticleBackground,
-      this.props.articleInfo.cover,
-      this.coverRef,
-      () => articleStore.selectArticle(this.props.index)
-    );
-  };
+function onClick(cover: string, index: number) {
+  events.emit(EventTypes.ShowArticleBackground, cover, coverRef, () => {
+    events.emit(EventTypes.ScrollBackArticle);
+    articleStore.selectArticle(index);
+  });
+}
 
-  public render() {
-    const { articleInfo, isPlaying, isLiked } = this.props;
-    return (
-      <div className="article-item" onClick={this.onClick}>
-        <div
-          ref={this.getCoverRef}
-          className="article-item-cover"
-          style={{
-            backgroundImage: `url(${articleInfo.cover})`
-          }}
-        />
-        <div className="article-item-info">
-          <div className="article-item-info-container">
-            <p className="article-item-info-title">{articleInfo.title}</p>
-            <p className="article-item-info-meta">{articleInfo.metaInfo}</p>
-          </div>
-          <div className="article-item-operation">
-            <Icon type={IconTypes.LIKE} />
-            {isPlaying ? (
-              <Icon
-                type={IconTypes.PAUSE}
-                onClick={playerStore.pause}
-                preventDefault
-              />
-            ) : (
-              <Icon
-                type={IconTypes.PLAY}
-                onClick={() => playerStore.playArticleTrack(articleInfo.id)}
-                preventDefault
-              />
-            )}
-          </div>
+function ArticleItem(props: Props) {
+  const { articleInfo, isPlaying, isLiked, index } = props;
+  return (
+    <div
+      className="article-item"
+      onClick={() => onClick(articleInfo.cover, index)}
+    >
+      <div
+        ref={getCoverRef}
+        className="article-item-cover"
+        style={{
+          backgroundImage: `url(${articleInfo.cover})`
+        }}
+      />
+
+      <div className="article-item-info">
+        <div className="article-item-info-container">
+          <p className="article-item-info-title">{articleInfo.title}</p>
+          <p className="article-item-info-meta">{articleInfo.metaInfo}</p>
         </div>
-        <div
-          className="article-item-bg"
-          style={{ backgroundColor: articleInfo.color }}
-        />
+        <div className="article-item-operation">
+          <Icon type={IconTypes.LIKE} />
+          {isPlaying ? (
+            <Icon
+              type={IconTypes.PAUSE}
+              onClick={playerStore.pause}
+              preventDefault
+            />
+          ) : (
+            <Icon
+              type={IconTypes.PLAY}
+              onClick={() => playerStore.playArticleTrack(articleInfo.id)}
+              preventDefault
+            />
+          )}
+        </div>
       </div>
-    );
-  }
+
+      <div
+        className="article-item-bg"
+        style={{ backgroundColor: articleInfo.color }}
+      />
+    </div>
+  );
 }
 
 export { ArticleItem };

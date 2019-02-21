@@ -13,7 +13,14 @@ export interface Props {
 }
 
 function VolTrackItem(props: Props) {
-  const { trackInfo: track, isLiked, isPlaying, onPlay, onPause, onClick } = props;
+  const {
+    trackInfo: track,
+    isLiked,
+    isPlaying,
+    onPlay,
+    onPause,
+    onClick
+  } = props;
   return (
     <div className="vol-track-item" onClick={onClick}>
       <div
@@ -34,7 +41,12 @@ function VolTrackItem(props: Props) {
             preventDefault
           />
         ) : (
-          <Icon className="play" type={IconTypes.PLAY_SOLID} onClick={onPlay} preventDefault />
+          <Icon
+            className="play"
+            type={IconTypes.PLAY_SOLID}
+            onClick={onPlay}
+            preventDefault
+          />
         )}
         <Icon className="like" type={IconTypes.LIKE} preventDefault />
       </div>

@@ -13,7 +13,14 @@ export interface Props {
 }
 
 function ArticleTrackItem(props: Props) {
-  const { trackInfo: track, isPlaying, isLiked, onPause, onPlay, onClick } = props;
+  const {
+    trackInfo: track,
+    isPlaying,
+    isLiked,
+    onPause,
+    onPlay,
+    onClick
+  } = props;
   return (
     <div className="article-track-item" onClick={onClick}>
       <div
@@ -34,7 +41,12 @@ function ArticleTrackItem(props: Props) {
             preventDefault
           />
         ) : (
-          <Icon className="play" type={IconTypes.PLAY_SOLID} onClick={onPlay} preventDefault />
+          <Icon
+            className="play"
+            type={IconTypes.PLAY_SOLID}
+            onClick={onPlay}
+            preventDefault
+          />
         )}
         <Icon className="like" type={IconTypes.LIKE} preventDefault />
       </div>
