@@ -12,63 +12,66 @@ export interface Props {
   isLiked: boolean;
 }
 
-let coverRef: HTMLImageElement;
+class SingleItem extends React.Component<Props> {
+  private coverRef: HTMLImageElement | null = null;
 
-function getCoverRef(i: HTMLImageElement | null) {
-  coverRef = i as HTMLImageElement;
-}
+  private getCoverRef = (i: HTMLImageElement | null) => {
+    if (i) {
+      this.coverRef = i;
+    }
+  };
 
-function onClick(cover: string, index: number) {
-  events.emit(EventTypes.ShowSingleBackground, cover, coverRef, () =>
-    singleStore.selectSingle(index)
-  );
-}
+  private onClick = () => {
+    events.emit(
+      EventTypes.ShowSingleBackground,
+      this.props.singleInfo.cover,
+      this.coverRef,
+      () => {
+        singleStore.selectSingle(this.props.index);
+      }
+    );
+  };
 
-function SingleItem(props: Props) {
-  const { singleInfo, isPlaying, isLiked, index } = props;
-  return (
-    <div
-      key={singleInfo.id}
-      className="single-item"
-      onClick={() => onClick(singleInfo.cover, index)}
-    >
-      <div
-        ref={getCoverRef}
-        className="single-item-cover"
-        style={{
-          backgroundImage: `url(${singleInfo.cover})`
-        }}
-      />
-
-      <div className="single-item-info">
-        <div className="single-item-info-container">
-          <p className="single-item-info-name">{singleInfo.name}</p>
-          <p className="single-item-info-artist">{singleInfo.artist}</p>
+  public render() {
+    const { singleInfo, isPlaying, isLiked } = this.props;
+    return (
+      <div key={singleInfo.id} className="single-item" onClick={this.onClick}>
+        <div
+          ref={this.getCoverRef}
+          className="single-item-cover"
+          style={{
+            backgroundImage: `url(${singleInfo.cover})`
+          }}
+        />
+        <div className="single-item-info">
+          <div className="single-item-info-container">
+            <p className="single-item-info-name">{singleInfo.name}</p>
+            <p className="single-item-info-artist">{singleInfo.artist}</p>
+          </div>
+          <div className="single-item-operation">
+            <Icon type={IconTypes.LIKE} />
+            {isPlaying ? (
+              <Icon
+                preventDefault
+                type={IconTypes.PAUSE}
+                onClick={playerStore.pause}
+              />
+            ) : (
+              <Icon
+                preventDefault
+                type={IconTypes.PLAY}
+                onClick={() => playerStore.playSingle(singleInfo.id)}
+              />
+            )}
+          </div>
         </div>
-        <div className="single-item-operation">
-          <Icon type={IconTypes.LIKE} />
-          {isPlaying ? (
-            <Icon
-              preventDefault
-              type={IconTypes.PAUSE}
-              onClick={playerStore.pause}
-            />
-          ) : (
-            <Icon
-              preventDefault
-              type={IconTypes.PLAY}
-              onClick={() => playerStore.playSingle(singleInfo.id)}
-            />
-          )}
-        </div>
+        <div
+          className="single-item-bg"
+          style={{ backgroundColor: singleInfo.color }}
+        />
       </div>
-
-      <div
-        className="single-item-bg"
-        style={{ backgroundColor: singleInfo.color }}
-      />
-    </div>
-  );
+    );
+  }
 }
 
 export { SingleItem };
