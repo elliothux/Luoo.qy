@@ -18,16 +18,25 @@ function goVolTypes() {
 }
 
 function goVols() {
+  if (store.view === ViewTypes.PLAYING) {
+    store.backView();
+  }
   events.emit(EventTypes.ScrollBackVols);
   store.changeView(ViewTypes.VOLS);
 }
 
 function goSingles() {
+  if (store.view === ViewTypes.PLAYING) {
+    store.backView();
+  }
   events.emit(EventTypes.ScrollBackSingles);
   store.changeView(ViewTypes.SINGLES);
 }
 
 function goArticles() {
+  if (store.view === ViewTypes.PLAYING) {
+    store.backView();
+  }
   events.emit(EventTypes.ScrollBackArticles);
   store.changeView(ViewTypes.ARTICLES);
 }
