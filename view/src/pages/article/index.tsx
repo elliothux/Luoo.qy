@@ -25,34 +25,6 @@ function getTracksRef(i: HTMLDivElement | null) {
   tracksRef = i as HTMLDivElement;
 }
 
-events.on(EventTypes.ShowArticleBackground, (src, cover, callback) => {
-  const { top, right, bottom, left } = cover.getBoundingClientRect();
-  coverPos = { top, right, bottom, left } as ElementPosition;
-
-  coverRef.style.backgroundImage = `url(${src})`;
-  coverRef.style.opacity = "1";
-  coverRef.style.top = px(top);
-  coverRef.style.left = px(left);
-  coverRef.style.width = px(right - left);
-  coverRef.style.height = px(bottom - top);
-
-  anime({
-    targets: coverRef,
-    easing: "easeInOutExpo",
-    width: "100%",
-    height: "100%",
-    duration: 600,
-    top: 0,
-    left: 0,
-    begin: callback
-  });
-});
-
-events.on(EventTypes.ScrollBackArticle, () => {
-  infoRef.scrollTo(0, 0);
-  tracksRef.scrollTo(0, 0);
-});
-
 function IArticle() {
   const { selectedArticle: article } = articleStore;
   if (!article) return null;
@@ -116,5 +88,33 @@ function IArticle() {
 }
 
 const Article = observer(IArticle);
+
+events.on(EventTypes.ShowArticleBackground, (src, cover, callback) => {
+  const { top, right, bottom, left } = cover.getBoundingClientRect();
+  coverPos = { top, right, bottom, left } as ElementPosition;
+
+  coverRef.style.backgroundImage = `url(${src})`;
+  coverRef.style.opacity = "1";
+  coverRef.style.top = px(top);
+  coverRef.style.left = px(left);
+  coverRef.style.width = px(right - left);
+  coverRef.style.height = px(bottom - top);
+
+  anime({
+    targets: coverRef,
+    easing: "easeInOutExpo",
+    width: "100%",
+    height: "100%",
+    duration: 600,
+    top: 0,
+    left: 0,
+    begin: callback
+  });
+});
+
+events.on(EventTypes.ScrollBackArticle, () => {
+  infoRef.scrollTo(0, 0);
+  tracksRef.scrollTo(0, 0);
+});
 
 export { Article };

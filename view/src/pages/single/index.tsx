@@ -14,29 +14,6 @@ function getCoverRef(i: HTMLImageElement | null) {
   coverRef = i as HTMLDivElement;
 }
 
-events.on(EventTypes.ShowSingleBackground, (src, cover, callback) => {
-  const { top, right, bottom, left } = cover.getBoundingClientRect();
-  coverPos = { top, right, bottom, left } as ElementPosition;
-
-  coverRef.style.backgroundImage = `url(${src})`;
-  coverRef.style.opacity = "1";
-  coverRef.style.top = px(top);
-  coverRef.style.left = px(left);
-  coverRef.style.width = px(right - left);
-  coverRef.style.height = px(bottom - top);
-
-  anime({
-    targets: coverRef,
-    easing: "easeInOutExpo",
-    width: "100%",
-    height: "100%",
-    duration: 500,
-    top: 0,
-    left: 0,
-    begin: callback
-  });
-});
-
 function formatDate(date: number): string {
   const d = date.toString();
   return `${d.slice(0, 4)}/${d.slice(4, 6)}/${d.slice(6, 8)}`;
@@ -99,5 +76,29 @@ function ISingle() {
 }
 
 const Single = observer(ISingle);
+
+events.on(EventTypes.ShowSingleBackground, (src, cover, callback) => {
+  const { top, right, bottom, left } = cover.getBoundingClientRect();
+  coverPos = { top, right, bottom, left } as ElementPosition;
+
+  coverRef.style.backgroundImage = `url(${src})`;
+  coverRef.style.opacity = "1";
+  coverRef.style.top = px(top);
+  coverRef.style.left = px(left);
+  coverRef.style.width = px(right - left);
+  coverRef.style.height = px(bottom - top);
+
+  anime({
+    targets: coverRef,
+    easing: "easeInOutExpo",
+    width: "100%",
+    height: "100%",
+    duration: 500,
+    top: 0,
+    left: 0,
+    begin: callback
+  });
+});
+
 
 export { Single };

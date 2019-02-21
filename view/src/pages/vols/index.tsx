@@ -1,10 +1,17 @@
 import * as React from "react";
-import { observer } from "mobx-react";
-import { playerStore, volStore } from "../../store";
-import { VolItem } from "../../components/vol-item";
-import { Pagination } from "../../components/pagination";
-import { ViewTypes, VolInfo } from "../../types";
+import {observer} from "mobx-react";
+import {playerStore, volStore} from "../../store";
+import {VolItem} from "../../components/vol-item";
+import {Pagination} from "../../components/pagination";
+import {ViewTypes, VolInfo} from "../../types";
 import "./index.scss";
+import {events, EventTypes} from "../../utils";
+
+let volsRef: HTMLDivElement;
+
+function getVolsRef(i: HTMLDivElement | null) {
+  volsRef = i as HTMLDivElement;
+}
 
 function renderVols(vols: VolInfo[]) {
   return vols.map((vol: VolInfo, index: number) => (
@@ -26,6 +33,7 @@ function IVols() {
       id="vols"
       className={`page show view-${ViewTypes.VOLS}`}
       style={{ zIndex: 1 }}
+      ref={getVolsRef}
     >
       {renderVols(displayVols)}
       <Pagination
@@ -42,5 +50,9 @@ function IVols() {
 }
 
 const Vols = observer(IVols);
+
+events.on(EventTypes.ScrollBackVols, () => {
+  volsRef.scrollTo(0, 0);
+});
 
 export { Vols };

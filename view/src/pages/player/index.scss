@@ -100,7 +100,12 @@
       background-size: cover;
       background-position: center;
       margin-bottom: 5vh;
+      box-shadow: none;
       @include transition;
+      &.active {
+        transform: scale(1.05);
+        box-shadow: 0 10px 50px 0 rgba(0, 0, 0, 0.5);
+      }
     }
 
     #player-control {

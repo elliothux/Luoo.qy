@@ -5,45 +5,52 @@ import { Pagination } from "../../components/pagination";
 import { Single, ViewTypes } from "../../types";
 import "./index.scss";
 import { SingleItem } from "../../components/single-item";
+import {events, EventTypes} from "../../utils";
 
-@observer
-class Singles extends React.Component {
-  static renderEmpty = () => {
-    return <h1>EMPTY</h1>;
-  };
+let singlesRef: HTMLDivElement;
 
-  static renderSingles = (singles: Single[]) => {
-    return singles.map((single: Single, index: number) => (
-      <SingleItem
-        key={single.date}
-        singleInfo={single}
-        index={index}
-        isPlaying={playerStore.isSinglePlaying(single.id)}
-        isLiked={false}
-      />
-    ));
-  };
-
-  render() {
-    const { displaySingles } = singleStore;
-    if (!displaySingles.length) {
-      return Singles.renderEmpty();
-    }
-    return (
-      <div id="singles" className={`page view-${ViewTypes.SINGLES}`}>
-        {Singles.renderSingles(displaySingles)}
-        <Pagination
-          pages={singleStore.displaySinglePaginations}
-          currentPage={singleStore.singleCurrentPage}
-          togglePage={singleStore.toggleSingleIndex}
-          paginationCurrentIndex={singleStore.singlePaginationCurrentIndex}
-          paginationTotalIndex={singleStore.singlePaginationTotalIndex}
-          onNext={singleStore.nextSinglePagination}
-          onPre={singleStore.preSinglePagination}
-        />
-      </div>
-    );
-  }
+function getSinglesRef(i: HTMLDivElement | null) {
+  singlesRef = i as HTMLDivElement;
 }
+
+function renderSingles(singles: Single[]) {
+  return singles.map((single: Single, index: number) => (
+    <SingleItem
+      key={single.date}
+      singleInfo={single}
+      index={index}
+      isPlaying={playerStore.isSinglePlaying(single.id)}
+      isLiked={false}
+    />
+  ));
+}
+
+function ISingles() {
+  const { displaySingles } = singleStore;
+  return (
+    <div
+      id="singles"
+      className={`page view-${ViewTypes.SINGLES}`}
+      ref={getSinglesRef}
+    >
+      {renderSingles(displaySingles)}
+      <Pagination
+        pages={singleStore.displaySinglePaginations}
+        currentPage={singleStore.singleCurrentPage}
+        togglePage={singleStore.toggleSingleIndex}
+        paginationCurrentIndex={singleStore.singlePaginationCurrentIndex}
+        paginationTotalIndex={singleStore.singlePaginationTotalIndex}
+        onNext={singleStore.nextSinglePagination}
+        onPre={singleStore.preSinglePagination}
+      />
+    </div>
+  );
+}
+
+const Singles = observer(ISingles);
+
+events.on(EventTypes.ScrollBackSingles, () => {
+  singlesRef.scrollTo(0, 0);
+});
 
 export { Singles };

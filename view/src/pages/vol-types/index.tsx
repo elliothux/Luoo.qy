@@ -11,10 +11,6 @@ function getVolTypesRef(i: HTMLDivElement | null) {
   volTypesRef = i as HTMLDivElement;
 }
 
-events.on(EventTypes.ScrollBackVolTypes, () => {
-  volTypesRef.scrollTo(0, 0);
-});
-
 function renderVolTypeItem(i: VolTypeItem) {
   const { type, name, img, value } = i;
   const onClick = () => volStore.changeVolType(value);
@@ -43,5 +39,9 @@ function VolTypes() {
     </div>
   );
 }
+
+events.on(EventTypes.ScrollBackVolTypes, () => {
+    volTypesRef.scrollTo(0, 0);
+});
 
 export { VolTypes };
