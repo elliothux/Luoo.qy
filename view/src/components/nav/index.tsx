@@ -4,6 +4,7 @@ import classnames from "classnames";
 import { store, volStore } from "../../store";
 import { ViewTypes, VolTypes } from "../../types";
 import { Icon, IconTypes } from "../icon";
+import { events, EventTypes } from "../../utils";
 import LOGO from "../../static/logo.png";
 import "./index.scss";
 
@@ -37,7 +38,10 @@ function INav() {
         </div>
         <div
           className={hideClassName(store.view !== ViewTypes.VOLS)}
-          onClick={() => store.changeView(ViewTypes.VOLS_TYPE)}
+          onClick={() => {
+            events.emit(EventTypes.ScrollBackVolTypes);
+            store.changeView(ViewTypes.VOLS_TYPE);
+          }}
         >
           <Icon type={IconTypes.CATEGORY} />
           <p>
@@ -51,7 +55,7 @@ function INav() {
           <p>搜索</p>
         </div>
       </div>
-      <img id="nav-logo" src={LOGO} />
+      <img id="nav-logo" src={LOGO} alt="logo" />
       <div id="nav-buttons">
         <div onClick={() => store.changeView(ViewTypes.VOLS)}>
           <Icon type={IconTypes.VOL} />
