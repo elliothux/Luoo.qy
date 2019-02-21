@@ -53,14 +53,7 @@ class EventProxy {
 enum EventTypes {
   ShowVolBackground,
   ShowSingleBackground,
-  ShowArticleBackground,
-  ScrollBackVols,
-  ScrollBackVolCates,
-  ScrollBackVol,
-  ScrollBackSingles,
-  ScrollBackSingle,
-  ScrollBackArticles,
-  ScrollBackArticle
+  ShowArticleBackground
 }
 
 const events = new EventProxy();
