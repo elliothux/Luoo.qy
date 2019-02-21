@@ -7,11 +7,11 @@ import { ViewTypes, ElementPosition } from "../../types";
 import { events, EventTypes, px } from "../../utils";
 import "./index.scss";
 
-let coverRef: HTMLImageElement;
+let coverRef: HTMLDivElement;
 let coverPos: ElementPosition;
 
 function getCoverRef(i: HTMLImageElement | null) {
-  coverRef = i as HTMLImageElement;
+  coverRef = i as HTMLDivElement;
 }
 
 events.on(EventTypes.ShowSingleBackground, (src, cover, callback) => {

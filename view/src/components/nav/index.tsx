@@ -6,7 +6,6 @@ import { ViewTypes, VolTypes } from "../../types";
 import { Icon, IconTypes } from "../icon";
 import LOGO from "../../static/logo.png";
 import "./index.scss";
-import { events, EventTypes } from "../../utils";
 
 function hideClassName(willHide: boolean) {
   return classnames({ "nav-item-hide": willHide });
@@ -38,10 +37,7 @@ function INav() {
         </div>
         <div
           className={hideClassName(store.view !== ViewTypes.VOLS)}
-          onClick={() => {
-            events.emit(EventTypes.ScrollBackVolTypes);
-            store.changeView(ViewTypes.VOLS_TYPE);
-          }}
+          onClick={() => store.changeView(ViewTypes.VOLS_TYPE)}
         >
           <Icon type={IconTypes.CATEGORY} />
           <p>

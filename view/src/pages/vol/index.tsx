@@ -10,11 +10,11 @@ import "./index.scss";
 
 let infoRef: HTMLDivElement;
 let tracksRef: HTMLDivElement;
-let coverRef: HTMLImageElement;
+let coverRef: HTMLDivElement;
 let coverPos: ElementPosition;
 
 function getCoverRef(i: HTMLImageElement | null) {
-  coverRef = i as HTMLImageElement;
+  coverRef = i as HTMLDivElement;
 }
 
 function getInfoRef(i: HTMLDivElement | null) {

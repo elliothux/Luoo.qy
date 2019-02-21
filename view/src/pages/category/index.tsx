@@ -1,14 +1,7 @@
 import * as React from "react";
 import { ViewTypes, VolTypeItem, VolTypesList } from "../../types";
-import { volStore } from "../../store";
 import "./index.scss";
-import { events, EventTypes } from "../../utils";
-
-let volTypesRef: HTMLDivElement;
-
-function getVolTypesRef(i: HTMLDivElement | null) {
-  volTypesRef = i as HTMLDivElement;
-}
+import { volStore } from "../../store";
 
 function renderCategoryItem(i: VolTypeItem) {
   const { type, name, img, value } = i;
@@ -27,20 +20,12 @@ function renderCategoryItem(i: VolTypeItem) {
   );
 }
 
-events.on(EventTypes.ScrollBackVolTypes, () => {
-  volTypesRef.scrollTo(0, 0);
-});
-
-function VolTypes() {
+function Category() {
   return (
-    <div
-      id="vol-types"
-      className={`page view-${ViewTypes.VOLS_TYPE}`}
-      ref={getVolTypesRef}
-    >
+    <div id="vol-types" className={`page view-${ViewTypes.VOLS_TYPE}`}>
       {VolTypesList.map(renderCategoryItem)}
     </div>
   );
 }
 
-export { VolTypes };
+export { Category };

@@ -2,7 +2,7 @@ import * as React from "react";
 import { Nav } from "./components/nav";
 import { Background } from "./components/background";
 import { MiniPlayer } from "./components/mini-player";
-import { VolTypes } from "./pages/vol-types";
+import { Category } from "./pages/category";
 import { Vols } from "./pages/vols";
 import { Vol } from "./pages/vol";
 import { Singles } from "./pages/singles";
@@ -17,7 +17,7 @@ function App() {
       <Background key={0} />
       <Nav key={1} />
       <MiniPlayer />
-      <VolTypes />
+      <Category />
       <Vols />
       <Vol />
       <Singles />
