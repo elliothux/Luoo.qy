@@ -54,12 +54,8 @@ enum EventTypes {
   ShowVolBackground,
   ShowSingleBackground,
   ShowArticleBackground,
-  ScrollBackVols,
-  ScrollBackVolCates,
+  ScrollBackVolTypes,
   ScrollBackVol,
-  ScrollBackSingles,
-  ScrollBackSingle,
-  ScrollBackArticles,
   ScrollBackArticle
 }
 
