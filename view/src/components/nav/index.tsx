@@ -21,8 +21,10 @@ function goVols() {
   if (store.view === ViewTypes.PLAYING) {
     store.backView();
   }
-  events.emit(EventTypes.ScrollBackVols);
-  store.changeView(ViewTypes.VOLS);
+  setTimeout(() => {
+    events.emit(EventTypes.ScrollBackVols);
+    store.changeView(ViewTypes.VOLS);
+  }, 400);
 }
 
 function goSingles() {
