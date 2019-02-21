@@ -26,7 +26,10 @@ class ArticleItem extends React.Component<Props> {
       EventTypes.ShowArticleBackground,
       this.props.articleInfo.cover,
       this.coverRef,
-      () => articleStore.selectArticle(this.props.index)
+      () => {
+        events.emit(EventTypes.ScrollBackArticle);
+        articleStore.selectArticle(this.props.index);
+      }
     );
   };
 

@@ -1,9 +1,9 @@
 import * as React from "react";
 import { ViewTypes, VolTypeItem, VolTypesList } from "../../types";
-import "./index.scss";
 import { volStore } from "../../store";
+import "./index.scss";
 
-function renderCategoryItem(i: VolTypeItem) {
+function renderVolTypeItem(i: VolTypeItem) {
   const { type, name, img, value } = i;
   const onClick = () => volStore.changeVolType(value);
   return (
@@ -20,12 +20,12 @@ function renderCategoryItem(i: VolTypeItem) {
   );
 }
 
-function Category() {
+function VolTypes() {
   return (
     <div id="vol-types" className={`page view-${ViewTypes.VOLS_TYPE}`}>
-      {VolTypesList.map(renderCategoryItem)}
+      {VolTypesList.map(renderVolTypeItem)}
     </div>
   );
 }
 
-export { Category };
+export { VolTypes };

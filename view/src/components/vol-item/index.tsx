@@ -1,9 +1,9 @@
 import * as React from "react";
-import {VolInfo} from "../../types";
+import { VolInfo } from "../../types";
 import "./index.scss";
-import {Icon, IconTypes} from "../icon";
-import {playerStore, volStore} from "../../store";
-import {events, EventTypes} from "../../utils";
+import { Icon, IconTypes } from "../icon";
+import { playerStore, volStore } from "../../store";
+import { events, EventTypes } from "../../utils";
 
 export interface Props {
   volInfo: VolInfo;

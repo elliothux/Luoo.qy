@@ -8,11 +8,21 @@ import { ElementPosition, ViewTypes } from "../../types";
 import { events, EventTypes, px } from "../../utils";
 import "./index.scss";
 
+let infoRef: HTMLDivElement;
+let tracksRef: HTMLDivElement;
 let coverRef: HTMLDivElement;
 let coverPos: ElementPosition;
 
 function getCoverRef(i: HTMLImageElement | null) {
   coverRef = i as HTMLDivElement;
+}
+
+function getInfoRef(i: HTMLDivElement | null) {
+  infoRef = i as HTMLDivElement;
+}
+
+function getTracksRef(i: HTMLDivElement | null) {
+  tracksRef = i as HTMLDivElement;
 }
 
 events.on(EventTypes.ShowArticleBackground, (src, cover, callback) => {
@@ -38,6 +48,11 @@ events.on(EventTypes.ShowArticleBackground, (src, cover, callback) => {
   });
 });
 
+events.on(EventTypes.ScrollBackArticle, () => {
+  infoRef.scrollTo(0, 0);
+  tracksRef.scrollTo(0, 0);
+});
+
 function IArticle() {
   const { selectedArticle: article } = articleStore;
   if (!article) return null;
@@ -50,8 +65,10 @@ function IArticle() {
           backgroundImage: `url(${article.cover})`
         }}
       />
+
       <div id="article-bg-mask" />
-      <div id="article-info">
+
+      <div id="article-info" ref={getInfoRef}>
         <p id="article-info-title">
           {article.title}
           <Icon type={IconTypes.LIKE} />
@@ -77,7 +94,8 @@ function IArticle() {
           <span id="article-info-date">{article.date}</span>
         </div>
       </div>
-      <div id="article-tracks">
+
+      <div id="article-tracks" ref={getTracksRef}>
         {article.tracks.map((t, index) => (
           <ArticleTrackItem
             key={t.id}
