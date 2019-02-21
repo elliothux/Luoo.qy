@@ -25,7 +25,7 @@ function preventSyntheticEvent<T>(e: React.FormEvent<T>) {
 
 function formatPlayingTime(time: number): string {
   let minutes: number | string = Math.floor(time / 60);
-  let seconds: number | string = Math.floor(time - minutes * 60);
+  let seconds: number | string = time - minutes * 60;
 
   if (minutes < 10) {
     minutes = "0" + minutes;
