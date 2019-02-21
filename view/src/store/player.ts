@@ -11,7 +11,8 @@ import {
   VolInfo,
   VolTrack
 } from "../types";
-import { formatPlayingTime } from "../utils";
+import { formatPlayingTime, LyricParser } from "../utils";
+import { LrcLine } from "../utils/lyric-parser";
 import { singleStore } from "./single";
 import { articleStore } from "./article";
 
@@ -176,6 +177,7 @@ class PlayerStore {
   @action
   private setPlayedTime = (time: number) => {
     this.playedTime = time;
+    this.changeCurrentLyricIndex();
   };
 
   @action
@@ -197,6 +199,7 @@ class PlayerStore {
   public get playingProgress(): number {
     return Math.ceil((this.playedTime / this.totalTime) * 100);
   }
+
   /*
     * @desc Control
      */
@@ -212,14 +215,23 @@ class PlayerStore {
 
   @action
   private updatePlayingAudio = () => {
-    return this.changeAudio(this.playingInfo.url);
+    const { url, lyric } = this.playingInfo;
+    this.currentLyricIndex = 0;
+    if (lyric) {
+      const lrc = new LyricParser(lyric);
+      this.lyrics = lrc.getLyrics();
+    } else {
+      this.lyrics = null;
+    }
+    return this.changeAudio(url);
   };
 
   @action
   public changePlayingRatio = (ratio: number) => {
     const time = (audio.duration * ratio) / 100;
-    this.setPlayedTime(time);
     audio.currentTime = time;
+    this.setPlayedTime(time);
+    this.currentLyricIndex = 0;
   };
 
   @action
@@ -400,6 +412,51 @@ class PlayerStore {
       this.playingArticleTrackIndex = tracks.length - 1;
     } else {
       this.playingArticleTrackIndex -= 1;
+    }
+  };
+
+  /*
+  * @desc Lyric
+   */
+  @observable
+  private lyrics: LrcLine[] | null = null;
+
+  @observable
+  private currentLyricIndex: number = 0;
+
+  @computed
+  public get playingLyrics(): string[] | null {
+    const {lyrics, currentLyricIndex: i } = this;
+    if (!lyrics) {
+      return null;
+    }
+    const empty = { text: ' ' };
+    return [
+      lyrics[i - 4] || empty,
+      lyrics[i - 3] || empty,
+      lyrics[i - 2] || empty,
+      lyrics[i - 1] || empty,
+      lyrics[i],
+      lyrics[i + 1] || empty,
+      lyrics[i + 2] || empty,
+      lyrics[i + 3] || empty,
+      lyrics[i + 4] || empty,
+    ].map(i => i.text);
+  }
+
+  @action
+  private changeCurrentLyricIndex = () => {
+    if (!this.lyrics) {
+      return null;
+    }
+
+    const { playedTime, lyrics, currentLyricIndex } = this;
+    if (currentLyricIndex + 1 === this.lyrics.length) {
+      return;
+    }
+
+    if (playedTime > lyrics[currentLyricIndex + 1].timestamp) {
+      this.currentLyricIndex++;
     }
   };
 }

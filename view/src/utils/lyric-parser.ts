@@ -1,4 +1,4 @@
-interface LrcLine {
+export interface LrcLine {
   timestamp: number;
   text: string;
 }
@@ -23,7 +23,7 @@ function isEmpty(obj: object) {
   return true;
 }
 
-class Lyrics {
+class LyricParser {
   private timestampOffset: number = 0;
 
   private lyricsAll: LrcLine[] = [];
@@ -81,7 +81,7 @@ class Lyrics {
         continue;
       }
 
-      //Parse lyric
+      //Parse lyrics
       const timestamp_all = Array();
       while (true) {
         const match = /^(\[\d+:\d+(.\d+)?\])(.*)/g.exec(line);
@@ -96,7 +96,7 @@ class Lyrics {
         const ts_match = /^\[(\d{1,2}):(\d|[0-5]\d)(\.(\d+))?\]$/g.exec(
           timestamp_all[j]
         );
-        if (ts_match) {
+        if (ts_match && line.trim()) {
           this.lyricsAll.push({
             timestamp:
               Number(ts_match[1]) * 60 +
@@ -158,4 +158,4 @@ class Lyrics {
   };
 }
 
-export { Lyrics };
+export { LyricParser };

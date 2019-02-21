@@ -141,6 +141,7 @@
   #player-right-block {
     width: 60%;
     text-align: center;
+    position: relative;
 
     #player-info {
       margin-bottom: 50px;
@@ -153,7 +154,27 @@
     }
 
     #player-lyric {
-      min-height: 100px;
+      height: 100px;
+      opacity: 0.6;
+      overflow: hidden;
+      width: 100%;
+
+      &.with-lyric {
+        height: 240px;
+        opacity: 1;
+      }
+
+      & > p {
+        font-size: 0.88em;
+        margin: 6px 0;
+        opacity: 0.88;
+
+        &:nth-child(5) {
+          opacity: 1;
+          font-size: 1em;
+          font-weight: bold;
+        }
+      }
     }
   }
 }

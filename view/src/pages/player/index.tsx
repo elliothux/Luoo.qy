@@ -1,8 +1,8 @@
 import * as React from "react";
 import { observer } from "mobx-react";
+import classnames from "classnames";
 import { playerStore, store } from "../../store";
 import { PlayingStatus, ViewTypes } from "../../types";
-import classnames from "classnames";
 import { Icon, IconTypes } from "../../components/icon";
 import "./index.scss";
 
@@ -11,7 +11,8 @@ function IPlayer() {
     formatedTotalTime,
     formatedPlayedTime,
     playingProgress,
-    playingInfo: { cover, name, artist, album, lyric }
+    playingInfo: { cover, name, artist, album },
+    playingLyrics
   } = playerStore;
 
   return (
@@ -60,7 +61,21 @@ function IPlayer() {
           <p id="player-info-album">{album}</p>
           <p id="player-info-artist">{artist}</p>
         </div>
-        <div id="player-lyric">{lyric}</div>
+        {playingLyrics ? (
+          <div id="player-lyric" className="with-lyric">
+            <p>{playingLyrics[0]}</p>
+            <p>{playingLyrics[1]}</p>
+            <p>{playingLyrics[2]}</p>
+            <p>{playingLyrics[3]}</p>
+            <p>{playingLyrics[4]}</p>
+            <p>{playingLyrics[5]}</p>
+            <p>{playingLyrics[6]}</p>
+            <p>{playingLyrics[7]}</p>
+            <p>{playingLyrics[8]}</p>
+          </div>
+        ) : (
+          "暂无歌词"
+        )}
       </div>
 
       <div id="player-bg">
