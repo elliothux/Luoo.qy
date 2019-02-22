@@ -17,6 +17,11 @@ function goVolTypes() {
   store.changeView(ViewTypes.VOLS_TYPE);
 }
 
+function backTimeout(callback: () => void) {
+  store.backView();
+  return setTimeout(callback, 500);
+}
+
 function goVols() {
   events.emit(EventTypes.ScrollBackVols);
   store.changeView(ViewTypes.VOLS);

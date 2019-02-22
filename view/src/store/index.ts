@@ -42,6 +42,7 @@ class Store {
       return;
     }
 
+    debugger;
     const prevViewElement = document.querySelector(
         `.view-${prevView}`
     ) as HTMLElement | null;
@@ -55,9 +56,9 @@ class Store {
         (prevView === ViewTypes.SINGLES && viewType === ViewTypes.SINGLE_INFO) ||
         (prevView === ViewTypes.ARTICLES && viewType === ViewTypes.ARTICLE_INFO);
     const isExitInfoPage =
-        (prevView === ViewTypes.VOL_INFO && viewType === ViewTypes.VOLS) ||
-        (prevView === ViewTypes.SINGLE_INFO && viewType === ViewTypes.SINGLES) ||
-        (prevView === ViewTypes.ARTICLE_INFO && viewType === ViewTypes.ARTICLES);
+        prevView === ViewTypes.VOL_INFO ||
+        prevView === ViewTypes.SINGLE_INFO ||
+        prevView === ViewTypes.ARTICLE_INFO;
 
     if (isEnterInfoPage) {
       viewElement.className += " show-with-cover";
