@@ -27,19 +27,24 @@ class Store {
 
   @action
   public changeView = (viewType: ViewTypes, isBack: boolean = false) => {
+    if (this.showPlayer) {
+      this.toggleShowPlayer(false);
+      setTimeout(() => {
+        this.changeView(viewType, isBack);
+      }, 500);
+      return;
+    }
+
     if (viewType === this.view) {
       return;
     }
 
     const prevView = this.view;
+
     this.view = viewType;
 
     if (!isBack) {
       this.viewHistory.push(prevView);
-    }
-
-    if (viewType === ViewTypes.PLAYING || prevView === ViewTypes.PLAYING) {
-      return;
     }
 
     const prevViewElement = document.querySelector(
@@ -93,6 +98,18 @@ class Store {
     }
     this.changeView(prevView, true);
   };
+
+  @observable
+  public showPlayer: boolean = false;
+
+  @action
+  public toggleShowPlayer = (show?: any) => {
+    if (typeof show === 'boolean') {
+      this.showPlayer = show;
+    } else {
+      this.showPlayer = !this.showPlayer;
+    }
+  }
 }
 
 const store = new Store();

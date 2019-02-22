@@ -18,27 +18,16 @@ function goVolTypes() {
 }
 
 function goVols() {
-  if (store.view === ViewTypes.PLAYING) {
-    store.backView();
-  }
-  setTimeout(() => {
-    events.emit(EventTypes.ScrollBackVols);
-    store.changeView(ViewTypes.VOLS);
-  }, 400);
+  events.emit(EventTypes.ScrollBackVols);
+  store.changeView(ViewTypes.VOLS);
 }
 
 function goSingles() {
-  if (store.view === ViewTypes.PLAYING) {
-    store.backView();
-  }
   events.emit(EventTypes.ScrollBackSingles);
   store.changeView(ViewTypes.SINGLES);
 }
 
 function goArticles() {
-  if (store.view === ViewTypes.PLAYING) {
-    store.backView();
-  }
   events.emit(EventTypes.ScrollBackArticles);
   store.changeView(ViewTypes.ARTICLES);
 }
@@ -56,19 +45,29 @@ function INav() {
           className={hideClassName(
             [ViewTypes.VOLS, ViewTypes.SINGLES, ViewTypes.ARTICLES].includes(
               store.view
-            )
+            ) || store.showPlayer
           )}
           onClick={store.backView}
         >
           <Icon type={IconTypes.BACK} />
           <p>返回</p>
         </div>
-        <div className={hideClassName(store.view !== ViewTypes.PLAYING)}>
+
+        <div
+            className={hideClassName(!store.showPlayer)}
+            onClick={store.toggleShowPlayer}
+        >
+          <Icon type={IconTypes.BACK} />
+          <p>返回</p>
+        </div>
+
+        <div className={hideClassName(!store.showPlayer)}>
           <Icon type={IconTypes.SOURCE} />
           <p>来源</p>
         </div>
+
         <div
-          className={hideClassName(store.view !== ViewTypes.VOLS)}
+          className={hideClassName(store.view !== ViewTypes.VOLS || store.showPlayer)}
           onClick={goVolTypes}
         >
           <Icon type={IconTypes.CATEGORY} />
@@ -78,25 +77,31 @@ function INav() {
               : volStore.volTypeItem.name}
           </p>
         </div>
+
         <div>
           <Icon type={IconTypes.SEARCH} />
           <p>搜索</p>
         </div>
       </div>
+
       <img id="nav-logo" src={LOGO} alt="logo" />
+
       <div id="nav-buttons">
         <div onClick={goVols}>
           <Icon type={IconTypes.VOL} />
           <p>期刊</p>
         </div>
+
         <div onClick={goSingles}>
           <Icon type={IconTypes.SINGLE} />
           <p>单曲</p>
         </div>
+
         <div onClick={goArticles}>
           <Icon type={IconTypes.ARTICLE} />
           <p>专栏</p>
         </div>
+
         <div>
           <Icon type={IconTypes.USER} />
           <p>我的</p>

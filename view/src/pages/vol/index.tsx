@@ -83,7 +83,7 @@ function IVol() {
             onPlay={() => playerStore.playVolTrack(vol.id, index)}
             onPause={playerStore.pause}
             onClick={() => {
-              store.changeView(ViewTypes.PLAYING);
+              store.toggleShowPlayer(true);
               return playerStore.playVolTrack(vol.id, index);
             }}
           />

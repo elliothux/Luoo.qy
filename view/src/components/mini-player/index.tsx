@@ -6,15 +6,14 @@ import { PlayingStatus, ViewTypes } from "../../types";
 import "./index.scss";
 
 function IMiniPlayer() {
-  const { view } = store;
+  const { view, showPlayer, toggleShowPlayer } = store;
   const { playingInfo: info, playingProgress } = playerStore;
 
   const show = [
     ViewTypes.VOL_INFO,
     ViewTypes.SINGLE_INFO,
     ViewTypes.ARTICLE_INFO,
-    ViewTypes.PLAYING
-  ].includes(view);
+  ].includes(view) || showPlayer;
 
   if (show) {
     return (
@@ -27,7 +26,7 @@ function IMiniPlayer() {
         <div
           id="mini-player-cover"
           style={{ backgroundImage: `url(${info.cover})` }}
-          onClick={() => store.changeView(ViewTypes.PLAYING)}
+          onClick={toggleShowPlayer}
         >
           <Icon type={IconTypes.EXPAND} />
         </div>
@@ -68,7 +67,7 @@ function IMiniPlayer() {
     <div id="mini-player-collapsed">
       <Icon
         type={IconTypes.WAVE}
-        onClick={() => store.changeView(ViewTypes.PLAYING)}
+        onClick={toggleShowPlayer}
       />
     </div>
   );

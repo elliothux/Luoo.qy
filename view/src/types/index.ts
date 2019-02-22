@@ -25,7 +25,6 @@ import Hardcore from "../static/types/Hardcore.png";
 import PostPunk from "../static/types/PostPunk.png";
 
 export enum ViewTypes {
-  PLAYING,
   VOLS,
   VOLS_TYPE,
   VOL_INFO,

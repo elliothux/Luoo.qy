@@ -740,14 +740,6 @@
   dependencies:
     electron "*"
 
-"@types/howler@^2.0.5":
-  version "2.0.5"
-  resolved "http://registry.npm.taobao.org/@types/howler/download/@types/howler-2.0.5.tgz#eb5eb99b943fe423abe3ca713163ed911e2a0d76"
-
-"@types/jest@23.3.13":
-  version "23.3.13"
-  resolved "http://registry.npm.taobao.org/@types/jest/download/@types/jest-23.3.13.tgz#c81484b6f4ca007bb09887ed15ecb3286d58f928"
-
 "@types/node@10.12.19":
   version "10.12.19"
   resolved "http://registry.npm.taobao.org/@types/node/download/@types/node-10.12.19.tgz#ca1018c26be01f07e66ac7fefbeb6407e4490c61"
@@ -2895,7 +2887,7 @@ escodegen@^1.11.0, escodegen@^1.9.1:
   optionalDependencies:
     source-map "~0.6.1"
 
-eslint-config-react-app@^3.0.6:
+eslint-config-react-app@^3.0.6, eslint-config-react-app@^3.0.7:
   version "3.0.7"
   resolved "http://registry.npm.taobao.org/eslint-config-react-app/download/eslint-config-react-app-3.0.7.tgz#d58c9216ff285e2b4de0eb8403c28b0600e45b3e"
   dependencies:

@@ -77,7 +77,7 @@ function IArticle() {
             onPause={playerStore.pause}
             onPlay={() => playerStore.playArticleTrack(article.id, index)}
             onClick={() => {
-              store.changeView(ViewTypes.PLAYING);
+              store.toggleShowPlayer(true);
               return playerStore.playArticleTrack(article.id, index);
             }}
           />

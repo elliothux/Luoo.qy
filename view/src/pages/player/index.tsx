@@ -1,9 +1,9 @@
 import * as React from "react";
-import {observer} from "mobx-react";
+import { observer } from "mobx-react";
 import classnames from "classnames";
-import {playerStore, store} from "../../store";
-import {PlayingStatus, ViewTypes} from "../../types";
-import {Icon, IconTypes} from "../../components/icon";
+import { playerStore, store } from "../../store";
+import { PlayingStatus, ViewTypes } from "../../types";
+import { Icon, IconTypes } from "../../components/icon";
 import "./index.scss";
 
 function IPlayer() {
@@ -11,7 +11,7 @@ function IPlayer() {
     formatedTotalTime,
     formatedPlayedTime,
     playingProgress,
-      playingStatus,
+    playingStatus,
     playingInfo: { cover, name, artist, album },
     playingLyrics
   } = playerStore;
@@ -21,18 +21,15 @@ function IPlayer() {
   return (
     <div
       id="player"
-      className={
-        `view-${ViewTypes.PLAYING} ` +
-        classnames({
-          show: store.view === ViewTypes.PLAYING
-        })
-      }
+      className={classnames({
+        show: store.showPlayer
+      })}
     >
       <div id="player-left-block">
         <div
-            id="player-cover"
-            style={{ backgroundImage: `url(${cover})` }}
-            className={classnames({ active: isPlaying })}
+          id="player-cover"
+          style={{ backgroundImage: `url(${cover})` }}
+          className={classnames({ active: isPlaying })}
         />
         <div>
           <div id="player-control">

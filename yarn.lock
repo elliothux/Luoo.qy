@@ -1470,6 +1470,10 @@ concat-stream@1.6.2, concat-stream@^1.4.7:
     readable-stream "^2.2.2"
     typedarray "^0.0.6"
 
+confusing-browser-globals@^1.0.5:
+  version "1.0.5"
+  resolved "http://registry.npm.taobao.org/confusing-browser-globals/download/confusing-browser-globals-1.0.5.tgz#0171050cfdd4261e278978078bc00c4d88e135f4"
+
 console-control-strings@^1.0.0, console-control-strings@~1.1.0:
   version "1.1.0"
   resolved "http://registry.npm.taobao.org/console-control-strings/download/console-control-strings-1.1.0.tgz#3d7cf4464db6446ea644bf4b39507f9851008e8e"
@@ -2318,6 +2322,12 @@ eslint-config-airbnb@^15:
   resolved "http://registry.npm.taobao.org/eslint-config-airbnb/download/eslint-config-airbnb-15.1.0.tgz#fd432965a906e30139001ba830f58f73aeddae8e"
   dependencies:
     eslint-config-airbnb-base "^11.3.0"
+
+eslint-config-react-app@^3.0.7:
+  version "3.0.7"
+  resolved "http://registry.npm.taobao.org/eslint-config-react-app/download/eslint-config-react-app-3.0.7.tgz#d58c9216ff285e2b4de0eb8403c28b0600e45b3e"
+  dependencies:
+    confusing-browser-globals "^1.0.5"
 
 eslint-import-resolver-node@^0.3.2:
   version "0.3.2"
