@@ -147,6 +147,7 @@ class VolStore {
   public selectVol = (volIndex: number) => {
     this.selectedVolIndex = volIndex;
     store.changeView(ViewTypes.VOL_INFO);
+    store.changeBackground(ViewTypes.VOLS);
   };
 }
 

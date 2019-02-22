@@ -1,14 +1,18 @@
 import * as React from "react";
-import BG from "../../static/fake-bg.jpg";
+import { observer } from "mobx-react";
+import {store} from "../../store";
 import "./index.scss";
 
-function Background() {
+
+function IBackground() {
   return (
     <div id="bg">
       <div id="bg-mask" />
-      <div id="bg-img" style={{ backgroundImage: `url("${BG}")` }} />
+      <div id="bg-img" style={{ backgroundImage: `url("${store.backgroundImage}")` }} />
     </div>
   );
 }
+
+const Background = observer(IBackground);
 
 export { Background };

@@ -1,10 +1,10 @@
-import { action, observable } from "mobx";
-import { getIPC } from "../utils";
-import { ViewTypes } from "../types";
-import { volStore } from "./vol";
-import { singleStore } from "./single";
-import { articleStore } from "./article";
-import { playerStore } from "./player";
+import {action, observable} from "mobx";
+import {getIPC} from "../utils";
+import {ViewTypes} from "../types";
+import {volStore} from "./vol";
+import {singleStore} from "./single";
+import {articleStore} from "./article";
+import {playerStore} from "./player";
 
 let ipc: IpcObject;
 
@@ -94,6 +94,45 @@ class Store {
     }
     this.changeView(prevView, true);
   };
+
+  @observable
+  backgroundImage: string = volStore.allVols[0].cover;
+
+  protected setBackgroundTimer: number | null = null;
+
+  @action
+  changeBackground = (type: ViewTypes) => {
+    if (this.setBackgroundTimer) {
+      clearTimeout(this.setBackgroundTimer);
+    }
+
+    const callback = () => {
+      let backgroundImage;
+      switch (type) {
+        case ViewTypes.VOLS: {
+          backgroundImage = volStore.selectedVol.cover;
+          break;
+        }
+        case ViewTypes.SINGLES: {
+          backgroundImage = singleStore.selectedSingle.cover;
+          break;
+        }
+        case ViewTypes.ARTICLES: {
+          backgroundImage = articleStore.selectedArticle.cover;
+          break;
+        }
+        default: {
+          throw 'Invalid type';
+        }
+      }
+
+      window.clearTimeout(this.setBackgroundTimer as number);
+      this.setBackgroundTimer = null;
+      this.backgroundImage = backgroundImage;
+    };
+
+    this.setBackgroundTimer = window.setTimeout(callback, 1000);
+  }
 }
 
 const store = new Store();

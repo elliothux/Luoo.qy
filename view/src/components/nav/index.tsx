@@ -1,10 +1,10 @@
 import * as React from "react";
-import {observer} from "mobx-react";
+import { observer } from "mobx-react";
 import classnames from "classnames";
-import {store, volStore} from "../../store";
-import {ViewTypes, VolTypes} from "../../types";
-import {Icon, IconTypes} from "../icon";
-import {events, EventTypes} from "../../utils";
+import { store, volStore } from "../../store";
+import { ViewTypes, VolTypes } from "../../types";
+import { Icon, IconTypes } from "../icon";
+import { events, EventTypes } from "../../utils";
 import LOGO from "../../static/logo.png";
 import "./index.scss";
 
@@ -23,56 +23,56 @@ function backTimeout(callback: () => void) {
 }
 
 function goVols() {
+  if (store.view === ViewTypes.PLAYING) {
+    return backTimeout(goVols);
+  }
   events.emit(EventTypes.ScrollBackVols);
   store.changeView(ViewTypes.VOLS);
 }
 
 function goSingles() {
+  if (store.view === ViewTypes.PLAYING) {
+    return backTimeout(goSingles);
+  }
   events.emit(EventTypes.ScrollBackSingles);
   store.changeView(ViewTypes.SINGLES);
 }
 
 function goArticles() {
+  if (store.view === ViewTypes.PLAYING) {
+    return backTimeout(goArticles);
+  }
   events.emit(EventTypes.ScrollBackArticles);
   store.changeView(ViewTypes.ARTICLES);
 }
 
 function INav() {
+  const { view } = store;
   return (
     <div
       id="nav"
       style={{
-        opacity: store.view === ViewTypes.VOLS_TYPE ? 0 : 1
+        opacity: view === ViewTypes.VOLS_TYPE ? 0 : 1
       }}
     >
       <div id="nav-actions">
         <div
           className={hideClassName(
             [ViewTypes.VOLS, ViewTypes.SINGLES, ViewTypes.ARTICLES].includes(
-              store.view
-            ) || store.showPlayer
+              view
+            )
           )}
           onClick={store.backView}
         >
           <Icon type={IconTypes.BACK} />
           <p>返回</p>
         </div>
-
-        <div
-            className={hideClassName(!store.showPlayer)}
-            onClick={store.toggleShowPlayer}
-        >
-          <Icon type={IconTypes.BACK} />
-          <p>返回</p>
-        </div>
-
-        <div className={hideClassName(!store.showPlayer)}>
+        <div className={hideClassName(view !== ViewTypes.PLAYING)}>
           <Icon type={IconTypes.SOURCE} />
           <p>来源</p>
         </div>
-
         <div
-          className={hideClassName(store.view !== ViewTypes.VOLS || store.showPlayer)}
+          className={hideClassName(view !== ViewTypes.VOLS)}
           onClick={goVolTypes}
         >
           <Icon type={IconTypes.CATEGORY} />
@@ -82,31 +82,27 @@ function INav() {
               : volStore.volTypeItem.name}
           </p>
         </div>
-
         <div>
           <Icon type={IconTypes.SEARCH} />
           <p>搜索</p>
         </div>
       </div>
-
       <img id="nav-logo" src={LOGO} alt="logo" />
-
       <div id="nav-buttons">
         <div onClick={goVols}>
-          <Icon type={IconTypes.VOL} />
+          <Icon
+            type={view === ViewTypes.VOLS ? IconTypes.VOL_SOLID : IconTypes.VOL}
+          />
           <p>期刊</p>
         </div>
-
         <div onClick={goSingles}>
           <Icon type={IconTypes.SINGLE} />
           <p>单曲</p>
         </div>
-
         <div onClick={goArticles}>
           <Icon type={IconTypes.ARTICLE} />
           <p>专栏</p>
         </div>
-
         <div>
           <Icon type={IconTypes.USER} />
           <p>我的</p>

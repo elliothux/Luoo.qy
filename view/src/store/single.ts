@@ -110,6 +110,7 @@ class SingleStore {
   public selectSingle = (singleIndex: number) => {
     this.selectedSingleIndex = singleIndex;
     store.changeView(ViewTypes.SINGLE_INFO);
+    store.changeBackground(ViewTypes.SINGLES);
   };
 
   @observable

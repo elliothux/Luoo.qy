@@ -112,6 +112,7 @@ class ArticleStore {
   public selectArticle = (articleIndex: number) => {
     this.selectedArticleIndex = articleIndex;
     store.changeView(ViewTypes.ARTICLE_INFO);
+    store.changeBackground(ViewTypes.ARTICLES);
   };
 
   @observable
