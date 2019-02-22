@@ -27,60 +27,55 @@ class Store {
 
   @action
   public changeView = (viewType: ViewTypes, isBack: boolean = false) => {
-    if (this.showPlayer) {
-      this.toggleShowPlayer(false);
-      setTimeout(() => {
-        this.changeView(viewType, isBack);
-      }, 500);
-      return;
-    }
-
     if (viewType === this.view) {
       return;
     }
 
     const prevView = this.view;
-
     this.view = viewType;
 
     if (!isBack) {
       this.viewHistory.push(prevView);
     }
 
+    if (viewType === ViewTypes.PLAYING || prevView === ViewTypes.PLAYING) {
+      return;
+    }
+
     const prevViewElement = document.querySelector(
-      `.view-${prevView}`
+        `.view-${prevView}`
     ) as HTMLElement | null;
     const viewElement = document.querySelector(
-      `.view-${viewType}`
+        `.view-${viewType}`
     ) as HTMLElement | null;
     if (!prevViewElement || !viewElement) return;
 
     const isEnterInfoPage =
-      (prevView === ViewTypes.VOLS && viewType === ViewTypes.VOL_INFO) ||
-      (prevView === ViewTypes.SINGLES && viewType === ViewTypes.SINGLE_INFO) ||
-      (prevView === ViewTypes.ARTICLES && viewType === ViewTypes.ARTICLE_INFO);
+        (prevView === ViewTypes.VOLS && viewType === ViewTypes.VOL_INFO) ||
+        (prevView === ViewTypes.SINGLES && viewType === ViewTypes.SINGLE_INFO) ||
+        (prevView === ViewTypes.ARTICLES && viewType === ViewTypes.ARTICLE_INFO);
     const isExitInfoPage =
-      (prevView === ViewTypes.VOL_INFO && viewType === ViewTypes.VOLS) ||
-      (prevView === ViewTypes.SINGLE_INFO && viewType === ViewTypes.SINGLES) ||
-      (prevView === ViewTypes.ARTICLE_INFO && viewType === ViewTypes.ARTICLES);
+        (prevView === ViewTypes.VOL_INFO && viewType === ViewTypes.VOLS) ||
+        (prevView === ViewTypes.SINGLE_INFO && viewType === ViewTypes.SINGLES) ||
+        (prevView === ViewTypes.ARTICLE_INFO && viewType === ViewTypes.ARTICLES);
 
     if (isEnterInfoPage) {
       viewElement.className += " show-with-cover";
       prevViewElement.className = prevViewElement.className.replace(
-        " show",
-        ""
+          " show",
+          ""
       );
     } else if (isExitInfoPage) {
       viewElement.className += " show";
       prevViewElement.className = prevViewElement.className.replace(
-        " show-with-cover",
-        ""
+          " show-with-cover",
+          ""
       );
     } else {
       viewElement.className += " show";
       prevViewElement.className = prevViewElement.className.replace(
-        " show",
-        ""
+          " show",
+          ""
       );
     }
 
@@ -98,18 +93,6 @@ class Store {
     }
     this.changeView(prevView, true);
   };
-
-  @observable
-  public showPlayer: boolean = false;
-
-  @action
-  public toggleShowPlayer = (show?: any) => {
-    if (typeof show === 'boolean') {
-      this.showPlayer = show;
-    } else {
-      this.showPlayer = !this.showPlayer;
-    }
-  }
 }
 
 const store = new Store();

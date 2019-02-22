@@ -29,67 +29,67 @@ function IVol() {
   const { selectedVol: vol } = volStore;
   if (!vol) return null;
   return (
-    <div id="vol" className={`page view-${ViewTypes.VOL_INFO}`}>
-      <div
-        id="vol-bg"
-        ref={getCoverRef}
-        style={{
-          backgroundImage: `url(${vol.cover})`
-        }}
-      />
+      <div id="vol" className={`page view-${ViewTypes.VOL_INFO}`}>
+        <div
+            id="vol-bg"
+            ref={getCoverRef}
+            style={{
+              backgroundImage: `url(${vol.cover})`
+            }}
+        />
 
-      <div id="vol-bg-mask" />
+        <div id="vol-bg-mask" />
 
-      <div id="vol-info" ref={getInfoRef}>
-        <div id="vol-info-tags">
-          {vol.tags.map(t => (
-            <span key={t}>#{t}</span>
+        <div id="vol-info" ref={getInfoRef}>
+          <div id="vol-info-tags">
+            {vol.tags.map(t => (
+                <span key={t}>#{t}</span>
+            ))}
+          </div>
+          <p id="vol-info-index">
+            vol.
+            {vol.vol}
+            <Icon type={IconTypes.LIKE} />
+            {playerStore.isVolPlaying(vol.id) ? (
+                <Icon type={IconTypes.PAUSE} onClick={playerStore.pause} />
+            ) : (
+                <Icon
+                    type={IconTypes.PLAY}
+                    onClick={() => playerStore.playVolTrack(vol.id)}
+                />
+            )}
+          </p>
+          <p id="vol-info-title">{vol.title}</p>
+          <div
+              id="vol-info-desc"
+              dangerouslySetInnerHTML={{
+                __html: vol.desc
+              }}
+          />
+          <div id="vol-info-date">
+            <Icon type={IconTypes.LOGO} />
+            <span id="vol-info-author">{vol.author} · </span>
+            <span id="vol-info-date">{vol.date}</span>
+          </div>
+        </div>
+
+        <div id="vol-tracks" ref={getTracksRef}>
+          {vol.tracks.map((t, index) => (
+              <VolTrackItem
+                  key={t.id}
+                  trackInfo={t}
+                  isLiked={false}
+                  isPlaying={playerStore.isVolTrackPlaying(vol.id, index)}
+                  onPlay={() => playerStore.playVolTrack(vol.id, index)}
+                  onPause={playerStore.pause}
+                  onClick={() => {
+                    store.changeView(ViewTypes.PLAYING);
+                    return playerStore.playVolTrack(vol.id, index);
+                  }}
+              />
           ))}
         </div>
-        <p id="vol-info-index">
-          vol.
-          {vol.vol}
-          <Icon type={IconTypes.LIKE} />
-          {playerStore.isVolPlaying(vol.id) ? (
-            <Icon type={IconTypes.PAUSE} onClick={playerStore.pause} />
-          ) : (
-            <Icon
-              type={IconTypes.PLAY}
-              onClick={() => playerStore.playVolTrack(vol.id)}
-            />
-          )}
-        </p>
-        <p id="vol-info-title">{vol.title}</p>
-        <div
-          id="vol-info-desc"
-          dangerouslySetInnerHTML={{
-            __html: vol.desc
-          }}
-        />
-        <div id="vol-info-date">
-          <Icon type={IconTypes.LOGO} />
-          <span id="vol-info-author">{vol.author} · </span>
-          <span id="vol-info-date">{vol.date}</span>
-        </div>
       </div>
-
-      <div id="vol-tracks" ref={getTracksRef}>
-        {vol.tracks.map((t, index) => (
-          <VolTrackItem
-            key={t.id}
-            trackInfo={t}
-            isLiked={false}
-            isPlaying={playerStore.isVolTrackPlaying(vol.id, index)}
-            onPlay={() => playerStore.playVolTrack(vol.id, index)}
-            onPause={playerStore.pause}
-            onClick={() => {
-              store.toggleShowPlayer(true);
-              return playerStore.playVolTrack(vol.id, index);
-            }}
-          />
-        ))}
-      </div>
-    </div>
   );
 }
 

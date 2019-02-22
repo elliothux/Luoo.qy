@@ -29,61 +29,61 @@ function IArticle() {
   const { selectedArticle: article } = articleStore;
   if (!article) return null;
   return (
-    <div id="article" className={`page view-${ViewTypes.ARTICLE_INFO}`}>
-      <div
-        id="article-bg"
-        ref={getCoverRef}
-        style={{
-          backgroundImage: `url(${article.cover})`
-        }}
-      />
-
-      <div id="article-bg-mask" />
-
-      <div id="article-info" ref={getInfoRef}>
-        <p id="article-info-title">
-          {article.title}
-          <Icon type={IconTypes.LIKE} />
-          {playerStore.isArticlePlaying(article.id) ? (
-            <Icon type={IconTypes.PAUSE} onClick={playerStore.pause} />
-          ) : (
-            <Icon
-              type={IconTypes.PLAY}
-              onClick={() => playerStore.playArticleTrack(article.id)}
-            />
-          )}
-        </p>
-        <p id="article-info-meta">{article.metaInfo}</p>
+      <div id="article" className={`page view-${ViewTypes.ARTICLE_INFO}`}>
         <div
-          id="article-info-desc"
-          dangerouslySetInnerHTML={{
-            __html: article.desc
-          }}
+            id="article-bg"
+            ref={getCoverRef}
+            style={{
+              backgroundImage: `url(${article.cover})`
+            }}
         />
-        <div id="article-info-date">
-          <Icon type={IconTypes.LOGO} />
-          <span id="article-info-author">{article.author} · </span>
-          <span id="article-info-date">{article.date}</span>
+
+        <div id="article-bg-mask" />
+
+        <div id="article-info" ref={getInfoRef}>
+          <p id="article-info-title">
+            {article.title}
+            <Icon type={IconTypes.LIKE} />
+            {playerStore.isArticlePlaying(article.id) ? (
+                <Icon type={IconTypes.PAUSE} onClick={playerStore.pause} />
+            ) : (
+                <Icon
+                    type={IconTypes.PLAY}
+                    onClick={() => playerStore.playArticleTrack(article.id)}
+                />
+            )}
+          </p>
+          <p id="article-info-meta">{article.metaInfo}</p>
+          <div
+              id="article-info-desc"
+              dangerouslySetInnerHTML={{
+                __html: article.desc
+              }}
+          />
+          <div id="article-info-date">
+            <Icon type={IconTypes.LOGO} />
+            <span id="article-info-author">{article.author} · </span>
+            <span id="article-info-date">{article.date}</span>
+          </div>
+        </div>
+
+        <div id="article-tracks" ref={getTracksRef}>
+          {article.tracks.map((t, index) => (
+              <ArticleTrackItem
+                  key={t.id}
+                  trackInfo={t}
+                  isLiked={false}
+                  isPlaying={playerStore.isArticleTrackPlaying(article.id, index)}
+                  onPause={playerStore.pause}
+                  onPlay={() => playerStore.playArticleTrack(article.id, index)}
+                  onClick={() => {
+                    store.changeView(ViewTypes.PLAYING);
+                    return playerStore.playArticleTrack(article.id, index);
+                  }}
+              />
+          ))}
         </div>
       </div>
-
-      <div id="article-tracks" ref={getTracksRef}>
-        {article.tracks.map((t, index) => (
-          <ArticleTrackItem
-            key={t.id}
-            trackInfo={t}
-            isLiked={false}
-            isPlaying={playerStore.isArticleTrackPlaying(article.id, index)}
-            onPause={playerStore.pause}
-            onPlay={() => playerStore.playArticleTrack(article.id, index)}
-            onClick={() => {
-              store.toggleShowPlayer(true);
-              return playerStore.playArticleTrack(article.id, index);
-            }}
-          />
-        ))}
-      </div>
-    </div>
   );
 }
 
