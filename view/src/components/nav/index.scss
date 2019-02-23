@@ -13,7 +13,7 @@
     width: 66px;
     height: 60px;
     margin-top: 10px;
-    margin-left: calc(50% - 66px);
+    margin-left: calc(50% - 66px - 30px);
   }
 
   #nav-actions,
@@ -27,7 +27,7 @@
       text-align: center;
       @include cursor;
       & > .icon {
-        width: 44px;
+        width: 40px;
       }
       & > p {
         font-size: 14px;

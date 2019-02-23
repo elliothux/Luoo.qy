@@ -96,11 +96,23 @@ function INav() {
           <p>期刊</p>
         </div>
         <div onClick={goSingles}>
-          <Icon type={IconTypes.SINGLE} />
+          <Icon
+            type={
+              view === ViewTypes.SINGLES
+                ? IconTypes.SINGLE_SOLID
+                : IconTypes.SINGLE
+            }
+          />
           <p>单曲</p>
         </div>
         <div onClick={goArticles}>
-          <Icon type={IconTypes.ARTICLE} />
+          <Icon
+            type={
+              view === ViewTypes.ARTICLES
+                ? IconTypes.ARTICLE_SOLID
+                : IconTypes.ARTICLE
+            }
+          />
           <p>专栏</p>
         </div>
         <div>

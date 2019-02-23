@@ -5,7 +5,9 @@ import CATEGORY from "../../static/icon/cate.svg";
 import SEARCH from "../../static/icon/search.svg";
 import SOURCE from "../../static/icon/source.svg";
 import ARTICLE from "../../static/icon/article.svg";
+import ARTICLE_SOLID from "../../static/icon/article-solid.svg";
 import SINGLE from "../../static/icon/single.svg";
+import SINGLE_SOLID from "../../static/icon/single-solid.svg";
 import USER from "../../static/icon/user.svg";
 import VOL from "../../static/icon/vol.svg";
 import VOL_SOLID from "../../static/icon/vol-solid.svg";
@@ -38,7 +40,9 @@ enum IconTypes {
   SEARCH,
   SOURCE,
   ARTICLE,
+  ARTICLE_SOLID,
   SINGLE,
+  SINGLE_SOLID,
   USER,
   VOL,
   VOL_SOLID,
@@ -91,8 +95,14 @@ function Icon(props: Props) {
     case IconTypes.ARTICLE:
       src = ARTICLE;
       break;
+    case IconTypes.ARTICLE_SOLID:
+      src = ARTICLE_SOLID;
+      break;
     case IconTypes.SINGLE:
       src = SINGLE;
+      break;
+      case IconTypes.SINGLE_SOLID:
+      src = SINGLE_SOLID;
       break;
     case IconTypes.USER:
       src = USER;

@@ -63,7 +63,7 @@
 
   #article-info {
     width: 50%;
-    padding-left: 36px;
+    padding-left: 60px;
     height: calc(100% - 246px);
 
     #article-info-meta {
@@ -125,7 +125,7 @@
     max-height: calc(100% - 146px);
     right: 0;
     width: 35%;
-    padding: 36px;
+    padding: 36px 60px;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-column-gap: 3vw;

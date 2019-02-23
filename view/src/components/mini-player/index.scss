@@ -6,11 +6,11 @@ $mini-player-height: 80px;
 #mini-player {
   bottom: 20px;
   left: 0;
-  margin-left: 15px;
   z-index: 6;
 }
 
 #mini-player-collapsed {
+  margin-left: 15px;
   height: 20px;
   .icon {
     width: 30px;
@@ -20,6 +20,7 @@ $mini-player-height: 80px;
 }
 
 #mini-player {
+  margin-left: 30px;
   display: flex;
   justify-content: flex-start;
   height: $mini-player-height;

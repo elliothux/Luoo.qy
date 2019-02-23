@@ -7,7 +7,6 @@ import "./index.scss";
 function IBackground() {
   return (
     <div id="bg">
-      <div id="bg-mask" />
       <div id="bg-img" style={{ backgroundImage: `url("${store.backgroundImage}")` }} />
     </div>
   );
