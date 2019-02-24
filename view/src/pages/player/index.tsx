@@ -4,6 +4,7 @@ import classnames from "classnames";
 import {playerStore, store} from "../../store";
 import {PlayingStatus, ViewTypes} from "../../types";
 import {Icon, IconTypes} from "../../components/icon";
+import {SoundWave} from "../../components/sound-wave";
 import "./index.scss";
 
 function IPlayer() {
@@ -86,7 +87,9 @@ function IPlayer() {
         </div>
 
         <div id="player-bg">
+          <SoundWave isActive={isPlaying} />
           <div
+              id="player-bg-image"
               style={{
                 backgroundImage: `url(${cover})`
               }}

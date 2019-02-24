@@ -42,7 +42,6 @@ class Store {
       return;
     }
 
-    debugger;
     const prevViewElement = document.querySelector(
         `.view-${prevView}`
     ) as HTMLElement | null;
