@@ -1,9 +1,9 @@
 import * as React from "react";
 import { VolInfo } from "../../types";
-import "./index.scss";
 import { Icon, IconTypes } from "../icon";
 import { playerStore, volStore } from "../../store";
 import { events, EventTypes, isAnyPartOfElementInViewport } from "../../utils";
+import "./index.scss";
 
 export interface Props {
   volInfo: VolInfo;
@@ -34,7 +34,6 @@ class VolItem extends React.Component<Props> {
       if (isAnyPartOfElementInViewport(cover)) {
         setTimeout(this.onClick, 300);
       } else {
-        debugger;
         cover.scrollIntoView({
           behavior: "smooth"
         });

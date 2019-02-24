@@ -1,5 +1,5 @@
 import { action, computed, observable } from "mobx";
-import { genRange } from "../utils";
+import {events, EventTypes, genRange} from "../utils";
 import { ArticleInfo, ViewTypes } from "../types";
 import { store } from "./index";
 
@@ -115,11 +115,21 @@ class ArticleStore {
     store.changeBackground(ViewTypes.ARTICLES);
   };
 
-  @observable
-  public playingArticleIndex: number = 0;
+  @action
+  public selectArticleById = (articleId: number) => {
+    if (articleId === this.selectedArticle.id && store.view === ViewTypes.ARTICLE_INFO) {
+      return;
+    }
 
-  @observable
-  public playingTrackIndex: number = 0;
+    const articleIndex = this.articles.findIndex(i => i.id === articleId);
+    const page = articleIndex % this.articlePageScale;
+    const index = articleIndex - page * this.articlePageScale;
+    this.articleCurrentPage = page;
+
+    store.changeView(ViewTypes.ARTICLES, false, () => {
+      setTimeout(() => events.emit(EventTypes.SelectArticle, index), 200);
+    });
+  };
 }
 
 const articleStore = new ArticleStore();

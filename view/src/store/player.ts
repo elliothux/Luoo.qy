@@ -426,6 +426,18 @@ class PlayerStore {
         };
         break;
       }
+      case PlayingTypes.SINGLE: {
+        callback = () => {
+          singleStore.selectSingleById(this.playingSingleId);
+        };
+        break;
+      }
+      case PlayingTypes.ARTICLE: {
+        callback = () => {
+          articleStore.selectArticleById(this.playingArticleId);
+        };
+        break;
+      }
       default: {
         throw new Error('Invalid type')
       }

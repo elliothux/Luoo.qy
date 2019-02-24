@@ -1,6 +1,7 @@
 import { action, computed, observable } from "mobx";
-import { genRange } from "../utils";
+import { events, genRange } from "../utils";
 import { ViewTypes, Single } from "../types";
+import { EventTypes } from "../utils";
 import { store } from "./index";
 
 let ipc: IpcObject;
@@ -113,8 +114,21 @@ class SingleStore {
     store.changeBackground(ViewTypes.SINGLES);
   };
 
-  @observable
-  public playingSingleIndex: number = 0;
+  @action
+  public selectSingleById = (singleId: number) => {
+    if (singleId === this.selectedSingle.id && store.view === ViewTypes.SINGLE_INFO) {
+      return;
+    }
+
+    const singleIndex = this.singles.findIndex(i => i.id === singleId);
+    const page = singleId % this.singlePageScale;
+    const index = singleIndex - page * this.singlePageScale;
+    this.singleCurrentPage = page;
+
+    store.changeView(ViewTypes.SINGLES, false, () => {
+      setTimeout(() => events.emit(EventTypes.SelectSingle, index), 200);
+    });
+  };
 }
 
 const singleStore = new SingleStore();

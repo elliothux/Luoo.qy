@@ -2,7 +2,7 @@ import * as React from "react";
 import { Single } from "../../types";
 import { Icon, IconTypes } from "../icon";
 import { playerStore, singleStore } from "../../store";
-import { events, EventTypes } from "../../utils";
+import { events, EventTypes, isAnyPartOfElementInViewport } from "../../utils";
 import "./index.scss";
 
 export interface Props {
@@ -13,11 +13,32 @@ export interface Props {
 }
 
 class SingleItem extends React.Component<Props> {
+  componentDidMount(): void {
+    events.on(EventTypes.SelectSingle, this.onEmitSelectSingle);
+  }
+  componentWillUnmount(): void {
+    events.cancel(EventTypes.SelectSingle, this.onEmitSelectSingle);
+  }
+
   private coverRef: HTMLImageElement | null = null;
 
   private getCoverRef = (i: HTMLImageElement | null) => {
     if (i) {
       this.coverRef = i;
+    }
+  };
+
+  private onEmitSelectSingle = (index: number) => {
+    if (index === this.props.index) {
+      const cover = this.coverRef as HTMLImageElement;
+      if (isAnyPartOfElementInViewport(cover)) {
+        setTimeout(this.onClick, 300);
+      } else {
+        cover.scrollIntoView({
+          behavior: "smooth"
+        });
+        setTimeout(this.onClick, 600);
+      }
     }
   };
 
