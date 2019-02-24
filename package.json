@@ -8,7 +8,7 @@
     "start": "NODE_ENV=development electron-forge start",
     "start:view": "cd ./view; npm start",
     "pack": "electron-forge package",
-    "pack:view": "cd ./view; npm run build; cp -r  ./build ../app/view",
+    "pack:view": "cd ./view; npm run build; cp -rf ./build ../app/view",
     "build:mac": "electron-packager . Luoo.qy --platform=darwin --arch=x64 --out build --icon=build/icon.icns --ignore=node_modules --ignore=view --ignore=README.md --ignore=.idea --ignore=yarn --ignore=.git --overwrite --rebuild",
     "lint": "eslint app --color --fix",
     "lint:view": "eslint app --color --fix",
