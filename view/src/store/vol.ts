@@ -69,8 +69,10 @@ class VolStore {
 
   @action
   public changeVolType = (type: VolTypes) => {
+    this.volPaginationCurrentIndex = 0;
     this.volCurrentPage = 0;
     this.volType = type;
+    events.emit(EventTypes.ScrollBackVols);
     store.changeView(ViewTypes.VOLS);
   };
 
@@ -151,6 +153,7 @@ class VolStore {
       return;
     }
 
+    this.changeVolType(VolTypes.ALL);
     const volIndex = this.allVols.findIndex(i => i.id === volId);
     const page = volIndex % this.volPageScale;
     const index = volIndex - page * this.volPageScale;

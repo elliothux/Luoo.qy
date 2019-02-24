@@ -3,7 +3,7 @@ const { app, BrowserWindow } = require('electron');
 const { requestVols, requestSingles, requestArticles } = require('./utils');
 const db = require('./db');
 
-const isProduction = process.env.NODE_ENV === 'production';
+const isDev = process.env.NODE_ENV === 'development';
 
 // eslint-disable-next-line global-require
 if (require('electron-squirrel-startup')) {
@@ -31,9 +31,9 @@ const createWindow = () => {
     },
   });
 
-  const htmlPath = path.join(__dirname, '../view/build/index.html');
+  const htmlPath = path.join(__dirname, './view/index.html');
   mainWindow.loadURL(
-    isProduction ? `file://${htmlPath}` : 'http://localhost:3000/',
+    isDev ? 'http://localhost:3000/' : `file://${htmlPath}`,
   );
 
   mainWindow.webContents.openDevTools();

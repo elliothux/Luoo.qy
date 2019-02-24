@@ -75,3 +75,4 @@ typings/
 .serverless
 
 /view/node_modules/
+/app/view/

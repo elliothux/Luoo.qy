@@ -8,7 +8,8 @@
     "start": "NODE_ENV=development electron-forge start",
     "start:view": "cd ./view; npm start",
     "pack": "electron-forge package",
-    "pack:view": "cd ./view; npm run build",
+    "pack:view": "cd ./view; npm run build; cp -r  ./build ../app/view",
+    "build:mac": "electron-packager . Luoo.qy --platform=darwin --arch=x64 --out build --icon=build/icon.icns --ignore=node_modules --ignore=view --ignore=README.md --ignore=.idea --ignore=yarn --ignore=.git --overwrite --rebuild",
     "lint": "eslint app --color --fix",
     "lint:view": "eslint app --color --fix",
     "make": "electron-forge make",
@@ -30,6 +31,7 @@
     "babel-preset-react": "^6.24.1",
     "electron-compile": "^6.4.4",
     "electron-forge": "^5.2.4",
+    "electron-packager": "^13.1.0",
     "electron-prebuilt-compile": "4.0.0",
     "eslint": "5.6.0",
     "eslint-config-airbnb": "^15",
@@ -43,6 +45,27 @@
   "license": "MIT",
   "config": {
     "forge": {
+      "makers": [
+        {
+          "name": "i@do.codes"
+        }
+      ],
+      "packagerConfig": {
+        "overwrite": true,
+        "out": "./pack",
+        "ignore": [
+          "design",
+          "node_modules",
+          "view",
+          ".eslintrc",
+          ".gitignore",
+          ".git"
+        ],
+        "download": {
+          "cache": true,
+          "mirror": "http://npm.taobao.org/mirrors/electron/"
+        }
+      },
       "make_targets": {
         "win32": [
           "squirrel"
@@ -56,7 +79,7 @@
         ]
       },
       "electronPackagerConfig": {
-        "packageManager": "yarn"
+        "packageManager": "cnpm"
       },
       "electronWinstallerConfig": {
         "name": "luoo.qy_"
