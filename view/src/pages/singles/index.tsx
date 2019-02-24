@@ -49,8 +49,16 @@ function ISingles() {
 
 const Singles = observer(ISingles);
 
-events.on(EventTypes.ScrollBackSingles, () => {
-  singlesRef.scrollTo(0, 0);
+events.on(EventTypes.ScrollBackSingles, (smooth: boolean = false) => {
+  if (smooth) {
+    singlesRef.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'smooth'
+    });
+  } else {
+    singlesRef.scrollTo(0, 0);
+  }
 });
 
 export { Singles };

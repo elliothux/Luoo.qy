@@ -1,14 +1,7 @@
-import { action, computed, observable } from "mobx";
-import { events, EventTypes, genRange } from "../utils";
-import {
-  ViewTypes,
-  VolInfo,
-  VolTypeItem,
-  VolTypes,
-  VolTypesList
-} from "../types";
-import { store } from "./index";
-import { debug } from "util";
+import {action, computed, observable} from "mobx";
+import {events, EventTypes, genRange} from "../utils";
+import {ViewTypes, VolInfo, VolTypeItem, VolTypes, VolTypesList} from "../types";
+import {store} from "./index";
 
 let ipc: IpcObject;
 
@@ -103,6 +96,7 @@ class VolStore {
 
   @action
   public toggleVolIndex = (page: number) => {
+    events.emit(EventTypes.ScrollBackVols, true);
     this.volCurrentPage = page;
   };
 

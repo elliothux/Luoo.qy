@@ -45,8 +45,16 @@ function IArticles() {
 
 const Articles = observer(IArticles);
 
-events.on(EventTypes.ScrollBackArticles, () => {
-  articlesRef.scrollTo(0, 0);
+events.on(EventTypes.ScrollBackArticles, (smooth: boolean = false) => {
+    if (smooth) {
+        articlesRef.scrollTo({
+            top: 0,
+            left: 0,
+            behavior: 'smooth'
+        });
+    } else {
+        articlesRef.scrollTo(0, 0);
+    }
 });
 
 export { Articles };

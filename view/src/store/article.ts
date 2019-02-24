@@ -67,6 +67,7 @@ class ArticleStore {
 
   @action
   public toggleArticleIndex = (page: number) => {
+    events.emit(EventTypes.ScrollBackSingles, true);
     this.articleCurrentPage = page;
   };
 

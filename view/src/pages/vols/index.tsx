@@ -51,8 +51,16 @@ function IVols() {
 
 const Vols = observer(IVols);
 
-events.on(EventTypes.ScrollBackVols, () => {
-  volsRef.scrollTo(0, 0);
+events.on(EventTypes.ScrollBackVols, (smooth: boolean = false) => {
+  if (smooth) {
+    volsRef.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'smooth'
+    });
+  } else {
+    volsRef.scrollTo(0, 0);
+  }
 });
 
 export { Vols };

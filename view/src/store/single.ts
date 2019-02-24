@@ -66,6 +66,7 @@ class SingleStore {
 
   @action
   public toggleSingleIndex = (page: number) => {
+    events.emit(EventTypes.ScrollBackSingles, true);
     this.singleCurrentPage = page;
   };
 

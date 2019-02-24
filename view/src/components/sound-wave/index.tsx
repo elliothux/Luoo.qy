@@ -5,14 +5,20 @@ import { genRange } from "../../utils";
 
 interface Props {
   isActive: boolean;
+  show: boolean;
 }
 
 const range = genRange(0, 80);
 
 function SoundWave(props: Props) {
-  const { isActive } = props;
+  const { isActive, show } = props;
   return (
-    <div className="sound-wave-container">
+    <div
+      className="sound-wave-container"
+      style={{
+        display: show ? "block" : "none"
+      }}
+    >
       <div
         className={classnames({
           "sound-wave": true,

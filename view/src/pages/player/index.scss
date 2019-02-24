@@ -38,6 +38,8 @@
       transform: scale(1.05);
       opacity: 0.6;
       @include transition;
+      transition-duration: 1200ms;
+      transition-delay: 200ms;
     }
 
     .sound-wave-container {
@@ -172,6 +174,10 @@
       opacity: 0.6;
       overflow: hidden;
       width: 100%;
+
+      &.hide {
+        display: none;
+      }
 
       &.with-lyric {
         height: 240px;
