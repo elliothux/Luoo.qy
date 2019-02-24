@@ -77,3 +77,5 @@ typings/
 /view/node_modules/
 /app/view/
 /out/
+.DS_Store
+.idea/workspace.xml
