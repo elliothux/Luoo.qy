@@ -18,7 +18,6 @@
   "dependencies": {
     "binary-search-tree": "^0.2.6",
     "camelcase-keys": "^5.0.0",
-    "electron": "^4.0.4",
     "electron-squirrel-startup": "^1.0.0",
     "nedb": "^1.8.0",
     "request": "^2.88.0"
@@ -26,6 +25,7 @@
   "devDependencies": {
     "@types/electron": "^1.6.10",
     "@types/request": "^2.48.1",
+    "electron": "^4.0.4",
     "babel-plugin-transform-async-to-generator": "^6.24.1",
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",

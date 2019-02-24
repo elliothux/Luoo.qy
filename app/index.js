@@ -26,6 +26,7 @@ const createWindow = () => {
     width: 1200,
     height: 800,
     title: 'Luoo.qy',
+    allowEval: true,
     webPreferences: {
       nodeIntegration: true,
     },
@@ -33,7 +34,7 @@ const createWindow = () => {
 
   const htmlPath = path.join(__dirname, './view/index.html');
   mainWindow.loadURL(
-    isDev ? 'http://localhost:3000/' : `file://${htmlPath}`,
+    !isDev ? 'http://localhost:3000/' : `file://${htmlPath}`,
   );
 
   mainWindow.webContents.openDevTools();
