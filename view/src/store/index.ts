@@ -5,6 +5,7 @@ import {volStore} from "./vol";
 import {singleStore} from "./single";
 import {articleStore} from "./article";
 import {playerStore} from "./player";
+import {debug} from "util";
 
 let ipc: IpcObject;
 
@@ -26,19 +27,26 @@ class Store {
   public view: ViewTypes = ViewTypes.VOLS;
 
   @action
-  public changeView = (viewType: ViewTypes, isBack: boolean = false) => {
+  public changeView = (viewType: ViewTypes, isBack: boolean = false, callback?: any) => {
+    const hasCallback = typeof callback === 'function';
     if (viewType === this.view) {
+      if (hasCallback) {
+        callback();
+      }
       return;
     }
 
     const prevView = this.view;
     this.view = viewType;
 
-    if (!isBack) {
+    if (!isBack && prevView !== ViewTypes.PLAYING) {
       this.viewHistory.push(prevView);
     }
 
     if (viewType === ViewTypes.PLAYING || prevView === ViewTypes.PLAYING) {
+      if (hasCallback) {
+        callback();
+      }
       return;
     }
 
@@ -83,15 +91,20 @@ class Store {
     setTimeout(() => {
       prevViewElement.style.zIndex = "-1";
     }, 500);
+    setTimeout(() => {
+      if (typeof callback === 'function') {
+        callback();
+      }
+    }, isEnterInfoPage ? 2000 : 500)
   };
 
   @action
-  public backView = () => {
+  public backView = (callback?: any) => {
     const prevView = this.viewHistory.pop();
     if (prevView === undefined) {
       throw new Error("Invalid previous view");
     }
-    this.changeView(prevView, true);
+    this.changeView(prevView, true, callback);
   };
 
   @observable
@@ -131,7 +144,7 @@ class Store {
     };
 
     this.setBackgroundTimer = window.setTimeout(callback, 1000);
-  }
+  };
 }
 
 const store = new Store();

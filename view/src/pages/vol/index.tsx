@@ -27,7 +27,6 @@ function getTracksRef(i: HTMLDivElement | null) {
 
 function IVol() {
   const { selectedVol: vol } = volStore;
-  if (!vol) return null;
   return (
       <div id="vol" className={`page view-${ViewTypes.VOL_INFO}`}>
         <div

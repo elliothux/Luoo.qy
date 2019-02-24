@@ -1,7 +1,7 @@
 import * as React from "react";
 import { observer } from "mobx-react";
 import classnames from "classnames";
-import { store, volStore } from "../../store";
+import { playerStore, store, volStore } from "../../store";
 import { ViewTypes, VolTypes } from "../../types";
 import { Icon, IconTypes } from "../icon";
 import { events, EventTypes } from "../../utils";
@@ -17,14 +17,9 @@ function goVolTypes() {
   store.changeView(ViewTypes.VOLS_TYPE);
 }
 
-function backTimeout(callback: () => void) {
-  store.backView();
-  return setTimeout(callback, 500);
-}
-
 function goVols() {
   if (store.view === ViewTypes.PLAYING) {
-    return backTimeout(goVols);
+    store.backView(goVols);
   }
   events.emit(EventTypes.ScrollBackVols);
   store.changeView(ViewTypes.VOLS);
@@ -32,7 +27,7 @@ function goVols() {
 
 function goSingles() {
   if (store.view === ViewTypes.PLAYING) {
-    return backTimeout(goSingles);
+    store.backView(goSingles);
   }
   events.emit(EventTypes.ScrollBackSingles);
   store.changeView(ViewTypes.SINGLES);
@@ -40,7 +35,7 @@ function goSingles() {
 
 function goArticles() {
   if (store.view === ViewTypes.PLAYING) {
-    return backTimeout(goArticles);
+    store.backView(goArticles);
   }
   events.emit(EventTypes.ScrollBackArticles);
   store.changeView(ViewTypes.ARTICLES);
@@ -67,7 +62,10 @@ function INav() {
           <Icon type={IconTypes.BACK} />
           <p>返回</p>
         </div>
-        <div className={hideClassName(view !== ViewTypes.PLAYING)}>
+        <div
+          className={hideClassName(view !== ViewTypes.PLAYING)}
+          onClick={playerStore.goToPlayingSource}
+        >
           <Icon type={IconTypes.SOURCE} />
           <p>来源</p>
         </div>
@@ -86,19 +84,33 @@ function INav() {
           <Icon type={IconTypes.SEARCH} />
           <p>搜索</p>
         </div>
+        <div
+          className={hideClassName(
+            [ViewTypes.VOLS, ViewTypes.SINGLES, ViewTypes.ARTICLES].includes(
+              view
+            )
+          )}
+        >
+          <Icon type={IconTypes.SHARE} />
+          <p>分享</p>
+        </div>
       </div>
       <img id="nav-logo" src={LOGO} alt="logo" />
       <div id="nav-buttons">
         <div onClick={goVols}>
           <Icon
-            type={view === ViewTypes.VOLS ? IconTypes.VOL_SOLID : IconTypes.VOL}
+            type={
+              view === ViewTypes.VOLS || view === ViewTypes.VOL_INFO
+                ? IconTypes.VOL_SOLID
+                : IconTypes.VOL
+            }
           />
           <p>期刊</p>
         </div>
         <div onClick={goSingles}>
           <Icon
             type={
-              view === ViewTypes.SINGLES
+              view === ViewTypes.SINGLES || view === ViewTypes.SINGLE_INFO
                 ? IconTypes.SINGLE_SOLID
                 : IconTypes.SINGLE
             }
@@ -108,7 +120,7 @@ function INav() {
         <div onClick={goArticles}>
           <Icon
             type={
-              view === ViewTypes.ARTICLES
+              view === ViewTypes.ARTICLES || view === ViewTypes.ARTICLE_INFO
                 ? IconTypes.ARTICLE_SOLID
                 : IconTypes.ARTICLE
             }

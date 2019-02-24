@@ -13,6 +13,7 @@ import {
 } from "../types";
 import { formatPlayingTime, LyricParser } from "../utils";
 import { LrcLine } from "../utils/lyric-parser";
+import { store } from './index';
 import { singleStore } from "./single";
 import { articleStore } from "./article";
 
@@ -413,6 +414,23 @@ class PlayerStore {
     } else {
       this.playingArticleTrackIndex -= 1;
     }
+  };
+
+  @action
+  public goToPlayingSource = () => {
+    let callback;
+    switch (this.playingType) {
+      case PlayingTypes.VOL: {
+        callback = () => {
+          volStore.selectVolById(this.playingVolId);
+        };
+        break;
+      }
+      default: {
+        throw new Error('Invalid type')
+      }
+    }
+    store.backView(callback);
   };
 
   /*

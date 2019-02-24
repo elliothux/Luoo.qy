@@ -1,5 +1,5 @@
 import { action, computed, observable } from "mobx";
-import { genRange } from "../utils";
+import { events, EventTypes, genRange } from "../utils";
 import {
   ViewTypes,
   VolInfo,
@@ -8,6 +8,7 @@ import {
   VolTypesList
 } from "../types";
 import { store } from "./index";
+import { debug } from "util";
 
 let ipc: IpcObject;
 
@@ -148,6 +149,22 @@ class VolStore {
     this.selectedVolIndex = volIndex;
     store.changeView(ViewTypes.VOL_INFO);
     store.changeBackground(ViewTypes.VOLS);
+  };
+
+  @action
+  public selectVolById = (volId: number) => {
+    if (volId === this.selectedVol.id && store.view === ViewTypes.VOL_INFO) {
+      return;
+    }
+
+    const volIndex = this.allVols.findIndex(i => i.id === volId);
+    const page = volIndex % this.volPageScale;
+    const index = volIndex - page * this.volPageScale;
+    this.volCurrentPage = page;
+
+    store.changeView(ViewTypes.VOLS, false, () => {
+      setTimeout(() => events.emit(EventTypes.SelectVol, index), 200);
+    });
   };
 }
 

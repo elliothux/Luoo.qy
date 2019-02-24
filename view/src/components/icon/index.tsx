@@ -3,6 +3,7 @@ import LOGO from "../../static/icon/logo.png";
 import BACK from "../../static/icon/back.svg";
 import CATEGORY from "../../static/icon/cate.svg";
 import SEARCH from "../../static/icon/search.svg";
+import SHARE from "../../static/icon/share.svg";
 import SOURCE from "../../static/icon/source.svg";
 import ARTICLE from "../../static/icon/article.svg";
 import ARTICLE_SOLID from "../../static/icon/article-solid.svg";
@@ -38,6 +39,7 @@ enum IconTypes {
   BACK,
   CATEGORY,
   SEARCH,
+  SHARE,
   SOURCE,
   ARTICLE,
   ARTICLE_SOLID,
@@ -88,6 +90,9 @@ function Icon(props: Props) {
       break;
     case IconTypes.SEARCH:
       src = SEARCH;
+      break;
+    case IconTypes.SHARE:
+      src = SHARE;
       break;
     case IconTypes.SOURCE:
       src = SOURCE;

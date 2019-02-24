@@ -55,12 +55,14 @@ enum EventTypes {
   ShowSingleBackground,
   ShowArticleBackground,
   ScrollBackVols,
-  ScrollBackVolCates,
   ScrollBackVol,
   ScrollBackSingles,
   ScrollBackArticles,
   ScrollBackVolTypes,
-  ScrollBackArticle
+  ScrollBackArticle,
+  SelectVol,
+  SelectSingle,
+  SelectArticle
 }
 
 const events = new EventProxy();

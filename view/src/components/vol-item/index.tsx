@@ -3,7 +3,7 @@ import { VolInfo } from "../../types";
 import "./index.scss";
 import { Icon, IconTypes } from "../icon";
 import { playerStore, volStore } from "../../store";
-import { events, EventTypes } from "../../utils";
+import { events, EventTypes, isAnyPartOfElementInViewport } from "../../utils";
 
 export interface Props {
   volInfo: VolInfo;
@@ -13,11 +13,33 @@ export interface Props {
 }
 
 class VolItem extends React.Component<Props> {
+  componentDidMount(): void {
+    events.on(EventTypes.SelectVol, this.onEmitSelectVol);
+  }
+  componentWillUnmount(): void {
+    events.cancel(EventTypes.SelectVol, this.onEmitSelectVol);
+  }
+
   private coverRef: HTMLImageElement | null = null;
 
   private getCoverRef = (i: HTMLImageElement | null) => {
     if (i) {
       this.coverRef = i;
+    }
+  };
+
+  private onEmitSelectVol = (index: number) => {
+    if (index === this.props.index) {
+      const cover = this.coverRef as HTMLImageElement;
+      if (isAnyPartOfElementInViewport(cover)) {
+        setTimeout(this.onClick, 300);
+      } else {
+        debugger;
+        cover.scrollIntoView({
+          behavior: "smooth"
+        });
+        setTimeout(this.onClick, 600);
+      }
     }
   };
 
