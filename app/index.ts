@@ -35,7 +35,7 @@ function launch(): void {
 
     const htmlPath = path.join(__dirname, "./view/index.html");
     mainWindow.loadURL(
-      !isDev ? "http://localhost:3000/" : `file://${htmlPath}`
+      isDev ? "http://localhost:3000/" : `file://${htmlPath}`
     );
 
     mainWindow.on("closed", () => {
