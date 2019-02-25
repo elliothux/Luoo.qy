@@ -7,9 +7,8 @@
   "scripts": {
     "start": "NODE_ENV=development electron-forge start",
     "start:view": "cd ./view; npm start",
-    "pack": "electron-forge package",
+    "pack": "node ./build",
     "pack:view": "rm -rf ./app/view; cd ./view; npm run build; cp -r ./build ../app/view",
-    "build:mac": "electron-packager . Luoo.qy --platform=darwin --arch=x64 --out build --icon=build/icon.icns --ignore=node_modules --ignore=view --ignore=README.md --ignore=.idea --ignore=yarn --ignore=.git --overwrite --rebuild",
     "lint": "eslint app --color --fix",
     "lint:view": "eslint app --color --fix",
     "make": "electron-forge make",
@@ -25,10 +24,10 @@
   "devDependencies": {
     "@types/electron": "^1.6.10",
     "@types/request": "^2.48.1",
-    "electron": "^4.0.4",
     "babel-plugin-transform-async-to-generator": "^6.24.1",
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
+    "electron": "^4.0.4",
     "electron-compile": "^6.4.4",
     "electron-forge": "^5.2.4",
     "electron-packager": "^13.1.0",
@@ -38,7 +37,8 @@
     "eslint-config-react-app": "^3.0.7",
     "eslint-plugin-import": "^2",
     "eslint-plugin-jsx-a11y": "^5",
-    "eslint-plugin-react": "^7"
+    "eslint-plugin-react": "^7",
+    "open": "0.0.5"
   },
   "keywords": [],
   "author": "qingyang",

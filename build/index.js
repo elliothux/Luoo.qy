@@ -1,4 +1,5 @@
 const packager = require('electron-packager');
+const open = require('open');
 const path = require('path');
 const fs = require('fs');
 const cp = require('child_process');
@@ -37,6 +38,7 @@ async function launch() {
   );
   console.log('Install node_modules');
   cp.execSync(`cd ${toPath}; tnpm i --production`);
+  open(`file://${appPaths}`);
 }
 
 launch().then(() => {
@@ -46,4 +48,3 @@ launch().then(() => {
   console.error(e);
   process.exit(1);
 });
-
