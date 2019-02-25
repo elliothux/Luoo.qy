@@ -3,17 +3,24 @@ import { VolInfo } from "../types";
 import {getIPC} from "../utils";
 
 
-
 class VolDB {
     public init = async () => {
         const ipc = await getIPC();
-        console.log(ipc.getPreloadVols());
+        this.db.createIndex({
+            index: {
+                fields: ['id']
+            }
+        });
+        const vols = ipc.getPreloadVols();
+        // await this.saveVols(vols);
+        console.log(this.db);
+        await this.getLatestVol();
     };
 
     protected db: PouchDB.Database = new PouchDB('vols');
 
-    public saveVol = (vol: VolInfo): Promise<PouchDB.Core.Response> => {
-        return this.db.put(vol);
+    public saveVols = (vols: VolInfo[]): Promise<(PouchDB.Core.Response | PouchDB.Core.Error)[]> => {
+        return this.db.bulkDocs(vols);
     };
 
     public getVols = async () => {
@@ -21,15 +28,20 @@ class VolDB {
         return vols.rows;
     };
 
-    public countVol = async () => {
-
+    public getLatestVol = async () => {
+        const vol = await this.db.find({
+            selector: {},
+            sort: ['vol'],
+            limit: 1
+        });
+        console.log(vol);
     }
 }
 
 const volDB = new VolDB();
 
 (async () => {
-    console.log(await volDB.init());
+    await volDB.init();
 })();
 
 export {
