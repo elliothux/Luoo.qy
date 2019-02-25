@@ -5,7 +5,7 @@ import { ArticleItem } from "../../components/article-item";
 import { Pagination } from "../../components/pagination";
 import { ViewTypes, ArticleInfo } from "../../types";
 import "./index.scss";
-import {events, EventTypes} from "../../utils";
+import { events, EventTypes } from "../../utils";
 
 let articlesRef: HTMLDivElement;
 
@@ -15,46 +15,50 @@ function getArticlesRef(i: HTMLDivElement | null) {
 
 function renderArticles(articles: ArticleInfo[]) {
   return articles.map((article: ArticleInfo, index: number) => (
-      <ArticleItem
-          key={article.id}
-          articleInfo={article}
-          index={index}
-          isPlaying={playerStore.isArticlePlaying(article.id)}
-          isLiked={false}
-      />
+    <ArticleItem
+      key={article.id}
+      articleInfo={article}
+      index={index}
+      isPlaying={playerStore.isArticlePlaying(article.id)}
+      isLiked={false}
+    />
   ));
 }
 
 function IArticles() {
   const { displayArticles } = articleStore;
   return (
-      <div id="articles" className={`page view-${ViewTypes.ARTICLES}`} ref={getArticlesRef}>
-        {renderArticles(displayArticles)}
-        <Pagination
-            pages={articleStore.displayArticlePaginations}
-            currentPage={articleStore.articleCurrentPage}
-            togglePage={articleStore.toggleArticleIndex}
-            paginationCurrentIndex={articleStore.articlePaginationCurrentIndex}
-            paginationTotalIndex={articleStore.articlePaginationTotalIndex}
-            onNext={articleStore.nextArticlePagination}
-            onPre={articleStore.preArticlePagination}
-        />
-      </div>
+    <div
+      id="articles"
+      className={`page view-${ViewTypes.ARTICLES}`}
+      ref={getArticlesRef}
+    >
+      {renderArticles(displayArticles)}
+      <Pagination
+        pages={articleStore.displayArticlePaginations}
+        currentPage={articleStore.articleCurrentPage}
+        togglePage={articleStore.toggleArticleIndex}
+        paginationCurrentIndex={articleStore.articlePaginationCurrentIndex}
+        paginationTotalIndex={articleStore.articlePaginationTotalIndex}
+        onNext={articleStore.nextArticlePagination}
+        onPre={articleStore.preArticlePagination}
+      />
+    </div>
   );
 }
 
 const Articles = observer(IArticles);
 
 events.on(EventTypes.ScrollBackArticles, (smooth: boolean = false) => {
-    if (smooth) {
-        articlesRef.scrollTo({
-            top: 0,
-            left: 0,
-            behavior: 'smooth'
-        });
-    } else {
-        articlesRef.scrollTo(0, 0);
-    }
+  if (smooth) {
+    articlesRef.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "smooth"
+    });
+  } else {
+    articlesRef.scrollTo(0, 0);
+  }
 });
 
 export { Articles };

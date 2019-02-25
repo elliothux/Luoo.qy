@@ -100,5 +100,4 @@ events.on(EventTypes.ShowSingleBackground, (src, cover, callback) => {
   });
 });
 
-
 export { Single };

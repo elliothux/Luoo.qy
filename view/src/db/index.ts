@@ -1,5 +1,5 @@
-import {getIPC} from "../utils";
+import { getIPC } from "../utils";
 
 async function init() {
-    const ipc = await getIPC();
+  const ipc = await getIPC();
 }

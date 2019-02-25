@@ -106,7 +106,7 @@ function Icon(props: Props) {
     case IconTypes.SINGLE:
       src = SINGLE;
       break;
-      case IconTypes.SINGLE_SOLID:
+    case IconTypes.SINGLE_SOLID:
       src = SINGLE_SOLID;
       break;
     case IconTypes.USER:

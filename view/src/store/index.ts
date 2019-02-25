@@ -1,10 +1,10 @@
-import {action, observable} from "mobx";
-import {getIPC} from "../utils";
-import {ViewTypes} from "../types";
-import {volStore} from "./vol";
-import {singleStore} from "./single";
-import {articleStore} from "./article";
-import {playerStore} from "./player";
+import { action, observable } from "mobx";
+import { getIPC } from "../utils";
+import { ViewTypes } from "../types";
+import { volStore } from "./vol";
+import { singleStore } from "./single";
+import { articleStore } from "./article";
+import { playerStore } from "./player";
 
 let ipc: IpcObject;
 
@@ -26,8 +26,12 @@ class Store {
   public view: ViewTypes = ViewTypes.VOLS;
 
   @action
-  public changeView = (viewType: ViewTypes, isBack: boolean = false, callback?: any) => {
-    const hasCallback = typeof callback === 'function';
+  public changeView = (
+    viewType: ViewTypes,
+    isBack: boolean = false,
+    callback?: any
+  ) => {
+    const hasCallback = typeof callback === "function";
     if (viewType === this.view) {
       if (hasCallback) {
         callback();
@@ -50,39 +54,39 @@ class Store {
     }
 
     const prevViewElement = document.querySelector(
-        `.view-${prevView}`
+      `.view-${prevView}`
     ) as HTMLElement | null;
     const viewElement = document.querySelector(
-        `.view-${viewType}`
+      `.view-${viewType}`
     ) as HTMLElement | null;
     if (!prevViewElement || !viewElement) return;
 
     const isEnterInfoPage =
-        (prevView === ViewTypes.VOLS && viewType === ViewTypes.VOL_INFO) ||
-        (prevView === ViewTypes.SINGLES && viewType === ViewTypes.SINGLE_INFO) ||
-        (prevView === ViewTypes.ARTICLES && viewType === ViewTypes.ARTICLE_INFO);
+      (prevView === ViewTypes.VOLS && viewType === ViewTypes.VOL_INFO) ||
+      (prevView === ViewTypes.SINGLES && viewType === ViewTypes.SINGLE_INFO) ||
+      (prevView === ViewTypes.ARTICLES && viewType === ViewTypes.ARTICLE_INFO);
     const isExitInfoPage =
-        prevView === ViewTypes.VOL_INFO ||
-        prevView === ViewTypes.SINGLE_INFO ||
-        prevView === ViewTypes.ARTICLE_INFO;
+      prevView === ViewTypes.VOL_INFO ||
+      prevView === ViewTypes.SINGLE_INFO ||
+      prevView === ViewTypes.ARTICLE_INFO;
 
     if (isEnterInfoPage) {
       viewElement.className += " show-with-cover";
       prevViewElement.className = prevViewElement.className.replace(
-          " show",
-          ""
+        " show",
+        ""
       );
     } else if (isExitInfoPage) {
       viewElement.className += " show";
       prevViewElement.className = prevViewElement.className.replace(
-          " show-with-cover",
-          ""
+        " show-with-cover",
+        ""
       );
     } else {
       viewElement.className += " show";
       prevViewElement.className = prevViewElement.className.replace(
-          " show",
-          ""
+        " show",
+        ""
       );
     }
 
@@ -91,10 +95,10 @@ class Store {
       prevViewElement.style.zIndex = "-1";
     }, 500);
     setTimeout(() => {
-      if (typeof callback === 'function') {
+      if (typeof callback === "function") {
         callback();
       }
-    }, isEnterInfoPage ? 2000 : 500)
+    }, isEnterInfoPage ? 2000 : 500);
   };
 
   @action
@@ -133,7 +137,7 @@ class Store {
           break;
         }
         default: {
-          throw 'Invalid type';
+          throw "Invalid type";
         }
       }
 

@@ -1,8 +1,7 @@
 import * as path from "path";
 import DataStore, { DataStoreOptions } from "nedb";
 import { VolInfo, VolTrack } from "../types";
-import {insert, find, isExist, findOne} from "./utils";
-
+import { insert, find, isExist, findOne } from "./utils";
 
 const volDB: DataStore = new DataStore({
   filename: path.join(__dirname, "../../static/db/vol"),
@@ -14,7 +13,6 @@ const volTrackDB: DataStore = new DataStore({
   autoload: true
 } as DataStoreOptions);
 
-
 function saveVols(vols: VolInfo[]): Promise<VolInfo[]> {
   return Promise.all(vols.map(async (vol: VolInfo) => saveVol(vol)));
 }
@@ -23,7 +21,7 @@ async function saveVol(vol: VolInfo): Promise<VolInfo> {
   const { tracks } = vol;
   delete vol.tracks;
 
-  if (isExist(volDB, { id: vol.id })) {
+  if (await isExist(volDB, { id: vol.id })) {
     throw new Error(`Vol ${vol.vol} ${vol.title} exists`);
   }
 
@@ -36,12 +34,12 @@ function saveVolTrack(volTrack: VolTrack): Promise<VolTrack> {
 }
 
 async function getVols(): Promise<VolInfo[]> {
-  const vols = await find<VolInfo>(volDB);
+  const vols = await find<VolInfo>(volDB, {}, { vol: -1 });
   return Promise.all(
-      vols.map(async vol => {
-        vol.tracks = await getVolTracks(vol.vol);
-        return vol;
-      })
+    vols.map(async vol => {
+      vol.tracks = await getVolTracks(vol.vol);
+      return vol;
+    })
   );
 }
 
@@ -52,14 +50,14 @@ async function getVolTracks(vol: number): Promise<VolTrack[]> {
 async function getVolFromTrack(trackId: number): Promise<VolInfo | null> {
   const track = await findOne<VolTrack>(volTrackDB, { id: trackId });
   if (track) {
-    return findOne(volDB, { id: track.id })
+    return findOne(volDB, { id: track.id });
   }
   return null;
 }
 
-export {
-  saveVol,
-  saveVols,
-  getVols,
-  getVolFromTrack
+async function getLatestVol(): Promise<VolInfo> {
+  const vols = await find<VolInfo>(volDB, {}, { vol: -1 }, 1);
+  return vols[0];
 }
+
+export { saveVol, saveVols, getVols, getLatestVol, getVolFromTrack };

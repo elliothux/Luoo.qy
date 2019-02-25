@@ -1,10 +1,10 @@
 import * as React from "react";
-import {observer} from "mobx-react";
+import { observer } from "mobx-react";
 import classnames from "classnames";
-import {playerStore, store} from "../../store";
-import {PlayingStatus, ViewTypes} from "../../types";
-import {Icon, IconTypes} from "../../components/icon";
-import {SoundWave} from "../../components/sound-wave";
+import { playerStore, store } from "../../store";
+import { PlayingStatus, ViewTypes } from "../../types";
+import { Icon, IconTypes } from "../../components/icon";
+import { SoundWave } from "../../components/sound-wave";
 import "./index.scss";
 
 function IPlayer() {
@@ -71,10 +71,13 @@ function IPlayer() {
           <p id="player-info-artist">{artist}</p>
         </div>
         {playingLyrics ? (
-          <div id="player-lyric" className={classnames({
-            'with-lyric': true,
-            'hide': !isPlayingView
-          })}>
+          <div
+            id="player-lyric"
+            className={classnames({
+              "with-lyric": true,
+              hide: !isPlayingView
+            })}
+          >
             <p>{playingLyrics[0]}</p>
             <p>{playingLyrics[1]}</p>
             <p>{playingLyrics[2]}</p>

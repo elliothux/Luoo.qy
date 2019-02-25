@@ -97,7 +97,10 @@ class SingleStore {
 
   @action
   public selectSingleById = (singleId: number) => {
-    if (singleId === this.selectedSingle.id && store.view === ViewTypes.SINGLE_INFO) {
+    if (
+      singleId === this.selectedSingle.id &&
+      store.view === ViewTypes.SINGLE_INFO
+    ) {
       return;
     }
 

@@ -1,5 +1,5 @@
 import { action, computed, observable } from "mobx";
-import {events, EventTypes, genRange} from "../utils";
+import { events, EventTypes, genRange } from "../utils";
 import { ArticleInfo, ViewTypes } from "../types";
 import { store } from "./index";
 
@@ -96,7 +96,10 @@ class ArticleStore {
 
   @action
   public selectArticleById = (articleId: number) => {
-    if (articleId === this.selectedArticle.id && store.view === ViewTypes.ARTICLE_INFO) {
+    if (
+      articleId === this.selectedArticle.id &&
+      store.view === ViewTypes.ARTICLE_INFO
+    ) {
       return;
     }
 

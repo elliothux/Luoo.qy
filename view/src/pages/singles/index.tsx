@@ -5,7 +5,7 @@ import { Pagination } from "../../components/pagination";
 import { Single, ViewTypes } from "../../types";
 import "./index.scss";
 import { SingleItem } from "../../components/single-item";
-import {events, EventTypes} from "../../utils";
+import { events, EventTypes } from "../../utils";
 
 let singlesRef: HTMLDivElement;
 
@@ -54,7 +54,7 @@ events.on(EventTypes.ScrollBackSingles, (smooth: boolean = false) => {
     singlesRef.scrollTo({
       top: 0,
       left: 0,
-      behavior: 'smooth'
+      behavior: "smooth"
     });
   } else {
     singlesRef.scrollTo(0, 0);

@@ -1,6 +1,6 @@
 import * as fs from "fs";
 import * as path from "path";
-import {ArticleInfo, Single, VolInfo} from "./types";
+import { ArticleInfo, Single, VolInfo } from "./types";
 
 enum PreloadType {
   VOLS,
@@ -32,23 +32,18 @@ function getPreloadFile(type: PreloadType): string {
 }
 
 function getPreloadVols(): VolInfo[] {
-    const volsStr = getPreloadFile(PreloadType.VOLS);
-    return JSON.parse(volsStr) as VolInfo[];
+  const volsStr = getPreloadFile(PreloadType.VOLS);
+  return JSON.parse(volsStr) as VolInfo[];
 }
 
 function getPreloadSingles(): Single[] {
-    const singlesStr = getPreloadFile(PreloadType.SINGLES);
-    return JSON.parse(singlesStr) as Single[];
+  const singlesStr = getPreloadFile(PreloadType.SINGLES);
+  return JSON.parse(singlesStr) as Single[];
 }
 
 function getPreloadArticles(): ArticleInfo[] {
-    const articlesStr = getPreloadFile(PreloadType.SINGLES);
-    return JSON.parse(articlesStr) as ArticleInfo[];
+  const articlesStr = getPreloadFile(PreloadType.SINGLES);
+  return JSON.parse(articlesStr) as ArticleInfo[];
 }
 
-
-export {
-    getPreloadVols,
-    getPreloadSingles,
-    getPreloadArticles
-}
+export { getPreloadVols, getPreloadSingles, getPreloadArticles };

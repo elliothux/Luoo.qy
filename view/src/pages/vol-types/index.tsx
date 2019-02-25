@@ -4,7 +4,6 @@ import { volStore } from "../../store";
 import "./index.scss";
 import { events, EventTypes } from "../../utils";
 
-
 let volTypesRef: HTMLDivElement;
 
 function getVolTypesRef(i: HTMLDivElement | null) {
@@ -41,7 +40,7 @@ function VolTypes() {
 }
 
 events.on(EventTypes.ScrollBackVolTypes, () => {
-    volTypesRef.scrollTo(0, 0);
+  volTypesRef.scrollTo(0, 0);
 });
 
 export { VolTypes };

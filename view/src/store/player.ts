@@ -13,7 +13,7 @@ import {
 } from "../types";
 import { formatPlayingTime, LyricParser } from "../utils";
 import { LrcLine } from "../utils/lyric-parser";
-import { store } from './index';
+import { store } from "./index";
 import { singleStore } from "./single";
 import { articleStore } from "./article";
 
@@ -437,7 +437,7 @@ class PlayerStore {
         break;
       }
       default: {
-        throw new Error('Invalid type')
+        throw new Error("Invalid type");
       }
     }
     store.backView(callback);

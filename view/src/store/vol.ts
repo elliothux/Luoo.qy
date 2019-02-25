@@ -1,7 +1,13 @@
-import {action, computed, observable} from "mobx";
-import {events, EventTypes, genRange} from "../utils";
-import {ViewTypes, VolInfo, VolTypeItem, VolTypes, VolTypesList} from "../types";
-import {store} from "./index";
+import { action, computed, observable } from "mobx";
+import { events, EventTypes, genRange } from "../utils";
+import {
+  ViewTypes,
+  VolInfo,
+  VolTypeItem,
+  VolTypes,
+  VolTypesList
+} from "../types";
+import { store } from "./index";
 
 let ipc: IpcObject;
 

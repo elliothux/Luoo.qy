@@ -50,7 +50,7 @@ function findOne<T>(db: DataStore, query: object): Promise<T | null> {
     db.findOne(query, (error, doc) => {
       if (error) {
         return reject(
-            `An error happened whiling handling findOne: ${query} - ${error}`
+          `An error happened whiling handling findOne: ${query} - ${error}`
         );
       }
       if (doc) {

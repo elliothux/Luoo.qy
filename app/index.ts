@@ -1,7 +1,19 @@
 import * as path from "path";
 import { app, BrowserWindow } from "electron";
 import { requestVols, requestSingles, requestArticles } from "./utils";
-import { saveVol, saveVols, getVols, getVolFromTrack } from "./db/vol";
+import {
+  saveVol,
+  saveVols,
+  getVols,
+  getVolFromTrack,
+  getLatestVol
+} from "./db/vol";
+import {
+  saveSingle,
+  saveSingles,
+  getSingles,
+  getLatestSingle
+} from "./db/single";
 
 const isDev = process.env.NODE_ENV === "development";
 
@@ -76,7 +88,12 @@ function injectIPC(): void {
       saveVol,
       saveVols,
       getVols,
-      getVolFromTrack
+      getLatestVol,
+      getVolFromTrack,
+      saveSingle,
+      saveSingles,
+      getSingles,
+      getLatestSingle
     }
   });
 }

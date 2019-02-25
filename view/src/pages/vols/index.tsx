@@ -1,11 +1,11 @@
 import * as React from "react";
-import {observer} from "mobx-react";
-import {playerStore, volStore} from "../../store";
-import {VolItem} from "../../components/vol-item";
-import {Pagination} from "../../components/pagination";
-import {ViewTypes, VolInfo} from "../../types";
+import { observer } from "mobx-react";
+import { playerStore, volStore } from "../../store";
+import { VolItem } from "../../components/vol-item";
+import { Pagination } from "../../components/pagination";
+import { ViewTypes, VolInfo } from "../../types";
 import "./index.scss";
-import {events, EventTypes} from "../../utils";
+import { events, EventTypes } from "../../utils";
 
 let volsRef: HTMLDivElement;
 
@@ -56,7 +56,7 @@ events.on(EventTypes.ScrollBackVols, (smooth: boolean = false) => {
     volsRef.scrollTo({
       top: 0,
       left: 0,
-      behavior: 'smooth'
+      behavior: "smooth"
     });
   } else {
     volsRef.scrollTo(0, 0);
