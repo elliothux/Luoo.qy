@@ -1,11 +1,7 @@
 import * as path from "path";
 import { app, BrowserWindow } from "electron";
 import { requestVols, requestSingles, requestArticles } from "./utils";
-import {
-  getPreloadVols,
-  getPreloadSingles,
-  getPreloadArticles
-} from "./preload";
+import { saveVol, saveVols, getVols, getVolFromTrack } from "./db/vol";
 
 const isDev = process.env.NODE_ENV === "development";
 
@@ -77,9 +73,10 @@ function injectIPC(): void {
       requestVols,
       requestSingles,
       requestArticles,
-      getPreloadVols,
-      getPreloadSingles,
-      getPreloadArticles
+      saveVol,
+      saveVols,
+      getVols,
+      getVolFromTrack
     }
   });
 }

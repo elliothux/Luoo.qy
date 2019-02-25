@@ -25,6 +25,7 @@
   "devDependencies": {
     "@types/camelcase-keys": "^4.0.0",
     "@types/electron": "^1.6.10",
+    "@types/nedb": "^1.8.7",
     "@types/request": "^2.48.1",
     "babel-plugin-transform-async-to-generator": "^6.24.1",
     "babel-preset-env": "^1.7.0",

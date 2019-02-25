@@ -1,4 +1,5 @@
 import { ArticleInfo, Single, VolInfo } from "../types";
+import {getVolFromTrack, getVols, saveVol, saveVols} from "../../../app/db/vol";
 
 declare global {
   interface Window {
@@ -12,12 +13,15 @@ declare global {
   }
 
   interface IpcObject {
+    // Request
     requestVols: (startVol: number) => Promise<RetData<VolInfo[]>>;
     requestSingles: (startDate: number) => Promise<RetData<Single[]>>;
     requestArticles: (startId: number) => Promise<RetData<ArticleInfo[]>>;
-    getPreloadVols: () => VolInfo[],
-    getPreloadSingles: () => Single[],
-    getPreloadArticles: () => ArticleInfo[]
+    // Vols
+    saveVol: (vol: VolInfo) => Promise<VolInfo>,
+    saveVols: (vol: VolInfo[]) => Promise<VolInfo[]>,
+    getVols: () => Promise<VolInfo[]>,
+    getVolFromTrack: (trackId: number) => Promise<VolInfo | null>
   }
 }
 

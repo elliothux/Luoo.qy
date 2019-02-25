@@ -1,35 +1,41 @@
 import PouchDB from 'pouchdb';
+import PouchDBFind from 'pouchdb-find';
 import { VolInfo } from "../types";
 import {getIPC} from "../utils";
+
+PouchDB.plugin(PouchDBFind);
+
+const db: PouchDB.Database = new PouchDB('vols');
+
+db.createIndex({
+    index: {
+        fields: ['vol', 'id']
+    }
+});
 
 
 class VolDB {
     public init = async () => {
         const ipc = await getIPC();
-        this.db.createIndex({
-            index: {
-                fields: ['id']
-            }
-        });
         const vols = ipc.getPreloadVols();
-        // await this.saveVols(vols);
-        console.log(this.db);
+        console.time('save');
+        await this.saveVols(vols);
+        console.timeEnd('save');
         await this.getLatestVol();
     };
 
-    protected db: PouchDB.Database = new PouchDB('vols');
 
     public saveVols = (vols: VolInfo[]): Promise<(PouchDB.Core.Response | PouchDB.Core.Error)[]> => {
-        return this.db.bulkDocs(vols);
+        return db.bulkDocs(vols);
     };
 
     public getVols = async () => {
-        const vols = await this.db.allDocs();
+        const vols = await db.allDocs();
         return vols.rows;
     };
 
     public getLatestVol = async () => {
-        const vol = await this.db.find({
+        const vol = await db.find({
             selector: {},
             sort: ['vol'],
             limit: 1
