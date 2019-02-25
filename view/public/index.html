@@ -8,34 +8,45 @@
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
     <meta name="theme-color" content="#000000" />
-    <!--
-      manifest.json provides metadata used when your web app is added to the
-      homescreen on Android. See https://developers.google.com/web/fundamentals/web-app-manifest/
-    -->
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <!--
-      Notice the use of %PUBLIC_URL% in the tags above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
-
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
-    -->
-    <title>React App</title>
+    <title>Luoo.qy</title>
+    <style type="text/css" rel="stylesheet">
+      #boot-screen {
+        width: 100%;
+        height: 100%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 50;
+        display: flex;
+        background-image: linear-gradient(-45deg, #CECCCC 0%, #FFFFFF 100%);
+        text-align: center;
+        transition: all ease-in-out 1500ms;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+      #boot-screen > img {
+        width: 11%;
+        height: auto;
+        margin-bottom: 5vh;
+      }
+      #boot-screen.show {
+        transform: scale(1);
+        opacity: 1;
+      }
+      #boot-screen.hide {
+        transform: scale(1.3);
+        opacity: 0;
+      }
+    </style>
   </head>
   <body>
+    <div id="boot-screen" class="show">
+      <img src="./boot.png"/>
+    </div>
+
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
-
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
-
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
   </body>
 </html>

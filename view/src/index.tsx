@@ -9,7 +9,15 @@ import "./types/images.d.ts";
 store
   .init()
   .then(() => {
-    ReactDOM.render(<App />, document.getElementById("root") as HTMLElement);
+      const root = document.getElementById("root") as HTMLElement;
+      const boot = document.querySelector('#boot-screen') as HTMLDivElement;
+
+      ReactDOM.render(<App />, root, () => {
+          boot.className = 'hide';
+          setTimeout(() => {
+              boot.style.display = 'none';
+          }, 1600);
+      });
   })
   .catch(e => {
     console.error(e);

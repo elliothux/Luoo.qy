@@ -8,6 +8,8 @@ async function launch() {
     dir: path.join(__dirname, '../'),
     out: path.join(__dirname, '../out'),
     overwrite: true,
+    osxSign: false,
+    icon: path.join(__dirname, './icon.icns'),
     ignore: [
       /^\/node_modules/,
       /^\/view/,
@@ -34,7 +36,7 @@ async function launch() {
     path.join(toPath, './package.json'),
   );
   console.log('Install node_modules');
-  cp.execSync(`cd ${toPath}; cnpm i --production`);
+  cp.execSync(`cd ${toPath}; tnpm i --production`);
 }
 
 launch().then(() => {

@@ -29,20 +29,26 @@ const createWindow = () => {
     allowEval: true,
     webPreferences: {
       nodeIntegration: true,
+      devTools: isDev,
     },
   });
 
   const htmlPath = path.join(__dirname, './view/index.html');
-  mainWindow.loadURL(
-    !isDev ? 'http://localhost:3000/' : `file://${htmlPath}`,
-  );
+  mainWindow.loadURL(isDev ? 'http://localhost:3000/' : `file://${htmlPath}`);
 
-  mainWindow.webContents.openDevTools();
   mainWindow.setTitle('Luoo.qy');
 
   mainWindow.on('closed', () => {
     mainWindow = null;
   });
+
+  if (isDev) {
+    // mainWindow.webContents.openDevTools();
+  } else {
+    mainWindow.webContents.on('devtools-opened', () => {
+      mainWindow.webContents.closeDevTools();
+    });
+  }
 };
 
 app.on('ready', createWindow);
