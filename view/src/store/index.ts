@@ -17,7 +17,7 @@ class Store {
       singleStore.init(ipc),
       articleStore.init(ipc)
     ]);
-    await playerStore.init(ipc);
+    await playerStore.init();
   };
 
   protected viewHistory: ViewTypes[] = [];

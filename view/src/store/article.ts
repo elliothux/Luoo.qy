@@ -9,40 +9,18 @@ class ArticleStore {
   @action
   init = async (IPC: IpcObject) => {
     ipc = IPC;
-
     this.articles = await this.getArticlesFromDB();
-
-    try {
-      let articles: ArticleInfo[] = await this.fetchArticles();
-      if (articles.length > 0) {
-        for (let article of articles) {
-          await ipc.db.article.add(article);
-          for (let track of article.tracks) {
-            await ipc.db.articleTrack.add(track);
-          }
-        }
-        this.articles = await this.getArticlesFromDB();
-      }
-    } catch (e) {
-      console.error(e);
-    }
   };
 
   @observable
   public articles: ArticleInfo[] = [];
 
   private getArticlesFromDB = (): Promise<ArticleInfo[]> => {
-    return ipc.db.article.get();
+    return Promise.resolve([]);
   };
 
   private fetchArticles = async (): Promise<ArticleInfo[]> => {
-    try {
-      const latest: number = await ipc.db.article.latest();
-      const { data } = await ipc.requestArticles(latest + 1);
-      return data.sort((i: ArticleInfo, j: ArticleInfo) => j.id - i.id);
-    } catch (e) {
-      throw e;
-    }
+    return Promise.resolve([]);
   };
 
   protected articlePageScale = 3 * 4;

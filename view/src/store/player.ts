@@ -17,13 +17,11 @@ import { store } from './index';
 import { singleStore } from "./single";
 import { articleStore } from "./article";
 
-let ipc: IpcObject;
 let audio: HTMLAudioElement;
 
 class PlayerStore {
   @action
-  public init = async (IPC: IpcObject) => {
-    ipc = IPC;
+  public init = async () => {
     this.initAudio();
   };
 

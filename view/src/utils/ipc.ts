@@ -15,8 +15,9 @@ declare global {
     requestVols: (startVol: number) => Promise<RetData<VolInfo[]>>;
     requestSingles: (startDate: number) => Promise<RetData<Single[]>>;
     requestArticles: (startId: number) => Promise<RetData<ArticleInfo[]>>;
-    // todo
-    db: any;
+    getPreloadVols: () => VolInfo[],
+    getPreloadSingles: () => Single[],
+    getPreloadArticles: () => ArticleInfo[]
   }
 }
 

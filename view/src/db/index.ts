@@ -1,5 +1,5 @@
-import PouchDB from 'pouchdb';
+import {getIPC} from "../utils";
 
-function f() {
-    console.log(PouchDB);
+async function init() {
+    const ipc = await getIPC();
 }

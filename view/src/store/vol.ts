@@ -6,40 +6,18 @@ import {store} from "./index";
 let ipc: IpcObject;
 
 function getVolsFromDB(): Promise<VolInfo[]> {
-  return ipc.db.vol.get();
+  return Promise.resolve([]);
 }
 
 async function fetchVols(): Promise<VolInfo[]> {
-  try {
-    const latest: number = await ipc.db.vol.latest();
-    const { data } = await ipc.requestVols(latest + 1);
-    return data.sort((i: VolInfo, j: VolInfo) => j.vol - i.vol);
-  } catch (e) {
-    throw e;
-  }
+  return Promise.resolve([]);
 }
 
 class VolStore {
   @action
   init = async (IPC: IpcObject) => {
     ipc = IPC;
-
     this.allVols = await getVolsFromDB();
-
-    try {
-      let vols = await fetchVols();
-      if (vols.length > 0) {
-        for (let vol of vols) {
-          await ipc.db.vol.add(vol);
-          for (let track of vol.tracks) {
-            await ipc.db.volTrack.add(track);
-          }
-        }
-        this.allVols = await getVolsFromDB();
-      }
-    } catch (e) {
-      console.error(e);
-    }
   };
 
   @observable

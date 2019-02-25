@@ -1,6 +1,11 @@
 import * as path from "path";
 import { app, BrowserWindow } from "electron";
 import { requestVols, requestSingles, requestArticles } from "./utils";
+import {
+  getPreloadVols,
+  getPreloadSingles,
+  getPreloadArticles
+} from "./preload";
 
 const isDev = process.env.NODE_ENV === "development";
 
@@ -34,9 +39,7 @@ function launch(): void {
     });
 
     const htmlPath = path.join(__dirname, "./view/index.html");
-    mainWindow.loadURL(
-      isDev ? "http://localhost:3000/" : `file://${htmlPath}`
-    );
+    mainWindow.loadURL(isDev ? "http://localhost:3000/" : `file://${htmlPath}`);
 
     mainWindow.on("closed", () => {
       mainWindow = null;
@@ -73,7 +76,10 @@ function injectIPC(): void {
     value: {
       requestVols,
       requestSingles,
-      requestArticles
+      requestArticles,
+      getPreloadVols,
+      getPreloadSingles,
+      getPreloadArticles
     }
   });
 }

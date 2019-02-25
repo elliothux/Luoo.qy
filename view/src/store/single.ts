@@ -10,38 +10,18 @@ class SingleStore {
   @action
   init = async (IPC: IpcObject) => {
     ipc = IPC;
-
     this.singles = await this.getSinglesFromDB();
-
-    try {
-      let singles = await this.fetchSingles();
-      if (singles.length > 0) {
-        for (let single of singles) {
-          await ipc.db.single.add(single);
-        }
-        this.singles = await this.getSinglesFromDB();
-      }
-    } catch (e) {
-      console.error(e);
-    }
   };
 
   @observable
   public singles: Single[] = [];
 
   private getSinglesFromDB = (): Promise<Single[]> => {
-    return ipc.db.single.get();
+    return Promise.resolve([]);
   };
 
   private fetchSingles = async (): Promise<Single[]> => {
-    try {
-      const latest: number = await ipc.db.single.latest();
-      const { data } = await ipc.requestSingles(latest + 1);
-      // TODO: REMOVE after Typescript fix issue: https://github.com/Microsoft/TypeScript/issues/5710
-      return data.sort((i: Single, j: Single) => +j.date - +i.date);
-    } catch (e) {
-      throw e;
-    }
+    return Promise.resolve([]);
   };
 
   protected singlePageScale = 3 * 4;
