@@ -1,14 +1,14 @@
-const request = require('request');
-const camelcase = require('camelcase-keys');
+import { get } from "request";
+import camelcase from "camelcase-keys";
 
-function getJSON(url) {
+function getJSON<T>(url: string): Promise<T> {
   return new Promise((resolve, reject) => {
     try {
-      request.get(url, (error, response, body) => {
+      get(url, (error, response, body) => {
         if (error || !response || response.statusCode !== 200) {
           return reject(error);
         }
-        return resolve(camelcase(JSON.parse(body), { deep: true }));
+        return resolve(camelcase(JSON.parse(body), { deep: true }) as T);
       });
     } catch (e) {
       reject(e);
@@ -16,23 +16,19 @@ function getJSON(url) {
   });
 }
 
-function requestVols(from) {
+function requestVols(from: number) {
   const url = `http://127.0.0.1:8087/api/vols/${from}`;
   return getJSON(url);
 }
 
-function requestSingles(from) {
+function requestSingles(from: number) {
   const url = `http://127.0.0.1:8087/api/singles/${from}`;
   return getJSON(url);
 }
 
-function requestArticles(from) {
+function requestArticles(from: number) {
   const url = `http://127.0.0.1:8087/api/articles/${from}`;
   return getJSON(url);
 }
 
-module.exports = {
-  requestVols,
-  requestSingles,
-  requestArticles,
-};
+export { requestVols, requestSingles, requestArticles };

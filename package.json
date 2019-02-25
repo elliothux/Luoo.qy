@@ -3,7 +3,7 @@
   "productName": "luoo.qy",
   "version": "2.0.0",
   "description": "My Electron application description",
-  "main": "app/index.js",
+  "main": "app/index.ts",
   "scripts": {
     "start": "NODE_ENV=development electron-forge start",
     "start:view": "cd ./view; npm start",
@@ -19,9 +19,11 @@
     "camelcase-keys": "^5.0.0",
     "electron-squirrel-startup": "^1.0.0",
     "nedb": "^1.8.0",
-    "request": "^2.88.0"
+    "request": "^2.88.0",
+    "tingodb": "^0.6.1"
   },
   "devDependencies": {
+    "@types/camelcase-keys": "^4.0.0",
     "@types/electron": "^1.6.10",
     "@types/request": "^2.48.1",
     "babel-plugin-transform-async-to-generator": "^6.24.1",

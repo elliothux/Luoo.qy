@@ -5,7 +5,6 @@ import {volStore} from "./vol";
 import {singleStore} from "./single";
 import {articleStore} from "./article";
 import {playerStore} from "./player";
-import {debug} from "util";
 
 let ipc: IpcObject;
 
