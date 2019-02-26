@@ -19,7 +19,7 @@ async function saveSingle(single: Single): Promise<Single> {
 }
 
 function saveSingles(singles: Single[]): Promise<Single[]> {
-  return Promise.all(singles.map(single => insert(singleDB, single)));
+  return Promise.all(singles.map(single => saveSingle(single)));
 }
 
 function getSingles(): Promise<Single[]> {

@@ -9,9 +9,7 @@ class ArticleStore {
   @action
   init = async (IPC: IpcObject) => {
     ipc = IPC;
-    console.time('init article db');
     this.articles = await ipc.getArticles();
-    console.timeEnd('init article db');
     setTimeout(() => {
       this.updateFromCGI().catch(console.error);
     }, 10);

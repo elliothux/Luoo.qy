@@ -10,9 +10,7 @@ class SingleStore {
   @action
   init = async (IPC: IpcObject) => {
     ipc = IPC;
-    console.time('init single db');
     this.singles = await ipc.getSingles();
-    console.timeEnd('init single db');
     setTimeout(() => {
       this.updateFromCGI().catch(console.error);
     }, 10);

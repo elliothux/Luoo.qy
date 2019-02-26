@@ -15,9 +15,7 @@ class VolStore {
   @action
   init = async (IPC: IpcObject) => {
     ipc = IPC;
-    console.time('init vol db');
     this.allVols = await ipc.getVols();
-    console.timeEnd('init vol db');
     setTimeout(() => {
       this.updateFromCGI().catch(console.error);
     }, 10);

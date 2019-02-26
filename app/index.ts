@@ -5,7 +5,7 @@ import {
   saveVol,
   saveVols,
   getVols,
-  getVolFromTrack,
+  getVolFromTrackId,
   getLatestVol
 } from "./db/vol";
 import {
@@ -19,7 +19,7 @@ import {
   saveArticles,
   getArticles,
   getLatestArticle,
-  getArticleFromTrack
+  getArticleFromTrackId
 } from './db/article';
 
 const isDev = process.env.NODE_ENV === "development";
@@ -98,7 +98,7 @@ function injectIPC(): void {
       saveVols,
       getVols,
       getLatestVol,
-      getVolFromTrack,
+      getVolFromTrackId,
       // Single
       saveSingle,
       saveSingles,
@@ -109,7 +109,7 @@ function injectIPC(): void {
       saveArticles,
       getArticles,
       getLatestArticle,
-      getArticleFromTrack
+      getArticleFromTrackId
     }
   });
 }
