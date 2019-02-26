@@ -74,3 +74,11 @@ export interface ArticleTrackMap {
     id: number,
     articleId: number
 }
+
+export interface UserInfo {
+    mail: string,
+    password: string,
+    id: number,
+    name: string,
+    avatar: string,
+}

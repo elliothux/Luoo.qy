@@ -1,7 +1,7 @@
 import * as path from "path";
 import Nedb = require("nedb");
 import { DataStoreOptions } from "nedb";
-import { VolInfo, VolTrack, VolTrackMap } from "../types";
+import { VolInfo, VolTrackMap } from "../types";
 import { insert, find, isExist, findOne } from "./utils";
 
 const volDB: Nedb = new Nedb({

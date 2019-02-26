@@ -40,3 +40,4 @@ function requestArticles(from: number): Promise<ArticleInfo[]> {
 }
 
 export { requestVols, requestSingles, requestArticles };
+export * from "./crypto";
