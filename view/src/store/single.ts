@@ -116,9 +116,8 @@ class SingleStore {
     }
 
     const singleIndex = this.singles.findIndex(i => i.id === singleId);
-    const page = singleId % this.singlePageScale;
-    const index = singleIndex - page * this.singlePageScale;
-    this.singleCurrentPage = page;
+    const index = singleIndex % this.singlePageScale;
+    this.singleCurrentPage = (singleIndex - index) / this.singlePageScale;
 
     store.changeView(ViewTypes.SINGLES, false, () => {
       setTimeout(() => events.emit(EventTypes.SelectSingle, index), 200);

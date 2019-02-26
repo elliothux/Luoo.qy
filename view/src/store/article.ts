@@ -117,9 +117,8 @@ class ArticleStore {
     }
 
     const articleIndex = this.articles.findIndex(i => i.id === articleId);
-    const page = articleIndex % this.articlePageScale;
-    const index = articleIndex - page * this.articlePageScale;
-    this.articleCurrentPage = page;
+    const index = articleIndex % this.articlePageScale;
+    this.articleCurrentPage = (articleIndex - index) / this.articlePageScale;
 
     store.changeView(ViewTypes.ARTICLES, false, () => {
       setTimeout(() => events.emit(EventTypes.SelectArticle, index), 200);

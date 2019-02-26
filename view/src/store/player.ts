@@ -102,6 +102,7 @@ class PlayerStore {
       this.playingSingleId === singleId
     );
   };
+
   /*
     * @desc Article
      */
@@ -140,6 +141,7 @@ class PlayerStore {
       this.playingArticleTrackIndex === articleTrackIndex
     );
   };
+
   /*
     * @desc Playing
      */
@@ -419,8 +421,8 @@ class PlayerStore {
     let callback;
     switch (this.playingType) {
       case PlayingTypes.VOL: {
-        callback = () => {
-          volStore.selectVolById(this.playingVolId);
+        callback = async () => {
+          await volStore.selectVolById(this.playingVolId);
         };
         break;
       }

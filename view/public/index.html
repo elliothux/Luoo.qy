@@ -21,23 +21,23 @@
         display: flex;
         background-image: linear-gradient(-45deg, #CECCCC 0%, #FFFFFF 100%);
         text-align: center;
-        transition: all ease-in-out 1500ms;
+        transition: all ease 1200ms;
         flex-direction: column;
         justify-content: center;
         align-items: center;
-      }
-      #boot-screen > img {
-        width: 11%;
-        height: auto;
-        margin-bottom: 5vh;
       }
       #boot-screen.show {
         transform: scale(1);
         opacity: 1;
       }
       #boot-screen.hide {
-        transform: scale(1.3);
+        transform: scale(1.4);
         opacity: 0;
+      }
+      #boot-screen > img {
+        width: 11%;
+        height: auto;
+        margin-bottom: 5vh;
       }
     </style>
   </head>

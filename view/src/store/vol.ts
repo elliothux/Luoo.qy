@@ -146,16 +146,30 @@ class VolStore {
   };
 
   @action
-  public selectVolById = (volId: number) => {
+  public selectVolById = async (volId: number) => {
     if (volId === this.selectedVol.id && store.view === ViewTypes.VOL_INFO) {
       return;
     }
 
-    this.changeVolType(VolTypes.ALL);
-    const volIndex = this.allVols.findIndex(i => i.id === volId);
-    const page = volIndex % this.volPageScale;
-    const index = volIndex - page * this.volPageScale;
-    this.volCurrentPage = page;
+    const vol = await ipc.getVolById(volId);
+    if (!vol) {
+      throw new Error(`vol id-${volId} not exists`);
+    }
+
+    let vols;
+    if (
+      this.volType !== VolTypes.ALL &&
+      vol.tags.includes(this.volTypeItem.name)
+    ) {
+      vols = this.vols;
+    } else {
+      this.changeVolType(VolTypes.ALL);
+      vols = this.allVols;
+    }
+
+    const volIndex = vols.findIndex(i => i.id === volId);
+    const index = volIndex % this.volPageScale;
+    this.volCurrentPage = (volIndex - index) / this.volPageScale;
 
     store.changeView(ViewTypes.VOLS, false, () => {
       setTimeout(() => events.emit(EventTypes.SelectVol, index), 200);

@@ -49,12 +49,16 @@ async function getLatestVol(): Promise<VolInfo> {
   return vols[0];
 }
 
-async function getVolFromTrackId(trackId: number): Promise<VolInfo | null> {
+async function getVolByTrackId(trackId: number): Promise<VolInfo | null> {
   const map = await findOne<VolTrackMap>(volTrackMapDB, { id: trackId });
   if (!map) {
     return null;
   }
-  return findOne(volDB, { id: map.volId });
+  return findOne<VolInfo>(volDB, { id: map.volId });
 }
 
-export { saveVol, saveVols, getVols, getLatestVol, getVolFromTrackId };
+async function getVolById(id: number): Promise<VolInfo | null> {
+  return findOne<VolInfo>(volDB, { id });
+}
+
+export { saveVol, saveVols, getVols, getLatestVol, getVolByTrackId, getVolById };

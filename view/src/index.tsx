@@ -14,10 +14,12 @@ function init() {
       const boot = document.querySelector("#boot-screen") as HTMLDivElement;
 
       ReactDOM.render(<App />, root, () => {
-        boot.className = "hide";
+        setTimeout(() => {
+            boot.className = "hide";
+        }, 500);
         setTimeout(() => {
           boot.style.display = "none";
-        }, 1600);
+        }, 1500 + 500);
       });
     })
     .catch(e => {

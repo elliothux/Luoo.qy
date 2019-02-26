@@ -51,7 +51,7 @@ async function getLatestArticle(): Promise<ArticleInfo> {
   return articles[0];
 }
 
-async function getArticleFromTrackId(
+async function getArticleByTrackId(
   trackId: number
 ): Promise<ArticleInfo | null> {
   const map = await findOne<ArticleTrackMap>(articleTrackMapDB, {
@@ -60,7 +60,7 @@ async function getArticleFromTrackId(
   if (!map) {
     return null;
   }
-  return findOne(articleDB, { id: map.articleId });
+  return findOne<ArticleInfo>(articleDB, { id: map.articleId });
 }
 
 export {
@@ -68,5 +68,5 @@ export {
   saveArticles,
   getArticles,
   getLatestArticle,
-  getArticleFromTrackId
+  getArticleByTrackId
 };
