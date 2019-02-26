@@ -13,8 +13,9 @@ const volTrackDB: DataStore = new DataStore({
   autoload: true
 } as DataStoreOptions);
 
-function saveVols(vols: VolInfo[]): Promise<VolInfo[]> {
-  return Promise.all(vols.map(async (vol: VolInfo) => saveVol(vol)));
+
+function saveVolTrack(volTrack: VolTrack): Promise<VolTrack> {
+  return insert<VolTrack>(volTrackDB, volTrack);
 }
 
 async function saveVol(vol: VolInfo): Promise<VolInfo> {
@@ -29,8 +30,12 @@ async function saveVol(vol: VolInfo): Promise<VolInfo> {
   return insert<VolInfo>(volDB, vol);
 }
 
-function saveVolTrack(volTrack: VolTrack): Promise<VolTrack> {
-  return insert(volTrackDB, volTrack);
+function saveVols(vols: VolInfo[]): Promise<VolInfo[]> {
+  return Promise.all(vols.map(vol => saveVol(vol)));
+}
+
+function getVolTracks(vol: number): Promise<VolTrack[]> {
+  return find<VolTrack>(volTrackDB, { vol });
 }
 
 async function getVols(): Promise<VolInfo[]> {
@@ -43,8 +48,9 @@ async function getVols(): Promise<VolInfo[]> {
   );
 }
 
-async function getVolTracks(vol: number): Promise<VolTrack[]> {
-  return find<VolTrack>(volTrackDB, { vol });
+async function getLatestVol(): Promise<VolInfo> {
+  const vols = await find<VolInfo>(volDB, {}, { vol: -1 }, 1);
+  return vols[0];
 }
 
 async function getVolFromTrack(trackId: number): Promise<VolInfo | null> {
@@ -53,11 +59,6 @@ async function getVolFromTrack(trackId: number): Promise<VolInfo | null> {
     return findOne(volDB, { id: track.id });
   }
   return null;
-}
-
-async function getLatestVol(): Promise<VolInfo> {
-  const vols = await find<VolInfo>(volDB, {}, { vol: -1 }, 1);
-  return vols[0];
 }
 
 export { saveVol, saveVols, getVols, getLatestVol, getVolFromTrack };

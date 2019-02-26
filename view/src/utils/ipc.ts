@@ -1,4 +1,11 @@
 import { ArticleInfo, Single, VolInfo } from "../types";
+import {
+  getArticleFromTrack,
+  getArticles,
+  getLatestArticle,
+  saveArticle,
+  saveArticles
+} from "../../../app/db/article";
 
 declare global {
   interface Window {
@@ -27,6 +34,12 @@ declare global {
     saveSingles: (singles: Single[]) => Promise<Single[]>;
     getSingles: () => Promise<Single[]>;
     getLatestSingle: () => Promise<Single>;
+    // Article
+    saveArticle: (article: ArticleInfo) => Promise<ArticleInfo>;
+    saveArticles: (articles: ArticleInfo[]) => Promise<ArticleInfo[]>;
+    getArticles: () => Promise<ArticleInfo[]>;
+    getLatestArticle: () => Promise<ArticleInfo>;
+    getArticleFromTrack: (trackId: number) => Promise<ArticleInfo | null>;
   }
 }
 

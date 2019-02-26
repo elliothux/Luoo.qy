@@ -14,6 +14,13 @@ import {
   getSingles,
   getLatestSingle
 } from "./db/single";
+import {
+  saveArticle,
+  saveArticles,
+  getArticles,
+  getLatestArticle,
+  getArticleFromTrack
+} from './db/article';
 
 const isDev = process.env.NODE_ENV === "development";
 
@@ -82,18 +89,27 @@ function launch(): void {
 function injectIPC(): void {
   Object.defineProperty(global, "ipc", {
     value: {
+      // Request
       requestVols,
       requestSingles,
       requestArticles,
+      // VOl
       saveVol,
       saveVols,
       getVols,
       getLatestVol,
       getVolFromTrack,
+      // Single
       saveSingle,
       saveSingles,
       getSingles,
-      getLatestSingle
+      getLatestSingle,
+      // Article
+      saveArticle,
+      saveArticles,
+      getArticles,
+      getLatestArticle,
+      getArticleFromTrack
     }
   });
 }
