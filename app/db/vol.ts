@@ -10,13 +10,13 @@ const volDB: Nedb = new Nedb({
   autoload: true
 } as DataStoreOptions);
 
-const volTrackDB: Nedb = new Nedb({
-  filename: path.join(__dirname, "../../static/db/vol_track"),
+const volTrackMap: Nedb = new Nedb({
+  filename: path.join(__dirname, "../../static/db/vol_track_map"),
   autoload: true
 } as DataStoreOptions);
 
 
-function saveVolTrack(volTrack: VolTrack): Promise<VolTrack> {
+function saveVolTrackMap(vol: VolInfo): Promise<VolTrack> {
   console.log(`Save vol track: id-${volTrack.id}, name-${volTrack.name}`);
   return insert<VolTrack>(volTrackDB, volTrack);
 }

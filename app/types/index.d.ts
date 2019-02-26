@@ -63,3 +63,10 @@ export interface ArticleTrack extends Track {
     articleId: number;
     color: string;
 }
+
+export interface VolTrackMap {
+    id,
+    vol,
+    volId,
+}
+
