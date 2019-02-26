@@ -1,5 +1,5 @@
-import { action, computed, observable } from "mobx";
-import { events, genRange } from "../utils";
+import {action, computed, observable, toJS} from "mobx";
+import {events, genRange, promiseWrapper} from "../utils";
 import { ViewTypes, Single } from "../types";
 import { EventTypes } from "../utils";
 import { store } from "./index";
@@ -10,19 +10,32 @@ class SingleStore {
   @action
   init = async (IPC: IpcObject) => {
     ipc = IPC;
-    this.singles = await this.getSinglesFromDB();
+    console.time('init single db');
+    this.singles = await ipc.getSingles();
+    console.timeEnd('init single db');
+    setTimeout(() => {
+      this.updateFromCGI().catch(console.error);
+    }, 10);
+  };
+
+  @action
+  private updateFromCGI = async () => {
+    const latestSingle = await ipc.getLatestSingle();
+    const [singles, error] = await promiseWrapper(ipc.requestSingles(latestSingle ? latestSingle.date + 1 : 0));
+
+    if (error) {
+      throw error;
+    }
+
+    if (singles && singles.length > 0) {
+      await ipc.saveSingles(singles);
+    }
+
+    this.singles = await ipc.getSingles();
   };
 
   @observable
   public singles: Single[] = [];
-
-  private getSinglesFromDB = (): Promise<Single[]> => {
-    return Promise.resolve([]);
-  };
-
-  private fetchSingles = async (): Promise<Single[]> => {
-    return Promise.resolve([]);
-  };
 
   protected singlePageScale = 3 * 4;
 

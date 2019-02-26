@@ -1,3 +1,5 @@
+import { func } from "prop-types";
+
 export { getIPC } from "./ipc";
 export { events, EventTypes } from "./event";
 export { LyricParser } from "./lyric-parser";
@@ -48,11 +50,21 @@ function isAnyPartOfElementInViewport(el: HTMLElement) {
   return vertInView && horInView;
 }
 
+type PromiseResolveResult<T> = [T, null];
+type PromiseRejectResult = [null, Error];
+export type PromiseResult<T> = Promise<PromiseResolveResult<T> | PromiseRejectResult>
+function promiseWrapper<T>(p: Promise<T>): PromiseResult<T> {
+  return new Promise(resolve => {
+    p.then(i => resolve([i as T, null])).catch(e => resolve([null, e]));
+  });
+}
+
 export {
   genRange,
   px,
   noop,
   preventSyntheticEvent,
   formatPlayingTime,
-  isAnyPartOfElementInViewport
+  isAnyPartOfElementInViewport,
+  promiseWrapper
 };

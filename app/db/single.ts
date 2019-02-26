@@ -1,9 +1,10 @@
 import * as path from "path";
-import DataStore, { DataStoreOptions } from "nedb";
-import { insert, find, isExist, findOne } from "./utils";
+import Nedb = require("nedb");
+import { DataStoreOptions } from "nedb";
+import { insert, find, isExist } from "./utils";
 import { Single } from "../types";
 
-const singleDB: DataStore = new DataStore({
+const singleDB: Nedb = new Nedb({
   filename: path.join(__dirname, "../../static/db/single"),
   autoload: true
 } as DataStoreOptions);
@@ -13,6 +14,7 @@ async function saveSingle(single: Single): Promise<Single> {
     throw new Error(`Single ${single.id} ${single.name} exists`);
   }
 
+  console.log(`Save single: id-${single.id}, name-${single.name}`);
   return insert<Single>(singleDB, single);
 }
 
@@ -21,7 +23,7 @@ function saveSingles(singles: Single[]): Promise<Single[]> {
 }
 
 function getSingles(): Promise<Single[]> {
-  return find<Single>(singleDB, { date: -1 });
+  return find<Single>(singleDB, {}, { date: -1 });
 }
 
 async function getLatestSingle(): Promise<Single> {

@@ -1,31 +1,18 @@
 import { ArticleInfo, Single, VolInfo } from "../types";
-import {
-  getArticleFromTrack,
-  getArticles,
-  getLatestArticle,
-  saveArticle,
-  saveArticles
-} from "../../../app/db/article";
 
 declare global {
   interface Window {
     require: (p: string) => any;
   }
 
-  interface RetData<T> {
-    code: number;
-    msg: string;
-    data: T;
-  }
-
   interface IpcObject {
     // Request
-    requestVols: (startVol: number) => Promise<RetData<VolInfo[]>>;
-    requestSingles: (startDate: number) => Promise<RetData<Single[]>>;
-    requestArticles: (startId: number) => Promise<RetData<ArticleInfo[]>>;
+    requestVols: (startVol: number) => Promise<VolInfo[]>;
+    requestSingles: (startDate: number) => Promise<Single[]>;
+    requestArticles: (startId: number) => Promise<ArticleInfo[]>;
     // Vols
     saveVol: (vol: VolInfo) => Promise<VolInfo>;
-    saveVols: (vol: VolInfo[]) => Promise<VolInfo[]>;
+    saveVols: (vols: VolInfo[]) => Promise<VolInfo[]>;
     getVols: () => Promise<VolInfo[]>;
     getLatestVol: () => Promise<VolInfo>;
     getVolFromTrack: (trackId: number) => Promise<VolInfo | null>;

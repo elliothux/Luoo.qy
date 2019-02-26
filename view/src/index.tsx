@@ -2,7 +2,6 @@ import * as React from "react";
 import * as ReactDOM from "react-dom";
 import { store } from "./store";
 import { App } from "./App";
-import "./db/vol";
 
 import "./styles/index.scss";
 import "./types/images.d.ts";
@@ -26,6 +25,6 @@ function init() {
     });
 }
 
-const boot = document.querySelector("#boot-screen") as HTMLDivElement;
-boot.style.display = "none";
-// init();
+// const boot = document.querySelector("#boot-screen") as HTMLDivElement;
+// boot.style.display = "none";
+init();

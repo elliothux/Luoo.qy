@@ -1,20 +1,23 @@
 import * as path from "path";
-import DataStore, { DataStoreOptions } from "nedb";
+import Nedb = require("nedb");
+import { DataStoreOptions } from "nedb";
 import { VolInfo, VolTrack } from "../types";
 import { insert, find, isExist, findOne } from "./utils";
 
-const volDB: DataStore = new DataStore({
+
+const volDB: Nedb = new Nedb({
   filename: path.join(__dirname, "../../static/db/vol"),
   autoload: true
 } as DataStoreOptions);
 
-const volTrackDB: DataStore = new DataStore({
+const volTrackDB: Nedb = new Nedb({
   filename: path.join(__dirname, "../../static/db/vol_track"),
   autoload: true
 } as DataStoreOptions);
 
 
 function saveVolTrack(volTrack: VolTrack): Promise<VolTrack> {
+  console.log(`Save vol track: id-${volTrack.id}, name-${volTrack.name}`);
   return insert<VolTrack>(volTrackDB, volTrack);
 }
 
@@ -27,6 +30,7 @@ async function saveVol(vol: VolInfo): Promise<VolInfo> {
   }
 
   await Promise.all(tracks.map(track => saveVolTrack(track)));
+  console.log(`Save vol: vol-${vol.vol}, title-${vol.title}`);
   return insert<VolInfo>(volDB, vol);
 }
 

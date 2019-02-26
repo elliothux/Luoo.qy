@@ -1,19 +1,21 @@
 import * as path from "path";
-import DataStore, { DataStoreOptions } from "nedb";
+import Nedb = require("nedb");
+import { DataStoreOptions } from "nedb";
 import { insert, find, isExist, findOne } from "./utils";
 import { ArticleInfo, ArticleTrack } from "../types";
 
-const articleDB: DataStore = new DataStore({
+const articleDB: Nedb = new Nedb({
   filename: path.join(__dirname, "../../static/db/article"),
   autoload: true
 } as DataStoreOptions);
 
-const articleTrackDB: DataStore = new DataStore({
+const articleTrackDB: Nedb = new Nedb({
   filename: path.join(__dirname, "../../static/db/article_track"),
   autoload: true
 } as DataStoreOptions);
 
 function saveArticleTrack(articleTrack: ArticleTrack): Promise<ArticleTrack> {
+  console.log(`Save article track: id-${articleTrack.id}, name-${articleTrack.name}`);
   return insert<ArticleTrack>(articleTrackDB, articleTrack);
 }
 
@@ -26,6 +28,7 @@ async function saveArticle(article: ArticleInfo): Promise<ArticleInfo> {
   }
 
   await Promise.all(tracks.map(track => saveArticleTrack(track)));
+  console.log(`Save article: id-${article.id}, title-${article.title}`);
   return insert<ArticleInfo>(articleDB, article);
 }
 

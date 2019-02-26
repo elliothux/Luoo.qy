@@ -1,5 +1,5 @@
 import { action, computed, observable } from "mobx";
-import { events, EventTypes, genRange } from "../utils";
+import { events, EventTypes, genRange, promiseWrapper } from "../utils";
 import { ArticleInfo, ViewTypes } from "../types";
 import { store } from "./index";
 
@@ -9,19 +9,34 @@ class ArticleStore {
   @action
   init = async (IPC: IpcObject) => {
     ipc = IPC;
-    this.articles = await this.getArticlesFromDB();
+    console.time('init article db');
+    this.articles = await ipc.getArticles();
+    console.timeEnd('init article db');
+    setTimeout(() => {
+      this.updateFromCGI().catch(console.error);
+    }, 10);
+  };
+
+  @action
+  private updateFromCGI = async () => {
+    const latestArticle = await ipc.getLatestArticle();
+    const [articles, error] = await promiseWrapper(
+      ipc.requestArticles(latestArticle ? latestArticle.id + 1 : 0)
+    );
+
+    if (error) {
+      throw error;
+    }
+
+    if (articles && articles.length > 0) {
+      await ipc.saveArticles(articles);
+    }
+
+    this.articles = await ipc.getArticles();
   };
 
   @observable
   public articles: ArticleInfo[] = [];
-
-  private getArticlesFromDB = (): Promise<ArticleInfo[]> => {
-    return Promise.resolve([]);
-  };
-
-  private fetchArticles = async (): Promise<ArticleInfo[]> => {
-    return Promise.resolve([]);
-  };
 
   protected articlePageScale = 3 * 4;
 

@@ -1,5 +1,5 @@
 import { action, computed, observable } from "mobx";
-import { events, EventTypes, genRange } from "../utils";
+import { events, EventTypes, genRange, promiseWrapper } from "../utils";
 import {
   ViewTypes,
   VolInfo,
@@ -11,19 +11,35 @@ import { store } from "./index";
 
 let ipc: IpcObject;
 
-function getVolsFromDB(): Promise<VolInfo[]> {
-  return Promise.resolve([]);
-}
-
-async function fetchVols(): Promise<VolInfo[]> {
-  return Promise.resolve([]);
-}
-
 class VolStore {
   @action
   init = async (IPC: IpcObject) => {
     ipc = IPC;
-    this.allVols = await getVolsFromDB();
+    console.time('init vol db');
+    this.allVols = await ipc.getVols();
+    console.timeEnd('init vol db');
+    setTimeout(() => {
+      this.updateFromCGI().catch(console.error);
+    }, 10);
+  };
+
+  @action
+  private updateFromCGI = async () => {
+    const latestVol = await ipc.getLatestVol();
+
+    const [vols, error] = await promiseWrapper<VolInfo[]>(
+      ipc.requestVols(latestVol ? latestVol.vol + 1 : 0)
+    );
+
+    if (error) {
+      throw error;
+    }
+
+    if (vols && vols.length > 0) {
+      await ipc.saveVols(vols);
+    }
+
+    this.allVols = await ipc.getVols();
   };
 
   @observable
