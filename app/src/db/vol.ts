@@ -1,17 +1,11 @@
-import * as path from "path";
+import {insert, find, isExist, findOne, getDB} from "./utils";
+import { VolInfo, VolTrackMap } from "../types";
 import Nedb = require("nedb");
-import { DataStoreOptions } from "nedb";
-import { insert, find, isExist, findOne } from "./utils";
 
-const volDB: Nedb = new Nedb({
-  filename: path.join(__dirname, "../../static/db/vol"),
-  autoload: true
-} as DataStoreOptions);
 
-const volTrackMapDB: Nedb = new Nedb({
-  filename: path.join(__dirname, "../../static/db/vol_track_map"),
-  autoload: true
-} as DataStoreOptions);
+const volDB: Nedb = getDB('vol');
+
+const volTrackMapDB: Nedb = getDB('vol_track_map');
 
 function saveVolTrackMap(map: VolTrackMap): Promise<VolTrackMap> {
   return insert<VolTrackMap>(volTrackMapDB, map);
@@ -60,4 +54,11 @@ async function getVolById(id: number): Promise<VolInfo | null> {
   return findOne<VolInfo>(volDB, { id });
 }
 
-export { saveVol, saveVols, getVols, getLatestVol, getVolByTrackId, getVolById };
+export {
+  saveVol,
+  saveVols,
+  getVols,
+  getLatestVol,
+  getVolByTrackId,
+  getVolById
+};

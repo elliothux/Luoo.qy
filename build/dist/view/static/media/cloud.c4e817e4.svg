@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="66px" height="66px" viewBox="0 0 66 66" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.3 (57544) - http://www.bohemiancoding.com/sketch -->
+    <title>cloud</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="main" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="res" transform="translate(-991.000000, -841.000000)" stroke="#FFFFFF" stroke-width="2.5">
+            <g id="cloud" transform="translate(991.000000, 841.000000)">
+                <path d="M49.3125,51.1476951 L16.6875,51.1476951 C10.79475,51.1476951 6,46.4911223 6,40.7681921 C6,35.0452619 10.79475,30.388689 16.6875,30.388689 C16.891125,30.388689 17.093625,30.3941519 17.29725,30.4061703 C17.26575,30.0270453 17.25,29.6577535 17.25,29.2961098 C17.25,20.8613978 24.315,14 33,14 C41.685,14 48.75,20.8613978 48.75,29.2961098 C48.75,29.6577535 48.73425,30.0270453 48.70275,30.4061703 C48.906375,30.3941519 49.108875,30.388689 49.3125,30.388689 C55.20525,30.388689 60,35.0452619 60,40.7681921 C60,46.4911223 55.20525,51.1476951 49.3125,51.1476951"></path>
+            </g>
+        </g>
+    </g>
+</svg>

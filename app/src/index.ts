@@ -7,33 +7,22 @@ import {
   getVols,
   getLatestVol,
   getVolByTrackId,
-  getVolById
-} from "./db/vol";
-import {
+  getVolById,
   saveSingle,
   saveSingles,
   getSingles,
-  getLatestSingle
-} from "./db/single";
-import {
+  getLatestSingle,
   saveArticle,
   saveArticles,
   getArticles,
   getLatestArticle,
   getArticleByTrackId
-} from './db/article';
-import "./types";
+} from "./db";
+import { isDev, runPath } from "./utils";
 
-const isDev = process.env.NODE_ENV === "development";
 
 function launch(): void {
-  const squirrel = require("electron-squirrel-startup");
-  if (squirrel) {
-    app.quit();
-    return;
-  } else {
-    injectIPC();
-  }
+  injectIPC();
 
   let mainWindow: BrowserWindow | null;
 
@@ -55,7 +44,7 @@ function launch(): void {
       }
     });
 
-    const htmlPath = path.join(__dirname, "./view/index.html");
+    const htmlPath = path.join(runPath, "./view/index.html");
     mainWindow.loadURL(isDev ? "http://localhost:3000/" : `file://${htmlPath}`);
 
     mainWindow.on("closed", () => {
@@ -63,9 +52,11 @@ function launch(): void {
     });
 
     if (isDev) {
+      console.log('dev');
       mainWindow.webContents.openDevTools();
     } else {
-      mainWindow.webContents.on("devtools-opened", closeDevTools);
+      mainWindow.webContents.openDevTools();
+      // mainWindow.webContents.on("devtools-opened", closeDevTools);
     }
   }
 

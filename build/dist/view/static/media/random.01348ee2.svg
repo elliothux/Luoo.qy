@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="66px" height="66px" viewBox="0 0 66 66" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.3 (57544) - http://www.bohemiancoding.com/sketch -->
+    <title>random</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="main" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+        <g id="res" transform="translate(-317.000000, -752.000000)" stroke="#FFFFFF" stroke-width="2.5">
+            <g id="random" transform="translate(317.000000, 752.000000)">
+                <path d="M28.5924209,42.6317288 C23.803084,47.4277413 15.835957,47.1020457 11.4782259,41.6546422 C8.1739247,37.5240809 8.1739247,31.4759191 11.4782259,27.3453578 C12.9308028,25.5295574 14.7844238,24.2828347 16.7877114,23.60519 C21.9070395,21.8734963 27.5164311,24.3831393 30.0941142,29.1388131 L35.9058866,39.8611869 C38.4835696,44.6168618 44.0929593,47.1265047 49.2122914,45.3948111 C51.2155768,44.7171663 53.0691982,43.4704447 54.5217739,41.6546422 C57.8260754,37.5240809 57.8260754,31.4759191 54.5217739,27.3453578 C50.1640428,21.8979543 42.1969158,21.5722587 37.407581,26.3682712" id="Shape"></path>
+                <polyline id="Shape" points="39.2857143 17 37 27.1111111 45 30"></polyline>
+            </g>
+        </g>
+    </g>
+</svg>

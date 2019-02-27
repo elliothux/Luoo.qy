@@ -5,15 +5,20 @@
   "description": "",
   "main": "./dist",
   "scripts": {
-    "start:view": "cd ./view; NODE_ENV=development npm start",
-    "pack": "NODE_ENV=production node ./build",
-    "build": "npm run build:main; npm run build:view",
-    "build:main": "rm -rf ./dist/*; ./node_modules/.bin/parcel build ./app/index.ts --target electron --bundle-node-modules --no-source-maps --no-cache",
-    "build:view": "rm -rf ./dist/view; cd ./view; NODE_ENV=production npm run build; cp -r ./build ../dist/view",
-    "lint": "eslint app --color --fix",
-    "lint:view": "eslint view --color --fix",
-    "make": "electron-forge make",
-    "publish": "electron-forge publish"
+    "start": "./node_modules/.bin/electron ./app",
+    "dev:view": "cd ./view; npm start",
+    "dev:main": "cd ./app; npm start",
+    "build:view": "cd ./view; npm run build",
+    "build:main": "cd ./app; npm run build",
+    "build": "rm -rf ./dist; echo \"Building view\"; npm run build:view; echo \"Building main\"; npm run build:main;",
+    "pack": "cp -rf ./app/static/db ./dist; node ./build"
+  },
+  "devDependencies": {
+    "electron": "4.0.6",
+    "electron-packager": "^13.1.0",
+    "eslint": "5.6.0",
+    "eslint-config-airbnb": "^17.1.0",
+    "open": "0.0.5"
   },
   "keywords": [],
   "author": "qingyang",

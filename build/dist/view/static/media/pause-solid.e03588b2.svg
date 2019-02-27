@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="66px" height="66px" viewBox="0 0 66 66" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.3 (57544) - http://www.bohemiancoding.com/sketch -->
+    <title>pause-solid</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="main" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="res" transform="translate(-919.000000, -841.000000)" fill="#FFFFFF">
+            <g id="pause-solid" transform="translate(952.000000, 874.000000) scale(-1, 1) translate(-952.000000, -874.000000) translate(919.000000, 841.000000)">
+                <g id="icons" transform="translate(13.000000, 10.000000)">
+                    <polygon id="Shape" points="11 46 0 46 0 0 11 0"></polygon>
+                    <polygon id="Shape" points="41 46 30 46 30 0 41 0"></polygon>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

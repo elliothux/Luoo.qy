@@ -1,10 +1,7 @@
 {
-  "name": "my-app",
-  "version": "0.1.0",
-  "private": true,
   "scripts": {
-    "start": "BROWSER=none SKIP_PREFLIGHT_CHECK=true node scripts/start.js",
-    "build": "SKIP_PREFLIGHT_CHECK=true node scripts/build.js",
+    "start": "NODE_ENV=development BROWSER=none SKIP_PREFLIGHT_CHECK=true node scripts/start.js",
+    "build": "NODE_ENV=production SKIP_PREFLIGHT_CHECK=true node scripts/build.js",
     "test": "node scripts/test.js",
     "lint": "eslint src --color --fix"
   },
@@ -13,8 +10,6 @@
     "classnames": "^2.2.6",
     "mobx": "^5.9.0",
     "mobx-react": "^5.4.3",
-    "pouchdb": "^7.0.0",
-    "pouchdb-find": "^7.0.0",
     "ramda": "^0.26.1",
     "react": "^16.7.0",
     "react-app-polyfill": "^0.2.0",
@@ -32,7 +27,6 @@
     "@types/react": "^16.7.22",
     "@types/react-dom": "^16.0.11",
     "babel-core": "7.0.0-bridge.0",
-    "babel-eslint": "9.0.0",
     "babel-jest": "23.6.0",
     "babel-loader": "8.0.4",
     "babel-plugin-named-asset-import": "^0.3.0",
@@ -43,13 +37,6 @@
     "css-loader": "1.0.0",
     "dotenv": "6.0.0",
     "dotenv-expand": "4.2.0",
-    "eslint": "5.6.0",
-    "eslint-config-react-app": "^3.0.6",
-    "eslint-loader": "2.1.1",
-    "eslint-plugin-flowtype": "2.50.1",
-    "eslint-plugin-import": "2.14.0",
-    "eslint-plugin-jsx-a11y": "6.1.2",
-    "eslint-plugin-react": "7.11.1",
     "file-loader": "2.0.0",
     "fork-ts-checker-webpack-plugin-alt": "0.4.14",
     "fs-extra": "7.0.0",
@@ -78,15 +65,6 @@
     "webpack-manifest-plugin": "2.0.4",
     "workbox-webpack-plugin": "3.6.3"
   },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
-  ],
   "jest": {
     "collectCoverageFrom": [
       "src/**/*.{js,jsx,ts,tsx}",
@@ -128,9 +106,10 @@
       "node"
     ]
   },
-  "babel": {
-    "presets": [
-      "react-app"
-    ]
-  }
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }

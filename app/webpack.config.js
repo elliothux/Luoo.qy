@@ -1,13 +1,15 @@
 const path = require('path');
 
+const isDev = process.env.NODE_ENV === 'development';
 
 module.exports = {
-  entry: path.resolve(__dirname, './index.ts'),
+  entry: path.resolve(__dirname, './src/index.ts'),
   output: {
     path: path.resolve(__dirname, '../dist'),
     filename: 'index.js',
   },
-  target: 'node',
+  target: 'electron-main',
+  mode: isDev ? 'development' : 'production',
   externals: [],
   module: {
     rules: [
@@ -23,6 +25,9 @@ module.exports = {
             },
           },
         ],
+        resolve: {
+          extensions: ['.ts', '.js', '.json']
+        },
         exclude: /node_modules/,
       },
     ],

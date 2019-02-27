@@ -26,7 +26,4 @@ function aseDecode(data: string): string {
   return decrypted;
 }
 
-export {
-    aseEncode,
-    aseDecode
-}
+export { aseEncode, aseDecode };

@@ -1,4 +1,4 @@
-interface Track {
+export interface Track {
   name: string;
   artist: string;
   album: string;
@@ -7,13 +7,13 @@ interface Track {
   lyric?: string;
 }
 
-interface RetData<T> {
+export interface RetData<T> {
   code: number;
   msg: string;
   data: T;
 }
 
-interface VolInfo {
+export interface VolInfo {
   id: number;
   vol: number;
   title: string;
@@ -29,13 +29,13 @@ interface VolInfo {
   tracks: VolTrack[];
 }
 
-interface VolTrack extends Track {
+export interface VolTrack extends Track {
   id: number;
   vol: number;
   color: string;
 }
 
-interface Single extends Track {
+export interface Single extends Track {
   id: number;
   desc: string;
   date: number;
@@ -43,7 +43,7 @@ interface Single extends Track {
   color: string;
 }
 
-interface ArticleInfo {
+export interface ArticleInfo {
   id: number;
   title: string;
   cover: string;
@@ -58,19 +58,19 @@ interface ArticleInfo {
   tracks: ArticleTrack[];
 }
 
-interface ArticleTrack extends Track {
+export interface ArticleTrack extends Track {
   id: number;
   articleId: number;
   color: string;
 }
 
-interface VolTrackMap {
+export interface VolTrackMap {
   id: number;
   vol: number;
   volId: number;
 }
 
-interface ArticleTrackMap {
+export interface ArticleTrackMap {
   id: number;
   articleId: number;
 }

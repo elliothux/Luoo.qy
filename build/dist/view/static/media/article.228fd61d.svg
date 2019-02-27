@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="66px" height="66px" viewBox="0 0 66 66" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.3 (57544) - http://www.bohemiancoding.com/sketch -->
+    <title>article</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="main" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linejoin="round">
+        <g id="res" transform="translate(-392.000000, -841.000000)" stroke="#FFFFFF" stroke-width="2">
+            <g id="article" transform="translate(392.000000, 841.000000)">
+                <g id="Group-5" transform="translate(15.000000, 12.000000)">
+                    <path d="M23,36 L31,36" id="Shape"></path>
+                    <g id="Group">
+                        <path d="M3.89473684,7.81818182 L37,7.81818182 L37,43 L4.86842105,43 C2.17966649,43 0,40.8123017 0,38.1136364 L0,3.90909091" id="Shape"></path>
+                        <path d="M37,-3.90909091e-07 L3.89473684,-3.90909091e-07" id="Shape"></path>
+                        <path d="M3.89473684,3.90909091 L36.0263158,3.90909091" id="Shape"></path>
+                        <path d="M3.89473684,7.81818182 C1.74373318,7.81818182 0,6.06802211 0,3.90909091 C0,1.75015971 1.74373318,0 3.89473684,0" id="Shape"></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

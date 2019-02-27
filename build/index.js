@@ -1,8 +1,6 @@
 const packager = require('electron-packager');
 const open = require('open');
 const path = require('path');
-// const fs = require('fs');
-// const cp = require('child_process');
 
 async function launch() {
   const appPaths = await packager({
@@ -17,7 +15,6 @@ async function launch() {
       /^\/design/,
       /^\/node_modules/,
       /^\/out/,
-      /^\/static/,
       /^\/view/,
       /\/README/,
       /\/yarn/,
@@ -33,14 +30,6 @@ async function launch() {
     },
   });
   console.log(`Pack done at: ${appPaths.join('\n')}`);
-
-  // const toPath = path.join(appPaths[0], './luoo.qy.app/Contents/Resources/app/');
-  // fs.copyFileSync(
-  //   path.join(__dirname, '../package.json'),
-  //   path.join(toPath, './package.json'),
-  // );
-  // console.log('Install node_modules');
-  // cp.execSync(`cd ${toPath}; tnpm i --production`);
   open(`file://${appPaths}`);
 }
 

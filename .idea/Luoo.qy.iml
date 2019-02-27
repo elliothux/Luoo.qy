@@ -4,6 +4,8 @@
     <content url="file://$MODULE_DIR$">
       <excludeFolder url="file://$MODULE_DIR$/.cache" />
       <excludeFolder url="file://$MODULE_DIR$/.tmp" />
+      <excludeFolder url="file://$MODULE_DIR$/app/dist" />
+      <excludeFolder url="file://$MODULE_DIR$/app/static" />
       <excludeFolder url="file://$MODULE_DIR$/app/view" />
       <excludeFolder url="file://$MODULE_DIR$/design" />
       <excludeFolder url="file://$MODULE_DIR$/dist" />
