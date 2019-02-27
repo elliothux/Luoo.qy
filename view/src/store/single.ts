@@ -12,7 +12,7 @@ class SingleStore {
   @action
   init = async (IPC: IpcObject) => {
     ipc = IPC;
-    this.singles = await ipc.getSingles();
+    this.updateSingles(await ipc.getSingles());
     setTimeout(() => {
       this.updateFromCGI().catch(console.error);
     }, 10);
@@ -31,11 +31,17 @@ class SingleStore {
       await ipc.saveSingles(singles);
     }
 
-    this.singles = await ipc.getSingles();
+    this.updateSingles(await ipc.getSingles());
+  };
+
+  @action
+  private updateSingles = (singles: Single[]) => {
+    const readonlySingles = singles.map(i => Object.freeze(i));
+    this.singles = Object.freeze(readonlySingles);
   };
 
   @observable
-  public singles: Single[] = [];
+  public singles: ReadonlyArray<Single> = [];
 
   protected singlePageScale = 3 * 4;
 

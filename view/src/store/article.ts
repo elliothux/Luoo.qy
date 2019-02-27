@@ -12,7 +12,7 @@ class ArticleStore {
   @action
   init = async (IPC: IpcObject) => {
     ipc = IPC;
-    this.articles = await ipc.getArticles();
+    this.updateArticles(await ipc.getArticles());
     setTimeout(() => {
       this.updateFromCGI().catch(console.error);
     }, 10);
@@ -33,11 +33,17 @@ class ArticleStore {
       await ipc.saveArticles(articles);
     }
 
-    this.articles = await ipc.getArticles();
+    this.updateArticles(await ipc.getArticles());
+  };
+
+  @action
+  private updateArticles = (articles: ArticleInfo[]) => {
+    const readonlyArticles = articles.map(i => Object.freeze(i));
+    this.articles = Object.freeze(readonlyArticles);
   };
 
   @observable
-  public articles: ArticleInfo[] = [];
+  public articles: ReadonlyArray<ArticleInfo> = [];
 
   protected articlePageScale = 3 * 4;
 

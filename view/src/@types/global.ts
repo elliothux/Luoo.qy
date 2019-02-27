@@ -1,11 +1,3 @@
-export type ElementPositionValue = number;
-
-export interface ElementPosition {
-  top: ElementPositionValue;
-  right: ElementPositionValue;
-  bottom: ElementPositionValue;
-  left: ElementPositionValue;
-}
 
 export enum ViewTypes {
   PLAYING,
@@ -37,7 +29,7 @@ export enum PlayingMode {
   LOOP
 }
 
-export interface Track {
+interface ITrack {
   name: string;
   artist: string;
   album: string;
@@ -45,8 +37,9 @@ export interface Track {
   url: string;
   lyric?: string;
 }
+export type Track = Readonly<ITrack>;
 
-export interface VolInfo {
+interface IVolInfo {
   id: number;
   vol: number;
   title: string;
@@ -61,22 +54,25 @@ export interface VolInfo {
   similarVols: number[];
   tracks: VolTrack[];
 }
+export type VolInfo =  Readonly<IVolInfo>;
 
-export interface VolTrack extends Track {
+interface IVolTrack extends Track {
   id: number;
   vol: number;
   color: string;
 }
+export type VolTrack = Readonly<IVolTrack>;
 
-export interface Single extends Track {
+interface ISingle extends Track {
   id: number;
   desc: string;
   date: number;
   recommender: string;
   color: string;
 }
+export type Single = Readonly<ISingle>;
 
-export interface ArticleInfo {
+interface IArticleInfo {
   id: number;
   title: string;
   cover: string;
@@ -90,9 +86,18 @@ export interface ArticleInfo {
   authorAvatar: string;
   tracks: ArticleTrack[];
 }
+export type ArticleInfo = Readonly<IArticleInfo>;
 
-export interface ArticleTrack extends Track {
+interface IArticleTrack extends Track {
   id: number;
   articleId: number;
   color: string;
+}
+export type ArticleTrack = Readonly<IArticleTrack>;
+
+export interface ElementPosition {
+  top: number;
+  right: number;
+  bottom: number;
+  left: number;
 }

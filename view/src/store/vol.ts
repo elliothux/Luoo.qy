@@ -2,10 +2,7 @@ import { action, computed, observable } from "mobx";
 import { events, EventTypes, genRange, promiseWrapper } from "../utils";
 import { VolTypesList, VolTypes, VolTypeItem } from "../@types";
 import { store } from "./index";
-import {
-  ViewTypes,
-  VolInfo,
-} from "../@types";
+import { ViewTypes, VolInfo } from "../@types";
 
 let ipc: IpcObject;
 
@@ -13,7 +10,7 @@ class VolStore {
   @action
   init = async (IPC: IpcObject) => {
     ipc = IPC;
-    this.allVols = await ipc.getVols();
+    this.updateAllVols(await ipc.getVols());
     setTimeout(() => {
       this.updateFromCGI().catch(console.error);
     }, 10);
@@ -35,14 +32,20 @@ class VolStore {
       await ipc.saveVols(vols);
     }
 
-    this.allVols = await ipc.getVols();
+    this.updateAllVols(await ipc.getVols());
+  };
+
+  @action
+  private updateAllVols = (vols: VolInfo[]) => {
+    const readonlyVols = vols.map(i => Object.freeze(i));
+    this.allVols = Object.freeze(readonlyVols);
   };
 
   @observable
-  public allVols: VolInfo[] = [];
+  public allVols: ReadonlyArray<VolInfo> = [];
 
   @computed
-  public get vols(): VolInfo[] {
+  public get vols(): ReadonlyArray<VolInfo> | VolInfo[] {
     if (this.volType === VolTypes.ALL) {
       return this.allVols;
     }
