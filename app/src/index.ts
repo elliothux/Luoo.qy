@@ -39,12 +39,12 @@ function launch(): void {
       title: "Luoo.qy",
       webPreferences: {
         nodeIntegration: true,
-        devTools: isDev,
+        devTools: true,
         allowRunningInsecureContent: true
       }
     });
 
-    const htmlPath = path.join(runPath, "./view/index.html");
+    const htmlPath = path.join(runPath, "./dist/view/index.html");
     mainWindow.loadURL(isDev ? "http://localhost:3000/" : `file://${htmlPath}`);
 
     mainWindow.on("closed", () => {
@@ -55,8 +55,9 @@ function launch(): void {
       console.log('dev');
       mainWindow.webContents.openDevTools();
     } else {
-      mainWindow.webContents.openDevTools();
-      // mainWindow.webContents.on("devtools-opened", closeDevTools);
+      console.log('prod');
+      // mainWindow.webContents.openDevTools();
+      // closeDevTools();
     }
   }
 

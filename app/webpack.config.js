@@ -9,7 +9,8 @@ module.exports = {
     filename: 'index.js',
   },
   target: 'electron-main',
-  mode: isDev ? 'development' : 'production',
+  // mode: isDev ? 'development' : 'production',
+  mode: 'production',
   externals: [],
   module: {
     rules: [
@@ -26,7 +27,7 @@ module.exports = {
           },
         ],
         resolve: {
-          extensions: ['.ts', '.js', '.json']
+          extensions: ['.ts', '.js', '.json'],
         },
         exclude: /node_modules/,
       },

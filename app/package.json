@@ -1,7 +1,7 @@
 {
   "scripts": {
-    "start": "NODE_ENV=development ./node_modules/.bin/webpack --watch --color --config ./webpack.config.js",
-    "build": "NODE_ENV=production ./node_modules/.bin/webpack --color --config ./webpack.config.js",
+    "start": "NODE_ENV=development ./node_modules/.bin/webpack --watch --color --cache=false --config ./webpack.config.js",
+    "build": "NODE_ENV=production ./node_modules/.bin/webpack --color --cache=false --config ./webpack.config.js",
     "lint": "eslint ./src --color --fix"
   },
   "dependencies": {
