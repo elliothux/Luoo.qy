@@ -19,8 +19,10 @@
   "include": [
     "app"
   ],
+  "files": [
+    "./*.ts"
+  ],
   "exclude": [
-    "node_modules",
-    "app/view/*"
+    "node_modules"
   ]
 }

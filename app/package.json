@@ -1,0 +1,94 @@
+{
+  "main": "./app",
+  "scripts": {
+    "start": "NODE_ENV=development electron-forge start",
+    "build": "",
+    "lint": "eslint ./src --color --fix"
+  },
+  "dependencies": {
+    "binary-search-tree": "^0.2.6",
+    "camelcase-keys": "^5.0.0",
+    "electron-squirrel-startup": "^1.0.0",
+    "nedb": "^1.8.0",
+    "request": "^2.88.0",
+    "tingodb": "^0.6.1"
+  },
+  "devDependencies": {
+    "@types/camelcase-keys": "^4.0.0",
+    "@types/electron": "^1.6.10",
+    "@types/nedb": "^1.8.7",
+    "@types/request": "^2.48.1",
+    "babel-plugin-transform-async-to-generator": "^6.24.1",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
+    "electron": "^4.0.4",
+    "electron-compile": "^6.4.4",
+    "electron-forge": "^5.2.4",
+    "electron-packager": "^13.1.0",
+    "electron-prebuilt-compile": "4.0.0",
+    "eslint": "5.6.0",
+    "eslint-config-airbnb": "^15",
+    "eslint-config-react-app": "^3.0.7",
+    "eslint-plugin-import": "^2",
+    "eslint-plugin-jsx-a11y": "^5",
+    "eslint-plugin-react": "^7",
+    "open": "0.0.5",
+    "ts-loader": "^5.3.3",
+    "typescript": "^3.3.3333",
+    "webpack": "^4.29.5"
+  },
+  "version": "0.1.0",
+  "config": {
+    "forge": {
+      "makers": [
+        {
+          "name": "i@do.codes"
+        }
+      ],
+      "packagerConfig": {
+        "overwrite": true,
+        "out": "./pack",
+        "ignore": [
+          "design",
+          "node_modules",
+          "view",
+          ".eslintrc",
+          ".gitignore",
+          ".git"
+        ],
+        "download": {
+          "cache": true,
+          "mirror": "http://npm.taobao.org/mirrors/electron/"
+        }
+      },
+      "make_targets": {
+        "win32": [
+          "squirrel"
+        ],
+        "darwin": [
+          "zip"
+        ],
+        "linux": [
+          "deb",
+          "rpm"
+        ]
+      },
+      "electronPackagerConfig": {
+        "packageManager": "cnpm"
+      },
+      "electronWinstallerConfig": {
+        "name": "luoo.qy_"
+      },
+      "electronInstallerDebian": {},
+      "electronInstallerRedhat": {},
+      "github_repository": {
+        "owner": "",
+        "name": ""
+      },
+      "windowsStoreConfig": {
+        "packageName": "",
+        "name": "luoo.qy_"
+      }
+    }
+  }
+}

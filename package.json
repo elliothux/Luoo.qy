@@ -2,101 +2,20 @@
   "name": "luoo.qy",
   "productName": "luoo.qy",
   "version": "2.0.0",
-  "description": "My Electron application description",
-  "main": "app/index.ts",
+  "description": "",
+  "main": "./dist",
   "scripts": {
-    "start": "NODE_ENV=development electron-forge start",
-    "start:view": "cd ./view; npm start",
-    "pack": "node ./build",
-    "pack:view": "rm -rf ./app/view; cd ./view; npm run build; cp -r ./build ../app/view",
+    "start:view": "cd ./view; NODE_ENV=development npm start",
+    "pack": "NODE_ENV=production node ./build",
+    "build": "npm run build:main; npm run build:view",
+    "build:main": "rm -rf ./dist/*; ./node_modules/.bin/parcel build ./app/index.ts --target electron --bundle-node-modules --no-source-maps --no-cache",
+    "build:view": "rm -rf ./dist/view; cd ./view; NODE_ENV=production npm run build; cp -r ./build ../dist/view",
     "lint": "eslint app --color --fix",
-    "lint:view": "eslint app --color --fix",
+    "lint:view": "eslint view --color --fix",
     "make": "electron-forge make",
     "publish": "electron-forge publish"
   },
-  "dependencies": {
-    "binary-search-tree": "^0.2.6",
-    "camelcase-keys": "^5.0.0",
-    "electron-squirrel-startup": "^1.0.0",
-    "nedb": "^1.8.0",
-    "request": "^2.88.0",
-    "tingodb": "^0.6.1"
-  },
-  "devDependencies": {
-    "@types/camelcase-keys": "^4.0.0",
-    "@types/electron": "^1.6.10",
-    "@types/nedb": "^1.8.7",
-    "@types/request": "^2.48.1",
-    "babel-plugin-transform-async-to-generator": "^6.24.1",
-    "babel-preset-env": "^1.7.0",
-    "babel-preset-react": "^6.24.1",
-    "electron": "^4.0.4",
-    "electron-compile": "^6.4.4",
-    "electron-forge": "^5.2.4",
-    "electron-packager": "^13.1.0",
-    "electron-prebuilt-compile": "4.0.0",
-    "eslint": "5.6.0",
-    "eslint-config-airbnb": "^15",
-    "eslint-config-react-app": "^3.0.7",
-    "eslint-plugin-import": "^2",
-    "eslint-plugin-jsx-a11y": "^5",
-    "eslint-plugin-react": "^7",
-    "open": "0.0.5"
-  },
   "keywords": [],
   "author": "qingyang",
-  "license": "MIT",
-  "config": {
-    "forge": {
-      "makers": [
-        {
-          "name": "i@do.codes"
-        }
-      ],
-      "packagerConfig": {
-        "overwrite": true,
-        "out": "./pack",
-        "ignore": [
-          "design",
-          "node_modules",
-          "view",
-          ".eslintrc",
-          ".gitignore",
-          ".git"
-        ],
-        "download": {
-          "cache": true,
-          "mirror": "http://npm.taobao.org/mirrors/electron/"
-        }
-      },
-      "make_targets": {
-        "win32": [
-          "squirrel"
-        ],
-        "darwin": [
-          "zip"
-        ],
-        "linux": [
-          "deb",
-          "rpm"
-        ]
-      },
-      "electronPackagerConfig": {
-        "packageManager": "cnpm"
-      },
-      "electronWinstallerConfig": {
-        "name": "luoo.qy_"
-      },
-      "electronInstallerDebian": {},
-      "electronInstallerRedhat": {},
-      "github_repository": {
-        "owner": "",
-        "name": ""
-      },
-      "windowsStoreConfig": {
-        "packageName": "",
-        "name": "luoo.qy_"
-      }
-    }
-  }
+  "license": "MIT"
 }

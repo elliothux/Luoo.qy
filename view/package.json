@@ -5,7 +5,8 @@
   "scripts": {
     "start": "BROWSER=none SKIP_PREFLIGHT_CHECK=true node scripts/start.js",
     "build": "SKIP_PREFLIGHT_CHECK=true node scripts/build.js",
-    "test": "node scripts/test.js"
+    "test": "node scripts/test.js",
+    "lint": "eslint src --color --fix"
   },
   "dependencies": {
     "animejs": "^3.0.1",

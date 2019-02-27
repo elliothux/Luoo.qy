@@ -79,3 +79,6 @@ typings/
 /out/
 .DS_Store
 .idea/workspace.xml
+/.cache/
+/dist/
+/app/node_modules/

@@ -1,8 +1,8 @@
 const packager = require('electron-packager');
 const open = require('open');
 const path = require('path');
-const fs = require('fs');
-const cp = require('child_process');
+// const fs = require('fs');
+// const cp = require('child_process');
 
 async function launch() {
   const appPaths = await packager({
@@ -12,11 +12,13 @@ async function launch() {
     osxSign: false,
     icon: path.join(__dirname, './icon.icns'),
     ignore: [
-      /^\/node_modules/,
-      /^\/view/,
-      /^\/design/,
-      /^\/pack/,
+      /^\/app/,
       /^\/build/,
+      /^\/design/,
+      /^\/node_modules/,
+      /^\/out/,
+      /^\/static/,
+      /^\/view/,
       /\/README/,
       /\/yarn/,
       /\/.git/,
@@ -24,6 +26,7 @@ async function launch() {
       /\/.idea/,
       /\/.npmrc/,
       /\/.compilerc/,
+      /\/.cache/,
     ],
     download: {
       mirror: 'http://npm.taobao.org/mirrors/electron/',
@@ -31,13 +34,13 @@ async function launch() {
   });
   console.log(`Pack done at: ${appPaths.join('\n')}`);
 
-  const toPath = path.join(appPaths[0], './luoo.qy.app/Contents/Resources/app/');
-  fs.copyFileSync(
-    path.join(__dirname, '../package.json'),
-    path.join(toPath, './package.json'),
-  );
-  console.log('Install node_modules');
-  cp.execSync(`cd ${toPath}; tnpm i --production`);
+  // const toPath = path.join(appPaths[0], './luoo.qy.app/Contents/Resources/app/');
+  // fs.copyFileSync(
+  //   path.join(__dirname, '../package.json'),
+  //   path.join(toPath, './package.json'),
+  // );
+  // console.log('Install node_modules');
+  // cp.execSync(`cd ${toPath}; tnpm i --production`);
   open(`file://${appPaths}`);
 }
 
