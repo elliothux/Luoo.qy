@@ -77,7 +77,7 @@ declare global {
     color: string;
   }
 
-  interface ArticleInfo {
+  export interface ArticleInfo {
     id: number;
     title: string;
     cover: string;

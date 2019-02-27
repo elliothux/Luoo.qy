@@ -1,5 +1,6 @@
 import { action, computed, observable } from "mobx";
 import { events, genRange, promiseWrapper } from "../utils";
+import { VolTypesList } from "../@types/vol_types";
 import { store } from "./index";
 
 let ipc: IpcObject;
