@@ -2,9 +2,13 @@ import * as React from "react";
 import { observer } from "mobx-react";
 import classnames from "classnames";
 import { playerStore, store, volStore } from "../../store";
-import { Icon } from "../icon";
-import { events } from "../../utils";
+import { Icon, IconTypes } from "../icon";
+import { events, EventTypes } from "../../utils";
+import {VolTypes} from "../../@types";
 import LOGO from "../../static/logo.png";
+import {
+  ViewTypes,
+} from "../../@types";
 import "./index.scss";
 
 function hideClassName(willHide: boolean) {

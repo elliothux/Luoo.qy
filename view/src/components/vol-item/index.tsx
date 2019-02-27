@@ -1,7 +1,10 @@
 import * as React from "react";
-import { Icon } from "../icon";
+import { Icon, IconTypes } from "../icon";
 import { playerStore, volStore } from "../../store";
-import { events, isAnyPartOfElementInViewport } from "../../utils";
+import { events, EventTypes, isAnyPartOfElementInViewport } from "../../utils";
+import {
+  VolInfo,
+} from "../../@types";
 import "./index.scss";
 
 export interface Props {

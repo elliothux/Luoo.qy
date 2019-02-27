@@ -3,7 +3,11 @@ import { observer } from "mobx-react";
 import { playerStore, volStore } from "../../store";
 import { VolItem } from "../../components/vol-item";
 import { Pagination } from "../../components/pagination";
-import { events } from "../../utils";
+import { events, EventTypes } from "../../utils";
+import {
+  ViewTypes,
+  VolInfo,
+} from "../../@types";
 import "./index.scss";
 
 let volsRef: HTMLDivElement;

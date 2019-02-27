@@ -3,7 +3,11 @@ import { observer } from "mobx-react";
 import { playerStore, singleStore } from "../../store";
 import { Pagination } from "../../components/pagination";
 import { SingleItem } from "../../components/single-item";
-import { events } from "../../utils";
+import { events, EventTypes } from "../../utils";
+import {
+  ViewTypes,
+  Single,
+} from "../../@types";
 import "./index.scss";
 
 let singlesRef: HTMLDivElement;

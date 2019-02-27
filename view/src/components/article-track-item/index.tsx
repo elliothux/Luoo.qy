@@ -1,5 +1,6 @@
 import * as React from "react";
-import { Icon } from "../icon";
+import { Icon, IconTypes } from "../icon";
+import { ArticleTrack } from "../../@types";
 import "./index.scss";
 
 export interface Props {
@@ -15,7 +16,6 @@ function ArticleTrackItem(props: Props) {
   const {
     trackInfo: track,
     isPlaying,
-    isLiked,
     onPause,
     onPlay,
     onClick

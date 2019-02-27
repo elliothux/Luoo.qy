@@ -3,7 +3,6 @@ import * as ReactDOM from "react-dom";
 import { store } from "./store";
 import { App } from "./App";
 
-import "./@types";
 import "./styles/index.scss";
 
 function init() {

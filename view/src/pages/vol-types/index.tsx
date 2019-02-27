@@ -1,7 +1,10 @@
 import * as React from "react";
 import { volStore } from "../../store";
-import { events } from "../../utils";
-import { VolTypesList } from "../../@types/vol_types";
+import { events, EventTypes } from "../../utils";
+import {VolTypeItem, VolTypesList} from "../../@types";
+import {
+    ViewTypes,
+} from "../../@types";
 import "./index.scss";
 
 let volTypesRef: HTMLDivElement;

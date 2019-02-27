@@ -2,9 +2,13 @@ import * as React from "react";
 import anime from "animejs";
 import { observer } from "mobx-react";
 import { articleStore, playerStore, store } from "../../store";
-import { Icon } from "../../components/icon";
+import { Icon, IconTypes } from "../../components/icon";
 import { ArticleTrackItem } from "../../components/article-track-item";
-import { events, px } from "../../utils";
+import { events, EventTypes, px } from "../../utils";
+import {
+  ViewTypes,
+    ElementPosition,
+} from "../../@types";
 import "./index.scss";
 
 let infoRef: HTMLDivElement;

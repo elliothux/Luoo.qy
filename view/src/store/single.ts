@@ -1,6 +1,10 @@
-import {action, computed, observable, toJS} from "mobx";
-import {events, genRange, promiseWrapper} from "../utils";
+import {action, computed, observable} from "mobx";
+import {events, EventTypes, genRange, promiseWrapper} from "../utils";
 import { store } from "./index";
+import {
+  ViewTypes,
+  Single,
+} from "../@types";
 
 let ipc: IpcObject;
 

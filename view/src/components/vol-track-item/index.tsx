@@ -1,5 +1,8 @@
 import * as React from "react";
-import { Icon } from "../icon";
+import { Icon, IconTypes } from "../icon";
+import {
+    VolTrack,
+} from "../../@types";
 import "./index.scss";
 
 export interface Props {
@@ -14,7 +17,6 @@ export interface Props {
 function VolTrackItem(props: Props) {
   const {
     trackInfo: track,
-    isLiked,
     isPlaying,
     onPlay,
     onPause,

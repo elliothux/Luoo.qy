@@ -24,42 +24,40 @@ import Mandopop from "../static/types/Mandopop.png";
 import Hardcore from "../static/types/Hardcore.png";
 import PostPunk from "../static/types/PostPunk.png";
 
-declare global {
-  type VolTypeItem = {
-    name: string;
-    type: string;
-    img: string;
-    value: VolTypes;
-  };
-
-  enum VolTypes {
-    ALL,
-    RockAndRoll,
-    Alternative,
-    Ballad,
-    Pop,
-    Electronic,
-    Classical,
-    Jazz,
-    Metal,
-    Punk,
-    Rap,
-    World,
-    Atmosphere,
-    Soundtrack,
-    Reggae,
-    Country,
-    Blues,
-    Experimental,
-    England,
-    PostRock,
-    PsychedelicRock,
-    DarkWave,
-    Mandopop,
-    Hardcore,
-    PostPunk
-  }
+export enum VolTypes {
+  ALL,
+  RockAndRoll,
+  Alternative,
+  Ballad,
+  Pop,
+  Electronic,
+  Classical,
+  Jazz,
+  Metal,
+  Punk,
+  Rap,
+  World,
+  Atmosphere,
+  Soundtrack,
+  Reggae,
+  Country,
+  Blues,
+  Experimental,
+  England,
+  PostRock,
+  PsychedelicRock,
+  DarkWave,
+  Mandopop,
+  Hardcore,
+  PostPunk
 }
+
+export type VolTypeItem = {
+  name: string;
+  type: string;
+  img: string;
+  value: VolTypes;
+};
 
 export const VolTypesList: VolTypeItem[] = [
   {

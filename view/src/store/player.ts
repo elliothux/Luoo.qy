@@ -1,10 +1,20 @@
 import { action, computed, observable } from "mobx";
 import { volStore } from "./vol";
-import { formatPlayingTime, LyricParser } from "../utils";
-import { LrcLine } from "../utils/lyric-parser";
+import { formatPlayingTime, LyricParser, LrcLine } from "../utils";
 import { store } from "./index";
 import { singleStore } from "./single";
 import { articleStore } from "./article";
+import {
+  VolInfo,
+  Single,
+  ArticleInfo,
+  Track,
+  VolTrack,
+  ArticleTrack,
+  PlayingStatus,
+  PlayingMode,
+  PlayingTypes
+} from "../@types";
 
 let audio: HTMLAudioElement;
 
@@ -26,13 +36,13 @@ class PlayerStore {
       }
     });
     audio.addEventListener("durationchange", () => {
-      this.setTotalTime(audio.duration);
+      return this.setTotalTime(audio.duration);
     });
     audio.addEventListener("timeupdate", () => {
-      this.setPlayedTime(audio.currentTime);
+      return this.setPlayedTime(audio.currentTime);
     });
     audio.addEventListener("ended", () => {
-      this.next();
+      return this.next();
     });
     audio.load();
   };

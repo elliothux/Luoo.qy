@@ -4,6 +4,9 @@ import { volStore } from "./vol";
 import { singleStore } from "./single";
 import { articleStore } from "./article";
 import { playerStore } from "./player";
+import {
+  ViewTypes,
+} from "../@types";
 
 let ipc: IpcObject;
 

@@ -52,21 +52,19 @@ class EventProxy {
 
 const events = new EventProxy();
 
-declare global {
-  enum EventTypes {
-    ShowVolBackground,
-    ShowSingleBackground,
-    ShowArticleBackground,
-    ScrollBackVolTypes,
-    ScrollBackVols,
-    ScrollBackVol,
-    ScrollBackSingles,
-    ScrollBackArticles,
-    ScrollBackArticle,
-    SelectVol,
-    SelectSingle,
-    SelectArticle
-  }
+export enum EventTypes {
+  ShowVolBackground,
+  ShowSingleBackground,
+  ShowArticleBackground,
+  ScrollBackVolTypes,
+  ScrollBackVols,
+  ScrollBackVol,
+  ScrollBackSingles,
+  ScrollBackArticles,
+  ScrollBackArticle,
+  SelectVol,
+  SelectSingle,
+  SelectArticle
 }
 
 export { EventProxy, events };

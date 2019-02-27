@@ -1,3 +1,9 @@
+import {
+  VolInfo,
+  Single,
+  ArticleInfo,
+} from "../@types";
+
 
 declare global {
   interface Window {

@@ -1,6 +1,3 @@
-export { getIPC } from "./ipc";
-export { events } from "./event";
-export { LyricParser } from "./lyric-parser";
 
 function genRange(start: number, end: number): number[] {
   const result: number[] = [];
@@ -68,3 +65,6 @@ export {
   isAnyPartOfElementInViewport,
   promiseWrapper
 };
+export * from "./ipc";
+export * from "./event";
+export * from "./lyric-parser";

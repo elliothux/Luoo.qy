@@ -1,7 +1,11 @@
 import { action, computed, observable } from "mobx";
-import { events, genRange, promiseWrapper } from "../utils";
-import { VolTypesList } from "../@types/vol_types";
+import { events, EventTypes, genRange, promiseWrapper } from "../utils";
+import { VolTypesList, VolTypes, VolTypeItem } from "../@types";
 import { store } from "./index";
+import {
+  ViewTypes,
+  VolInfo,
+} from "../@types";
 
 let ipc: IpcObject;
 

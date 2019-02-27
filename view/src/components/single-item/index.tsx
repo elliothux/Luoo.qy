@@ -1,7 +1,10 @@
 import * as React from "react";
-import { Icon } from "../icon";
+import { Icon, IconTypes } from "../icon";
 import { playerStore, singleStore } from "../../store";
-import { events, isAnyPartOfElementInViewport } from "../../utils";
+import { events, EventTypes, isAnyPartOfElementInViewport } from "../../utils";
+import {
+  Single,
+} from "../../@types";
 import "./index.scss";
 
 export interface Props {
@@ -51,7 +54,7 @@ class SingleItem extends React.Component<Props> {
   };
 
   public render() {
-    const { singleInfo, isPlaying, isLiked } = this.props;
+    const { singleInfo, isPlaying } = this.props;
     return (
       <div key={singleInfo.id} className="single-item" onClick={this.onClick}>
         <div

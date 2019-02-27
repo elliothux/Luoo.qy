@@ -1,7 +1,8 @@
 import * as React from "react";
-import { Icon } from "../icon";
+import { Icon, IconTypes } from "../icon";
 import { articleStore, playerStore } from "../../store";
-import { events, isAnyPartOfElementInViewport } from "../../utils";
+import { events, EventTypes, isAnyPartOfElementInViewport } from "../../utils";
+import { ArticleInfo } from "../../@types";
 import "./index.scss";
 
 export interface Props {
@@ -54,7 +55,7 @@ class ArticleItem extends React.Component<Props> {
   };
 
   public render() {
-    const { articleInfo, isPlaying, isLiked } = this.props;
+    const { articleInfo, isPlaying } = this.props;
     return (
       <div className="article-item" onClick={this.onClick}>
         <div
