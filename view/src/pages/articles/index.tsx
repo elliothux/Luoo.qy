@@ -3,9 +3,8 @@ import { observer } from "mobx-react";
 import { articleStore, playerStore } from "../../store";
 import { ArticleItem } from "../../components/article-item";
 import { Pagination } from "../../components/pagination";
-import { ViewTypes, ArticleInfo } from "../../types";
+import { events } from "../../utils";
 import "./index.scss";
-import { events, EventTypes } from "../../utils";
 
 let articlesRef: HTMLDivElement;
 

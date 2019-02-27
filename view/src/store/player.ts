@@ -1,16 +1,5 @@
 import { action, computed, observable } from "mobx";
 import { volStore } from "./vol";
-import {
-  ArticleInfo,
-  ArticleTrack,
-  PlayingMode,
-  PlayingStatus,
-  PlayingTypes,
-  Single,
-  Track,
-  VolInfo,
-  VolTrack
-} from "../types";
 import { formatPlayingTime, LyricParser } from "../utils";
 import { LrcLine } from "../utils/lyric-parser";
 import { store } from "./index";
@@ -154,6 +143,8 @@ class PlayerStore {
         return this.playingSingle;
       case PlayingTypes.ARTICLE:
         return this.playingArticleTrack;
+      default:
+        throw new Error(`Invalid playing type`);
     }
   }
 

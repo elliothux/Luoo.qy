@@ -2,9 +2,8 @@ import * as React from "react";
 import anime from "animejs";
 import { observer } from "mobx-react";
 import { playerStore, singleStore } from "../../store";
-import { Icon, IconTypes } from "../../components/icon";
-import { ViewTypes, ElementPosition } from "../../types";
-import { events, EventTypes, px } from "../../utils";
+import { Icon } from "../../components/icon";
+import { events, px } from "../../utils";
 import "./index.scss";
 
 let coverRef: HTMLDivElement;

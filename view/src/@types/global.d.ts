@@ -1,19 +1,53 @@
-export interface RetData<T> {
-    code: number;
-    msg: string;
-    data: T;
-}
+export type ElementPositionValue = number;
 
-export interface Track {
+declare global {
+  interface ElementPosition {
+    top: ElementPositionValue;
+    right: ElementPositionValue;
+    bottom: ElementPositionValue;
+    left: ElementPositionValue;
+  }
+
+  enum ViewTypes {
+    PLAYING,
+    VOLS,
+    VOLS_TYPE,
+    VOL_INFO,
+    SINGLES,
+    SINGLE_INFO,
+    ARTICLES,
+    ARTICLE_INFO
+  }
+
+  enum PlayingTypes {
+    VOL,
+    SINGLE,
+    ARTICLE
+  }
+
+  enum PlayingStatus {
+    STOP,
+    PLAYING,
+    PAUSE,
+    FETCHING
+  }
+
+  enum PlayingMode {
+    ORDER,
+    SHUFFLE,
+    LOOP
+  }
+
+  interface Track {
     name: string;
     artist: string;
     album: string;
     cover: string;
     url: string;
     lyric?: string;
-}
+  }
 
-export interface VolInfo {
+  interface VolInfo {
     id: number;
     vol: number;
     title: string;
@@ -27,23 +61,23 @@ export interface VolInfo {
     tags: string[];
     similarVols: number[];
     tracks: VolTrack[];
-}
+  }
 
-export interface VolTrack extends Track {
+  interface VolTrack extends Track {
     id: number;
     vol: number;
     color: string;
-}
+  }
 
-export interface Single extends Track {
+  interface Single extends Track {
     id: number;
     desc: string;
     date: number;
     recommender: string;
     color: string;
-}
+  }
 
-export interface ArticleInfo {
+  interface ArticleInfo {
     id: number;
     title: string;
     cover: string;
@@ -56,29 +90,11 @@ export interface ArticleInfo {
     author: string;
     authorAvatar: string;
     tracks: ArticleTrack[];
-}
+  }
 
-export interface ArticleTrack extends Track {
+  interface ArticleTrack extends Track {
     id: number;
     articleId: number;
     color: string;
-}
-
-export interface VolTrackMap {
-    id: number,
-    vol: number,
-    volId: number,
-}
-
-export interface ArticleTrackMap {
-    id: number,
-    articleId: number
-}
-
-export interface UserInfo {
-    mail: string,
-    password: string,
-    id: number,
-    name: string,
-    avatar: string,
+  }
 }

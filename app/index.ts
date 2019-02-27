@@ -22,6 +22,7 @@ import {
   getLatestArticle,
   getArticleByTrackId
 } from './db/article';
+import "./types";
 
 const isDev = process.env.NODE_ENV === "development";
 

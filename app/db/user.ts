@@ -7,5 +7,3 @@ const userDB: Nedb = new Nedb({
     filename: path.join(__dirname, "../../static/db/user"),
     autoload: true
 } as DataStoreOptions);
-
-

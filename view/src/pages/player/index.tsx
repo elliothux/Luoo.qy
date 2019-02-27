@@ -2,8 +2,7 @@ import * as React from "react";
 import { observer } from "mobx-react";
 import classnames from "classnames";
 import { playerStore, store } from "../../store";
-import { PlayingStatus, ViewTypes } from "../../types";
-import { Icon, IconTypes } from "../../components/icon";
+import { Icon } from "../../components/icon";
 import { SoundWave } from "../../components/sound-wave";
 import "./index.scss";
 

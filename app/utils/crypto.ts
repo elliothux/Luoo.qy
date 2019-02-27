@@ -1,5 +1,4 @@
 import {
-  Binary,
   Cipher,
   Decipher,
   createCipher,

@@ -1,6 +1,5 @@
 import { action, observable } from "mobx";
 import { getIPC } from "../utils";
-import { ViewTypes } from "../types";
 import { volStore } from "./vol";
 import { singleStore } from "./single";
 import { articleStore } from "./article";

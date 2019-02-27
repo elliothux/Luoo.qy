@@ -2,9 +2,8 @@ import * as React from "react";
 import { observer } from "mobx-react";
 import classnames from "classnames";
 import { playerStore, store, volStore } from "../../store";
-import { ViewTypes, VolTypes } from "../../types";
-import { Icon, IconTypes } from "../icon";
-import { events, EventTypes } from "../../utils";
+import { Icon } from "../icon";
+import { events } from "../../utils";
 import LOGO from "../../static/logo.png";
 import "./index.scss";
 

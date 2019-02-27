@@ -1,8 +1,7 @@
 import * as React from "react";
 import { observer } from "mobx-react";
 import { playerStore, store } from "../../store";
-import { Icon, IconTypes } from "../icon";
-import { PlayingStatus, ViewTypes } from "../../types";
+import { Icon } from "../icon";
 import "./index.scss";
 
 function IMiniPlayer() {

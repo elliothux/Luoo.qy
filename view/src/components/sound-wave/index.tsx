@@ -1,7 +1,7 @@
 import * as React from "react";
 import classnames from "classnames";
-import "./index.scss";
 import { genRange } from "../../utils";
+import "./index.scss";
 
 interface Props {
   isActive: boolean;

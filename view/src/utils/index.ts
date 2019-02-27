@@ -1,7 +1,5 @@
-import { func } from "prop-types";
-
 export { getIPC } from "./ipc";
-export { events, EventTypes } from "./event";
+export { events } from "./event";
 export { LyricParser } from "./lyric-parser";
 
 function genRange(start: number, end: number): number[] {
@@ -52,7 +50,9 @@ function isAnyPartOfElementInViewport(el: HTMLElement) {
 
 type PromiseResolveResult<T> = [T, null];
 type PromiseRejectResult = [null, Error];
-export type PromiseResult<T> = Promise<PromiseResolveResult<T> | PromiseRejectResult>
+export type PromiseResult<T> = Promise<
+  PromiseResolveResult<T> | PromiseRejectResult
+>;
 function promiseWrapper<T>(p: Promise<T>): PromiseResult<T> {
   return new Promise(resolve => {
     p.then(i => resolve([i as T, null])).catch(e => resolve([null, e]));

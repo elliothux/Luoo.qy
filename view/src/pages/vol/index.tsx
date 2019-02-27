@@ -2,10 +2,9 @@ import * as React from "react";
 import anime from "animejs";
 import { observer } from "mobx-react";
 import { playerStore, store, volStore } from "../../store";
-import { Icon, IconTypes } from "../../components/icon";
+import { Icon } from "../../components/icon";
 import { VolTrackItem } from "../../components/vol-track-item";
-import { ElementPosition, ViewTypes } from "../../types";
-import { events, EventTypes, px } from "../../utils";
+import { events, px } from "../../utils";
 import "./index.scss";
 
 let infoRef: HTMLDivElement;

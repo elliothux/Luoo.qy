@@ -35,39 +35,41 @@ import EXPAND from "../../static/icon/expand.svg";
 import "./index.scss";
 import { preventSyntheticEvent } from "../../utils";
 
-enum IconTypes {
-  BACK,
-  CATEGORY,
-  SEARCH,
-  SHARE,
-  SOURCE,
-  ARTICLE,
-  ARTICLE_SOLID,
-  SINGLE,
-  SINGLE_SOLID,
-  USER,
-  VOL,
-  VOL_SOLID,
-  LIKE,
-  LIKE2,
-  PLAY,
-  PLAY_SOLID,
-  PAUSE,
-  PAUSE_SOLID,
-  LOGO,
-  CLOUD,
-  WAVE,
-  PRE,
-  PRE2,
-  NEXT,
-  NEXT2,
-  RANDOM,
-  ARROW_LEFT,
-  ARROW_RIGHT,
-  SHUFFLE,
-  LOOP,
-  ORDER,
-  EXPAND
+declare global {
+  enum IconTypes {
+    BACK,
+    CATEGORY,
+    SEARCH,
+    SHARE,
+    SOURCE,
+    ARTICLE,
+    ARTICLE_SOLID,
+    SINGLE,
+    SINGLE_SOLID,
+    USER,
+    VOL,
+    VOL_SOLID,
+    LIKE,
+    LIKE2,
+    PLAY,
+    PLAY_SOLID,
+    PAUSE,
+    PAUSE_SOLID,
+    LOGO,
+    CLOUD,
+    WAVE,
+    PRE,
+    PRE2,
+    NEXT,
+    NEXT2,
+    RANDOM,
+    ARROW_LEFT,
+    ARROW_RIGHT,
+    SHUFFLE,
+    LOOP,
+    ORDER,
+    EXPAND
+  }
 }
 
 export interface Props {
@@ -202,4 +204,4 @@ function Icon(props: Props) {
   );
 }
 
-export { Icon, IconTypes };
+export { Icon };

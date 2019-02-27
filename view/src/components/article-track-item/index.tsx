@@ -1,6 +1,5 @@
 import * as React from "react";
-import { ArticleTrack } from "../../types";
-import { Icon, IconTypes } from "../icon";
+import { Icon } from "../icon";
 import "./index.scss";
 
 export interface Props {

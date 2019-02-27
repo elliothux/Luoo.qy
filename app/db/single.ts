@@ -2,7 +2,6 @@ import * as path from "path";
 import Nedb = require("nedb");
 import { DataStoreOptions } from "nedb";
 import { insert, find, isExist } from "./utils";
-import { Single } from "../types";
 
 const singleDB: Nedb = new Nedb({
   filename: path.join(__dirname, "../../static/db/single"),
