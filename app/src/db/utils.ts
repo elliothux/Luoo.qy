@@ -8,7 +8,7 @@ function getDB(name: string): Nedb {
   return new Nedb({
     filename: path.resolve(
       runPath,
-      isDev ? `./static/db/${name}` : `./db/${name}`
+      isDev ? `./db/${name}` : `./dist/db/${name}`
     ),
     autoload: true
   } as DataStoreOptions);

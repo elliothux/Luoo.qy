@@ -1,5 +1,4 @@
 {
-  "main": "./dist",
   "scripts": {
     "start": "NODE_ENV=development ./node_modules/.bin/webpack --watch --color --config ./webpack.config.js",
     "build": "NODE_ENV=production ./node_modules/.bin/webpack --color --config ./webpack.config.js",
@@ -7,6 +6,7 @@
   },
   "dependencies": {
     "camelcase-keys": "^5.0.0",
+    "electron-is-dev": "^1.0.1",
     "nedb": "^1.8.0",
     "request": "^2.88.0"
   },
