@@ -1,15 +1,12 @@
 import * as path from "path";
 import { app } from "electron";
 import { DataStoreOptions } from "nedb";
-import { isDev, runPath } from "../utils";
+import { runPath } from "../utils";
 import Nedb = require("nedb");
 
 function getDB(name: string): Nedb {
   return new Nedb({
-    filename: path.resolve(
-      runPath,
-      isDev ? `./db/${name}` : `./dist/db/${name}`
-    ),
+    filename: path.resolve(runPath, `./dist/db/${name}`),
     autoload: true
   } as DataStoreOptions);
 }
