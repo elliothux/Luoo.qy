@@ -10,7 +10,6 @@
     "dev:main": "cd ./app; npm start",
     "build:view": "cd ./view; npm run build",
     "build:main": "cd ./app; npm run build",
-    "build": "rm -rf ./dist; echo \"Building view\"; npm run build:view; echo \"Building main\"; npm run build:main;",
     "pack": "cp -rf ./app/static/db ./dist; node ./build",
     "clean": "rm -rf ./app/dist ./dist ./out"
   },
