@@ -24,7 +24,7 @@ import { isDev, runPath } from "./utils";
 function launch(): void {
   injectIPC();
 
-  let mainWindow: BrowserWindow | null;
+  let mainWindow: Maybe<BrowserWindow>;
 
   app.on("ready", createWindow);
 

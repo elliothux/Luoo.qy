@@ -22,9 +22,9 @@ class SingleItem extends React.Component<Props> {
     events.cancel(EventTypes.SelectSingle, this.onEmitSelectSingle);
   }
 
-  private coverRef: HTMLImageElement | null = null;
+  private coverRef: Maybe<HTMLImageElement> = null;
 
-  private getCoverRef = (i: HTMLImageElement | null) => {
+  private getCoverRef = (i: Maybe<HTMLImageElement>) => {
     if (i) {
       this.coverRef = i;
     }

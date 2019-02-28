@@ -20,9 +20,9 @@ class ArticleItem extends React.Component<Props> {
     events.cancel(EventTypes.SelectArticle, this.onEmitSelectArticle);
   }
 
-  private coverRef: HTMLImageElement | null = null;
+  private coverRef: Maybe<HTMLImageElement> = null;
 
-  private getCoverRef = (i: HTMLImageElement | null) => {
+  private getCoverRef = (i: Maybe<HTMLImageElement>) => {
     if (i) {
       this.coverRef = i;
     }

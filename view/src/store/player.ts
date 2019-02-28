@@ -450,13 +450,13 @@ class PlayerStore {
   * @desc Lyric
    */
   @observable
-  private lyrics: LrcLine[] | null = null;
+  private lyrics: Maybe<LrcLine[]> = null;
 
   @observable
   private currentLyricIndex: number = 0;
 
   @computed
-  public get playingLyrics(): string[] | null {
+  public get playingLyrics(): Maybe<string[]> {
     const { lyrics, currentLyricIndex: i } = this;
     if (!lyrics) {
       return null;

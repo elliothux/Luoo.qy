@@ -12,7 +12,7 @@ import "./index.scss";
 
 let articlesRef: HTMLDivElement;
 
-function getArticlesRef(i: HTMLDivElement | null) {
+function getArticlesRef(i: Maybe<HTMLDivElement>) {
   articlesRef = i as HTMLDivElement;
 }
 

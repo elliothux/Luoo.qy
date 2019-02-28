@@ -101,3 +101,7 @@ export interface ElementPosition {
   bottom: number;
   left: number;
 }
+
+declare global {
+  type Maybe<T> = T | null;
+}

@@ -9,7 +9,7 @@ import "./index.scss";
 
 let volTypesRef: HTMLDivElement;
 
-function getVolTypesRef(i: HTMLDivElement | null) {
+function getVolTypesRef(i: Maybe<HTMLDivElement>) {
   volTypesRef = i as HTMLDivElement;
 }
 

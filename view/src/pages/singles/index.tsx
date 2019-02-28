@@ -12,7 +12,7 @@ import "./index.scss";
 
 let singlesRef: HTMLDivElement;
 
-function getSinglesRef(i: HTMLDivElement | null) {
+function getSinglesRef(i: Maybe<HTMLDivElement>) {
   singlesRef = i as HTMLDivElement;
 }
 

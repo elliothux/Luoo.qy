@@ -12,7 +12,7 @@ import "./index.scss";
 
 let volsRef: HTMLDivElement;
 
-function getVolsRef(i: HTMLDivElement | null) {
+function getVolsRef(i: Maybe<HTMLDivElement>) {
   volsRef = i as HTMLDivElement;
 }
 

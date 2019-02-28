@@ -47,7 +47,7 @@ async function getLatestArticle(): Promise<ArticleInfo> {
 
 async function getArticleByTrackId(
   trackId: number
-): Promise<ArticleInfo | null> {
+): Promise<Maybe<ArticleInfo>> {
   const map = await findOne<ArticleTrackMap>(articleTrackMapDB, {
     id: trackId
   });

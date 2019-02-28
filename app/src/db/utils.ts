@@ -59,7 +59,7 @@ function find<T>(
   });
 }
 
-function findOne<T>(db: Nedb, query: object): Promise<T | null> {
+function findOne<T>(db: Nedb, query: object): Promise<Maybe<T>> {
   return new Promise((resolve, reject) => {
     db.findOne(query, (error, doc) => {
       if (error) {

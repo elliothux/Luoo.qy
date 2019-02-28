@@ -57,10 +57,10 @@ class Store {
 
     const prevViewElement = document.querySelector(
       `.view-${prevView}`
-    ) as HTMLElement | null;
+    ) as Maybe<HTMLElement>;
     const viewElement = document.querySelector(
       `.view-${viewType}`
-    ) as HTMLElement | null;
+    ) as Maybe<HTMLElement>;
     if (!prevViewElement || !viewElement) return;
 
     const isEnterInfoPage =
@@ -115,7 +115,7 @@ class Store {
   @observable
   backgroundImage: string = volStore.allVols[0].cover;
 
-  protected setBackgroundTimer: number | null = null;
+  protected setBackgroundTimer: Maybe<number> = null;
 
   @action
   changeBackground = (type: ViewTypes) => {

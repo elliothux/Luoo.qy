@@ -82,3 +82,7 @@ export interface UserInfo {
   name: string;
   avatar: string;
 }
+
+declare global {
+  type Maybe<T> = T | null;
+}

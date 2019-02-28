@@ -42,7 +42,7 @@ async function getLatestVol(): Promise<VolInfo> {
   return vols[0];
 }
 
-async function getVolByTrackId(trackId: number): Promise<VolInfo | null> {
+async function getVolByTrackId(trackId: number): Promise<Maybe<VolInfo>> {
   const map = await findOne<VolTrackMap>(volTrackMapDB, { id: trackId });
   if (!map) {
     return null;
@@ -50,7 +50,7 @@ async function getVolByTrackId(trackId: number): Promise<VolInfo | null> {
   return findOne<VolInfo>(volDB, { id: map.volId });
 }
 
-async function getVolById(id: number): Promise<VolInfo | null> {
+async function getVolById(id: number): Promise<Maybe<VolInfo>> {
   return findOne<VolInfo>(volDB, { id });
 }
 

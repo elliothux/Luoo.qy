@@ -13,7 +13,7 @@ import "./index.scss";
 let coverRef: HTMLDivElement;
 let coverPos: ElementPosition;
 
-function getCoverRef(i: HTMLImageElement | null) {
+function getCoverRef(i: Maybe<HTMLImageElement>) {
   coverRef = i as HTMLDivElement;
 }
 

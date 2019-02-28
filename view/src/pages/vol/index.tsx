@@ -16,15 +16,15 @@ let tracksRef: HTMLDivElement;
 let coverRef: HTMLDivElement;
 let coverPos: ElementPosition;
 
-function getCoverRef(i: HTMLImageElement | null) {
+function getCoverRef(i: Maybe<HTMLImageElement>) {
   coverRef = i as HTMLDivElement;
 }
 
-function getInfoRef(i: HTMLDivElement | null) {
+function getInfoRef(i: Maybe<HTMLDivElement>) {
   infoRef = i as HTMLDivElement;
 }
 
-function getTracksRef(i: HTMLDivElement | null) {
+function getTracksRef(i: Maybe<HTMLDivElement>) {
   tracksRef = i as HTMLDivElement;
 }
 

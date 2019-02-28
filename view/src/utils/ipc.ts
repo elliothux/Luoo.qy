@@ -20,8 +20,8 @@ declare global {
     saveVols: (vols: VolInfo[]) => Promise<VolInfo[]>;
     getVols: () => Promise<VolInfo[]>;
     getLatestVol: () => Promise<VolInfo>;
-    getVolByTrackId: (trackId: number) => Promise<VolInfo | null>;
-    getVolById: (id: number) => Promise<VolInfo | null>;
+    getVolByTrackId: (trackId: number) => Promise<Maybe<VolInfo>>;
+    getVolById: (id: number) => Promise<Maybe<VolInfo>>;
     // Single
     saveSingle: (single: Single) => Promise<Single>;
     saveSingles: (singles: Single[]) => Promise<Single[]>;
@@ -32,7 +32,7 @@ declare global {
     saveArticles: (articles: ArticleInfo[]) => Promise<ArticleInfo[]>;
     getArticles: () => Promise<ArticleInfo[]>;
     getLatestArticle: () => Promise<ArticleInfo>;
-    getArticleByTrackId: (trackId: number) => Promise<ArticleInfo | null>;
+    getArticleByTrackId: (trackId: number) => Promise<Maybe<ArticleInfo>>;
   }
 }
 
