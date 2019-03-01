@@ -8,6 +8,7 @@
     "camelcase-keys": "^5.0.0",
     "electron-is-dev": "^1.0.1",
     "nedb": "^1.8.0",
+    "random-ua": "0.0.6",
     "request": "^2.88.0"
   },
   "devDependencies": {

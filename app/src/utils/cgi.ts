@@ -3,7 +3,7 @@ import { getJSON } from "./request";
 import { ArticleInfo, RetData, Single, VolInfo } from "../types";
 
 async function getRetDataJSON<T>(url: string): Promise<T> {
-  const response = await getJSON(url);
+  const response = await getJSON({ url });
   const { data } = response as RetData<T>;
 
   if (!data) {

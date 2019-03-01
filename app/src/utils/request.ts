@@ -1,6 +1,19 @@
-import { get, Response } from "request";
+import * as request from "request";
+import { Response } from "request";
 
 type Maybe<T> = T | null;
+
+export type RequestHeaders = {
+    [key: string]: string
+}
+
+export interface RequestParams {
+    url: string,
+    headers?: RequestHeaders
+}
+
+const proxiedRequest = request.defaults({ proxy: "http://127.0.0.1:8899" });
+// const proxiedRequest = request;
 
 function getResponseError(
   url: string,
@@ -20,12 +33,12 @@ function getResponseError(
   return null;
 }
 
-function getJSON<T>(url: string): Promise<T> {
+function getJSON<T>(params: RequestParams): Promise<T> {
   return new Promise((resolve, reject) => {
-    get(
-      url,
+      proxiedRequest.get(
+      params,
       (error: Maybe<Error>, response: Maybe<Response>, body: Maybe<string>) => {
-        const e = getResponseError(url, error, response, body);
+        const e = getResponseError(params.url, error, response, body);
         if (e) {
           return reject(e);
         }
@@ -39,17 +52,20 @@ function getJSON<T>(url: string): Promise<T> {
   });
 }
 
-function getHeader(url: string, key: string): Promise<Maybe<string>> {
+function getHeader(params: RequestParams, key: string): Promise<Maybe<string>> {
   return new Promise((resolve, reject) => {
-    get(
-        url,
+      proxiedRequest.get(
+        params,
         (error: Maybe<Error>, response: Maybe<Response>, body: Maybe<string>) => {
-          const e = getResponseError(url, error, response, body);
+          const e = getResponseError(params.url, error, response, body);
           if (e) {
             return reject(e);
           }
           const header = (response as Response).headers[key];
-          return resolve(header as string || null);
+          if (header && header[0]) {
+              return resolve(header[0])
+          }
+          return resolve(null);
         }
     );
   });

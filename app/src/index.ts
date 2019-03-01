@@ -20,7 +20,6 @@ import {
 } from "./db";
 import { isDev, runPath } from "./utils";
 
-
 function launch(): void {
   injectIPC();
 
@@ -37,6 +36,7 @@ function launch(): void {
       width: 1200,
       height: 800,
       title: "Luoo.qy",
+      show: false,
       webPreferences: {
         nodeIntegration: true,
         devTools: true,
@@ -51,11 +51,17 @@ function launch(): void {
       mainWindow = null;
     });
 
+    mainWindow.once("ready-to-show", () => {
+      if (mainWindow) {
+        mainWindow.show();
+      }
+    });
+
     if (isDev) {
-      console.log('dev');
+      console.log("dev");
       mainWindow.webContents.openDevTools();
     } else {
-      console.log('prod');
+      console.log("prod");
       // mainWindow.webContents.openDevTools();
       // closeDevTools();
     }
