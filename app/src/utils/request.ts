@@ -2,13 +2,16 @@ import * as request from "request";
 import { Response } from "request";
 
 type Maybe<T> = T | null;
+type HeaderValue = string | number | boolean;
 
 export type RequestHeaders = {
-    [key: string]: string
+    [key: string]: HeaderValue
 }
 
 export interface RequestParams {
     url: string,
+    method?: 'GET' | 'POST',
+    form?: { [key: string]: HeaderValue }
     headers?: RequestHeaders
 }
 

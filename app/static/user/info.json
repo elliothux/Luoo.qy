@@ -1,0 +1,13 @@
+{
+  "mail": "",
+  "password": "",
+  "name": "",
+  "id": "",
+  "avatar": "",
+  "session": "",
+  "lult": "",
+  "settings": {
+    "autoUpdate": true,
+    "autoSync": true
+  }
+}

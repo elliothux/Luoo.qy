@@ -1,3 +1,7 @@
+declare global {
+  type Maybe<T> = T | null;
+}
+
 export interface Track {
   name: string;
   artist: string;
@@ -76,13 +80,18 @@ export interface ArticleTrackMap {
 }
 
 export interface UserInfo {
-  mail: string;
-  password: string;
-  id: number;
-  name: string;
-  avatar: string;
+  mail: Maybe<string>;
+  password: Maybe<string>;
+  id: Maybe<number>;
+  name: Maybe<string>;
+  avatar: Maybe<string>;
+  session: Maybe<string>;
+  lult: Maybe<string>;
+  settings: UserSettings
 }
 
-declare global {
-  type Maybe<T> = T | null;
+export interface UserSettings {
+  autoUpdate: boolean,
+  autoSync: boolean
 }
+
