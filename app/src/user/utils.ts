@@ -1,5 +1,5 @@
 import { getHeader, RequestParams } from "../utils";
-import { getUserInfo } from "./info";
+import {getUserInfo, setUserInfo, setUserInfos} from "./info";
 
 const baseHeaders = {
   "Accept-Encoding": "gzip, deflate",
@@ -14,26 +14,33 @@ const baseHeaders = {
     "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36"
 };
 
+
+function getCookieValueFromHeaders(
+  headers: Maybe<string[]>,
+  key: string
+): Maybe<string> {
+  const reg = new RegExp(key);
+  const header = (headers || []).find(i => reg.test(i));
+  if (!header) {
+    return null;
+  }
+  return header.split(";")[0].replace(`${key}=`, "");
+}
+
 async function getSessionFromCGI(): Promise<Maybe<string>> {
   const params = {
     url: "http://www.luoo.net/login/dialog",
     headers: baseHeaders
   } as RequestParams;
-  const header = await getHeader(params, "set-cookie");
-  if (!header) {
-    throw new Error(`Get session failed.`);
-  }
-  return header.split(";")[0].replace("LUOOSESS=", "");
+  const headers = await getHeader(params, "set-cookie");
+  return getCookieValueFromHeaders(headers, "LUOOSESS");
 }
 
 async function getLultFromCGI(
   mail: string,
-  password: string
+  password: string,
+  session: string
 ): Promise<Maybe<string>> {
-  const session = getUserInfo("session") || (await getSessionFromCGI());
-  if (!session) {
-    throw new Error(`Get lult failed without session`);
-  }
   const params = {
     url: "http://www.luoo.net/login/",
     method: "POST",
@@ -47,6 +54,39 @@ async function getLultFromCGI(
       "X-Requested-With": "XMLHttpRequest",
       DNT: 1,
       ...baseHeaders
+    },
+    cookies: {
+      LUOOSESS: session
     }
   } as RequestParams;
+  const headers = await getHeader(params, "set-cookie");
+  return getCookieValueFromHeaders(headers, "lult");
 }
+
+async function login(mail: string, password: string): Promise<void> {
+  const session = getUserInfo("session") || (await getSessionFromCGI());
+  if (!session) {
+    throw new Error(`Get session failed`);
+  }
+  setUserInfo('session', session);
+
+  const lult = getUserInfo("lult") || await getLultFromCGI(mail, password, session);
+  if (!lult) {
+    throw new Error(`Get lult failed`);
+  }
+  setUserInfos({
+    lult,
+    mail,
+    password
+  });
+}
+
+login("534559077@qq.com", "hqy5345")
+  .then((i) => {
+    console.log(i);
+    process.exit()
+  })
+  .catch(e => {
+    console.error(e);
+    process.exit();
+  });

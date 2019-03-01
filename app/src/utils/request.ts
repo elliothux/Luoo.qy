@@ -1,5 +1,5 @@
-import * as request from "request";
-import { Response } from "request";
+import request = require("request");
+import { Response, CookieJar, Cookie } from "request";
 
 type Maybe<T> = T | null;
 type HeaderValue = string | number | boolean;
@@ -8,15 +8,24 @@ export type RequestHeaders = {
     [key: string]: HeaderValue
 }
 
-export interface RequestParams {
+export type Cookies = RequestHeaders;
+
+interface IRequestParams {
     url: string,
     method?: 'GET' | 'POST',
     form?: { [key: string]: HeaderValue }
-    headers?: RequestHeaders
+    headers?: RequestHeaders,
+}
+export interface RequestParams extends IRequestParams {
+    cookies?: Cookies
 }
 
-const proxiedRequest = request.defaults({ proxy: "http://127.0.0.1:8899" });
-// const proxiedRequest = request;
+interface RequestCookieParams extends IRequestParams {
+    jar?: CookieJar
+}
+
+// const proxiedRequest = request.defaults({ proxy: "http://127.0.0.1:8899" });
+const proxiedRequest = request;
 
 function getResponseError(
   url: string,
@@ -36,10 +45,29 @@ function getResponseError(
   return null;
 }
 
+function handleCookie(params: RequestParams): RequestCookieParams {
+    const { cookies } = params;
+    if (!cookies) {
+        return params as RequestCookieParams;
+    }
+
+    const jar = request.jar();
+    Object.keys(cookies).forEach(key => {
+        const cookie = request.cookie(`${key}=${cookies[key]}`) as Cookie;
+        jar.setCookie(cookie, params.url);
+    });
+
+    delete params.cookies;
+    return {
+        ...params,
+        jar
+    } as RequestCookieParams;
+}
+
 function getJSON<T>(params: RequestParams): Promise<T> {
   return new Promise((resolve, reject) => {
-      proxiedRequest.get(
-      params,
+      proxiedRequest(
+      handleCookie(params),
       (error: Maybe<Error>, response: Maybe<Response>, body: Maybe<string>) => {
         const e = getResponseError(params.url, error, response, body);
         if (e) {
@@ -55,18 +83,18 @@ function getJSON<T>(params: RequestParams): Promise<T> {
   });
 }
 
-function getHeader(params: RequestParams, key: string): Promise<Maybe<string>> {
+function getHeader(params: RequestParams, key: string): Promise<Maybe<string[]>> {
   return new Promise((resolve, reject) => {
-      proxiedRequest.get(
-        params,
+      proxiedRequest(
+        handleCookie(params),
         (error: Maybe<Error>, response: Maybe<Response>, body: Maybe<string>) => {
           const e = getResponseError(params.url, error, response, body);
           if (e) {
             return reject(e);
           }
           const header = (response as Response).headers[key];
-          if (header && header[0]) {
-              return resolve(header[0])
+          if (header) {
+              return resolve(Array.isArray(header) ? header : [header]);
           }
           return resolve(null);
         }

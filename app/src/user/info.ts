@@ -1,10 +1,10 @@
 import * as path from "path";
 import * as fs from "fs";
-import { UserInfo, UserSettings } from "../types";
-import { runPath } from "../utils/env";
+import {UserInfo, UserSettings} from "../types";
+import {isElectron, runPath} from "../utils";
 
 let info: Maybe<UserInfo> = null;
-const infoPath = path.resolve(runPath, "./dist/user/info.json");
+const infoPath = path.resolve(runPath, isElectron ? "./dist/user/info.json" : "./static/user/info.json");
 
 const fsOptions = { encoding: "utf-8" };
 
@@ -44,6 +44,23 @@ function setUserInfo(key: keyof UserInfo, value: string): void {
   writeUserInfoToFile(info);
 }
 
+interface UserInfoParams {
+  mail?: string;
+  password?: string;
+  id?: number;
+  name?: string;
+  avatar?: string;
+  session?: string;
+  lult?: string;
+}
+function setUserInfos(infos: UserInfoParams): void {
+  const info = getUserInfos();
+  writeUserInfoToFile({
+    ...info,
+    ...infos
+  });
+}
+
 function getUserInfo(key: keyof UserInfo): Maybe<string> {
   if (key === "settings") {
     throw new Error("Using getUserSetting");
@@ -65,4 +82,4 @@ function getUserSetting(key: keyof UserSettings): boolean {
   return !!settings[key];
 }
 
-export { setUserInfo, getUserInfo, setUserSetting, getUserSetting };
+export { setUserInfo, setUserInfos, getUserInfo, setUserSetting, getUserSetting };
