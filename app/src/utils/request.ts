@@ -1,4 +1,5 @@
 import request = require("request");
+import { JSDOM } from "jsdom";
 import { Response, CookieJar, Cookie } from "request";
 
 type Maybe<T> = T | null;
@@ -102,4 +103,26 @@ function getHeader(params: RequestParams, key: string): Promise<Maybe<string[]>>
   });
 }
 
-export { getJSON, getHeader };
+function getHTMLDOM(params: RequestParams): Promise<Document> {
+    return new Promise((resolve, reject) => {
+        proxiedRequest(
+            handleCookie(params),
+            (error: Maybe<Error>, response: Maybe<Response>, body: Maybe<string>) => {
+                const e = getResponseError(params.url, error, response, body);
+                if (e) {
+                    return reject(e);
+                }
+                try {
+                    const {
+                        window: { document }
+                    } = new JSDOM(body);
+                    return resolve(document);
+                } catch (e) {
+                    return reject(e);
+                }
+            }
+        );
+    });
+}
+
+export { getJSON, getHeader, getHTMLDOM };

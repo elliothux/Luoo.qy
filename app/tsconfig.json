@@ -3,7 +3,8 @@
     "module": "commonjs",
     "target": "es5",
     "lib": [
-      "esnext"
+      "esnext",
+      "dom"
     ],
     "allowJs": false,
     "skipLibCheck": false,
