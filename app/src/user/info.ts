@@ -1,34 +1,51 @@
 import * as path from "path";
 import * as fs from "fs";
-import {UserInfo, UserSettings} from "../types";
-import {isElectron, runPath} from "../utils";
+import { UserInfo, UserSettings } from "../types";
+import { isElectron, runPath } from "../utils";
+import { aseDecode, aseEncode } from "./crypto";
 
 let info: Maybe<UserInfo> = null;
-const infoPath = path.resolve(runPath, isElectron ? "./dist/user/info.json" : "./static/user/info.json");
+const infoPath = path.resolve(
+  runPath,
+  isElectron ? "./dist/user/info.json" : "./static/user/info.json"
+);
 
+const defaultInfo = {
+  mail: null,
+  password: null,
+  name: null,
+  id: null,
+  avatar: null,
+  session: null,
+  lult: null
+};
+const defaultSettings = {
+  autoUpdate: true,
+  autoSync: true
+};
 const fsOptions = { encoding: "utf-8" };
 
+
 function readUserInfoFromFile(): UserInfo {
-  const defaultInfo = {
-    mail: null,
-    password: null,
-    name: null,
-    id: null,
-    avatar: null,
-    session: null,
-    lult: null
-  };
-  const defaultSettings = {
-    autoUpdate: true,
-    autoSync: true
-  };
   const iInfo = JSON.parse(fs.readFileSync(infoPath, fsOptions)) as UserInfo;
   iInfo.settings = { ...defaultSettings, ...iInfo.settings };
+  if (iInfo.mail) {
+    iInfo.mail = aseDecode(iInfo.mail);
+  }
+  if (iInfo.password) {
+    iInfo.password = aseDecode(iInfo.password);
+  }
+
   return { ...defaultInfo, ...iInfo } as UserInfo;
 }
 
 function writeUserInfoToFile(info: UserInfo): void {
-  fs.writeFileSync(infoPath, JSON.stringify(info, null, 4), fsOptions);
+  const { mail, password } = info;
+  fs.writeFileSync(infoPath, JSON.stringify({
+    ...info,
+    mail: mail ? aseEncode(mail) : null,
+    password: password ? aseEncode(password) : null
+  }, null, 4), fsOptions);
 }
 
 function getUserInfos(): UserInfo {
@@ -40,7 +57,6 @@ function setUserInfo(key: keyof UserInfo, value: string): void {
     throw new Error("Using setUserSetting");
   }
   const info = getUserInfos();
-  info[key] = value;
   writeUserInfoToFile(info);
 }
 
@@ -82,4 +98,18 @@ function getUserSetting(key: keyof UserSettings): boolean {
   return !!settings[key];
 }
 
-export { setUserInfo, setUserInfos, getUserInfo, setUserSetting, getUserSetting };
+function clearUserInfos(): void {
+  writeUserInfoToFile({
+    ...defaultInfo,
+    settings:defaultSettings
+  });
+}
+
+export {
+  setUserInfo,
+  setUserInfos,
+  getUserInfo,
+  setUserSetting,
+  getUserSetting,
+  clearUserInfos
+};
