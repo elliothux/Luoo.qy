@@ -109,8 +109,8 @@ function getHTMLDOM(params: RequestParams): Promise<Document> {
             handleCookie(params),
             (error: Maybe<Error>, response: Maybe<Response>, body: Maybe<string>) => {
                 const e = getResponseError(params.url, error, response, body);
-                if (e) {
-                    return reject(e);
+                if (e || !body) {
+                    return reject(e || new Error(`Empty response body with: ${params.url}`));
                 }
                 try {
                     const {

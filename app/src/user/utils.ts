@@ -1,5 +1,5 @@
 const baseHeaders = {
-    "Accept-Encoding": "gzip, deflate",
+    // "Accept-Encoding": "gzip, deflate",
     "Accept-Language": "zh-CN,zh;q=0.8,en;q=0.6,zh-TW;q=0.4,fr;q=0.2",
     "Cache-Control": "max-age=0",
     Connection: "keep-alive",

@@ -107,6 +107,7 @@ async function login(mail: string, password: string): Promise<void> {
     }
 
     setUserInfos({
+        session,
         lult,
         mail,
         password,
@@ -118,6 +119,7 @@ function logout() {
     clearUserInfos();
 }
 
+// logout();
 // login("534559077@qq.com", "hqy5345")
 //     .then(i => {
 //         console.log(i);

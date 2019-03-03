@@ -11,7 +11,8 @@
     "build:view": "cd ./view; npm run build",
     "build:main": "cd ./app; npm run build",
     "pack": "cp -rf ./app/static/db ./dist & rm -rf ./out & node ./build",
-    "clean": "rm -rf ./app/dist ./dist ./out"
+    "clean": "rm -rf ./app/dist ./dist ./out",
+    "debug": "node --inspect -r /usr/local/lib/node_modules/ts-node/register ./app"
   },
   "devDependencies": {
     "electron": "4.0.6",
