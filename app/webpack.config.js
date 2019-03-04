@@ -1,4 +1,5 @@
 const path = require('path');
+const nodeExternals = require('webpack-node-externals');
 
 const isDev = process.env.NODE_ENV === 'development';
 
@@ -9,9 +10,9 @@ module.exports = {
     filename: 'index.js',
   },
   target: 'electron-main',
-  // mode: isDev ? 'development' : 'production',
-  mode: 'production',
-  externals: [],
+  mode: isDev ? 'development' : 'production',
+  // mode: 'production',
+  externals: [nodeExternals()],
   module: {
     rules: [
       {

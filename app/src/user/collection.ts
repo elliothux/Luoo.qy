@@ -1,8 +1,8 @@
 import {
   getUserInfo,
-  setUserCollectionArticles,
-  setUserCollectionTracks,
-  setUserCollectionVols
+  setUserLikedArticleIds,
+  setUserLikedTrackIds,
+  setUserLikedVolIds
 } from "./info";
 import { getHTMLDOM } from "../utils";
 import { baseHeaders } from "./utils";
@@ -72,7 +72,7 @@ function getLikedTrackFromDoc(page: Document): TrackId[] {
 
 async function getLikedTracks(): Promise<void> {
   const tracks = await getLikedTracksFromCGI();
-  return setUserCollectionTracks(tracks);
+  return setUserLikedTrackIds(tracks);
 }
 
 /*
@@ -113,7 +113,7 @@ function getLikedVolFromDoc(page: Document): VolId[] {
 
 async function getLikedVols(): Promise<void> {
   const vols = await getLikedTracksFromCGI();
-  return setUserCollectionVols(vols);
+  return setUserLikedVolIds(vols);
 }
 
 /*
@@ -156,7 +156,7 @@ function getLikedArticleFromDoc(page: Document): ArticleId[] {
 
 async function getLikedArticles(): Promise<void> {
   const articles = await getLikedArticlesFromCGI();
-  return setUserCollectionArticles(articles);
+  return setUserLikedArticleIds(articles);
 }
 
 export { getLikedVols, getLikedTracks, getLikedArticles };

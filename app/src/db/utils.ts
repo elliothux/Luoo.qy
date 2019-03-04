@@ -61,7 +61,7 @@ function find<T>(
 
 function findOne<T>(db: Nedb, query: object): Promise<Maybe<T>> {
   return new Promise((resolve, reject) => {
-    db.findOne(query, (error, doc) => {
+    db.findOne<T>(query, (error, doc) => {
       if (error) {
         return reject(
           `An error happened whiling handling findOne: ${query} - ${error}`

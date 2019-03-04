@@ -1,8 +1,7 @@
 import * as path from "path";
 import * as fs from "fs";
 import { UserCollections, UserInfo, UserSettings } from "../types";
-import { isElectron, runPath } from "../utils";
-import { aseDecode, aseEncode } from "./crypto";
+import { isElectron, runPath, aseEncode, aseDecode } from "../utils";
 
 let info: Maybe<UserInfo> = null;
 const infoPath = path.resolve(
@@ -120,19 +119,34 @@ function getUserCollections(): UserCollections {
   return collections;
 }
 
-function setUserCollectionVols(vols: number[]): void {
+function getUserLikedVolIds(): number[] {
+  const { vols } = getUserCollections();
+  return vols;
+}
+
+function getUserLikedTrackIds(): number[] {
+  const { tracks } = getUserCollections();
+  return tracks;
+}
+
+function getUserLikedArticleIds(): number[] {
+  const { articles } = getUserCollections();
+  return articles;
+}
+
+function setUserLikedVolIds(vols: number[]): void {
   const collections = getUserCollections();
   collections.vols = vols;
   writeUserInfoToFile(info);
 }
 
-function setUserCollectionTracks(tracks: number[]): void {
+function setUserLikedTrackIds(tracks: number[]): void {
   const collections = getUserCollections();
   collections.tracks = tracks;
   writeUserInfoToFile(info);
 }
 
-function setUserCollectionArticles(articles: number[]): void {
+function setUserLikedArticleIds(articles: number[]): void {
   const collections = getUserCollections();
   collections.articles = articles;
   writeUserInfoToFile(info);
@@ -154,14 +168,19 @@ function getUserSetting(key: keyof UserSettings): boolean {
   return !!settings[key];
 }
 
+readUserInfoFromFile();
+
 export {
   setUserInfo,
   setUserInfos,
   getUserInfo,
   getUserCollections,
-  setUserCollectionVols,
-  setUserCollectionTracks,
-  setUserCollectionArticles,
+  getUserLikedVolIds,
+  getUserLikedTrackIds,
+  getUserLikedArticleIds,
+  setUserLikedVolIds,
+  setUserLikedTrackIds,
+  setUserLikedArticleIds,
   setUserSetting,
   getUserSetting,
   clearUserInfos

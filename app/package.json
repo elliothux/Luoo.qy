@@ -9,7 +9,7 @@
     "electron-is-dev": "^1.0.1",
     "jsdom": "^13.2.0",
     "nedb": "^1.8.0",
-    "random-ua": "0.0.6",
+    "random-ua": "^0.0.6",
     "request": "^2.88.0"
   },
   "devDependencies": {
@@ -23,6 +23,7 @@
     "ts-loader": "^5.3.3",
     "typescript": "^3.3.3333",
     "webpack": "^4.29.5",
-    "webpack-cli": "^3.2.3"
+    "webpack-cli": "^3.2.3",
+    "webpack-node-externals": "^1.7.2"
   }
 }
