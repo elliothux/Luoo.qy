@@ -12,7 +12,10 @@ module.exports = {
   target: 'electron-main',
   mode: isDev ? 'development' : 'production',
   // mode: 'production',
-  externals: [nodeExternals()],
+  // externals: [nodeExternals()],
+  // externals: {
+  //   canvas: 'commonjs canvas', // Important (2)
+  // },
   module: {
     rules: [
       {
@@ -31,6 +34,10 @@ module.exports = {
           extensions: ['.ts', '.js', '.json'],
         },
         exclude: /node_modules/,
+      },
+      {
+        test: /\.node$/,
+        use: 'node-loader',
       },
     ],
   },

@@ -5,7 +5,7 @@
   "description": "",
   "main": "./dist",
   "scripts": {
-    "start": "./node_modules/.bin/electron .",
+    "start": "./node_modules/.bin/electron-rebuild -f -m ./node_modules/canvas; ./node_modules/.bin/electron .",
     "dev:view": "cd ./view; npm start",
     "dev:main": "cd ./app; npm start",
     "build:view": "cd ./view; npm run build",
