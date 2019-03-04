@@ -62,6 +62,7 @@ export enum EventTypes {
   ScrollBackSingles,
   ScrollBackArticles,
   ScrollBackArticle,
+  ScrollBackUser,
   SelectVol,
   SelectSingle,
   SelectArticle

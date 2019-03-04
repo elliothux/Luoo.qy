@@ -4,11 +4,8 @@ import classnames from "classnames";
 import { playerStore, store, volStore } from "../../store";
 import { Icon, IconTypes } from "../icon";
 import { events, EventTypes } from "../../utils";
-import {VolTypes} from "../../@types";
+import { ViewTypes, VolTypes } from "../../@types";
 import LOGO from "../../static/logo.png";
-import {
-  ViewTypes,
-} from "../../@types";
 import "./index.scss";
 
 function hideClassName(willHide: boolean) {
@@ -44,6 +41,14 @@ function goArticles() {
   store.changeView(ViewTypes.ARTICLES);
 }
 
+function goUser() {
+  if (store.view === ViewTypes.PLAYING) {
+    store.backView(goUser);
+  }
+  events.emit(EventTypes.ScrollBackUser);
+  store.changeView(ViewTypes.USER);
+}
+
 function INav() {
   const { view } = store;
   return (
@@ -56,9 +61,12 @@ function INav() {
       <div id="nav-actions">
         <div
           className={hideClassName(
-            [ViewTypes.VOLS, ViewTypes.SINGLES, ViewTypes.ARTICLES].includes(
-              view
-            )
+            [
+              ViewTypes.VOLS,
+              ViewTypes.SINGLES,
+              ViewTypes.ARTICLES,
+              ViewTypes.USER
+            ].includes(view)
           )}
           onClick={store.backView}
         >
@@ -130,8 +138,12 @@ function INav() {
           />
           <p>专栏</p>
         </div>
-        <div>
-          <Icon type={IconTypes.USER} />
+        <div onClick={goUser}>
+          <Icon
+            type={
+              view === ViewTypes.USER ? IconTypes.USER_SOLID : IconTypes.USER
+            }
+          />
           <p>我的</p>
         </div>
       </div>

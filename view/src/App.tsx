@@ -9,13 +9,14 @@ import { Singles } from "./pages/singles";
 import { Single } from "./pages/single";
 import { Articles } from "./pages/articles";
 import { Article } from "./pages/article";
+import { User } from "./pages/user";
 import { Player } from "./pages/player";
 
 function App() {
   return (
     <>
-      <Background key={0} />
-      <Nav key={1} />
+      <Background />
+      <Nav />
       <MiniPlayer />
       <VolTypes />
       <Vols />
@@ -24,6 +25,7 @@ function App() {
       <Single />
       <Articles />
       <Article />
+      <User />
       <Player />
     </>
   );
