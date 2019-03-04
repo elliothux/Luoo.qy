@@ -33,7 +33,7 @@
       letter-spacing: 2px;
     }
 
-    &:hover, &:active {
+    &:hover, &:active, &:focus {
       box-shadow: none;
       transform: scale(1.05);
     }
@@ -67,5 +67,10 @@
       font-size: 16px;
       letter-spacing: 0.15em;
     }
+  }
+
+  #login-signup {
+    text-decoration: underline;
+    margin-top: 10px;
   }
 }
