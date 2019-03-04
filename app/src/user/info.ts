@@ -1,6 +1,6 @@
 import * as path from "path";
 import * as fs from "fs";
-import { UserInfo, UserSettings } from "../types";
+import { UserCollections, UserInfo, UserSettings } from "../types";
 import { isElectron, runPath } from "../utils";
 import { aseDecode, aseEncode } from "./crypto";
 
@@ -23,9 +23,16 @@ const defaultSettings = {
   autoUpdate: true,
   autoSync: true
 };
+const defaultCollections = {
+  tracks: [],
+  vols: [],
+  articles: []
+};
 const fsOptions = { encoding: "utf-8" };
 
-
+/*
+@desc Sync user info with config.json
+ */
 function readUserInfoFromFile(): UserInfo {
   const iInfo = JSON.parse(fs.readFileSync(infoPath, fsOptions)) as UserInfo;
   iInfo.settings = { ...defaultSettings, ...iInfo.settings };
@@ -41,13 +48,32 @@ function readUserInfoFromFile(): UserInfo {
 
 function writeUserInfoToFile(info: UserInfo): void {
   const { mail, password } = info;
-  fs.writeFileSync(infoPath, JSON.stringify({
-    ...info,
-    mail: mail ? aseEncode(mail) : null,
-    password: password ? aseEncode(password) : null
-  }, null, 4), fsOptions);
+  fs.writeFileSync(
+    infoPath,
+    JSON.stringify(
+      {
+        ...info,
+        mail: mail ? aseEncode(mail) : null,
+        password: password ? aseEncode(password) : null
+      },
+      null,
+      4
+    ),
+    fsOptions
+  );
 }
 
+function clearUserInfos(): void {
+  writeUserInfoToFile({
+    ...defaultInfo,
+    settings: defaultSettings,
+    collections: defaultCollections
+  });
+}
+
+/*
+@desc User basic info
+ */
 function getUserInfos(): UserInfo {
   return info || readUserInfoFromFile();
 }
@@ -85,6 +111,36 @@ function getUserInfo(key: keyof UserInfo): Maybe<string> {
   return (info[key] as string) || null;
 }
 
+/*
+@desc User collections
+ */
+function getUserCollections(): UserCollections {
+  const info = getUserInfos();
+  const { collections } = info;
+  return collections;
+}
+
+function setUserCollectionVols(vols: number[]): void {
+  const collections = getUserCollections();
+  collections.vols = vols;
+  writeUserInfoToFile(info);
+}
+
+function setUserCollectionTracks(tracks: number[]): void {
+  const collections = getUserCollections();
+  collections.tracks = tracks;
+  writeUserInfoToFile(info);
+}
+
+function setUserCollectionArticles(articles: number[]): void {
+  const collections = getUserCollections();
+  collections.articles = articles;
+  writeUserInfoToFile(info);
+}
+
+/*
+@desc User settings
+ */
 function setUserSetting(key: keyof UserSettings, value: boolean): void {
   const info = getUserInfos();
   const { settings } = info;
@@ -98,17 +154,14 @@ function getUserSetting(key: keyof UserSettings): boolean {
   return !!settings[key];
 }
 
-function clearUserInfos(): void {
-  writeUserInfoToFile({
-    ...defaultInfo,
-    settings:defaultSettings
-  });
-}
-
 export {
   setUserInfo,
   setUserInfos,
   getUserInfo,
+  getUserCollections,
+  setUserCollectionVols,
+  setUserCollectionTracks,
+  setUserCollectionArticles,
   setUserSetting,
   getUserSetting,
   clearUserInfos

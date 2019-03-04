@@ -1,4 +1,9 @@
-import { getUserInfo } from "./info";
+import {
+  getUserInfo,
+  setUserCollectionArticles,
+  setUserCollectionTracks,
+  setUserCollectionVols
+} from "./info";
 import { getHTMLDOM } from "../utils";
 import { baseHeaders } from "./utils";
 
@@ -21,7 +26,7 @@ async function getCollectionHTMLDOM(url: string): Promise<Document> {
 
 function getLastPageFromDoc(page: Document): Maybe<number> {
   const paginator = Array.from(
-      page.querySelectorAll(".paginator > .page")
+    page.querySelectorAll(".paginator > .page")
   ).pop();
   if (!paginator) {
     return null;
@@ -29,8 +34,11 @@ function getLastPageFromDoc(page: Document): Maybe<number> {
   return parseInt(paginator.innerHTML, 10);
 }
 
-type trackId = number;
-async function getLikedTracks(): Promise<trackId[]> {
+/*
+@desc Get user liked tracks id
+ */
+type TrackId = number;
+async function getLikedTracksFromCGI(): Promise<TrackId[]> {
   const firstPage = await getCollectionHTMLDOM(url(1));
 
   let liked = getLikedTrackFromDoc(firstPage);
@@ -50,11 +58,11 @@ async function getLikedTracks(): Promise<trackId[]> {
   }
 }
 
-function getLikedTrackFromDoc(page: Document): trackId[] {
+function getLikedTrackFromDoc(page: Document): TrackId[] {
   return Array.from<Element>(
     page.querySelectorAll(".fav-singles li.track-item")
   )
-    .map<trackId>((i: Element) => {
+    .map<TrackId>((i: Element) => {
       const id = (i as HTMLElement).getAttribute("id");
       if (!id) return 0;
       return parseInt(id.replace("track", "").trim(), 10);
@@ -62,9 +70,16 @@ function getLikedTrackFromDoc(page: Document): trackId[] {
     .filter(i => !!i);
 }
 
+async function getLikedTracks(): Promise<void> {
+  const tracks = await getLikedTracksFromCGI();
+  return setUserCollectionTracks(tracks);
+}
 
-type volId = number;
-async function getLikedVols(): Promise<volId[]> {
+/*
+@desc Get user liked vols id
+ */
+type VolId = number;
+async function getLikedVolsFromCGI(): Promise<VolId[]> {
   const firstPage = await getCollectionHTMLDOM(url(1));
 
   let liked = getLikedVolFromDoc(firstPage);
@@ -84,37 +99,64 @@ async function getLikedVols(): Promise<volId[]> {
   }
 }
 
-function getLikedVolFromDoc(page: Document): volId[] {
-  return Array.from<Element>(
-      page.querySelectorAll(".fav-vols a.cover-wrapper")
-  )
-      .map<volId>((i: Element) => {
-        const href = (i as HTMLElement).getAttribute("href");
-        if (!href) return 0;
-        const id = href.split('/').pop();
-        if (!id) return 0;
-        return parseInt(id, 10);
-      })
-      .filter(i => !!i);
+function getLikedVolFromDoc(page: Document): VolId[] {
+  return Array.from<Element>(page.querySelectorAll(".fav-vols a.cover-wrapper"))
+    .map<VolId>((i: Element) => {
+      const href = (i as HTMLElement).getAttribute("href");
+      if (!href) return 0;
+      const id = href.split("/").pop();
+      if (!id) return 0;
+      return parseInt(id, 10);
+    })
+    .filter(i => !!i);
 }
 
+async function getLikedVols(): Promise<void> {
+  const vols = await getLikedTracksFromCGI();
+  return setUserCollectionVols(vols);
+}
 
-// type volId = number;
-// async function getLikedVols(): Promise<volId[]> {
-//
-// }
-//
-// type articleId = number;
-// async function getLikedArticles(): Promise<articleId[]> {
-//
-// }
+/*
+@desc Get user liked articles id
+ */
+type ArticleId = number;
+async function getLikedArticlesFromCGI(): Promise<ArticleId[]> {
+  const firstPage = await getCollectionHTMLDOM(url(1));
 
-getLikedVols()
-  .then(i => {
-    console.log(i);
-    process.exit();
-  })
-  .catch(e => {
-    console.error(e);
-    process.exit();
-  });
+  let liked = getLikedArticleFromDoc(firstPage);
+  const lastPage = getLastPageFromDoc(firstPage);
+  if (lastPage) {
+    for (let i = 2; i <= lastPage; i++) {
+      const page = await getCollectionHTMLDOM(url(i));
+      const likedOfPage = getLikedArticleFromDoc(page);
+      liked = [...liked, ...likedOfPage];
+    }
+  }
+
+  return liked;
+
+  function url(page: number) {
+    return `http://www.luoo.net/user/essays?p=${page}`;
+  }
+}
+
+function getLikedArticleFromDoc(page: Document): ArticleId[] {
+  return Array.from<Element>(
+    page.querySelectorAll(".fav-essays a.cover-wrapper")
+  )
+    .map<ArticleId>((i: Element) => {
+      const href = (i as HTMLElement).getAttribute("href");
+      if (!href) return 0;
+      const id = href.split("/").pop();
+      if (!id) return 0;
+      return parseInt(id, 10);
+    })
+    .filter(i => !!i);
+}
+
+async function getLikedArticles(): Promise<void> {
+  const articles = await getLikedArticlesFromCGI();
+  return setUserCollectionArticles(articles);
+}
+
+export { getLikedVols, getLikedTracks, getLikedArticles };

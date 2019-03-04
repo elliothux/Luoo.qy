@@ -87,11 +87,17 @@ export interface UserInfo {
   avatar: Maybe<string>;
   session: Maybe<string>;
   lult: Maybe<string>;
-  settings: UserSettings
+  settings: UserSettings;
+  collections: UserCollections;
 }
 
 export interface UserSettings {
-  autoUpdate: boolean,
-  autoSync: boolean
+  autoUpdate: boolean;
+  autoSync: boolean;
 }
 
+export interface UserCollections {
+  tracks: number[];
+  vols: number[];
+  articles: number[];
+}

@@ -1,9 +1,9 @@
 import { app } from "electron";
-import {insert, find, isExist, getDB} from "./utils";
+import { insert, find, isExist, getDB } from "./utils";
 import { Single } from "../types";
 import Nedb = require("nedb");
 
-const singleDB: Nedb = getDB('single');
+const singleDB: Nedb = getDB("single");
 
 async function saveSingle(single: Single): Promise<Single> {
   if (await isExist(singleDB, { id: single.id })) {

@@ -1,11 +1,10 @@
-import {insert, find, isExist, findOne, getDB} from "./utils";
+import { insert, find, isExist, findOne, getDB } from "./utils";
 import { VolInfo, VolTrackMap } from "../types";
 import Nedb = require("nedb");
 
+const volDB: Nedb = getDB("vol");
 
-const volDB: Nedb = getDB('vol');
-
-const volTrackMapDB: Nedb = getDB('vol_track_map');
+const volTrackMapDB: Nedb = getDB("vol_track_map");
 
 function saveVolTrackMap(map: VolTrackMap): Promise<VolTrackMap> {
   return insert<VolTrackMap>(volTrackMapDB, map);

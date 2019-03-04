@@ -1,12 +1,10 @@
 import { app } from "electron";
-import {insert, find, isExist, findOne, getDB} from "./utils";
+import { insert, find, isExist, findOne, getDB } from "./utils";
 import { ArticleTrackMap, ArticleInfo } from "../types";
 import Nedb = require("nedb");
 
-
-const articleDB: Nedb = getDB('article');
-const articleTrackMapDB: Nedb = getDB('article_track_map');
-
+const articleDB: Nedb = getDB("article");
+const articleTrackMapDB: Nedb = getDB("article_track_map");
 
 function saveArticleTrackMap(map: ArticleTrackMap): Promise<ArticleTrackMap> {
   return insert<ArticleTrackMap>(articleTrackMapDB, map);

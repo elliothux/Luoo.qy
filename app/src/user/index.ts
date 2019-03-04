@@ -1,5 +1,3 @@
-import { UserInfo } from "../types";
-
-function login(mail: string, password: string): Promise<Maybe<UserInfo>> {
-  return Promise.resolve(null);
-}
+export * from "./collection";
+export * from "./info";
+export * from "./login";
