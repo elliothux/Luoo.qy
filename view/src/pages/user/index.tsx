@@ -1,6 +1,7 @@
 import * as React from "react";
 import { observer } from "mobx-react";
 import { ViewTypes} from "../../@types";
+import {Login} from "../../components/login";
 import "./index.scss";
 
 function IUser() {
@@ -9,7 +10,7 @@ function IUser() {
             id="user"
             className={`page view-${ViewTypes.USER}`}
         >
-            <h1>User</h1>
+            <Login />
         </div>
     );
 }
