@@ -14,7 +14,7 @@ function init() {
 
       ReactDOM.render(<App />, root, () => {
         setTimeout(() => {
-            boot.className = "hide";
+          boot.className = "hide";
         }, 500);
         setTimeout(() => {
           boot.style.display = "none";

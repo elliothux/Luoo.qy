@@ -5,7 +5,8 @@
   "description": "",
   "main": "./dist",
   "scripts": {
-    "start": "cp -rf ./app/static/db ./dist & cp -rf ./app/static/user ./dist & ./node_modules/.bin/electron .",
+    "start": "./node_modules/.bin/electron .",
+    "copy:static": "cp -rf ./app/static/db ./dist & cp -rf ./app/static/user ./dist",
     "dev:view": "cd ./view; npm start",
     "dev:main": "cd ./app; npm start",
     "build:view": "cd ./view; npm run build",

@@ -1,6 +1,7 @@
 import { getHeader, getJSON, RequestParams } from "../utils";
 import { clearUserInfos, getUserInfo, setUserInfos } from "./info";
 import { baseHeaders } from "./utils";
+import { UserInfo } from "../types";
 
 function getCookieValueFromHeaders(
   headers: Maybe<string[]>,
@@ -88,7 +89,7 @@ async function getUserInfoFromCGI(
   } as BasicUserInfo;
 }
 
-async function login(mail: string, password: string): Promise<void> {
+async function login(mail: string, password: string): Promise<UserInfo> {
   const session: Maybe<string> =
     getUserInfo("session") || (await getSessionFromCGI());
   if (!session) {
@@ -106,7 +107,7 @@ async function login(mail: string, password: string): Promise<void> {
     throw new Error(`Get user info failed`);
   }
 
-  setUserInfos({
+  return setUserInfos({
     session,
     lult,
     mail,
@@ -115,8 +116,8 @@ async function login(mail: string, password: string): Promise<void> {
   });
 }
 
-function logout() {
-  clearUserInfos();
+function logout(): void {
+  return clearUserInfos();
 }
 
 export { login, logout };

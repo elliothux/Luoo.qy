@@ -1,8 +1,6 @@
 import * as React from "react";
 import { Icon, IconTypes } from "../icon";
-import {
-    VolTrack,
-} from "../../@types";
+import { VolTrack } from "../../@types";
 import "./index.scss";
 
 export interface Props {
@@ -15,13 +13,7 @@ export interface Props {
 }
 
 function VolTrackItem(props: Props) {
-  const {
-    trackInfo: track,
-    isPlaying,
-    onPlay,
-    onPause,
-    onClick
-  } = props;
+  const { trackInfo: track, isPlaying, onPlay, onPause, onClick } = props;
   return (
     <div className="vol-track-item" onClick={onClick}>
       <div

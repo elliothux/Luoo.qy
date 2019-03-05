@@ -1,5 +1,4 @@
-import * as React from 'react';
-
+import * as React from "react";
 
 function genRange(start: number, end: number): number[] {
   const result: number[] = [];

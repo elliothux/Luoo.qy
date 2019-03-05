@@ -5,10 +5,7 @@ import { playerStore, store, volStore } from "../../store";
 import { Icon, IconTypes } from "../../components/icon";
 import { VolTrackItem } from "../../components/vol-track-item";
 import { events, EventTypes, px } from "../../utils";
-import {
-  ViewTypes,
-  ElementPosition,
-} from "../../@types";
+import { ViewTypes, ElementPosition } from "../../@types";
 import "./index.scss";
 
 let infoRef: HTMLDivElement;

@@ -8,16 +8,33 @@ import {
   getLatestVol,
   getVolByTrackId,
   getVolById,
+  getLikedVols,
+  getLikedVolTracks,
   saveSingle,
   saveSingles,
   getSingles,
   getLatestSingle,
+  getLikedSingles,
   saveArticle,
   saveArticles,
   getArticles,
   getLatestArticle,
-  getArticleByTrackId
+  getArticleByTrackId,
+  getLikedArticles,
+  getLikedArticleTracks
 } from "./db";
+import {
+  login,
+  logout,
+  getUserInfo,
+  setUserInfo,
+  getUserSetting,
+  setUserSetting,
+  getUserCollections,
+  fetchAndSaveLikedVols,
+  fetchAndSaveLikedTracks,
+  fetchAndSaveLikedArticles
+} from "./user";
 import { isDev, runPath } from "./utils";
 
 function launch(): void {
@@ -89,28 +106,51 @@ function launch(): void {
 function injectIPC(): void {
   Object.defineProperty(global, "ipc", {
     value: {
-      // Request
-      requestVols,
-      requestSingles,
-      requestArticles,
-      // VOl
-      saveVol,
-      saveVols,
-      getVols,
-      getLatestVol,
-      getVolByTrackId,
-      getVolById,
-      // Single
-      saveSingle,
-      saveSingles,
-      getSingles,
-      getLatestSingle,
-      // Article
-      saveArticle,
-      saveArticles,
-      getArticles,
-      getLatestArticle,
-      getArticleByTrackId
+      request: {
+        requestVols,
+        requestSingles,
+        requestArticles
+      },
+      user: {
+        login,
+        logout,
+        getUserInfo,
+        setUserInfo,
+        getUserSetting,
+        setUserSetting,
+        getUserCollections,
+        fetchAndSaveLikedVols,
+        fetchAndSaveLikedTracks,
+        fetchAndSaveLikedArticles
+      },
+      db: {
+        vol: {
+          saveVol,
+          saveVols,
+          getVols,
+          getLatestVol,
+          getVolByTrackId,
+          getVolById,
+          getLikedVols,
+          getLikedVolTracks
+        },
+        single: {
+          saveSingle,
+          saveSingles,
+          getSingles,
+          getLatestSingle,
+          getLikedSingles
+        },
+        article: {
+          saveArticle,
+          saveArticles,
+          getArticles,
+          getLatestArticle,
+          getArticleByTrackId,
+          getLikedArticles,
+          getLikedArticleTracks
+        }
+      }
     }
   });
 }

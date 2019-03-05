@@ -38,9 +38,7 @@ class Login extends React.Component {
           value={password}
           onChange={this.handleChangePassword}
         />
-          <p id="login-signup">
-              没有账号？点击注册
-          </p>
+        <p id="login-signup">没有账号？点击注册</p>
         <Icon type={IconTypes.BACK} />
         <div id="login-desc">
           <img src={CONNECT} alt="connect" />

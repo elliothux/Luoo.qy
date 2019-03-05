@@ -47,7 +47,7 @@ function readUserInfoFromFile(): UserInfo {
 
 function writeUserInfoToFile(info: UserInfo): void {
   const { mail, password } = info;
-  fs.writeFileSync(
+  return fs.writeFileSync(
     infoPath,
     JSON.stringify(
       {
@@ -63,7 +63,7 @@ function writeUserInfoToFile(info: UserInfo): void {
 }
 
 function clearUserInfos(): void {
-  writeUserInfoToFile({
+  return writeUserInfoToFile({
     ...defaultInfo,
     settings: defaultSettings,
     collections: defaultCollections
@@ -78,11 +78,8 @@ function getUserInfos(): UserInfo {
 }
 
 function setUserInfo(key: keyof UserInfo, value: string): void {
-  if (key === "settings") {
-    throw new Error("Using setUserSetting");
-  }
   const info = getUserInfos();
-  writeUserInfoToFile(info);
+  return writeUserInfoToFile(info);
 }
 
 interface UserInfoParams {
@@ -94,18 +91,16 @@ interface UserInfoParams {
   session?: string;
   lult?: string;
 }
-function setUserInfos(infos: UserInfoParams): void {
+function setUserInfos(infos: UserInfoParams): UserInfo {
   const info = getUserInfos();
   writeUserInfoToFile({
     ...info,
     ...infos
   });
+  return info;
 }
 
 function getUserInfo(key: keyof UserInfo): Maybe<string> {
-  if (key === "settings") {
-    throw new Error("Using getUserSetting");
-  }
   const info = getUserInfos();
   return (info[key] as string) || null;
 }
@@ -137,19 +132,19 @@ function getUserLikedArticleIds(): number[] {
 function setUserLikedVolIds(vols: number[]): void {
   const collections = getUserCollections();
   collections.vols = vols;
-  writeUserInfoToFile(info);
+  return writeUserInfoToFile(info as UserInfo);
 }
 
 function setUserLikedTrackIds(tracks: number[]): void {
   const collections = getUserCollections();
   collections.tracks = tracks;
-  writeUserInfoToFile(info);
+  return writeUserInfoToFile(info as UserInfo);
 }
 
 function setUserLikedArticleIds(articles: number[]): void {
   const collections = getUserCollections();
   collections.articles = articles;
-  writeUserInfoToFile(info);
+  return writeUserInfoToFile(info as UserInfo);
 }
 
 /*
@@ -159,7 +154,7 @@ function setUserSetting(key: keyof UserSettings, value: boolean): void {
   const info = getUserInfos();
   const { settings } = info;
   settings[key] = value;
-  writeUserInfoToFile(info);
+  return writeUserInfoToFile(info);
 }
 
 function getUserSetting(key: keyof UserSettings): boolean {

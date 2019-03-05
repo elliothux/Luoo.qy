@@ -4,9 +4,7 @@ import { volStore } from "./vol";
 import { singleStore } from "./single";
 import { articleStore } from "./article";
 import { playerStore } from "./player";
-import {
-  ViewTypes,
-} from "../@types";
+import { ViewTypes } from "../@types";
 
 let ipc: IpcObject;
 
@@ -58,9 +56,9 @@ class Store {
     const prevViewElement = document.querySelector(
       `.view-${prevView}`
     ) as Maybe<HTMLElement>;
-    const viewElement = document.querySelector(
-      `.view-${viewType}`
-    ) as Maybe<HTMLElement>;
+    const viewElement = document.querySelector(`.view-${viewType}`) as Maybe<
+      HTMLElement
+    >;
     if (!prevViewElement || !viewElement) return;
 
     const isEnterInfoPage =

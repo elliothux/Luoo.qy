@@ -13,13 +13,7 @@ export interface Props {
 }
 
 function ArticleTrackItem(props: Props) {
-  const {
-    trackInfo: track,
-    isPlaying,
-    onPause,
-    onPlay,
-    onClick
-  } = props;
+  const { trackInfo: track, isPlaying, onPause, onPlay, onClick } = props;
   return (
     <div className="article-track-item" onClick={onClick}>
       <div

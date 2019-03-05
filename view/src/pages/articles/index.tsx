@@ -4,10 +4,7 @@ import { articleStore, playerStore } from "../../store";
 import { ArticleItem } from "../../components/article-item";
 import { Pagination } from "../../components/pagination";
 import { events, EventTypes } from "../../utils";
-import {
-  ViewTypes,
-  ArticleInfo,
-} from "../../@types";
+import { ViewTypes, ArticleInfo } from "../../@types";
 import "./index.scss";
 
 let articlesRef: HTMLDivElement;

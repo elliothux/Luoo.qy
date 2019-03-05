@@ -4,10 +4,7 @@ import { observer } from "mobx-react";
 import { playerStore, singleStore } from "../../store";
 import { Icon, IconTypes } from "../../components/icon";
 import { events, EventTypes, px } from "../../utils";
-import {
-  ViewTypes,
-  ElementPosition,
-} from "../../@types";
+import { ViewTypes, ElementPosition } from "../../@types";
 import "./index.scss";
 
 let coverRef: HTMLDivElement;

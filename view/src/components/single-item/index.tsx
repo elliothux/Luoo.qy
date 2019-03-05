@@ -2,9 +2,7 @@ import * as React from "react";
 import { Icon, IconTypes } from "../icon";
 import { playerStore, singleStore } from "../../store";
 import { events, EventTypes, isAnyPartOfElementInViewport } from "../../utils";
-import {
-  Single,
-} from "../../@types";
+import { Single } from "../../@types";
 import "./index.scss";
 
 export interface Props {

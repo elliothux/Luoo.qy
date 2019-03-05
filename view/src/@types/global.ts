@@ -1,3 +1,6 @@
+declare global {
+  type Maybe<T> = T | null;
+}
 
 export enum ViewTypes {
   PLAYING,
@@ -55,7 +58,7 @@ interface IVolInfo {
   similarVols: number[];
   tracks: VolTrack[];
 }
-export type VolInfo =  Readonly<IVolInfo>;
+export type VolInfo = Readonly<IVolInfo>;
 
 interface IVolTrack extends Track {
   id: number;
@@ -103,6 +106,25 @@ export interface ElementPosition {
   left: number;
 }
 
-declare global {
-  type Maybe<T> = T | null;
+export interface UserInfo {
+  mail: Maybe<string>;
+  password: Maybe<string>;
+  id: Maybe<number>;
+  name: Maybe<string>;
+  avatar: Maybe<string>;
+  session: Maybe<string>;
+  lult: Maybe<string>;
+  settings: UserSettings;
+  collections: UserCollections;
+}
+
+export interface UserSettings {
+  autoUpdate: boolean;
+  autoSync: boolean;
+}
+
+export interface UserCollections {
+  tracks: number[];
+  vols: number[];
+  articles: number[];
 }

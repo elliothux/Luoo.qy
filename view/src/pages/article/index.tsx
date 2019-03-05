@@ -5,10 +5,7 @@ import { articleStore, playerStore, store } from "../../store";
 import { Icon, IconTypes } from "../../components/icon";
 import { ArticleTrackItem } from "../../components/article-track-item";
 import { events, EventTypes, px } from "../../utils";
-import {
-  ViewTypes,
-    ElementPosition,
-} from "../../@types";
+import { ViewTypes, ElementPosition } from "../../@types";
 import "./index.scss";
 
 let infoRef: HTMLDivElement;
