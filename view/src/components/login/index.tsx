@@ -1,14 +1,16 @@
 import * as React from "react";
-import "./index.scss";
+import {toast, ToastOptions} from "react-toastify";
 import { Icon, IconTypes } from "../icon";
-import CONNECT from "../../static/connect.png";
 import { preventSyntheticEvent } from "../../utils";
-import { SyntheticEvent } from "react";
+import CONNECT from "../../static/connect.png";
+import "./index.scss";
+
 
 class Login extends React.Component {
   state = {
     account: "",
-    password: ""
+    password: "",
+    isLoading: false
   };
 
   handleChangeAccount = (e: React.FormEvent<HTMLInputElement>) => {
@@ -21,8 +23,23 @@ class Login extends React.Component {
     this.setState({ password: (e.target as HTMLInputElement).value });
   };
 
+  handleLogin = (e: React.FormEvent<HTMLElement>) => {
+    preventSyntheticEvent(e);
+    const {account, password} = this.state;
+    if (!account.trim()) {
+        return toast.warn(<span>未输入账号!</span>);
+    }
+    if (!password) {
+        return toast.warn(<span>未输入密码!</span>);
+    } else if (password.length < 6) {
+        return toast.warn(<span>密码太短!</span>);
+    }
+
+    this.setState({ isLoading: true });
+  };
+
   render() {
-    const { account, password } = this.state;
+    const { account, password, isLoading } = this.state;
     return (
       <div id="login">
         <p id="login-title">登录</p>
@@ -39,7 +56,11 @@ class Login extends React.Component {
           onChange={this.handleChangePassword}
         />
         <p id="login-signup">没有账号？点击注册</p>
-        <Icon type={IconTypes.BACK} />
+        {isLoading ? (
+          <Icon type={IconTypes.SYNC} animate />
+        ) : (
+          <Icon type={IconTypes.BACK} onClick={this.handleLogin} />
+        )}
         <div id="login-desc">
           <img src={CONNECT} alt="connect" />
           <p>使用落网账号登录</p>

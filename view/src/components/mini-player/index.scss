@@ -52,11 +52,12 @@ $mini-player-height: 80px;
     width: $mini-player-height;
     background-size: cover;
     background-position: center;
-    border: 0.001em solid rgba(255, 255, 255, 1);
+    border-color: white;
     margin: 0 12px;
     box-shadow: 0 0 30px 5px rgba(0, 0, 0, 0.35);
     @include transition;
     @include cursor;
+    @include thin-border;
     &:hover {
       transform: scale(1.05);
       box-shadow: none;

@@ -8,3 +8,7 @@
     cursor: pointer;
   }
 }
+
+@mixin thin-border {
+  border: 0.1vw solid white;
+}

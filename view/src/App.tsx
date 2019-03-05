@@ -1,4 +1,5 @@
 import * as React from "react";
+import { ToastContainer, ToastPosition } from "react-toastify";
 import { Nav } from "./components/nav";
 import { Background } from "./components/background";
 import { MiniPlayer } from "./components/mini-player";
@@ -11,6 +12,7 @@ import { Articles } from "./pages/articles";
 import { Article } from "./pages/article";
 import { User } from "./pages/user";
 import { Player } from "./pages/player";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   return (
@@ -27,6 +29,15 @@ function App() {
       <Article />
       <User />
       <Player />
+      <ToastContainer
+        position={ToastPosition.BOTTOM_RIGHT}
+        autoClose={5000}
+        hideProgressBar
+        newestOnTop
+        closeOnClick
+        draggable
+        pauseOnHover
+      />
     </>
   );
 }

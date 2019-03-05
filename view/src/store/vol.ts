@@ -1,16 +1,15 @@
 import { action, computed, observable } from "mobx";
-import { events, EventTypes, genRange, promiseWrapper } from "../utils";
+import {events, EventTypes, genRange, getIPC, promiseWrapper} from "../utils";
 import { VolTypesList, VolTypes, VolTypeItem } from "../@types";
 import { store } from "./index";
 import { ViewTypes, VolInfo } from "../@types";
 
-let ipc: IpcObject;
-
 class VolStore {
+  protected ipc: IpcObject = getIPC();
+
   @action
-  init = async (IPC: IpcObject) => {
-    ipc = IPC;
-    this.updateAllVols(await ipc.db.vol.getVols());
+  init = async () => {
+    this.updateAllVols(await this.ipc.db.vol.getVols());
     setTimeout(() => {
       this.updateFromCGI().catch(console.error);
     }, 10);
@@ -18,10 +17,10 @@ class VolStore {
 
   @action
   private updateFromCGI = async () => {
-    const latestVol = await ipc.db.vol.getLatestVol();
+    const latestVol = await this.ipc.db.vol.getLatestVol();
 
     const [vols, error] = await promiseWrapper<VolInfo[]>(
-      ipc.request.requestVols(latestVol ? latestVol.vol + 1 : 0)
+      this.ipc.request.requestVols(latestVol ? latestVol.vol + 1 : 0)
     );
 
     if (error) {
@@ -29,10 +28,10 @@ class VolStore {
     }
 
     if (vols && vols.length > 0) {
-      await ipc.db.vol.saveVols(vols);
+      await this.ipc.db.vol.saveVols(vols);
     }
 
-    this.updateAllVols(await ipc.db.vol.getVols());
+    this.updateAllVols(await this.ipc.db.vol.getVols());
   };
 
   @action
@@ -152,7 +151,7 @@ class VolStore {
       return;
     }
 
-    const vol = await ipc.db.vol.getVolById(volId);
+    const vol = await this.ipc.db.vol.getVolById(volId);
     if (!vol) {
       throw new Error(`vol id-${volId} not exists`);
     }

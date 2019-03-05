@@ -18,13 +18,13 @@
   & > input {
     margin-bottom: 26px;
     background: rgba(255, 251, 251, 0.19);
-    border: 1px solid white;
     box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.29);
     border-radius: 28px;
     width: 188px;
     height: 32px;
     text-align: center;
     color: white;
+    @include thin-border;
 
     &::placeholder {
       opacity: 0.9;

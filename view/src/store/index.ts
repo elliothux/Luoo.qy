@@ -1,21 +1,17 @@
 import { action, observable } from "mobx";
-import { getIPC } from "../utils";
 import { volStore } from "./vol";
 import { singleStore } from "./single";
 import { articleStore } from "./article";
 import { playerStore } from "./player";
 import { ViewTypes } from "../@types";
 
-let ipc: IpcObject;
-
 class Store {
   @action
   init = async (): Promise<void> => {
-    ipc = await getIPC();
     await Promise.all([
-      volStore.init(ipc),
-      singleStore.init(ipc),
-      articleStore.init(ipc)
+      volStore.init(),
+      singleStore.init(),
+      articleStore.init()
     ]);
     await playerStore.init();
   };

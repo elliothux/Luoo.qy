@@ -32,44 +32,46 @@ import SHUFFLE from "../../static/icon/shuffle.svg";
 import LOOP from "../../static/icon/loop.svg";
 import ORDER from "../../static/icon/order.svg";
 import EXPAND from "../../static/icon/expand.svg";
+import SYNC from "../../static/icon/sync.svg";
 
 import "./index.scss";
 import { preventSyntheticEvent } from "../../utils";
 
 export enum IconTypes {
-  BACK,
-  CATEGORY,
-  SEARCH,
-  SHARE,
-  SOURCE,
-  ARTICLE,
-  ARTICLE_SOLID,
-  SINGLE,
-  SINGLE_SOLID,
-  USER,
-  USER_SOLID,
-  VOL,
-  VOL_SOLID,
-  LIKE,
-  LIKE2,
-  PLAY,
-  PLAY_SOLID,
-  PAUSE,
-  PAUSE_SOLID,
-  LOGO,
-  CLOUD,
-  WAVE,
-  PRE,
-  PRE2,
-  NEXT,
-  NEXT2,
-  RANDOM,
-  ARROW_LEFT,
-  ARROW_RIGHT,
-  SHUFFLE,
-  LOOP,
-  ORDER,
-  EXPAND
+  BACK = "BACK",
+  CATEGORY = "CATEGORY",
+  SEARCH = "SEARCH",
+  SHARE = "SHARE",
+  SOURCE = "SOURCE",
+  ARTICLE = "ARTICLE",
+  ARTICLE_SOLID = "ARTICLE_SOLID",
+  SINGLE = "SINGLE",
+  SINGLE_SOLID = "SINGLE_SOLID",
+  USER = "USER",
+  USER_SOLID = "USER_SOLID",
+  VOL = "VOL",
+  VOL_SOLID = "VOL_SOLID",
+  LIKE = "LIKE",
+  LIKE2 = "LIKE2",
+  PLAY = "PLAY",
+  PLAY_SOLID = "PLAY_SOLID",
+  PAUSE = "PAUSE",
+  PAUSE_SOLID = "PAUSE_SOLID",
+  LOGO = "LOGO",
+  CLOUD = "CLOUD",
+  WAVE  ="WAVE",
+  PRE="PRE",
+  PRE2 ="PRE2",
+  NEXT="NEXT",
+  NEXT2="NEXT2",
+  RANDOM="RANDOM",
+  ARROW_LEFT="ARROW_LEFT",
+  ARROW_RIGHT="ARROW_RIGHT",
+  SHUFFLE="SHUFFLE",
+  LOOP="LOOP",
+  ORDER="ORDER",
+  EXPAND="EXPAND",
+  SYNC="SYNC"
 }
 
 export interface Props {
@@ -77,10 +79,11 @@ export interface Props {
   className?: string;
   onClick?: (e: any) => void;
   preventDefault?: boolean;
+  animate?: boolean;
 }
 
 function Icon(props: Props) {
-  const { type, className, onClick, preventDefault } = props;
+  const { type, className, onClick, preventDefault, animate } = props;
 
   let src;
   switch (type) {
@@ -183,6 +186,9 @@ function Icon(props: Props) {
     case IconTypes.EXPAND:
       src = EXPAND;
       break;
+    case IconTypes.SYNC:
+      src = SYNC;
+      break;
     default:
       throw "Invalid icon type";
   }
@@ -197,9 +203,17 @@ function Icon(props: Props) {
     return false;
   };
 
+  let classNames = `icon ${type}`;
+  if (animate) {
+    classNames += ' animate';
+  }
+  if (className) {
+    classNames += ' ' + className;
+  }
+
   return (
     <img
-      className={className ? `icon ${className}` : "icon"}
+      className={classNames}
       src={src}
       onClick={handleClick}
       alt="icon"

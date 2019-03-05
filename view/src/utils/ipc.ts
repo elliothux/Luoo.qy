@@ -63,10 +63,16 @@ declare global {
   }
 }
 
-function getIPC(): Promise<IpcObject> {
+let ipc: Maybe<IpcObject> = null;
+
+function getIPC(): IpcObject {
+  if (ipc) {
+    return ipc;
+  }
   const electron = window.require("electron");
   const { remote } = electron;
-  return remote.getGlobal("ipc");
+  ipc = remote.getGlobal("ipc") as IpcObject;
+  return ipc;
 }
 
 export { getIPC };

@@ -1,15 +1,14 @@
 import { action, computed, observable } from "mobx";
-import { events, EventTypes, genRange, promiseWrapper } from "../utils";
+import {events, EventTypes, genRange, getIPC, promiseWrapper} from "../utils";
 import { store } from "./index";
 import { ViewTypes, Single } from "../@types";
 
-let ipc: IpcObject;
-
 class SingleStore {
+  protected ipc: IpcObject = getIPC();
+
   @action
-  init = async (IPC: IpcObject) => {
-    ipc = IPC;
-    this.updateSingles(await ipc.db.single.getSingles());
+  init = async () => {
+    this.updateSingles(await this.ipc.db.single.getSingles());
     setTimeout(() => {
       this.updateFromCGI().catch(console.error);
     }, 10);
@@ -17,9 +16,9 @@ class SingleStore {
 
   @action
   private updateFromCGI = async () => {
-    const latestSingle = await ipc.db.single.getLatestSingle();
+    const latestSingle = await this.ipc.db.single.getLatestSingle();
     const [singles, error] = await promiseWrapper(
-      ipc.request.requestSingles(latestSingle ? latestSingle.date + 1 : 0)
+      this.ipc.request.requestSingles(latestSingle ? latestSingle.date + 1 : 0)
     );
 
     if (error) {
@@ -27,10 +26,10 @@ class SingleStore {
     }
 
     if (singles && singles.length > 0) {
-      await ipc.db.single.saveSingles(singles);
+      await this.ipc.db.single.saveSingles(singles);
     }
 
-    this.updateSingles(await ipc.db.single.getSingles());
+    this.updateSingles(await this.ipc.db.single.getSingles());
   };
 
   @action

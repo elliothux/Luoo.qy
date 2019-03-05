@@ -1,15 +1,15 @@
 import { action, computed, observable } from "mobx";
-import { events, EventTypes, genRange, promiseWrapper } from "../utils";
+import {events, EventTypes, genRange, getIPC, promiseWrapper} from "../utils";
 import { store } from "./index";
 import { ArticleInfo, ViewTypes } from "../@types";
 
-let ipc: IpcObject;
 
 class ArticleStore {
+  protected ipc: IpcObject = getIPC();
+
   @action
-  init = async (IPC: IpcObject) => {
-    ipc = IPC;
-    this.updateArticles(await ipc.db.article.getArticles());
+  init = async () => {
+    this.updateArticles(await this.ipc.db.article.getArticles());
     setTimeout(() => {
       this.updateFromCGI().catch(console.error);
     }, 10);
@@ -17,9 +17,9 @@ class ArticleStore {
 
   @action
   private updateFromCGI = async () => {
-    const latestArticle = await ipc.db.article.getLatestArticle();
+    const latestArticle = await this.ipc.db.article.getLatestArticle();
     const [articles, error] = await promiseWrapper(
-      ipc.request.requestArticles(latestArticle ? latestArticle.id + 1 : 0)
+      this.ipc.request.requestArticles(latestArticle ? latestArticle.id + 1 : 0)
     );
 
     if (error) {
@@ -27,10 +27,10 @@ class ArticleStore {
     }
 
     if (articles && articles.length > 0) {
-      await ipc.db.article.saveArticles(articles);
+      await this.ipc.db.article.saveArticles(articles);
     }
 
-    this.updateArticles(await ipc.db.article.getArticles());
+    this.updateArticles(await this.ipc.db.article.getArticles());
   };
 
   @action
