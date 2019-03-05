@@ -1,12 +1,13 @@
 {
   "scripts": {
+    "rebuild": "PKG_CONFIG_PATH=/usr/X11/lib/pkgconfig ./node_modules/.bin/electron-rebuild -f -w canvas",
     "start": "NODE_ENV=development ./node_modules/.bin/webpack --watch --color --cache=false --config ./webpack.config.js",
     "build": "NODE_ENV=production ./node_modules/.bin/webpack --color --cache=false --config ./webpack.config.js",
     "lint": "eslint ./src --color --fix"
   },
   "dependencies": {
     "camelcase-keys": "^5.0.0",
-    "canvas": "^2.3.1",
+    "canvas": "file:./fake/canvas",
     "electron-is-dev": "^1.0.1",
     "jsdom": "^13.2.0",
     "nedb": "^1.8.0",
@@ -21,12 +22,9 @@
     "@types/request": "^2.48.1",
     "babel-preset-env": "^1.7.0",
     "electron": "4.0.6",
-    "electron-rebuild": "^1.8.4",
-    "node-loader": "^0.6.0",
     "ts-loader": "^5.3.3",
     "typescript": "^3.3.3333",
     "webpack": "^4.29.5",
-    "webpack-cli": "^3.2.3",
-    "webpack-node-externals": "^1.7.2"
+    "webpack-cli": "^3.2.3"
   }
 }

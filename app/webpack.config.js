@@ -1,5 +1,4 @@
 const path = require('path');
-const nodeExternals = require('webpack-node-externals');
 
 const isDev = process.env.NODE_ENV === 'development';
 
@@ -11,11 +10,6 @@ module.exports = {
   },
   target: 'electron-main',
   mode: isDev ? 'development' : 'production',
-  // mode: 'production',
-  // externals: [nodeExternals()],
-  // externals: {
-  //   canvas: 'commonjs canvas', // Important (2)
-  // },
   module: {
     rules: [
       {
@@ -34,11 +28,7 @@ module.exports = {
           extensions: ['.ts', '.js', '.json'],
         },
         exclude: /node_modules/,
-      },
-      {
-        test: /\.node$/,
-        use: 'node-loader',
-      },
+      }
     ],
   },
 };

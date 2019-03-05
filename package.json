@@ -5,12 +5,12 @@
   "description": "",
   "main": "./dist",
   "scripts": {
-    "start": "./node_modules/.bin/electron-rebuild -f -m ./node_modules/canvas; ./node_modules/.bin/electron .",
+    "start": "cp -rf ./app/static/db ./dist & cp -rf ./app/static/user ./dist & ./node_modules/.bin/electron .",
     "dev:view": "cd ./view; npm start",
     "dev:main": "cd ./app; npm start",
     "build:view": "cd ./view; npm run build",
     "build:main": "cd ./app; npm run build",
-    "pack": "cp -rf ./app/static/db ./dist & rm -rf ./out & node ./build",
+    "pack": "cp -rf ./app/static/db ./dist & cp -rf ./app/static/user ./dist & rm -rf ./out & node ./build",
     "clean": "rm -rf ./app/dist ./dist ./out",
     "debug": "node --inspect -r /usr/local/lib/node_modules/ts-node/register ./app"
   },
