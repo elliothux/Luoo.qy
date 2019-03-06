@@ -24,10 +24,11 @@
 - [x] client：Vol 分类筛选
 - [x] client：Vol 详情
 - [x] client：单曲列表
-- [ ] client：播放页面
+- [x] client：播放页面
+- [ ] client：登录
 - [ ] client：用户收藏
 - [ ] client：资源离线
-- [ ] client：歌词展示
+- [x] client：歌词展示
 - [ ] client：分享
 - [ ] client：支持搜索
 - [ ] client：设置
