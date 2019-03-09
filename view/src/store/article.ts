@@ -4,12 +4,12 @@ import { store } from "./index";
 import { ArticleInfo, ViewTypes } from "../@types";
 
 
-class ArticleStore {
-  protected ipc: IpcObject = getIPC();
+const ipc: IpcObject = getIPC();
 
+class ArticleStore {
   @action
   init = async () => {
-    this.updateArticles(await this.ipc.db.article.getArticles());
+    this.updateArticles(await ipc.db.article.getArticles());
     setTimeout(() => {
       this.updateFromCGI().catch(console.error);
     }, 10);
@@ -17,9 +17,9 @@ class ArticleStore {
 
   @action
   private updateFromCGI = async () => {
-    const latestArticle = await this.ipc.db.article.getLatestArticle();
+    const latestArticle = await ipc.db.article.getLatestArticle();
     const [articles, error] = await promiseWrapper(
-      this.ipc.request.requestArticles(latestArticle ? latestArticle.id + 1 : 0)
+      ipc.request.requestArticles(latestArticle ? latestArticle.id + 1 : 0)
     );
 
     if (error) {
@@ -27,10 +27,10 @@ class ArticleStore {
     }
 
     if (articles && articles.length > 0) {
-      await this.ipc.db.article.saveArticles(articles);
+      await ipc.db.article.saveArticles(articles);
     }
 
-    this.updateArticles(await this.ipc.db.article.getArticles());
+    this.updateArticles(await ipc.db.article.getArticles());
   };
 
   @action

@@ -1,10 +1,13 @@
 import * as React from "react";
-import {toast, ToastOptions} from "react-toastify";
+import { toast } from "react-toastify";
 import { Icon, IconTypes } from "../icon";
-import { preventSyntheticEvent } from "../../utils";
+import { getIPC, preventSyntheticEvent, promiseWrapper } from "../../utils";
 import CONNECT from "../../static/connect.png";
 import "./index.scss";
+import { UserInfo } from "../../@types";
+import {userStore} from "../../store";
 
+const ipc = getIPC();
 
 class Login extends React.Component {
   state = {
@@ -23,20 +26,42 @@ class Login extends React.Component {
     this.setState({ password: (e.target as HTMLInputElement).value });
   };
 
-  handleLogin = (e: React.FormEvent<HTMLElement>) => {
+  handleLogin = async (e: React.FormEvent<HTMLElement>) => {
     preventSyntheticEvent(e);
-    const {account, password} = this.state;
-    if (!account.trim()) {
-        return toast.warn(<span>未输入账号!</span>);
-    }
-    if (!password) {
-        return toast.warn(<span>未输入密码!</span>);
-    } else if (password.length < 6) {
-        return toast.warn(<span>密码太短!</span>);
+    if (!this.checkLoginInputInvalid()) {
+      return;
     }
 
     this.setState({ isLoading: true });
+    const { account, password } = this.state;
+    const [_, err] = await promiseWrapper<UserInfo>(
+      ipc.user.login(account, password)
+    );
+
+    this.setState({ isLoading: false });
+    if (err) {
+      console.error(err);
+      return toast.warn(<span>登录失败</span>);
+    }
+    return userStore.init();
   };
+
+  checkLoginInputInvalid(): boolean {
+    const { account, password } = this.state;
+    if (!account.trim()) {
+      toast.warn(<span>未输入账号!</span>);
+      return false;
+    }
+    if (!password) {
+      toast.warn(<span>未输入密码!</span>);
+      return false;
+    }
+    if (password.length < 6) {
+      toast.warn(<span>密码太短!</span>);
+      return false;
+    }
+    return true;
+  }
 
   render() {
     const { account, password, isLoading } = this.state;

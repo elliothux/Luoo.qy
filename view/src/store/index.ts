@@ -3,6 +3,7 @@ import { volStore } from "./vol";
 import { singleStore } from "./single";
 import { articleStore } from "./article";
 import { playerStore } from "./player";
+import { userStore } from "./user";
 import { ViewTypes } from "../@types";
 
 class Store {
@@ -13,7 +14,10 @@ class Store {
       singleStore.init(),
       articleStore.init()
     ]);
-    await playerStore.init();
+    await Promise.all([
+      userStore.init(),
+      playerStore.init()
+    ]);
   };
 
   protected viewHistory: ViewTypes[] = [];
@@ -148,4 +152,4 @@ class Store {
 
 const store = new Store();
 
-export { store, volStore, singleStore, articleStore, playerStore };
+export { store, volStore, singleStore, articleStore, playerStore, userStore };

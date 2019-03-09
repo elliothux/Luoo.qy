@@ -24,13 +24,14 @@ declare global {
       login: (mail: string, password: string) => Promise<UserInfo>;
       logout: () => void;
       getUserInfo: (key: keyof UserInfo) => Maybe<string>;
+      getUserInfos: () => UserInfo;
       setUserInfo: (key: keyof UserInfo, value: string) => void;
       getUserSetting: (key: keyof UserSettings) => boolean;
       setUserSetting: (key: keyof UserSettings, value: boolean) => void;
       getUserCollections: () => UserCollections;
-      fetchAndSaveLikedVols: () => Promise<void>;
-      fetchAndSaveLikedTracks: () => Promise<void>;
-      fetchAndSaveLikedArticles: () => Promise<void>;
+      fetchAndSaveLikedVols: () => Promise<number[]>;
+      fetchAndSaveLikedTracks: () => Promise<number[]>;
+      fetchAndSaveLikedArticles: () => Promise<number[]>;
     };
     db: {
       vol: {

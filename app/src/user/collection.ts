@@ -70,9 +70,10 @@ function getLikedTrackFromDoc(page: Document): TrackId[] {
     .filter(i => !!i);
 }
 
-async function fetchAndSaveLikedTracks(): Promise<void> {
+async function fetchAndSaveLikedTracks(): Promise<number[]> {
   const tracks = await getLikedTracksFromCGI();
-  return setUserLikedTrackIds(tracks);
+   setUserLikedTrackIds(tracks);
+   return tracks;
 }
 
 /*
@@ -111,9 +112,10 @@ function getLikedVolFromDoc(page: Document): VolId[] {
     .filter(i => !!i);
 }
 
-async function fetchAndSaveLikedVols(): Promise<void> {
-  const vols = await getLikedTracksFromCGI();
-  return setUserLikedVolIds(vols);
+async function fetchAndSaveLikedVols(): Promise<number[]> {
+  const vols = await getLikedVolsFromCGI();
+  setUserLikedVolIds(vols);
+  return vols;
 }
 
 /*
@@ -154,9 +156,10 @@ function getLikedArticleFromDoc(page: Document): ArticleId[] {
     .filter(i => !!i);
 }
 
-async function fetchAndSaveLikedArticles(): Promise<void> {
+async function fetchAndSaveLikedArticles(): Promise<number[]> {
   const articles = await getLikedArticlesFromCGI();
-  return setUserLikedArticleIds(articles);
+  setUserLikedArticleIds(articles);
+  return articles;
 }
 
 export {

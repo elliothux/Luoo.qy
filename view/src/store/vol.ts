@@ -4,12 +4,12 @@ import { VolTypesList, VolTypes, VolTypeItem } from "../@types";
 import { store } from "./index";
 import { ViewTypes, VolInfo } from "../@types";
 
-class VolStore {
-  protected ipc: IpcObject = getIPC();
+const ipc: IpcObject = getIPC();
 
+class VolStore {
   @action
   init = async () => {
-    this.updateAllVols(await this.ipc.db.vol.getVols());
+    this.updateAllVols(await ipc.db.vol.getVols());
     setTimeout(() => {
       this.updateFromCGI().catch(console.error);
     }, 10);
@@ -17,10 +17,10 @@ class VolStore {
 
   @action
   private updateFromCGI = async () => {
-    const latestVol = await this.ipc.db.vol.getLatestVol();
+    const latestVol = await ipc.db.vol.getLatestVol();
 
     const [vols, error] = await promiseWrapper<VolInfo[]>(
-      this.ipc.request.requestVols(latestVol ? latestVol.vol + 1 : 0)
+      ipc.request.requestVols(latestVol ? latestVol.vol + 1 : 0)
     );
 
     if (error) {
@@ -28,10 +28,10 @@ class VolStore {
     }
 
     if (vols && vols.length > 0) {
-      await this.ipc.db.vol.saveVols(vols);
+      await ipc.db.vol.saveVols(vols);
     }
 
-    this.updateAllVols(await this.ipc.db.vol.getVols());
+    this.updateAllVols(await ipc.db.vol.getVols());
   };
 
   @action
@@ -151,7 +151,7 @@ class VolStore {
       return;
     }
 
-    const vol = await this.ipc.db.vol.getVolById(volId);
+    const vol = await ipc.db.vol.getVolById(volId);
     if (!vol) {
       throw new Error(`vol id-${volId} not exists`);
     }

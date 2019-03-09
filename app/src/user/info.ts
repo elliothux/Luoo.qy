@@ -3,11 +3,12 @@ import * as fs from "fs";
 import { UserCollections, UserInfo, UserSettings } from "../types";
 import { isElectron, runPath, aseEncode, aseDecode } from "../utils";
 
-let info: Maybe<UserInfo> = null;
 const infoPath = path.resolve(
   runPath,
   isElectron ? "./dist/user/info.json" : "./static/user/info.json"
 );
+let info: Maybe<UserInfo> = readUserInfoFromFile();
+
 
 const defaultInfo = {
   mail: null,
@@ -35,6 +36,7 @@ const fsOptions = { encoding: "utf-8" };
 function readUserInfoFromFile(): UserInfo {
   const iInfo = JSON.parse(fs.readFileSync(infoPath, fsOptions)) as UserInfo;
   iInfo.settings = { ...defaultSettings, ...iInfo.settings };
+
   if (iInfo.mail) {
     iInfo.mail = aseDecode(iInfo.mail);
   }
@@ -163,12 +165,12 @@ function getUserSetting(key: keyof UserSettings): boolean {
   return !!settings[key];
 }
 
-readUserInfoFromFile();
 
 export {
   setUserInfo,
   setUserInfos,
   getUserInfo,
+  getUserInfos,
   getUserCollections,
   getUserLikedVolIds,
   getUserLikedTrackIds,

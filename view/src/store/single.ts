@@ -3,12 +3,13 @@ import {events, EventTypes, genRange, getIPC, promiseWrapper} from "../utils";
 import { store } from "./index";
 import { ViewTypes, Single } from "../@types";
 
-class SingleStore {
-  protected ipc: IpcObject = getIPC();
 
+const ipc: IpcObject = getIPC();
+
+class SingleStore {
   @action
   init = async () => {
-    this.updateSingles(await this.ipc.db.single.getSingles());
+    this.updateSingles(await ipc.db.single.getSingles());
     setTimeout(() => {
       this.updateFromCGI().catch(console.error);
     }, 10);
@@ -16,9 +17,9 @@ class SingleStore {
 
   @action
   private updateFromCGI = async () => {
-    const latestSingle = await this.ipc.db.single.getLatestSingle();
+    const latestSingle = await ipc.db.single.getLatestSingle();
     const [singles, error] = await promiseWrapper(
-      this.ipc.request.requestSingles(latestSingle ? latestSingle.date + 1 : 0)
+      ipc.request.requestSingles(latestSingle ? latestSingle.date + 1 : 0)
     );
 
     if (error) {
@@ -26,10 +27,10 @@ class SingleStore {
     }
 
     if (singles && singles.length > 0) {
-      await this.ipc.db.single.saveSingles(singles);
+      await ipc.db.single.saveSingles(singles);
     }
 
-    this.updateSingles(await this.ipc.db.single.getSingles());
+    this.updateSingles(await ipc.db.single.getSingles());
   };
 
   @action
