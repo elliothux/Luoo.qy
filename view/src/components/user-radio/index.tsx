@@ -4,7 +4,7 @@ import { userStore } from "../../store";
 import "./index.scss";
 
 @observer
-class UserCollection extends React.Component {
+class UserRadio extends React.Component {
   static renderFetching = () => {
     return <div id="user-fetching">加载中。。。</div>;
   };
@@ -12,14 +12,14 @@ class UserCollection extends React.Component {
   render() {
     const { isFetching } = userStore;
     if (isFetching) {
-      return UserCollection.renderFetching();
+      return UserRadio.renderFetching();
     }
     return (
-      <div id="user-collection">
-        COLLECTION
+      <div id="user-radio">
+        RADIO
       </div>
     );
   }
 }
 
-export { UserCollection };
+export { UserRadio };

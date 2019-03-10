@@ -60,4 +60,21 @@ $header-height: 100px;
       }
     }
   }
+
+  #user-container {
+    width: 100%;
+    overflow-x: hidden;
+    margin-top: 20px;
+
+    #user-content {
+      width: 300%;
+      @include transition;
+      transition-duration: 800ms;
+
+      & > div {
+        display: inline-block;
+        width: 33.33333%;
+      }
+    }
+  }
 }

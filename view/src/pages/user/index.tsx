@@ -2,10 +2,12 @@ import * as React from "react";
 import { observer } from "mobx-react";
 import { UserInfo, ViewTypes } from "../../@types";
 import { Login } from "../../components/login";
-// import { UserCollection } from "../../components/user-collection";
+import { Icon, IconTypes } from "../../components/icon";
+import { UserCollection } from "../../components/user-collection";
+import { UserOffline } from "../../components/user-offline";
+import { UserRadio } from "../../components/user-radio";
 import { userStore } from "../../store";
 import "./index.scss";
-import { Icon, IconTypes } from "../../components/icon";
 
 enum UserViewType {
   COLLECTION,
@@ -18,6 +20,16 @@ class User extends React.Component {
   state = {
     view: UserViewType.COLLECTION
   };
+
+  get translateX():string {
+      const { view} = this.state;
+      switch (view) {
+          case UserViewType.COLLECTION:           return `0%`;
+          case UserViewType.OFFLINE: return `-33.33333%`;
+          case UserViewType.RADIO: return `-66.66666%`;
+          default: throw new Error('Invalid view type');
+      }
+  }
 
   changeView = (view: UserViewType) => {
     this.setState({ view });
@@ -57,6 +69,15 @@ class User extends React.Component {
                 <span>电台</span>
               </div>
             </div>
+          </div>
+        </div>
+        <div id="user-container">
+          <div id="user-content" style={{
+              transform: `translateX(${this.translateX})`
+          }}>
+              <UserCollection />
+              <UserOffline />
+              <UserRadio />
           </div>
         </div>
       </div>
