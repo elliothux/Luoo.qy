@@ -9,7 +9,7 @@ import { UserRadio } from "../../components/user-radio";
 import { userStore } from "../../store";
 import "./index.scss";
 
-enum UserViewType {
+enum UserViewTypes {
   COLLECTION,
   OFFLINE,
   RADIO
@@ -18,66 +18,76 @@ enum UserViewType {
 @observer
 class User extends React.Component {
   state = {
-    view: UserViewType.COLLECTION
+    view: UserViewTypes.COLLECTION
   };
 
-  get translateX():string {
-      const { view} = this.state;
-      switch (view) {
-          case UserViewType.COLLECTION:           return `0%`;
-          case UserViewType.OFFLINE: return `-33.33333%`;
-          case UserViewType.RADIO: return `-66.66666%`;
-          default: throw new Error('Invalid view type');
-      }
+  get translateX(): string {
+    const { view } = this.state;
+    switch (view) {
+      case UserViewTypes.COLLECTION:
+        return `0%`;
+      case UserViewTypes.OFFLINE:
+        return `-33.33333%`;
+      case UserViewTypes.RADIO:
+        return `-66.66666%`;
+      default:
+        throw new Error("Invalid view type");
+    }
   }
 
-  changeView = (view: UserViewType) => {
+  changeView = (view: UserViewTypes) => {
     this.setState({ view });
   };
 
   renderUser = () => {
     const { userInfo } = userStore;
-    const { avatar, name } = userInfo as UserInfo;
+    const { avatar, name, id } = userInfo as UserInfo;
     const { view } = this.state;
 
     return (
       <div id="user" className={`page view-${ViewTypes.USER}`}>
         <div id="user-header">
-          <img src={avatar as string} alt="avatar" />
-          <div>
-            <p>{name}</p>
-            <div id="user-header-nav">
-              <div
-                className={view === UserViewType.COLLECTION ? "active" : ""}
-                onClick={this.changeView.bind(this, UserViewType.COLLECTION)}
-              >
-                <Icon type={IconTypes.STAR} />
-                <span>收藏</span>
-              </div>
-              <div
-                className={view === UserViewType.OFFLINE ? "active" : ""}
-                onClick={this.changeView.bind(this, UserViewType.OFFLINE)}
-              >
-                <Icon type={IconTypes.CLOUD} />
-                <span>离线</span>
-              </div>
-              <div
-                className={view === UserViewType.RADIO ? "active" : ""}
-                onClick={this.changeView.bind(this, UserViewType.RADIO)}
-              >
-                <Icon type={IconTypes.RADIO} />
-                <span>电台</span>
-              </div>
+          <div id="user-header-nav">
+            <div
+              className={view === UserViewTypes.COLLECTION ? "active" : ""}
+              onClick={this.changeView.bind(this, UserViewTypes.COLLECTION)}
+            >
+              <Icon type={IconTypes.STAR} />
+              <span>收藏</span>
             </div>
+            <div
+              className={view === UserViewTypes.OFFLINE ? "active" : ""}
+              onClick={this.changeView.bind(this, UserViewTypes.OFFLINE)}
+            >
+              <Icon type={IconTypes.CLOUD} />
+              <span>离线</span>
+            </div>
+            <div
+              className={view === UserViewTypes.RADIO ? "active" : ""}
+              onClick={this.changeView.bind(this, UserViewTypes.RADIO)}
+            >
+              <Icon type={IconTypes.RADIO} />
+              <span>电台</span>
+            </div>
+          </div>
+          <div id="user-header-info">
+              <p>
+                  {name}<br/>
+                  <span>ID: {id}</span>
+              </p>
+            <img src={avatar as string} alt="avatar" />
           </div>
         </div>
         <div id="user-container">
-          <div id="user-content" style={{
+          <div
+            id="user-content"
+            style={{
               transform: `translateX(${this.translateX})`
-          }}>
-              <UserCollection />
-              <UserOffline />
-              <UserRadio />
+            }}
+          >
+            <UserCollection />
+            <UserOffline />
+            <UserRadio />
           </div>
         </div>
       </div>

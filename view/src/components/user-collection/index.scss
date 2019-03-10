@@ -1,9 +1,25 @@
 @import "../../styles/helper";
 
 #user-collection {
+  #user-collection-header {
+    & > div {
+      display: inline-block;
+      background: rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      border-radius: 30px;
+      padding: 3px 12px;
+      margin-right: 16px;
+      opacity: 0.8;
+      font-size: 14px;
+      @include cursor;
+      @include transition;
 
-}
-
-#user-collection-fetching {
-
+      &.active, &:hover {
+        opacity: 1;
+        background: rgba(0, 0, 0, 0.26);
+        border: 1px solid #ffffff;
+        transform-origin: bottom;
+      }
+    }
+  }
 }
