@@ -76,7 +76,7 @@ class UserCollection extends React.Component {
 
   renderCollection = () => {
     return (
-      <div>
+      <div id="user-collection-container">
         <UserCollectionVols/>
       </div>
     );

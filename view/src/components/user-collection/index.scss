@@ -2,7 +2,15 @@
 
 #user-collection {
 
+  #user-collection-container {
+    height: calc(100vh - 212px);
+    overflow-y: scroll;
+    padding: 0 70px;
+    margin-top: 24px;
+  }
+
   #user-collection-header {
+    padding: 0 70px;
     & > div {
       display: inline-block;
       background: rgba(0, 0, 0, 0.1);

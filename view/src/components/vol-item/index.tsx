@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Icon, IconTypes } from "../icon";
-import { playerStore, volStore } from "../../store";
+import { playerStore, volStore, userStore } from "../../store";
 import { events, EventTypes, isAnyPartOfElementInViewport } from "../../utils";
 import { VolInfo } from "../../@types";
 import "./index.scss";
@@ -10,6 +10,7 @@ export interface Props {
   index: number;
   isPlaying: boolean;
   isLiked: boolean;
+  isInUserCollection?: boolean
 }
 
 class VolItem extends React.Component<Props> {
@@ -49,13 +50,17 @@ class VolItem extends React.Component<Props> {
       this.coverRef,
       () => {
         events.emit(EventTypes.ScrollBackVol);
-        volStore.selectVol(this.props.index);
+        if (this.props.isInUserCollection) {
+          userStore.selectLikedVol(this.props.index);
+        } else {
+          volStore.selectVol(this.props.index);
+        }
       }
     );
   };
 
   public render() {
-    const { volInfo, isPlaying } = this.props;
+    const { volInfo, isPlaying, isInUserCollection } = this.props;
     return (
       <div className="vol-item" onClick={this.onClick}>
         <div

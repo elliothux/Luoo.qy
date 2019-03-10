@@ -1,19 +1,28 @@
 import * as React from "react";
-import { userStore } from "../../store";
+import { observer } from "mobx-react";
+import {playerStore, userStore} from "../../store";
 import { Loading } from "../loading";
 import { Empty } from "../empty";
 import { VolInfo } from "../../@types";
 import { VolItem } from "../vol-item";
 import "./index.scss";
+import {Pagination} from "../pagination";
 
 function renderVols(vols: ReadonlyArray<VolInfo>) {
   return vols.map((vol, index) => (
-    <VolItem volInfo={vol} key={vol.id} index={index} isPlaying={false} isLiked={false} />
+    <VolItem
+      volInfo={vol}
+      key={vol.id}
+      index={index}
+      isPlaying={playerStore.isVolPlaying(vol.id)}
+      isLiked={false}
+      isInUserCollection
+    />
   ));
 }
 
-function UserCollectionVols() {
-  const { isFetching, likedVols } = userStore;
+function IUserCollectionVols() {
+  const { isFetching, likedVols, displayLikedVols } = userStore;
 
   if (isFetching) {
     return <Loading />;
@@ -23,14 +32,20 @@ function UserCollectionVols() {
     return <Empty />;
   }
 
-  return (
-      <div id="user-collection-vols">
-          {renderVols(likedVols)}
-      </div>
-  );
+  return <div id="user-collection-vols">
+    {renderVols(displayLikedVols)}
+    <Pagination
+        pages={userStore.displayVolPaginations}
+        currentPage={userStore.volCurrentPage}
+        togglePage={userStore.toggleVolIndex}
+        paginationCurrentIndex={userStore.volPaginationCurrentIndex}
+        paginationTotalIndex={userStore.volPaginationTotalIndex}
+        onNext={userStore.nextVolPagination}
+        onPre={userStore.preVolPagination}
+    />
+  </div>;
 }
 
+const UserCollectionVols = observer(IUserCollectionVols);
 
-export {
-    UserCollectionVols
-}
+export { UserCollectionVols };

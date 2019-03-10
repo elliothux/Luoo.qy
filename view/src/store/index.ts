@@ -1,10 +1,10 @@
-import { action, observable } from "mobx";
-import { volStore } from "./vol";
-import { singleStore } from "./single";
-import { articleStore } from "./article";
-import { playerStore } from "./player";
-import { userStore } from "./user";
-import { ViewTypes } from "../@types";
+import {action, observable} from "mobx";
+import {volStore} from "./vol";
+import {singleStore} from "./single";
+import {articleStore} from "./article";
+import {playerStore} from "./player";
+import {userStore} from "./user";
+import {ViewTypes} from "../@types";
 
 class Store {
   @action
@@ -14,10 +14,7 @@ class Store {
       singleStore.init(),
       articleStore.init()
     ]);
-    await Promise.all([
-      userStore.init(),
-      playerStore.init()
-    ]);
+    await Promise.all([userStore.init(), playerStore.init()]);
   };
 
   protected viewHistory: ViewTypes[] = [];
@@ -64,7 +61,14 @@ class Store {
     const isEnterInfoPage =
       (prevView === ViewTypes.VOLS && viewType === ViewTypes.VOL_INFO) ||
       (prevView === ViewTypes.SINGLES && viewType === ViewTypes.SINGLE_INFO) ||
-      (prevView === ViewTypes.ARTICLES && viewType === ViewTypes.ARTICLE_INFO);
+      (prevView === ViewTypes.ARTICLES &&
+        viewType === ViewTypes.ARTICLE_INFO) ||
+      (prevView === ViewTypes.USER &&
+        [
+          ViewTypes.VOL_INFO,
+          ViewTypes.SINGLE_INFO,
+          ViewTypes.ARTICLE_INFO
+        ].includes(viewType));
     const isExitInfoPage =
       prevView === ViewTypes.VOL_INFO ||
       prevView === ViewTypes.SINGLE_INFO ||
@@ -134,6 +138,10 @@ class Store {
         }
         case ViewTypes.ARTICLES: {
           backgroundImage = articleStore.selectedArticle.cover;
+          break;
+        }
+        case ViewTypes.USER: {
+          backgroundImage = userStore.selectedLikedVol.cover;
           break;
         }
         default: {

@@ -41,6 +41,9 @@ class VolStore {
   };
 
   @observable
+  public isShowCollection: boolean = false;
+
+  @observable
   public allVols: ReadonlyArray<VolInfo> = [];
 
   @computed
@@ -140,6 +143,7 @@ class VolStore {
 
   @action
   public selectVol = (volIndex: number) => {
+    this.isShowCollection = false;
     this.selectedVolIndex = volIndex;
     store.changeView(ViewTypes.VOL_INFO);
     store.changeBackground(ViewTypes.VOLS);

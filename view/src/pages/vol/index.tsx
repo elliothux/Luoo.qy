@@ -1,7 +1,7 @@
 import * as React from "react";
 import anime from "animejs";
 import { observer } from "mobx-react";
-import { playerStore, store, volStore } from "../../store";
+import { playerStore, store, userStore, volStore } from "../../store";
 import { Icon, IconTypes } from "../../components/icon";
 import { VolTrackItem } from "../../components/vol-track-item";
 import { events, EventTypes, px } from "../../utils";
@@ -26,7 +26,10 @@ function getTracksRef(i: Maybe<HTMLDivElement>) {
 }
 
 function IVol() {
-  const { selectedVol: vol } = volStore;
+  const { selectedVol, isShowCollection } = volStore;
+  const { selectedLikedVol } = userStore;
+  const vol = isShowCollection ? selectedLikedVol : selectedVol;
+
   return (
     <div id="vol" className={`page view-${ViewTypes.VOL_INFO}`}>
       <div

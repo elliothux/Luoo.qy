@@ -3,9 +3,10 @@
 $header-height: 48px;
 
 #user {
-  padding: 0 0 50px 0 !important;
-  height: calc(100% - 160px) !important;
+  padding: 0 !important;
+  height: calc(100% - 106px) !important;
   width: 100% !important;
+  overflow-y: hidden !important;
 
   #user-header {
     height: $header-height;
@@ -81,7 +82,6 @@ $header-height: 48px;
 
   #user-container {
     width: 100%;
-    margin-top: 16px;
 
     #user-content {
       width: 300%;
@@ -90,8 +90,7 @@ $header-height: 48px;
 
       & > div {
         display: inline-block;
-        width: calc(33.33333% - 70px * 2);
-        padding: 0 70px;
+        width: 33.333333%;
       }
     }
   }
