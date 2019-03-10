@@ -20,7 +20,7 @@ function Pagination(props: Props) {
   const isLast =
     props.paginationCurrentIndex + 1 === props.paginationTotalIndex;
   return (
-    <div id="pagination">
+    <div className="pagination">
       <Icon
         type={IconTypes.ARROW_LEFT}
         className={classnames({ disable: isFirst })}

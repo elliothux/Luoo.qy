@@ -39,46 +39,52 @@ class User extends React.Component {
     this.setState({ view });
   };
 
-  renderUser = () => {
+  renderHeader = () => {
     const { userInfo } = userStore;
     const { avatar, name, id } = userInfo as UserInfo;
     const { view } = this.state;
 
     return (
-      <div id="user" className={`page view-${ViewTypes.USER}`}>
         <div id="user-header">
           <div id="user-header-nav">
             <div
-              className={view === UserViewTypes.COLLECTION ? "active" : ""}
-              onClick={this.changeView.bind(this, UserViewTypes.COLLECTION)}
+                className={view === UserViewTypes.COLLECTION ? "active" : ""}
+                onClick={this.changeView.bind(this, UserViewTypes.COLLECTION)}
             >
               <Icon type={IconTypes.STAR} />
               <span>收藏</span>
             </div>
             <div
-              className={view === UserViewTypes.OFFLINE ? "active" : ""}
-              onClick={this.changeView.bind(this, UserViewTypes.OFFLINE)}
+                className={view === UserViewTypes.OFFLINE ? "active" : ""}
+                onClick={this.changeView.bind(this, UserViewTypes.OFFLINE)}
             >
               <Icon type={IconTypes.CLOUD} />
               <span>离线</span>
             </div>
             <div
-              className={view === UserViewTypes.RADIO ? "active" : ""}
-              onClick={this.changeView.bind(this, UserViewTypes.RADIO)}
+                className={view === UserViewTypes.RADIO ? "active" : ""}
+                onClick={this.changeView.bind(this, UserViewTypes.RADIO)}
             >
               <Icon type={IconTypes.RADIO} />
               <span>电台</span>
             </div>
           </div>
           <div id="user-header-info">
-              <p>
-                  {name}<br/>
-                  <span>ID: {id}</span>
-              </p>
+            <p>
+              {name}<br/>
+              <span>ID: {id}</span>
+            </p>
             <img src={avatar as string} alt="avatar" />
           </div>
         </div>
+    )
+  };
+
+  renderUser = () => {
+    return (
+      <div id="user" className={`page view-${ViewTypes.USER}`}>
         <div id="user-container">
+          {this.renderHeader()}
           <div
             id="user-content"
             style={{

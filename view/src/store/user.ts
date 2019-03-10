@@ -67,19 +67,19 @@ class UserStore {
   public isFetching: boolean = false;
 
   @observable
-  private likedVols: ReadonlyArray<VolInfo> = [];
+  public likedVols: ReadonlyArray<VolInfo> = [];
 
   @observable
-  private likedVolTracks: ReadonlyArray<VolTrack> = [];
+  public likedVolTracks: ReadonlyArray<VolTrack> = [];
 
   @observable
-  private likedSingles: ReadonlyArray<Single> = [];
+  public likedSingles: ReadonlyArray<Single> = [];
 
   @observable
-  private likedArticles: ReadonlyArray<ArticleInfo> = [];
+  public likedArticles: ReadonlyArray<ArticleInfo> = [];
 
   @observable
-  private likedArticleTracks: ReadonlyArray<ArticleTrack> = [];
+  public likedArticleTracks: ReadonlyArray<ArticleTrack> = [];
 }
 
 const userStore = new UserStore();
