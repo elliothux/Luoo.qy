@@ -33,6 +33,8 @@ import LOOP from "../../static/icon/loop.svg";
 import ORDER from "../../static/icon/order.svg";
 import EXPAND from "../../static/icon/expand.svg";
 import SYNC from "../../static/icon/sync.svg";
+import STAR from "../../static/icon/star.svg";
+import RADIO from "../../static/icon/radio.svg";
 
 import "./index.scss";
 import { preventSyntheticEvent } from "../../utils";
@@ -59,19 +61,21 @@ export enum IconTypes {
   PAUSE_SOLID = "PAUSE_SOLID",
   LOGO = "LOGO",
   CLOUD = "CLOUD",
-  WAVE  ="WAVE",
-  PRE="PRE",
-  PRE2 ="PRE2",
-  NEXT="NEXT",
-  NEXT2="NEXT2",
-  RANDOM="RANDOM",
-  ARROW_LEFT="ARROW_LEFT",
-  ARROW_RIGHT="ARROW_RIGHT",
-  SHUFFLE="SHUFFLE",
-  LOOP="LOOP",
-  ORDER="ORDER",
-  EXPAND="EXPAND",
-  SYNC="SYNC"
+  WAVE = "WAVE",
+  PRE = "PRE",
+  PRE2 = "PRE2",
+  NEXT = "NEXT",
+  NEXT2 = "NEXT2",
+  RANDOM = "RANDOM",
+  ARROW_LEFT = "ARROW_LEFT",
+  ARROW_RIGHT = "ARROW_RIGHT",
+  SHUFFLE = "SHUFFLE",
+  LOOP = "LOOP",
+  ORDER = "ORDER",
+  EXPAND = "EXPAND",
+  SYNC = "SYNC",
+  STAR = "STAR",
+  RADIO = "RADIO"
 }
 
 export interface Props {
@@ -189,6 +193,12 @@ function Icon(props: Props) {
     case IconTypes.SYNC:
       src = SYNC;
       break;
+    case IconTypes.STAR:
+      src = STAR;
+      break;
+    case IconTypes.RADIO:
+      src = RADIO;
+      break;
     default:
       throw "Invalid icon type";
   }
@@ -205,19 +215,14 @@ function Icon(props: Props) {
 
   let classNames = `icon ${type}`;
   if (animate) {
-    classNames += ' animate';
+    classNames += " animate";
   }
   if (className) {
-    classNames += ' ' + className;
+    classNames += " " + className;
   }
 
   return (
-    <img
-      className={classNames}
-      src={src}
-      onClick={handleClick}
-      alt="icon"
-    />
+    <img className={classNames} src={src} onClick={handleClick} alt="icon" />
   );
 }
 

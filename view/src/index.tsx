@@ -1,9 +1,10 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import { store } from "./store";
-import { App } from "./App";
+import {store} from "./store";
+import {App} from "./App";
 
 import "./styles/index.scss";
+import {ViewTypes} from "./@types";
 
 function init() {
   store
@@ -13,6 +14,9 @@ function init() {
       const boot = document.querySelector("#boot-screen") as HTMLDivElement;
 
       ReactDOM.render(<App />, root, () => {
+          setTimeout(() => {
+              store.changeView(ViewTypes.USER)
+          }, 2200);
         setTimeout(() => {
           boot.className = "hide";
         }, 500);
