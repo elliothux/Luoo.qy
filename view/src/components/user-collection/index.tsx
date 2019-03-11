@@ -3,6 +3,7 @@ import { observer } from "mobx-react";
 import { userStore } from "../../store";
 import "./index.scss";
 import { UserCollectionVols } from "../user-collection-vols";
+import {Loading} from "../loading";
 
 enum UserCollectionViewTypes {
   VOLS,
@@ -14,10 +15,6 @@ enum UserCollectionViewTypes {
 
 @observer
 class UserCollection extends React.Component {
-  static renderFetching = () => {
-    return <div id="user-fetching">加载中。。。</div>;
-  };
-
   state = {
     view: UserCollectionViewTypes.VOLS
   };
@@ -85,7 +82,7 @@ class UserCollection extends React.Component {
   render() {
     const { isFetching } = userStore;
     if (isFetching) {
-      return UserCollection.renderFetching();
+      return <Loading />;
     }
 
     return (

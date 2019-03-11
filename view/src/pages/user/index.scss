@@ -29,7 +29,8 @@ $header-height: 48px;
         @include cursor;
         @include transition;
 
-        &.active, &:hover {
+        &.active,
+        &:hover {
           opacity: 1;
           background: rgba(0, 0, 0, 0.26);
           border: 1px solid #ffffff;
@@ -69,12 +70,12 @@ $header-height: 48px;
         top: -7px;
 
         span {
-            font-size: 18px;
-            width: 100%;
-            letter-spacing: 0.05em;
-            &:last-child {
-              font-size: 12px;
-            }
+          font-size: 18px;
+          width: 100%;
+          letter-spacing: 0.05em;
+          &:last-child {
+            font-size: 12px;
+          }
         }
       }
     }
@@ -91,6 +92,11 @@ $header-height: 48px;
       & > div {
         display: inline-block;
         width: 33.333333%;
+      }
+
+      .loading {
+        width: calc(33.33333% - 70PX * 2);
+        padding: 0 70px;
       }
     }
   }
