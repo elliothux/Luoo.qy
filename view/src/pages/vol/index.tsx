@@ -1,7 +1,7 @@
 import * as React from "react";
 import anime from "animejs";
 import { observer } from "mobx-react";
-import { playerStore, store, userStore, volStore } from "../../store";
+import {playerStore, store, userCollectionVolsStore, userStore, volStore} from "../../store";
 import { Icon, IconTypes } from "../../components/icon";
 import { VolTrackItem } from "../../components/vol-track-item";
 import { events, EventTypes, px } from "../../utils";
@@ -27,7 +27,7 @@ function getTracksRef(i: Maybe<HTMLDivElement>) {
 
 function IVol() {
   const { selectedVol, isShowCollection } = volStore;
-  const { selectedLikedVol } = userStore;
+  const { selectedLikedVol } = userCollectionVolsStore;
   const vol = isShowCollection ? selectedLikedVol : selectedVol;
 
   return (

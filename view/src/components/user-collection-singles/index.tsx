@@ -1,12 +1,13 @@
 import * as React from "react";
 import { observer } from "mobx-react";
-import { userStore } from "../../store";
+import {userCollectionVolsStore, userCollectionVolTracksStore, userStore} from "../../store";
 import { Loading } from "../loading";
 import { Empty } from "../empty";
 import "./index.scss";
 
 function IUserCollectionSingles() {
-  const { isFetching, likedVolTracks } = userStore;
+  const { isFetching } = userStore;
+  const { likedVolTracks } = userCollectionVolTracksStore;
 
   if (isFetching) {
     return <Loading />;
@@ -17,7 +18,7 @@ function IUserCollectionSingles() {
   }
 
   return (
-    <div id="user-collection-vol-tracks">
+    <div id="user-collection-singles">
       <h1>VolTracks</h1>
     </div>
   );

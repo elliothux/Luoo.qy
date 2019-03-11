@@ -94,6 +94,7 @@ $header-height: 48px;
         display: inline-block;
         width: calc(100vw - 140px);
         padding: 0 70px;
+        overflow-x: hidden;
       }
 
       .loading {

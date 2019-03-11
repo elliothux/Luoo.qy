@@ -1,10 +1,10 @@
-import {action, observable} from "mobx";
-import {volStore} from "./vol";
-import {singleStore} from "./single";
-import {articleStore} from "./article";
-import {playerStore} from "./player";
-import {userStore} from "./user";
-import {ViewTypes} from "../@types";
+import { action, observable } from "mobx";
+import { volStore } from "./vol";
+import { singleStore } from "./single";
+import { articleStore } from "./article";
+import { playerStore } from "./player";
+import { userStore, userCollectionVolsStore, userCollectionVolTracksStore } from "./user";
+import { ViewTypes } from "../@types";
 
 class Store {
   @action
@@ -141,7 +141,7 @@ class Store {
           break;
         }
         case ViewTypes.USER: {
-          backgroundImage = userStore.selectedLikedVol.cover;
+          backgroundImage = userCollectionVolsStore.selectedLikedVol.cover;
           break;
         }
         default: {
@@ -160,4 +160,13 @@ class Store {
 
 const store = new Store();
 
-export { store, volStore, singleStore, articleStore, playerStore, userStore };
+export {
+  store,
+  volStore,
+  singleStore,
+  articleStore,
+  playerStore,
+  userStore,
+  userCollectionVolsStore,
+  userCollectionVolTracksStore
+};

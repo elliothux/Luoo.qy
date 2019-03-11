@@ -25,8 +25,8 @@ interface RequestCookieParams extends IRequestParams {
   jar?: CookieJar;
 }
 
-const proxiedRequest = request.defaults({ proxy: "http://127.0.0.1:8899" });
-// const proxiedRequest = request;
+// const proxiedRequest = request.defaults({ proxy: "http://127.0.0.1:8899" });
+const proxiedRequest = request;
 
 function getResponseError(
   url: string,

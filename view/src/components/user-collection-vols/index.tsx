@@ -1,6 +1,6 @@
 import * as React from "react";
 import { observer } from "mobx-react";
-import {playerStore, userStore} from "../../store";
+import {playerStore, userCollectionVolsStore, userStore} from "../../store";
 import { Loading } from "../loading";
 import { Empty } from "../empty";
 import { VolInfo } from "../../@types";
@@ -22,7 +22,8 @@ function renderVols(vols: ReadonlyArray<VolInfo>) {
 }
 
 function IUserCollectionVols() {
-  const { isFetching, likedVols, displayLikedVols } = userStore;
+  const { isFetching } = userStore;
+  const { likedVols, displayLikedVols} = userCollectionVolsStore;
 
   if (isFetching) {
     return <Loading />;
@@ -35,13 +36,13 @@ function IUserCollectionVols() {
   return <div id="user-collection-vols">
     {renderVols(displayLikedVols)}
     <Pagination
-        pages={userStore.displayVolPaginations}
-        currentPage={userStore.volCurrentPage}
-        togglePage={userStore.toggleVolIndex}
-        paginationCurrentIndex={userStore.volPaginationCurrentIndex}
-        paginationTotalIndex={userStore.volPaginationTotalIndex}
-        onNext={userStore.nextVolPagination}
-        onPre={userStore.preVolPagination}
+        pages={userCollectionVolsStore.displayVolPaginations}
+        currentPage={userCollectionVolsStore.volCurrentPage}
+        togglePage={userCollectionVolsStore.toggleVolIndex}
+        paginationCurrentIndex={userCollectionVolsStore.volPaginationCurrentIndex}
+        paginationTotalIndex={userCollectionVolsStore.volPaginationTotalIndex}
+        onNext={userCollectionVolsStore.nextVolPagination}
+        onPre={userCollectionVolsStore.preVolPagination}
     />
   </div>;
 }

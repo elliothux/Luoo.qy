@@ -4,12 +4,13 @@ import {
   ArticleInfo,
   ArticleTrack,
   Single,
-  UserInfo, ViewTypes,
+  UserInfo,
   VolInfo,
   VolTrack
 } from "../@types";
-import {events, EventTypes, genRange, getIPC} from "../utils";
-import {store, volStore} from "./index";
+import { getIPC } from "../utils";
+import { userCollectionVolsStore } from "./user-collection-vols";
+import { userCollectionVolTracksStore } from "./user-collection-vol-tracks";
 
 const ipc: IpcObject = getIPC();
 
@@ -43,8 +44,10 @@ class UserStore {
 
   @action
   updateFromDB = async () => {
-    this.likedVols = freeze<VolInfo>(await ipc.db.vol.getLikedVols());
-    this.likedVolTracks = freeze<VolTrack>(
+    userCollectionVolsStore.likedVols = freeze<VolInfo>(
+      await ipc.db.vol.getLikedVols()
+    );
+    userCollectionVolTracksStore.likedVolTracks = freeze<VolTrack>(
       await ipc.db.vol.getLikedVolTracks()
     );
     this.likedSingles = freeze<Single>(await ipc.db.single.getLikedSingles());
@@ -68,9 +71,6 @@ class UserStore {
   public isFetching: boolean = false;
 
   @observable
-  public likedVolTracks: ReadonlyArray<VolTrack> = [];
-
-  @observable
   public likedSingles: ReadonlyArray<Single> = [];
 
   @observable
@@ -78,87 +78,8 @@ class UserStore {
 
   @observable
   public likedArticleTracks: ReadonlyArray<ArticleTrack> = [];
-
-  /*
-  @desc: CollectionVols
-   */
-
-  @observable
-  public likedVols: ReadonlyArray<VolInfo> = [];
-
-  protected volPageScale = 3 * 4;
-
-  @observable
-  public volCurrentPage: number = 0;
-
-  @computed
-  public get volTotalPage(): number {
-    return Math.ceil(this.likedVols.length / this.volPageScale);
-  }
-
-  @computed
-  public get displayLikedVols(): VolInfo[] {
-    const start = this.volCurrentPage * this.volPageScale;
-    const end = Math.min(
-        (this.volCurrentPage + 1) * this.volPageScale,
-        this.likedVols.length
-    );
-    return this.likedVols.slice(start, end);
-  }
-
-  @action
-  public toggleVolIndex = (page: number) => {
-    events.emit(EventTypes.ScrollBackVols, true);
-    this.volCurrentPage = page;
-  };
-
-  protected paginationScale = 9;
-
-  @observable
-  public volPaginationCurrentIndex: number = 0;
-
-  @computed
-  public get volPaginationTotalIndex(): number {
-    return Math.ceil(this.volTotalPage / this.paginationScale);
-  }
-
-  @computed
-  public get displayVolPaginations(): number[] {
-    const start = this.volPaginationCurrentIndex * this.paginationScale;
-    const end = Math.min(
-        (this.volPaginationCurrentIndex + 1) * this.paginationScale,
-        this.volTotalPage
-    );
-    return genRange(start, end);
-  }
-
-  @action
-  public nextVolPagination = () => {
-    this.volPaginationCurrentIndex += 1;
-  };
-
-  @action
-  public preVolPagination = () => {
-    this.volPaginationCurrentIndex -= 1;
-  };
-
-  @observable
-  public selectedLikedVolIndex: number = 0;
-
-  @computed
-  public get selectedLikedVol(): VolInfo {
-    return this.displayLikedVols[this.selectedLikedVolIndex];
-  }
-
-  @action
-  public selectLikedVol = (volIndex: number) => {
-    volStore.isShowCollection = true;
-    this.selectedLikedVolIndex = volIndex;
-    store.changeView(ViewTypes.VOL_INFO);
-    store.changeBackground(ViewTypes.USER);
-  };
 }
 
 const userStore = new UserStore();
 
-export { userStore };
+export { userStore, userCollectionVolsStore, userCollectionVolTracksStore };

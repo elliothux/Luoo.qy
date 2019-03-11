@@ -1,9 +1,13 @@
 import * as React from "react";
 import { observer } from "mobx-react";
 import { userStore } from "../../store";
-import "./index.scss";
 import { UserCollectionVols } from "../user-collection-vols";
-import {Loading} from "../loading";
+import { UserCollectionVolTracks } from "../user-collection-vol-tracks";
+import { UserCollectionSingles } from "../user-collection-singles";
+import { UserCollectionArticles } from "../user-collection-articles";
+import { UserCollectionArticleTracks } from "../user-collection-article-tracks";
+import { Loading } from "../loading";
+import "./index.scss";
 
 enum UserCollectionViewTypes {
   VOLS,
@@ -18,6 +22,24 @@ class UserCollection extends React.Component {
   state = {
     view: UserCollectionViewTypes.VOLS
   };
+
+  get translateX(): string {
+    const { view } = this.state;
+    switch (view) {
+      case UserCollectionViewTypes.VOLS:
+        return `0%`;
+      case UserCollectionViewTypes.VOL_TRACKS:
+        return `-20%`;
+      case UserCollectionViewTypes.SINGLES:
+        return `-40%`;
+      case UserCollectionViewTypes.ARTICLES:
+        return `-60%`;
+      case UserCollectionViewTypes.ARTICLE_TRACKS:
+        return `-80%`;
+      default:
+        throw new Error("Invalid view type");
+    }
+  }
 
   changeView = (view: UserCollectionViewTypes) => {
     this.setState({ view });
@@ -73,8 +95,17 @@ class UserCollection extends React.Component {
 
   renderCollection = () => {
     return (
-      <div id="user-collection-container">
-        <UserCollectionVols/>
+      <div
+        id="user-collection-container"
+        style={{
+          transform: `translateX(${this.translateX})`
+        }}
+      >
+        <UserCollectionVols />
+        <UserCollectionVolTracks />
+        <UserCollectionSingles />
+        <UserCollectionArticles />
+        <UserCollectionArticleTracks />
       </div>
     );
   };

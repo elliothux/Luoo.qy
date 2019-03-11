@@ -5,10 +5,35 @@
   padding: 0 !important;
 
   #user-collection-container {
+    display:flex;
+    align-items:flex-start;
+    align-content:flex-start;
     height: calc(100vh - 212px);
     overflow-y: scroll;
-    padding: 0 70px;
     margin-top: 24px;
+    width: 500vw;
+    @include transition;
+    transition-duration: 800ms;
+
+    & > div {
+      width: calc(100vw - 140px);
+      padding: 25px 70px 0;
+      display: inline-grid;
+      align-self: stretch;
+      overflow-x: hidden;
+      overflow-y: scroll;
+
+      .pagination {
+        margin-bottom: 88px;
+      }
+    }
+
+    #user-collection-vols .pagination {
+      grid-column: 1 / 4;
+    }
+    #user-collection-vol-tracks .pagination {
+      grid-column: 2 / 7;
+    }
   }
 
   #user-collection-header {

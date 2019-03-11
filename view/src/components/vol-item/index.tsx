@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Icon, IconTypes } from "../icon";
-import { playerStore, volStore, userStore } from "../../store";
+import {playerStore, volStore, userStore, userCollectionVolsStore} from "../../store";
 import { events, EventTypes, isAnyPartOfElementInViewport } from "../../utils";
 import { VolInfo } from "../../@types";
 import "./index.scss";
@@ -51,7 +51,7 @@ class VolItem extends React.Component<Props> {
       () => {
         events.emit(EventTypes.ScrollBackVol);
         if (this.props.isInUserCollection) {
-          userStore.selectLikedVol(this.props.index);
+          userCollectionVolsStore.selectLikedVol(this.props.index);
         } else {
           volStore.selectVol(this.props.index);
         }
