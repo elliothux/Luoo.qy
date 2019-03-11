@@ -1,6 +1,8 @@
 @import "../../styles/helper";
 
 #user-collection {
+  width: 100vw !important;
+  padding: 0 !important;
 
   #user-collection-container {
     height: calc(100vh - 212px);

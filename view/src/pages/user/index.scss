@@ -85,13 +85,15 @@ $header-height: 48px;
     width: 100%;
 
     #user-content {
-      width: 300%;
+      width: 300vw;
+      display: flex;
       @include transition;
       transition-duration: 800ms;
 
       & > div {
         display: inline-block;
-        width: 33.333333%;
+        width: calc(100vw - 140px);
+        padding: 0 70px;
       }
 
       .loading {
