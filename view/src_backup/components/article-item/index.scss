@@ -1,0 +1,67 @@
+@import "../../styles/helper";
+
+.article-item {
+  position: relative;
+  box-shadow: 0 10px 50px 0 rgba(0, 0, 0, 0.5);
+  @include cursor;
+  @include transition;
+
+  &:hover {
+    transform: scale(1.05);
+    box-shadow: none;
+  }
+
+  & > * {
+    z-index: 2;
+    position: relative;
+  }
+
+  .article-item-cover {
+    width: 100%;
+    height: 0;
+    padding-bottom: 67.62%;
+    position: relative;
+    box-shadow: 0 10px 50px 0 rgba(0, 0, 0, 0.5);
+    background-size: cover;
+    background-position: center;
+  }
+
+  .article-item-info {
+    padding: 15px 20px 20px 20px;
+    .article-item-info-container {
+      margin-right: 70px;
+      .article-item-info-title {
+        font-size: 1.2em;
+        margin-top: 4px;
+        margin-left: -2px;
+      }
+      .article-item-info-meta {
+        font-size: 0.9em;
+        margin-top: 4px;
+      }
+    }
+    .article-item-operation {
+      position: absolute;
+      right: 6%;
+      top: 0;
+      width: 66px;
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      .icon {
+        width: 28px;
+        height: 28px;
+      }
+    }
+  }
+
+  .article-item-bg {
+    z-index: 1;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    opacity: 0.65;
+  }
+}

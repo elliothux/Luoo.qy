@@ -4,7 +4,8 @@ import {store} from "./store";
 import {App} from "./App";
 
 import "./styles/index.scss";
-import {ViewTypes} from "./@types";
+import "react-toastify/dist/ReactToastify.css";
+
 
 function init() {
   store
@@ -14,9 +15,6 @@ function init() {
       const boot = document.querySelector("#boot-screen") as HTMLDivElement;
 
       ReactDOM.render(<App />, root, () => {
-          setTimeout(() => {
-              store.changeView(ViewTypes.USER)
-          }, 2200);
         setTimeout(() => {
           boot.className = "hide";
         }, 500);
@@ -30,6 +28,4 @@ function init() {
     });
 }
 
-// const boot = document.querySelector("#boot-screen") as HTMLDivElement;
-// boot.style.display = "none";
 init();

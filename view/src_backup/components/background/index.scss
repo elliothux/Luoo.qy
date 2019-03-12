@@ -1,0 +1,22 @@
+@import "../../styles/helper";
+
+#bg {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  overflow: hidden;
+  background-color: black;
+
+  & > div {
+    width: 100%;
+    height: 100%;
+  }
+
+  #bg-img {
+    background-size: cover;
+    background-position: center;
+    filter: blur(10px);
+    transform: scale(1.05);
+    opacity: 0.8;
+  }
+}

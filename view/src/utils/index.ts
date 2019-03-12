@@ -14,6 +14,10 @@ function px(i: number) {
 
 function noop() {}
 
+function exec(fn: (...args: any[]) => any) {
+  return setTimeout(fn, 0);
+}
+
 function preventSyntheticEvent<T>(e: React.FormEvent<T>) {
   e.preventDefault();
   e.stopPropagation();
@@ -61,6 +65,7 @@ export {
   genRange,
   px,
   noop,
+  exec,
   preventSyntheticEvent,
   formatPlayingTime,
   isAnyPartOfElementInViewport,

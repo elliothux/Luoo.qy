@@ -1,0 +1,82 @@
+@import "../../styles/helper";
+
+#login {
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  height: 100%;
+
+  #login-title {
+    font-size: 36px;
+    letter-spacing: 8px;
+    color: white;
+    margin-bottom: 36px;
+  }
+
+  & > input {
+    margin-bottom: 26px;
+    background: rgba(255, 251, 251, 0.19);
+    box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.29);
+    border-radius: 28px;
+    width: 188px;
+    height: 32px;
+    text-align: center;
+    font-size: 13px;
+    line-height: 14px;
+    color: white;
+    @include thin-border;
+
+    &::placeholder {
+      opacity: 0.9;
+      font-size: 12px;
+      color: white;
+      letter-spacing: 2px;
+    }
+
+    &:hover,
+    &:active,
+    &:focus {
+      box-shadow: none;
+      transform: scale(1.05);
+    }
+  }
+
+  #login-signup {
+    font-size: 14px;
+    text-decoration: underline;
+    margin: 0 0 18px 0;
+    cursor: pointer;
+  }
+
+  & > .icon {
+    width: 40px;
+    height: auto;
+    transform: rotate(180deg);
+    cursor: pointer;
+
+    &:hover {
+      transform: scale(1.1) rotate(180deg);
+    }
+  }
+
+  & > input,
+  & > .icon {
+    @include transition;
+  }
+
+  #login-desc {
+    margin-top: 36px;
+    opacity: 0.9;
+    img {
+      width: 160px;
+      height: auto;
+      margin-bottom: 8px;
+    }
+    p {
+      font-size: 16px;
+      letter-spacing: 0.15em;
+    }
+  }
+}

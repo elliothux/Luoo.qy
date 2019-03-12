@@ -1,0 +1,14 @@
+@mixin transition {
+  transition: all ease 600ms;
+}
+
+@mixin cursor {
+  cursor: pointer;
+  * {
+    cursor: pointer;
+  }
+}
+
+@mixin thin-border {
+  border: 0.1vw solid white;
+}

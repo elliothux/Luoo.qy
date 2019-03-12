@@ -20,7 +20,7 @@ function saveSingles(singles: Single[]): Promise<Single[]> {
 }
 
 function getSingles(): Promise<Single[]> {
-  return find<Single>(singleDB, {}, { date: -1 });
+  return find<Single>(singleDB, {}, {},{ date: -1 });
 }
 
 function getLikedSingles(): Promise<Single[]> {
@@ -29,7 +29,7 @@ function getLikedSingles(): Promise<Single[]> {
 }
 
 async function getLatestSingle(): Promise<Single> {
-  const singles = await find<Single>(singleDB, {}, { date: -1 }, 1);
+  const singles = await find<Single>(singleDB, {},{}, { date: -1 }, 1);
   return singles[0];
 }
 
@@ -38,7 +38,7 @@ function getSingleById(id: number): Promise<Maybe<Single>> {
 }
 
 function getSingleByIds(ids: number[]): Promise<Single[]> {
-  return find(singleDB, { id: { $in: ids } }, { date: -1 });
+  return find(singleDB, { id: { $in: ids } }, {},{ date: -1 });
 }
 
 export {

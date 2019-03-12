@@ -1,15 +1,14 @@
 import * as path from "path";
 import { app } from "electron";
 import { DataStoreOptions } from "nedb";
-import { isDev, runPath } from "../utils";
+import { isDev, isElectron, runPath } from "../utils";
 import Nedb = require("nedb");
 
 function getDB(name: string): Nedb {
   return new Nedb({
-    filename: path.resolve(
-      runPath,
-      isDev ? `./dist/db/${name}` : `./dist/db/${name}`
-    ),
+    filename: isElectron
+      ? path.resolve(runPath, `./dist/db/${name}`)
+      : path.resolve(__dirname, `../../static/db/${name}`),
     autoload: true
   } as DataStoreOptions);
 }
@@ -34,10 +33,11 @@ function insert<T>(db: Nedb, data: T): Promise<T> {
 function find<T>(
   db: Nedb,
   query: object = {},
+  projection?: object,
   sort?: object,
   limit?: number
 ): Promise<T[]> {
-  let exec = db.find(query);
+  let exec = db.find<T>(query);
 
   if (sort) {
     exec = exec.sort(sort);
@@ -47,6 +47,10 @@ function find<T>(
     exec = exec.limit(limit);
   }
 
+  if (projection) {
+    exec = exec.projection(projection);
+  }
+
   return new Promise((resolve, reject) => {
     exec.exec((error, docs) => {
       if (error) {
@@ -54,7 +58,7 @@ function find<T>(
           `An error happened whiling handling find: ${query} - ${error}`
         );
       }
-      resolve(docs as T[]);
+      return resolve(docs as T[]);
     });
   });
 }

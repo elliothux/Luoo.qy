@@ -1,45 +1,9 @@
 import * as path from "path";
 import { app, BrowserWindow } from "electron";
-import { requestVols, requestSingles, requestArticles } from "./utils";
-import {
-  saveVol,
-  saveVols,
-  getVols,
-  getLatestVol,
-  getVolByTrackId,
-  getVolById,
-  getLikedVols,
-  getLikedVolTracks,
-  saveSingle,
-  saveSingles,
-  getSingles,
-  getLatestSingle,
-  getLikedSingles,
-  saveArticle,
-  saveArticles,
-  getArticles,
-  getLatestArticle,
-  getArticleByTrackId,
-  getLikedArticles,
-  getLikedArticleTracks
-} from "./db";
-import {
-  login,
-  logout,
-  getUserInfo,
-    getUserInfos,
-  setUserInfo,
-  getUserSetting,
-  setUserSetting,
-  getUserCollections,
-  fetchAndSaveLikedVols,
-  fetchAndSaveLikedTracks,
-  fetchAndSaveLikedArticles
-} from "./user";
-import { isDev, runPath } from "./utils";
+import {injectIPC, isDev, runPath} from "./utils";
 
 function launch(): void {
-  injectIPC();
+  injectIPC(global);
 
   let mainWindow: Maybe<BrowserWindow>;
 
@@ -102,59 +66,6 @@ function launch(): void {
       mainWindow.webContents.closeDevTools();
     }
   }
-}
-
-function injectIPC(): void {
-  Object.defineProperty(global, "ipc", {
-    value: {
-      request: {
-        requestVols,
-        requestSingles,
-        requestArticles
-      },
-      user: {
-        login,
-        logout,
-        getUserInfo,
-        getUserInfos,
-        setUserInfo,
-        getUserSetting,
-        setUserSetting,
-        getUserCollections,
-        fetchAndSaveLikedVols,
-        fetchAndSaveLikedTracks,
-        fetchAndSaveLikedArticles
-      },
-      db: {
-        vol: {
-          saveVol,
-          saveVols,
-          getVols,
-          getLatestVol,
-          getVolByTrackId,
-          getVolById,
-          getLikedVols,
-          getLikedVolTracks
-        },
-        single: {
-          saveSingle,
-          saveSingles,
-          getSingles,
-          getLatestSingle,
-          getLikedSingles
-        },
-        article: {
-          saveArticle,
-          saveArticles,
-          getArticles,
-          getLatestArticle,
-          getArticleByTrackId,
-          getLikedArticles,
-          getLikedArticleTracks
-        }
-      }
-    }
-  });
 }
 
 try {

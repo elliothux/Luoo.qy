@@ -2,7 +2,6 @@ import { insert, find, isExist, findOne, getDB } from "./utils";
 import { VolInfo, VolTrack, VolTrackMap } from "../types";
 import Nedb = require("nedb");
 import {
-  getUserCollections,
   getUserLikedTrackIds,
   getUserLikedVolIds
 } from "../user";
@@ -10,6 +9,26 @@ import {
 const volDB: Nedb = getDB("vol");
 
 const volTrackMapDB: Nedb = getDB("vol_track_map");
+
+async function getIds(query: object = {}): Promise<number[]> {
+  const ids = await find<{ id: number }>(volDB, query, { id: 1 }, { vol: -1 });
+  return ids.map(i => i.id);
+}
+
+function getByIds(
+  ids: number[],
+  projectionKeys?: (keyof VolInfo)[]
+): Promise<VolInfo[]> {
+  const projection = {};
+  if (projectionKeys) {
+    projectionKeys.forEach(key =>
+      Object.defineProperty(projection, key, {
+        value: 1
+      })
+    );
+  }
+  return find(volDB, { id: { $in: ids } }, projection, { vol: -1 });
+}
 
 function saveVolTrackMap(map: VolTrackMap): Promise<VolTrackMap> {
   return insert<VolTrackMap>(volTrackMapDB, map);
@@ -38,17 +57,17 @@ function saveVols(vols: VolInfo[]): Promise<VolInfo[]> {
 }
 
 async function getLatestVol(): Promise<VolInfo> {
-  const vols = await find<VolInfo>(volDB, {}, { vol: -1 }, 1);
+  const vols = await find<VolInfo>(volDB, {}, {}, { vol: -1 }, 1);
   return vols[0];
 }
 
 function getVols(): Promise<VolInfo[]> {
-  return find<VolInfo>(volDB, {}, { vol: -1 });
+  return find<VolInfo>(volDB, {}, {}, { vol: -1 });
 }
 
 function getLikedVols(): Promise<VolInfo[]> {
   const ids = getUserLikedVolIds();
-  return getVolByIds(ids);
+  return getByIds(ids);
 }
 
 function getLikedVolTracks(): Promise<VolTrack[]> {
@@ -60,9 +79,11 @@ async function getVolTrackByIds(trackIds: number[]): Promise<VolTrack[]> {
   const iMaps = await find<VolTrackMap>(
     volTrackMapDB,
     { id: { $in: trackIds } },
+    {},
     { vol: -1 }
   );
-  const maps = iMaps.reduce((accu, i) => {
+  type KeyMap = { [id: number]: number[] };
+  const maps: KeyMap = iMaps.reduce((accu: KeyMap, i) => {
     const { id, volId } = i;
     if (accu[volId]) {
       accu[volId].push(id);
@@ -71,7 +92,7 @@ async function getVolTrackByIds(trackIds: number[]): Promise<VolTrack[]> {
     }
     return accu;
   }, {});
-  const vols: VolInfo[] = await getVolByIds(
+  const vols: VolInfo[] = await getByIds(
     Object.keys(maps).map(i => parseInt(i, 10))
   );
   return vols.reduce(
@@ -97,19 +118,5 @@ function getVolById(id: number): Promise<Maybe<VolInfo>> {
   return findOne<VolInfo>(volDB, { id });
 }
 
-function getVolByIds(ids: number[]): Promise<VolInfo[]> {
-  return find(volDB, { id: { $in: ids } }, { vol: -1 });
-}
 
-export {
-  saveVol,
-  saveVols,
-  getVols,
-  getLikedVols,
-  getLikedVolTracks,
-  getLatestVol,
-  getVolByTrackId,
-  getVolById,
-  getVolByIds,
-  getVolTrackByIds
-};
+export { getIds, getByIds };

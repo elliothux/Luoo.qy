@@ -1,0 +1,11 @@
+#singles {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-column-gap: 8vw;
+  grid-row-gap: 4vw;
+  padding-top: 25px !important;
+
+  .pagination {
+    grid-column: 1 / 4;
+  }
+}

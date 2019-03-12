@@ -1,9 +1,5 @@
 import { action, observable } from "mobx";
 import { volStore } from "./vol";
-import { singleStore } from "./single";
-import { articleStore } from "./article";
-import { playerStore } from "./player";
-import { userStore, userCollectionVolsStore, userCollectionVolTracksStore } from "./user";
 import { ViewTypes } from "../@types";
 
 class Store {
@@ -11,10 +7,7 @@ class Store {
   init = async (): Promise<void> => {
     await Promise.all([
       volStore.init(),
-      singleStore.init(),
-      articleStore.init()
     ]);
-    await Promise.all([userStore.init(), playerStore.init()]);
   };
 
   protected viewHistory: ViewTypes[] = [];
@@ -115,58 +108,12 @@ class Store {
   };
 
   @observable
-  backgroundImage: string = volStore.allVols[0].cover;
-
-  protected setBackgroundTimer: Maybe<number> = null;
-
-  @action
-  changeBackground = (type: ViewTypes) => {
-    if (this.setBackgroundTimer) {
-      clearTimeout(this.setBackgroundTimer);
-    }
-
-    const callback = () => {
-      let backgroundImage;
-      switch (type) {
-        case ViewTypes.VOLS: {
-          backgroundImage = volStore.selectedVol.cover;
-          break;
-        }
-        case ViewTypes.SINGLES: {
-          backgroundImage = singleStore.selectedSingle.cover;
-          break;
-        }
-        case ViewTypes.ARTICLES: {
-          backgroundImage = articleStore.selectedArticle.cover;
-          break;
-        }
-        case ViewTypes.USER: {
-          backgroundImage = userCollectionVolsStore.selectedLikedVol.cover;
-          break;
-        }
-        default: {
-          throw "Invalid type";
-        }
-      }
-
-      window.clearTimeout(this.setBackgroundTimer as number);
-      this.setBackgroundTimer = null;
-      this.backgroundImage = backgroundImage;
-    };
-
-    this.setBackgroundTimer = window.setTimeout(callback, 1000);
-  };
+  backgroundImage: string = require("../static/fake-bg.jpg");
 }
 
 const store = new Store();
 
 export {
   store,
-  volStore,
-  singleStore,
-  articleStore,
-  playerStore,
-  userStore,
-  userCollectionVolsStore,
-  userCollectionVolTracksStore
+  volStore
 };

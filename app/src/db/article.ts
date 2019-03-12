@@ -36,11 +36,11 @@ function saveArticles(articles: ArticleInfo[]): Promise<ArticleInfo[]> {
 }
 
 function getArticles(): Promise<ArticleInfo[]> {
-  return find<ArticleInfo>(articleDB, {}, { id: -1 });
+  return find<ArticleInfo>(articleDB, {}, {}, { id: -1 });
 }
 
 async function getLatestArticle(): Promise<ArticleInfo> {
-  const articles = await find<ArticleInfo>(articleDB, {}, { id: -1 }, 1);
+  const articles = await find<ArticleInfo>(articleDB, {}, {}, { id: -1 }, 1);
   return articles[0];
 }
 
@@ -72,6 +72,7 @@ async function getArticleTrackByIds(
   const iMaps = await find<ArticleTrackMap>(
     articleTrackMapDB,
     { id: { $in: trackIds } },
+      {},
     { vol: -1 }
   );
   const maps = iMaps.reduce((accu, i) => {
@@ -98,7 +99,7 @@ async function getArticleTrackByIds(
 }
 
 function getArticleByIds(ids: number[]): Promise<ArticleInfo[]> {
-  return find(articleDB, { id: { $in: ids } }, { id: -1 });
+  return find(articleDB, { id: { $in: ids } }, {},{ id: -1 });
 }
 
 export {

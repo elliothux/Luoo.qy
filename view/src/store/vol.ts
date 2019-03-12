@@ -1,61 +1,43 @@
-import { action, computed, observable } from "mobx";
-import {events, EventTypes, genRange, getIPC, promiseWrapper} from "../utils";
-import { VolTypesList, VolTypes, VolTypeItem } from "../@types";
+import { action, computed, observable, reaction } from "mobx";
+import { events, EventTypes, exec, genRange, getIPC } from "../utils";
+import { ViewTypes, VolTypeItem, VolType, VolTypesList } from "../@types";
 import { store } from "./index";
-import { ViewTypes, VolInfo } from "../@types";
+import {Pagination} from "./pagination";
+
+interface VolItemInfo {
+  id: ID;
+  cover: string;
+  title: string;
+  vol: number;
+}
 
 const ipc: IpcObject = getIPC();
 
 class VolStore {
   @action
   init = async () => {
-    this.updateAllVols(await ipc.db.vol.getVols());
-    setTimeout(() => {
-      this.updateFromCGI().catch(console.error);
-    }, 10);
+    await this.updateIdsFromDB();
   };
+
+  @observable
+  pagination: Pagination = Pagination.from(0);
+
+  @observable
+  private ids: Maybe<ID[]> = null;
 
   @action
-  private updateFromCGI = async () => {
-    const latestVol = await ipc.db.vol.getLatestVol();
-
-    const [vols, error] = await promiseWrapper<VolInfo[]>(
-      ipc.request.requestVols(latestVol ? latestVol.vol + 1 : 0)
-    );
-
-    if (error) {
-      throw error;
-    }
-
-    if (vols && vols.length > 0) {
-      await ipc.db.vol.saveVols(vols);
-    }
-
-    this.updateAllVols(await ipc.db.vol.getVols());
-  };
-
-  @action
-  private updateAllVols = (vols: VolInfo[]) => {
-    const readonlyVols = vols.map(i => Object.freeze(i));
-    this.allVols = Object.freeze(readonlyVols);
+  private updateIdsFromDB = async () => {
+    this.ids = null;
+    const query =
+      this.volType === VolType.All
+        ? {}
+        : { tags: { $elemMatch: this.volTypeItem.name } };
+    this.ids = await ipc.db.vol.getIds(query);
+    return this.updateDisplayItems();
   };
 
   @observable
-  public isShowCollection: boolean = false;
-
-  @observable
-  public allVols: ReadonlyArray<VolInfo> = [];
-
-  @computed
-  public get vols(): ReadonlyArray<VolInfo> | VolInfo[] {
-    if (this.volType === VolTypes.ALL) {
-      return this.allVols;
-    }
-    return this.allVols.filter(vol => vol.tags.includes(this.volTypeItem.name));
-  }
-
-  @observable
-  public volType: VolTypes = VolTypes.ALL;
+  private volType: VolType = VolType.All;
 
   @computed
   public get volTypeItem(): VolTypeItem {
@@ -69,115 +51,52 @@ class VolStore {
   }
 
   @action
-  public changeVolType = (type: VolTypes) => {
-    this.volPaginationCurrentIndex = 0;
-    this.volCurrentPage = 0;
+  public changeVolType = (type: VolType) => {
+    this.paginationCurrentIndex = 0;
     this.volType = type;
-    events.emit(EventTypes.ScrollBackVols);
+    this.changeCurrentPage(0);
     store.changeView(ViewTypes.VOLS);
+    exec(this.updateIdsFromDB);
   };
 
-  protected volPageScale = 3 * 4;
-
-  @observable
-  public volCurrentPage: number = 0;
-
   @computed
-  public get volTotalPage(): number {
-    return Math.ceil(this.vols.length / this.volPageScale);
-  }
+  private get displayIds(): Maybe<ID[]> {
+    if (!this.ids) {
+      return null;
+    }
 
-  @computed
-  public get displayVols(): VolInfo[] {
-    const start = this.volCurrentPage * this.volPageScale;
+    const start = this.currentPage * this.pageScale;
     const end = Math.min(
-      (this.volCurrentPage + 1) * this.volPageScale,
-      this.vols.length
+      (this.currentPage + 1) * this.pageScale,
+      this.ids.length
     );
-    return this.vols.slice(start, end);
+    return this.ids.slice(start, end);
   }
-
-  @action
-  public toggleVolIndex = (page: number) => {
-    events.emit(EventTypes.ScrollBackVols, true);
-    this.volCurrentPage = page;
-  };
-
-  protected paginationScale = 9;
 
   @observable
-  public volPaginationCurrentIndex: number = 0;
-
-  @computed
-  public get volPaginationTotalIndex(): number {
-    return Math.ceil(this.volTotalPage / this.paginationScale);
-  }
-
-  @computed
-  public get displayVolPaginations(): number[] {
-    const start = this.volPaginationCurrentIndex * this.paginationScale;
-    const end = Math.min(
-      (this.volPaginationCurrentIndex + 1) * this.paginationScale,
-      this.volTotalPage
-    );
-    return genRange(start, end);
-  }
+  public displayItems: Maybe<VolItemInfo[]> = null;
 
   @action
-  public nextVolPagination = () => {
-    this.volPaginationCurrentIndex += 1;
-  };
-
-  @action
-  public preVolPagination = () => {
-    this.volPaginationCurrentIndex -= 1;
-  };
-
-  @observable
-  public selectedVolIndex: number = 0;
-
-  @computed
-  public get selectedVol(): VolInfo {
-    return this.displayVols[this.selectedVolIndex];
-  }
-
-  @action
-  public selectVol = (volIndex: number) => {
-    this.isShowCollection = false;
-    this.selectedVolIndex = volIndex;
-    store.changeView(ViewTypes.VOL_INFO);
-    store.changeBackground(ViewTypes.VOLS);
-  };
-
-  @action
-  public selectVolById = async (volId: number) => {
-    if (volId === this.selectedVol.id && store.view === ViewTypes.VOL_INFO) {
+  private updateDisplayItems = async () => {
+    this.displayItems = null;
+    if (!this.displayIds) {
       return;
     }
+    this.displayItems = await ipc.db.vol.getByIds(this.displayIds, [
+      "id",
+      "cover",
+      "title",
+      "vol"
+    ]) as VolItemInfo[];
+  };
 
-    const vol = await ipc.db.vol.getVolById(volId);
-    if (!vol) {
-      throw new Error(`vol id-${volId} not exists`);
-    }
+  @observable
+  private selectedVolId: Maybe<ID> = null;
 
-    let vols;
-    if (
-      this.volType !== VolTypes.ALL &&
-      vol.tags.includes(this.volTypeItem.name)
-    ) {
-      vols = this.vols;
-    } else {
-      this.changeVolType(VolTypes.ALL);
-      vols = this.allVols;
-    }
-
-    const volIndex = vols.findIndex(i => i.id === volId);
-    const index = volIndex % this.volPageScale;
-    this.volCurrentPage = (volIndex - index) / this.volPageScale;
-
-    store.changeView(ViewTypes.VOLS, false, () => {
-      setTimeout(() => events.emit(EventTypes.SelectVol, index), 200);
-    });
+  @action
+  public selectVol = (volId: ID) => {
+    this.selectedVolId = volId;
+    store.changeView(ViewTypes.VOL_INFO);
   };
 }
 

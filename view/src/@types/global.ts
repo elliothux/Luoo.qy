@@ -1,5 +1,7 @@
 declare global {
+  type ID = number;
   type Maybe<T> = T | null;
+  type Callback = (...args: any[]) => any
 }
 
 export enum ViewTypes {

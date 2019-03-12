@@ -1,0 +1,71 @@
+@import "../../styles/helper";
+
+#vol-types {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  overflow-y: auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-column-gap: 0;
+  grid-row-gap: 0;
+  background-color: black;
+  z-index: 20;
+
+  .category-item {
+    width: 100%;
+    height: 33.333vh;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: black;
+    z-index: 21;
+    @include transition;
+    @include cursor;
+
+    &:hover {
+      transform: scale(1.1);
+      z-index: 22;
+      p {
+        opacity: 1;
+      }
+      .category-item-bg {
+        opacity: 0.9;
+      }
+    }
+
+    p {
+      position: relative;
+      z-index: 1;
+      opacity: 0.6;
+      @include transition;
+    }
+
+    .category-item-bg {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 0;
+      background-size: cover;
+      background-position: center;
+      opacity: 0.5;
+      @include transition;
+    }
+
+    .category-item-name {
+      font-size: 28px;
+      letter-spacing: 0.1em;
+    }
+
+    .category-item-type {
+      font-size: 14px;
+      letter-spacing: 0.1em;
+    }
+  }
+}

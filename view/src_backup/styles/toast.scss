@@ -1,0 +1,33 @@
+@import "./helper";
+
+.Toastify {
+  z-index: 100;
+  @include cursor;
+
+  .Toastify__toast-container {
+    max-width: 160px;
+    bottom: 1vw;
+    right: 1.1vw;
+  }
+
+  .Toastify__close-button {
+    display: none;
+  }
+
+  .Toastify__toast {
+    margin: 10px 0 0 0;
+    height: 40px;
+    border-radius: 0;
+    min-height: 40px;
+    font-size: 14px;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.1);
+    background: rgba(10, 9, 9, 0.67);
+  }
+
+  .Toastify__toast-body {
+    text-align: center;
+  }
+
+  .Toastify__toast--warning {
+  }
+}

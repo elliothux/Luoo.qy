@@ -1,0 +1,30 @@
+* {
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: "PingFang SC", sans-serif;
+  font-weight: 300;
+}
+
+*::-webkit-scrollbar {
+  display: none;
+}
+
+*:not(input):not(textarea),
+*:not(input):not(textarea)::after,
+*:not(input):not(textarea)::before {
+  -webkit-user-select: none;
+  user-select: none;
+  cursor: default;
+}
+
+input,
+button,
+textarea,
+:focus {
+  outline: none;
+}

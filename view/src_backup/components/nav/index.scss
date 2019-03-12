@@ -1,0 +1,44 @@
+@import "../../styles/helper";
+
+#nav {
+  position: fixed;
+  top: 20px;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  align-items: center;
+
+  #nav-logo {
+    position: absolute;
+    width: 66px;
+    height: 60px;
+    margin-top: 10px;
+    margin-left: calc(50% - 66px - 30px);
+  }
+
+  #nav-actions,
+  #nav-buttons {
+    .nav-item-hide {
+      display: none;
+    }
+
+    & > div {
+      display: inline-block;
+      text-align: center;
+      @include cursor;
+      & > .icon {
+        width: 40px;
+      }
+      & > p {
+        font-size: 14px;
+      }
+    }
+  }
+
+  #nav-actions > div {
+    margin-right: 0.8vw;
+  }
+  #nav-buttons > div {
+    margin-left: 0.8vw;
+  }
+}

@@ -1,0 +1,77 @@
+@import "../../styles/helper";
+
+.vol-track-item {
+  position: relative;
+  @include transition;
+  @include cursor;
+
+  &:hover {
+    transform: scale(1.1);
+    .vol-track-item-cover {
+      box-shadow: none;
+    }
+    .vol-track-item-operation {
+      .play {
+        opacity: 0.8;
+      }
+    }
+  }
+
+  &:last-child {
+    margin-bottom: 80px;
+  }
+
+  .vol-track-item-cover {
+    width: 100%;
+    height: 0;
+    padding-bottom: 100%;
+    background-size: cover;
+    background-position: center;
+    box-shadow: 0 10px 30px 0 rgba(0, 0, 0, 0.5);
+    margin-bottom: 8px;
+    @include transition;
+  }
+
+  .vol-track-item-name {
+    font-size: 1em;
+    margin-bottom: 7px;
+    word-break: break-word;
+  }
+
+  .vol-track-item-album,
+  .vol-track-item-artist {
+    font-size: 0.7em;
+    word-break: break-word;
+  }
+
+  .vol-track-item-operation {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 0;
+    padding-bottom: 100%;
+
+    .play {
+      position: absolute;
+      width: 45%;
+      top: 28%;
+      left: 30%;
+      filter: drop-shadow(0 5px 5px rgba(0, 0, 0, 0.5));
+      opacity: 0;
+      @include transition;
+      &:hover {
+        opacity: 1;
+        transform: scale(1.1);
+      }
+    }
+
+    .like {
+      position: absolute;
+      width: 26px;
+      height: auto;
+      right: 6px;
+      bottom: 6px;
+    }
+  }
+}

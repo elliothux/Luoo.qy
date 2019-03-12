@@ -1,0 +1,106 @@
+@import "../../styles/helper";
+
+$header-height: 48px;
+
+#user {
+  padding: 0 !important;
+  height: calc(100% - 106px) !important;
+  width: 100% !important;
+  overflow-y: hidden !important;
+
+  #user-header {
+    height: $header-height;
+    padding: 0 70px;
+    overflow: hidden;
+
+    #user-header-nav {
+      display: inline-block;
+
+      & > div {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(0, 0, 0, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        border-radius: 30px;
+        padding: 0 12px;
+        margin-right: 24px;
+        opacity: 0.8;
+        @include cursor;
+        @include transition;
+
+        &.active,
+        &:hover {
+          opacity: 1;
+          background: rgba(0, 0, 0, 0.26);
+          border: 1px solid #ffffff;
+          //transform: scale(1.07);
+          transform-origin: bottom;
+        }
+
+        span {
+          line-height: 30px;
+          font-size: 14px;
+        }
+
+        .icon {
+          width: 24px;
+          height: 24px;
+        }
+      }
+    }
+
+    #user-header-info {
+      float: right;
+      height: $header-height;
+
+      & > img {
+        height: $header-height;
+        width: $header-height;
+        border-radius: 100%;
+      }
+
+      & > p {
+        margin-right: 16px;
+        display: inline-block;
+        text-align: right;
+        height: $header-height;
+        min-width: 80px;
+        position: relative;
+        top: -7px;
+
+        span {
+          font-size: 18px;
+          width: 100%;
+          letter-spacing: 0.05em;
+          &:last-child {
+            font-size: 12px;
+          }
+        }
+      }
+    }
+  }
+
+  #user-container {
+    width: 100%;
+
+    #user-content {
+      width: 300vw;
+      display: flex;
+      @include transition;
+      transition-duration: 800ms;
+
+      & > div {
+        display: inline-block;
+        width: calc(100vw - 140px);
+        padding: 0 70px;
+        overflow-x: hidden;
+      }
+
+      .loading {
+        width: calc(33.33333% - 70PX * 2);
+        padding: 0 70px;
+      }
+    }
+  }
+}

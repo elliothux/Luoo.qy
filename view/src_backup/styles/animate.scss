@@ -1,0 +1,17 @@
+.page {
+  transform: scale(0.9) !important;
+  opacity: 0 !important;
+  transition: all ease 500ms 0ms !important;
+}
+
+.page.show {
+  transform: scale(1) !important;
+  opacity: 1 !important;
+  transition: all ease 500ms 350ms !important;
+}
+
+.page.show-with-cover {
+  transform: scale(1) !important;
+  opacity: 1 !important;
+  transition: none !important;
+}

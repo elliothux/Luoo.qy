@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="66px" height="66px" viewBox="0 0 66 66" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.3 (57544) - http://www.bohemiancoding.com/sketch -->
+    <title>arrow-right</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="main" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+        <g id="res" transform="translate(-88.000000, -752.000000)" stroke="#FFFFFF" stroke-width="2.5">
+            <g id="arrow-right" transform="translate(88.000000, 752.000000)">
+                <g transform="translate(13.000000, 12.000000)">
+                    <path d="M0,21.75 L39,21.75"></path>
+                    <polyline points="19 0 40 21.5 19 43"></polyline>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
