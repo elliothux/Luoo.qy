@@ -1,7 +1,15 @@
 declare global {
   type ID = number;
   type Maybe<T> = T | null;
-  type Callback = (...args: any[]) => any
+  type Callback = (...args: any[]) => any;
+}
+
+export interface FindOptions {
+  query?: object;
+  projection?: object;
+  skip?: number;
+  limit?: number;
+  sort?: object;
 }
 
 export enum ViewTypes {
@@ -58,13 +66,12 @@ interface IVolInfo {
   desc: string;
   tags: string[];
   similarVols: number[];
-  tracks: VolTrack[];
 }
 export type VolInfo = Readonly<IVolInfo>;
 
 interface IVolTrack extends Track {
   id: number;
-  vol: number;
+  volId: number;
   color: string;
 }
 export type VolTrack = Readonly<IVolTrack>;
@@ -90,7 +97,6 @@ interface IArticleInfo {
   desc: string;
   author: string;
   authorAvatar: string;
-  tracks: ArticleTrack[];
 }
 export type ArticleInfo = Readonly<IArticleInfo>;
 

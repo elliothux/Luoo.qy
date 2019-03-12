@@ -1,6 +1,11 @@
 import * as React from "react";
 import { Icon, IconTypes } from "../icon";
-import {playerStore, volStore, userStore, userCollectionVolsStore} from "../../store";
+import {
+  playerStore,
+  volStore,
+  userStore,
+  userCollectionVolsStore
+} from "../../store";
 import { events, EventTypes, isAnyPartOfElementInViewport } from "../../utils";
 import { VolInfo } from "../../@types";
 import "./index.scss";
@@ -10,7 +15,7 @@ export interface Props {
   index: number;
   isPlaying: boolean;
   isLiked: boolean;
-  isInUserCollection?: boolean
+  isInUserCollection?: boolean;
 }
 
 class VolItem extends React.Component<Props> {

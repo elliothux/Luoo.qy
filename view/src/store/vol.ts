@@ -28,16 +28,13 @@ class VolStore {
   };
 
   initReaction = () => {
-    reaction(
-        () => {
-          if (!this.pagination) {
-            return null;
-          }
-          const { start, end } = this.pagination;
-          return [this.total, start, end]
-        },
-        this.updateDisplayedItems
-    );
+    reaction(() => {
+      if (!this.pagination) {
+        return null;
+      }
+      const { start, end } = this.pagination;
+      return [this.total, start, end];
+    }, this.updateDisplayedItems);
   };
 
   @observable
@@ -57,9 +54,8 @@ class VolStore {
   private updateDisplayedItems = async () => {
     this.displayedItems = null;
     // this.displayedItems = await ipc.
-  }
+  };
 }
-
 
 const volStore = new VolStore();
 

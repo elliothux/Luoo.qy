@@ -5,7 +5,7 @@ import {
   findOne as findOneDB,
   insert as insertDB
 } from "./operations";
-import { insert as insertTracks } from "./vol-tracks";
+import { insert as insertTracks } from "./vol-track";
 import { FindOptions, VolInfo, VolTrack } from "../types";
 
 const db: Nedb = getDB("vol");

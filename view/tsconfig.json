@@ -17,7 +17,8 @@
     "noEmit": true,
     "jsx": "preserve",
     "moduleResolution": "node",
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "downlevelIteration": true
   },
   "include": [
     "src"

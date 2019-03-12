@@ -72,8 +72,8 @@ function getLikedTrackFromDoc(page: Document): TrackId[] {
 
 async function fetchAndSaveLikedTracks(): Promise<number[]> {
   const tracks = await getLikedTracksFromCGI();
-   setUserLikedTrackIds(tracks);
-   return tracks;
+  setUserLikedTrackIds(tracks);
+  return tracks;
 }
 
 /*

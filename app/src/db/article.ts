@@ -5,7 +5,7 @@ import {
   findOne as findOneDB,
   insert as insertDB
 } from "./operations";
-import {insert as insertTracks} from "./article-track";
+import { insert as insertTracks } from "./article-track";
 import { FindOptions, ArticleInfo, ArticleTrack } from "../types";
 
 const db: Nedb = getDB("article");

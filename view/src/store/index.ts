@@ -5,9 +5,7 @@ import { ViewTypes } from "../@types";
 class Store {
   @action
   init = async (): Promise<void> => {
-    await Promise.all([
-      volStore.init(),
-    ]);
+    await Promise.all([volStore.init()]);
   };
 
   protected viewHistory: ViewTypes[] = [];
@@ -113,7 +111,4 @@ class Store {
 
 const store = new Store();
 
-export {
-  store,
-  volStore
-};
+export { store, volStore };

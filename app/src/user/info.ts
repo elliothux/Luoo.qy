@@ -9,7 +9,6 @@ const infoPath = path.resolve(
 );
 let info: Maybe<UserInfo> = readUserInfoFromFile();
 
-
 const defaultInfo = {
   mail: null,
   password: null,
@@ -164,7 +163,6 @@ function getUserSetting(key: keyof UserSettings): boolean {
   const { settings } = info;
   return !!settings[key];
 }
-
 
 export {
   setUserInfo,

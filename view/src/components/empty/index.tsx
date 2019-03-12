@@ -5,6 +5,4 @@ function Empty() {
   return <div className="empty">Empty</div>;
 }
 
-export {
-    Empty
-}
+export { Empty };

@@ -5,6 +5,4 @@ function Loading() {
   return <div className="loading">Loading</div>;
 }
 
-export {
-    Loading
-}
+export { Loading };

@@ -1,6 +1,6 @@
 import * as path from "path";
 import { app, BrowserWindow } from "electron";
-import {injectIPC, isDev, runPath} from "./utils";
+import { injectIPC, isDev, runPath } from "./utils";
 
 function launch(): void {
   injectIPC(global);

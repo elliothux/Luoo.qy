@@ -1,11 +1,10 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import {store} from "./store";
-import {App} from "./App";
+import { store } from "./store";
+import { App } from "./App";
 
 import "./styles/index.scss";
 import "react-toastify/dist/ReactToastify.css";
-
 
 function init() {
   store

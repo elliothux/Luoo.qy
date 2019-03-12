@@ -4,7 +4,6 @@ import { Nav } from "./components/nav";
 import { Background } from "./components/background";
 import { Vols } from "./pages/vols";
 
-
 function App() {
   return (
     <>

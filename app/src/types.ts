@@ -3,11 +3,11 @@ declare global {
 }
 
 export interface FindOptions {
-  query?: object,
-  projection?: object,
-  skip?: number,
-  limit?: number,
-  sort?: object,
+  query?: object;
+  projection?: object;
+  skip?: number;
+  limit?: number;
+  sort?: object;
 }
 
 export interface Track {

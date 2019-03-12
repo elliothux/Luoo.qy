@@ -1,10 +1,8 @@
 import {
+  FindOptions,
   VolInfo,
   Single,
   ArticleInfo,
-  UserInfo,
-  UserCollections,
-  UserSettings,
   ArticleTrack,
   VolTrack
 } from "../@types";
@@ -23,9 +21,30 @@ declare global {
     db: {
       vol: {
         count(query?: object): Promise<number>;
-        getIds(query?: object): Promise<number[]>;
-        getByIds(ids: number[], projectionKeys?: (keyof VolInfo)[]): Promise<VolInfo[]>;
-      }
+        findOne<T = VolInfo>(query: object): Promise<Maybe<T>>;
+        find<T = VolInfo>(options: FindOptions): Promise<T[]>;
+        insert(items: VolInfo[]): Promise<VolInfo[]>;
+      };
+      volTrack: {
+        findOne(query: object): Promise<Maybe<VolTrack>>;
+        find<T = VolTrack>(options: FindOptions): Promise<T[]>;
+      };
+      single: {
+        count(query?: object): Promise<number>;
+        findOne(query: object): Promise<Maybe<Single>>;
+        find<T = Single>(options: FindOptions): Promise<T[]>;
+        insert(items: Single[]): Promise<Single[]>;
+      };
+      article: {
+        count(query?: object): Promise<number>;
+        findOne<T = ArticleInfo>(query: object): Promise<Maybe<T>>;
+        find<T = ArticleInfo>(options: FindOptions): Promise<T[]>;
+        insert(items: ArticleInfo[]): Promise<ArticleInfo[]>;
+      };
+      articleTrack: {
+        findOne(query: object): Promise<Maybe<ArticleTrack>>;
+        find<T = ArticleTrack>(options: FindOptions): Promise<T[]>;
+      };
     };
   }
 }

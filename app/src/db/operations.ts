@@ -12,9 +12,7 @@ function getDB(name: string): Nedb {
     autoload: true
   } as DataStoreOptions);
   setTimeout(() => {
-    db.ensureIndex({ fieldName: "id", sparse: true }, function(
-      error
-    ) {
+    db.ensureIndex({ fieldName: "id", sparse: true }, function(error) {
       console.error(error);
     });
   }, 0);
