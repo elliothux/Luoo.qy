@@ -15,12 +15,12 @@ const PAGE_SCALE = 3 * 4;
 const PAGINATION_SCALE = 9;
 
 class VolStore {
-  init = async () => {
+  public init = async () => {
     this.initReaction();
     await this.initData();
   };
 
-  initReaction = () => {
+  private initReaction = () => {
     reaction(() => {
       if (!this.pagination) {
         return null;
@@ -31,25 +31,12 @@ class VolStore {
   };
 
   @action
-  initData = async () => {
+  private initData = async () => {
     this.total = await ipc.db.vol.count();
   };
 
   @observable
   private total: Maybe<number> = null;
-
-  @observable
-  private type: VolType = VolType.All;
-
-  @computed
-  public get typeItem(): VolTypeItem {
-    return VolTypesMap[this.type] as VolTypeItem;
-  }
-
-  @action
-  public setType = (type: VolType) => {
-    this.type = type;
-  };
 
   @computed
   public get pagination(): Maybe<Pagination> {
@@ -84,6 +71,19 @@ class VolStore {
         vol: 1
       }
     });
+  };
+
+  @observable
+  private type: VolType = VolType.All;
+
+  @computed
+  public get typeItem(): VolTypeItem {
+    return VolTypesMap[this.type] as VolTypeItem;
+  }
+
+  @action
+  public setType = (type: VolType) => {
+    this.type = type;
   };
 }
 
