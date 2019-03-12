@@ -4,7 +4,7 @@ import classnames from "classnames";
 import { playerStore, store, volStore } from "../../store";
 import { Icon, IconTypes } from "../icon";
 import { events, EventTypes } from "../../utils";
-import { ViewTypes, VolType } from "../../@types";
+import { ViewTypes, VolType } from "../../types";
 import LOGO from "../../static/logo.png";
 import "./index.scss";
 

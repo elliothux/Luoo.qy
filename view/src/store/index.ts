@@ -1,6 +1,6 @@
 import { action, observable } from "mobx";
 import { volStore } from "./vol";
-import { ViewTypes } from "../@types";
+import { ViewTypes } from "../types";
 
 class Store {
   @action

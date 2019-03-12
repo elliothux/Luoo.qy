@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Icon, IconTypes } from "../icon";
-import { VolTrack } from "../../@types";
+import { VolTrack } from "../../types";
 import "./index.scss";
 
 export interface Props {

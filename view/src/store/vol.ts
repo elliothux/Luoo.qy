@@ -1,6 +1,6 @@
 import { action, computed, observable, reaction } from "mobx";
 import { getIPC } from "../utils";
-import { VolType, VolTypeItem, VolTypesMap } from "../@types";
+import { VolType, VolTypeItem, VolTypesMap } from "../types";
 import { Pagination } from "./pagination";
 
 interface VolItemInfo {

@@ -5,7 +5,7 @@ import {
   ArticleInfo,
   ArticleTrack,
   VolTrack
-} from "../@types";
+} from "../types";
 
 declare global {
   interface Window {
