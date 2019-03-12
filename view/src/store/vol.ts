@@ -1,7 +1,6 @@
 import { action, computed, observable, reaction } from "mobx";
-import { events, EventTypes, exec, genRange, getIPC } from "../utils";
-import { ViewTypes, VolTypeItem, VolType, VolTypesList } from "../@types";
-import { store } from "./index";
+import { getIPC } from "../utils";
+import { VolType, VolTypeItem, VolTypesMap } from "../@types";
 import { Pagination } from "./pagination";
 
 interface VolItemInfo {
@@ -11,20 +10,14 @@ interface VolItemInfo {
   vol: number;
 }
 
-function getVolItemsInfoFromDB(tag?: string): Promise<ID[]> {
-  const query = tag ? { tags: { $elemMatch: tag } } : {};
-  return ipc.db.vol.getIds(query);
-}
-
 const ipc: IpcObject = getIPC();
 const PAGE_SCALE = 3 * 4;
 const PAGINATION_SCALE = 9;
 
 class VolStore {
-  @action
   init = async () => {
-    this.total = await ipc.db.vol.count();
     this.initReaction();
+    await this.initData();
   };
 
   initReaction = () => {
@@ -32,13 +25,31 @@ class VolStore {
       if (!this.pagination) {
         return null;
       }
-      const { start, end } = this.pagination;
-      return [this.total, start, end];
+      const { start } = this.pagination;
+      return [this.total, this.type, start];
     }, this.updateDisplayedItems);
+  };
+
+  @action
+  initData = async () => {
+    this.total = await ipc.db.vol.count();
   };
 
   @observable
   private total: Maybe<number> = null;
+
+  @observable
+  private type: VolType = VolType.All;
+
+  @computed
+  public get typeItem(): VolTypeItem {
+    return VolTypesMap[this.type] as VolTypeItem;
+  }
+
+  @action
+  public setType = (type: VolType) => {
+    this.type = type;
+  };
 
   @computed
   public get pagination(): Maybe<Pagination> {
@@ -48,12 +59,31 @@ class VolStore {
   }
 
   @observable
-  public displayedItems: Maybe<VolItemInfo> = null;
+  public displayedItems: Maybe<VolItemInfo[]> = null;
 
   @action
   private updateDisplayedItems = async () => {
     this.displayedItems = null;
-    // this.displayedItems = await ipc.
+
+    if (!this.pagination) {
+      return;
+    }
+
+    this.displayedItems = await ipc.db.vol.find<VolItemInfo>({
+      skip: this.pagination.start,
+      limit: PAGE_SCALE,
+      query:
+        this.type === VolType.All
+          ? {}
+          : { tags: { $elemMatch: this.typeItem.name } },
+      sort: { vol: -1 },
+      projection: {
+        id: 1,
+        cover: 1,
+        title: 1,
+        vol: 1
+      }
+    });
   };
 }
 

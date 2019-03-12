@@ -58,130 +58,132 @@ export type VolTypeItem = {
   img: string;
 };
 
-export const VolTypesList: VolTypeItem[] = [
-  {
+export const VolTypesMap: {
+  [type: string]: VolTypeItem
+} = {
+  All: {
     name: "全部",
     img: All,
     type: VolType.All
   } as VolTypeItem,
-  {
+  RockAndRoll: {
     name: "摇滚",
     img: RockAndRoll,
     type: VolType.RockAndRoll
   } as VolTypeItem,
-  {
+  Alternative: {
     name: "另类",
     img: Alternative,
     type: VolType.Alternative
   } as VolTypeItem,
-  {
+  Ballad: {
     name: "民谣",
     img: Ballad,
     type: VolType.Ballad
   } as VolTypeItem,
-  {
+  Pop: {
     name: "流行",
     img: Pop,
     type: VolType.Pop
   } as VolTypeItem,
-  {
+  Electronic: {
     name: "电子",
     img: Electronic,
     type: VolType.Electronic
   } as VolTypeItem,
-  {
+  Classical: {
     name: "古典",
     img: Classical,
     type: VolType.Classical
   } as VolTypeItem,
-  {
+  Jazz: {
     name: "爵士",
     img: Jazz,
     type: VolType.Jazz
   } as VolTypeItem,
-  {
+  Metal: {
     name: "金属",
     img: Metal,
     type: VolType.Metal
   } as VolTypeItem,
-  {
+  Punk: {
     name: "朋克",
     img: Punk,
     type: VolType.Punk
   } as VolTypeItem,
-  {
+  Rap: {
     name: "说唱",
     img: Rap,
     type: VolType.Rap
   } as VolTypeItem,
-  {
+  World: {
     name: "世界音乐",
     img: World,
     type: VolType.World
   } as VolTypeItem,
-  {
+  Atmosphere: {
     name: "氛围",
     img: Atmosphere,
     type: VolType.Atmosphere
   } as VolTypeItem,
-  {
+  Soundtrack: {
     name: "原声",
     img: Soundtrack,
     type: VolType.Soundtrack
   } as VolTypeItem,
-  {
+  Reggae: {
     name: "雷鬼",
     img: Reggae,
     type: VolType.Reggae
   } as VolTypeItem,
-  {
+  Country: {
     name: "乡村",
     img: Country,
     type: VolType.Country
   } as VolTypeItem,
-  {
+  Blues: {
     name: "蓝调",
     img: Blues,
     type: VolType.Blues
   } as VolTypeItem,
-  {
+  Experimental: {
     name: "实验",
     img: Experimental,
     type: VolType.Experimental
   } as VolTypeItem,
-  {
+  England: {
     name: "英伦",
     img: England,
     type: VolType.England
   } as VolTypeItem,
-  {
+  PostRock: {
     name: "后摇",
     img: PostRock,
     type: VolType.PostRock
   } as VolTypeItem,
-  {
+  PsychedelicRock: {
     name: "迷幻摇滚",
     img: PsychedelicRock,
     type: VolType.PsychedelicRock
   } as VolTypeItem,
-  {
+  DarkWave: {
     name: "暗潮",
     img: DarkWave,
     type: VolType.DarkWave
   } as VolTypeItem,
-  {
+  Mandopop: {
     name: "华语流行",
     img: Mandopop,
     type: VolType.Mandopop
   } as VolTypeItem,
-  {
+  Hardcore: {
     name: "硬核",
     img: Hardcore,
     type: VolType.Hardcore
   } as VolTypeItem,
-  {
+  PostPunk: {
     name: "后朋克",
     img: PostPunk,
     type: VolType.PostPunk
   } as VolTypeItem
-];
+};

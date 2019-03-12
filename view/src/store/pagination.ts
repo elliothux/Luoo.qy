@@ -40,11 +40,6 @@ class Pagination {
     return this.currentPage * this.PAGE_SCALE;
   }
 
-  @computed
-  public get end(): number {
-    return this.start + this.PAGE_SCALE - 1;
-  }
-
   @action
   public changeCurrentPage = (page: number) => {
     this.currentPage = page;
