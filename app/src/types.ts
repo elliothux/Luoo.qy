@@ -2,6 +2,14 @@ declare global {
   type Maybe<T> = T | null;
 }
 
+export interface FindOptions {
+  query?: object,
+  projection?: object,
+  skip?: number,
+  limit?: number,
+  sort?: object,
+}
+
 export interface Track {
   name: string;
   artist: string;
@@ -30,12 +38,12 @@ export interface VolInfo {
   desc: string;
   tags: string[];
   similarVols: number[];
-  tracks: VolTrack[];
+  tracks?: VolTrack[];
 }
 
 export interface VolTrack extends Track {
   id: number;
-  vol: number;
+  volId: number;
   color: string;
 }
 
@@ -59,7 +67,7 @@ export interface ArticleInfo {
   desc: string;
   author: string;
   authorAvatar: string;
-  tracks: ArticleTrack[];
+  tracks?: ArticleTrack[];
 }
 
 export interface ArticleTrack extends Track {

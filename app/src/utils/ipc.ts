@@ -12,8 +12,6 @@ function injectIPC(target: object): void {
             },
             db: {
                 vol: {
-                    getIds: vol.getIds,
-                    getByIds: vol.getByIds
                 }
             }
         }

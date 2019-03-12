@@ -16,15 +16,15 @@ declare global {
 
   interface IpcObject {
     request: {
-      requestVols: (startVol: number) => Promise<VolInfo[]>;
-      requestSingles: (startDate: number) => Promise<Single[]>;
-      requestArticles: (startId: number) => Promise<ArticleInfo[]>;
+      requestVols(startVol: number): Promise<VolInfo[]>;
+      requestSingles(startDate: number): Promise<Single[]>;
+      requestArticles(startId: number): Promise<ArticleInfo[]>;
     };
-
     db: {
       vol: {
-        getIds: (query?: object) => Promise<number[]>
-        getByIds: (ids: number[], projectionKeys?: (keyof VolInfo)[]) => Promise<VolInfo[]>
+        count(query?: object): Promise<number>;
+        getIds(query?: object): Promise<number[]>;
+        getByIds(ids: number[], projectionKeys?: (keyof VolInfo)[]): Promise<VolInfo[]>;
       }
     };
   }
