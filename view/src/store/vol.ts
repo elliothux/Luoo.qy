@@ -1,20 +1,26 @@
-import { action, computed, observable, reaction } from "mobx";
-import { getIPC } from "../utils";
-import {VolInfo, VolType, VolTypeItem, VolTypesMap} from "../types";
-import { Pagination } from "./pagination";
-
+import {action, computed, observable, reaction} from "mobx";
+import {getIPC} from "../utils";
+import {ViewTypes, VolInfo, VolType, VolTypeItem, VolTypesMap} from "../types";
+import {Pagination} from "./pagination";
+import {store} from "./index";
 
 const ipc: IpcObject = getIPC();
 const PAGE_SCALE = 3 * 4;
 const PAGINATION_SCALE = 9;
 
 class VolStore {
+  /*
+  @desc Init
+   */
   public init = async () => {
     this.initReaction();
-    await this.initData();
+    await this.updateTotal();
   };
 
   private initReaction = () => {
+    // observer for total
+    reaction(() => this.type, this.updateTotal);
+    // observer for vols
     reaction(() => {
       if (!this.pagination) {
         return null;
@@ -22,15 +28,24 @@ class VolStore {
       const { start } = this.pagination;
       return [this.total, this.type, start];
     }, this.updateDisplayedItems);
+    // observer for vol
+    reaction(() => this.displayedItemId, this.updateDisplayedItem);
   };
 
-  @action
-  private initData = async () => {
-    this.total = await ipc.db.vol.count();
-  };
-
+  /*
+  @desc Pagination
+   */
   @observable
   private total: Maybe<number> = null;
+
+  @action
+  private updateTotal = async () => {
+    this.total = await ipc.db.vol.count(
+      this.type === VolType.All
+        ? {}
+        : { tags: { $elemMatch: this.typeItem.name } }
+    );
+  };
 
   @computed
   public get pagination(): Maybe<Pagination> {
@@ -39,6 +54,26 @@ class VolStore {
       : null;
   }
 
+  /*
+  @desc Type
+   */
+  @observable
+  public type: VolType = VolType.All;
+
+  @computed
+  public get typeItem(): VolTypeItem {
+    return VolTypesMap.get(this.type) as VolTypeItem;
+  }
+
+  @action
+  public setType = (type: VolType) => {
+    this.type = type;
+    store.changeView(ViewTypes.VOLS);
+  };
+
+  /*
+  @desc DisplayedItems
+   */
   @observable
   public displayedItems: Maybe<VolInfo[]> = null;
 
@@ -69,17 +104,37 @@ class VolStore {
     });
   };
 
+  /*
+  @desc DisplayedItem
+   */
   @observable
-  public type: VolType = VolType.All;
+  private displayedItemId: Maybe<ID> = null;
 
-  @computed
-  public get typeItem(): VolTypeItem {
-    return VolTypesMap[this.type] as VolTypeItem;
-  }
+  @observable
+  public displayedItem: Maybe<VolInfo> = null;
 
   @action
-  public setType = (type: VolType) => {
-    this.type = type;
+  public setItem = (id: ID) => {
+    this.displayedItemId = id;
+    store.changeView(ViewTypes.VOL_INFO);
+  };
+
+  @action
+  public updateDisplayedItem = async () => {
+    this.displayedItem = null;
+
+    if (!this.displayedItemId) {
+      return;
+    }
+
+    const volInfo = (await ipc.db.vol.findOne({
+      id: this.displayedItemId
+    })) as VolInfo;
+    const tracks = await ipc.db.volTrack.find({ query: { volId: volInfo.id } });
+    this.displayedItem = {
+      ...volInfo,
+      tracks
+    } as VolInfo;
   };
 }
 

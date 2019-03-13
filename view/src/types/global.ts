@@ -74,6 +74,7 @@ interface IVolInfo {
   desc: string;
   tags: string[];
   similarVols: number[];
+  tracks: Maybe<VolTrack[]>;
 }
 export type VolInfo = Readonly<IVolInfo>;
 
@@ -105,6 +106,7 @@ interface IArticleInfo {
   desc: string;
   author: string;
   authorAvatar: string;
+  tracks: Maybe<ArticleTrack[]>;
 }
 export type ArticleInfo = Readonly<IArticleInfo>;
 

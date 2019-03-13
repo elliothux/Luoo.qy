@@ -3,7 +3,8 @@ import { Icon, IconTypes } from "../icon";
 import { events, EventTypes, isAnyPartOfElementInViewport } from "../../utils";
 import { VolInfo } from "../../types";
 import "./index.scss";
-import {RefObject} from "react";
+import { RefObject } from "react";
+import { volStore } from "../../store";
 
 export interface Props {
   id: ID;
@@ -31,7 +32,7 @@ class VolItem extends React.PureComponent<Props> {
       isLiked
     } = this.props;
     return (
-      <div className="vol-item">
+      <div className="vol-item" onClick={() => volStore.setItem(id)}>
         <div
           ref={this.coverRef}
           className="vol-item-cover"
@@ -46,12 +47,11 @@ class VolItem extends React.PureComponent<Props> {
           </p>
           <p className="vol-item-info-title">{title}</p>
           <div className="vol-item-operation">
-            <Icon type={IconTypes.LIKE} />
-            {isPlaying ? (
-              <Icon type={IconTypes.PAUSE} preventDefault />
-            ) : (
-              <Icon type={IconTypes.PLAY} preventDefault />
-            )}
+            <Icon type={IconTypes.LIKE} preventDefault />
+            <Icon
+              type={isPlaying ? IconTypes.PAUSE : IconTypes.PLAY}
+              preventDefault
+            />
           </div>
         </div>
         <div className="vol-item-tags">

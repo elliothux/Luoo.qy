@@ -1,0 +1,148 @@
+@import "../../styles/helper";
+
+#vol {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+
+  &.show-with-cover {
+    #vol-bg-mask {
+      opacity: 0.5;
+    }
+    #vol-info,
+    #vol-tracks {
+      transform: none;
+      opacity: 1;
+    }
+    #vol-tracks {
+      transition-delay: 800ms;
+    }
+  }
+
+  #vol-bg-mask,
+  #vol-info,
+  #vol-tracks {
+    @include transition;
+    transition-delay: 400ms;
+  }
+
+  #vol-bg,
+  #vol-bg-mask {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  #vol-bg {
+    background-size: cover;
+    background-position: center;
+    z-index: 1;
+  }
+
+  #vol-bg-mask {
+    opacity: 0;
+    background-image: linear-gradient(
+      -90deg,
+      rgba(0, 0, 0, 0) 0%,
+      #000000 100%
+    );
+    z-index: 2;
+  }
+
+  #vol-info,
+  #vol-tracks {
+    position: absolute;
+    z-index: 3;
+    top: 136px;
+    overflow-y: auto;
+    transform: translateY(260px);
+    opacity: 0;
+  }
+
+  #vol-info {
+    width: 50%;
+    padding-left: 60px;
+    height: calc(100% - 246px);
+
+    #vol-info-tags {
+      margin-bottom: 30px;
+      & > span {
+        display: inline-block;
+        color: white;
+        background-color: rgba(0, 0, 0, 0.2);
+        font-size: 14px;
+        line-height: 30px;
+        padding: 0 12px;
+        height: 30px;
+        border-radius: 16px;
+        margin-right: 8px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.1);
+        @include transition;
+        @include cursor;
+        &:hover {
+          background-color: rgba(0, 0, 0, 0.5);
+          transform: scale(1.1);
+        }
+      }
+    }
+
+    #vol-info-index {
+      font-size: 3.5em;
+      letter-spacing: 0.05em;
+      font-family: "Savoye LET", sans-serif;
+      .icon {
+        width: 29px;
+        height: 29px;
+        position: relative;
+        top: 4px;
+        @include cursor;
+        &:first-child {
+          margin-left: 42px;
+          margin-right: 8px;
+        }
+      }
+    }
+
+    #vol-info-title {
+      font-size: 2em;
+      letter-spacing: 0.05em;
+      margin-bottom: 30px;
+    }
+
+    #vol-info-desc,
+    #vol-info-desc * {
+      font-size: 14px !important;
+      line-height: 24px !important;
+      color: white !important;
+      background-color: rgba(0, 0, 0, 0);
+    }
+
+    #vol-info-date {
+      font-size: 13px;
+      line-height: 22px;
+      margin-top: 30px;
+      margin-bottom: 50px;
+      .icon {
+        width: auto;
+        height: 22px;
+        position: relative;
+        top: 6px;
+        margin-right: 6px;
+      }
+    }
+  }
+
+  #vol-tracks {
+    max-height: calc(100% - 146px);
+    right: 0;
+    width: 35%;
+    padding: 36px 60px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-column-gap: 3vw;
+    grid-row-gap: 1.5vw;
+  }
+}
