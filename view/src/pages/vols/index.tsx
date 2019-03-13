@@ -4,36 +4,13 @@ import { observer } from "mobx-react";
 import { volStore } from "../../store";
 import { VolItem } from "../../components/vol-item";
 import { Pagination } from "../../components/pagination";
-import { events, EventTypes } from "../../utils";
 import { ViewTypes, VolInfo } from "../../types";
 import "./index.scss";
 import { Loading } from "../../components/loading";
 
 @observer
-class Vols extends React.Component {
+class Vols extends React.PureComponent {
   containerRef: RefObject<HTMLDivElement> = React.createRef();
-
-  state = {
-    isFetching: true
-  };
-
-  componentDidMount(): void {
-    events.on(EventTypes.ScrollBackVols, (smooth: boolean = false) => {
-      const { current } = this.containerRef;
-      if (!current) {
-        return;
-      }
-      if (smooth) {
-        current.scrollTo({
-          top: 0,
-          left: 0,
-          behavior: "smooth"
-        });
-      } else {
-        current.scrollTo(0, 0);
-      }
-    });
-  }
 
   renderVols = () => {
     const { displayedItems } = volStore;

@@ -1,10 +1,8 @@
 import * as React from "react";
 import { Icon, IconTypes } from "../icon";
-import { events, EventTypes, isAnyPartOfElementInViewport } from "../../utils";
-import { VolInfo } from "../../types";
-import "./index.scss";
-import { RefObject } from "react";
 import { volStore } from "../../store";
+import "./index.scss";
+
 
 export interface Props {
   id: ID;
@@ -18,23 +16,16 @@ export interface Props {
 }
 
 class VolItem extends React.PureComponent<Props> {
-  coverRef: RefObject<HTMLDivElement> = React.createRef();
+  private onClick = () => {
+    const { id } = this.props;
+    volStore.setItem(id);
+  };
 
   public render() {
-    const {
-      id,
-      cover,
-      title,
-      vol,
-      tags,
-      color,
-      isPlaying,
-      isLiked
-    } = this.props;
+    const { cover, title, vol, tags, color, isPlaying, isLiked } = this.props;
     return (
-      <div className="vol-item" onClick={() => volStore.setItem(id)}>
+      <div className="vol-item" onClick={this.onClick}>
         <div
-          ref={this.coverRef}
           className="vol-item-cover"
           style={{
             backgroundImage: `url(${cover})`
@@ -47,7 +38,10 @@ class VolItem extends React.PureComponent<Props> {
           </p>
           <p className="vol-item-info-title">{title}</p>
           <div className="vol-item-operation">
-            <Icon type={IconTypes.LIKE} preventDefault />
+            <Icon
+              type={isLiked ? IconTypes.LIKE : IconTypes.LIKE}
+              preventDefault
+            />
             <Icon
               type={isPlaying ? IconTypes.PAUSE : IconTypes.PLAY}
               preventDefault

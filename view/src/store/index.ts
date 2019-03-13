@@ -1,6 +1,7 @@
 import { action, observable } from "mobx";
 import { volStore } from "./vol";
 import { ViewTypes } from "../types";
+import {noop} from "../utils";
 
 class Store {
   @action
@@ -17,14 +18,10 @@ class Store {
   public changeView = (
     viewType: ViewTypes,
     isBack: boolean = false,
-    callback?: any
+    callback: Callback = noop
   ) => {
-    const hasCallback = typeof callback === "function";
     if (viewType === this.view) {
-      if (hasCallback) {
-        callback();
-      }
-      return;
+      return callback();
     }
 
     const prevView = this.view;
@@ -35,10 +32,7 @@ class Store {
     }
 
     if (viewType === ViewTypes.PLAYING || prevView === ViewTypes.PLAYING) {
-      if (hasCallback) {
-        callback();
-      }
-      return;
+      return callback();
     }
 
     const prevViewElement = document.querySelector(
@@ -49,55 +43,17 @@ class Store {
     >;
     if (!prevViewElement || !viewElement) return;
 
-    const isEnterInfoPage =
-      (prevView === ViewTypes.VOLS && viewType === ViewTypes.VOL_INFO) ||
-      (prevView === ViewTypes.SINGLES && viewType === ViewTypes.SINGLE_INFO) ||
-      (prevView === ViewTypes.ARTICLES &&
-        viewType === ViewTypes.ARTICLE_INFO) ||
-      (prevView === ViewTypes.USER &&
-        [
-          ViewTypes.VOL_INFO,
-          ViewTypes.SINGLE_INFO,
-          ViewTypes.ARTICLE_INFO
-        ].includes(viewType));
-    const isExitInfoPage =
-      prevView === ViewTypes.VOL_INFO ||
-      prevView === ViewTypes.SINGLE_INFO ||
-      prevView === ViewTypes.ARTICLE_INFO;
-
-    if (isEnterInfoPage) {
-      viewElement.className += " show-with-cover";
-      prevViewElement.className = prevViewElement.className.replace(
-        " show",
-        ""
-      );
-    } else if (isExitInfoPage) {
-      viewElement.className += " show";
-      prevViewElement.className = prevViewElement.className.replace(
-        " show-with-cover",
-        ""
-      );
-    } else {
-      viewElement.className += " show";
-      prevViewElement.className = prevViewElement.className.replace(
-        " show",
-        ""
-      );
-    }
-
+    viewElement.className += " show";
+    prevViewElement.className = prevViewElement.className.replace(" show", "");
     viewElement.style.zIndex = viewType === ViewTypes.VOLS_TYPE ? "20" : "5";
     setTimeout(() => {
       prevViewElement.style.zIndex = "-1";
+      return callback();
     }, 500);
-    setTimeout(() => {
-      if (typeof callback === "function") {
-        callback();
-      }
-    }, isEnterInfoPage ? 2000 : 500);
   };
 
   @action
-  public backView = (callback?: any) => {
+  public backView = (callback?: Callback) => {
     const prevView = this.viewHistory.pop();
     if (prevView === undefined) {
       throw new Error("Invalid previous view");

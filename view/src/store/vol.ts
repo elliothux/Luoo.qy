@@ -79,7 +79,7 @@ class VolStore {
 
   @action
   private updateDisplayedItems = async () => {
-    this.displayedItems = null;
+    // this.displayedItems = null;
 
     if (!this.pagination) {
       return;
@@ -121,7 +121,7 @@ class VolStore {
 
   @action
   public updateDisplayedItem = async () => {
-    this.displayedItem = null;
+    // this.displayedItem = null;
 
     if (!this.displayedItemId) {
       return;

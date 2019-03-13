@@ -80,12 +80,12 @@ class Pagination {
 
   @computed
   public get hasNext(): boolean {
-    return this.paginationCurrentIndex + 1 < this.paginationTotalIndex;
+    return this.paginationCurrentIndex < this.paginationTotalIndex;
   }
 
   @computed
   public get hasPre(): boolean {
-    return this.paginationCurrentIndex > 1;
+    return this.paginationCurrentIndex > 0;
   }
 }
 

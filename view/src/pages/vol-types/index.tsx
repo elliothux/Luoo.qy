@@ -1,6 +1,5 @@
 import * as React from "react";
 import { volStore } from "../../store";
-import { events, EventTypes } from "../../utils";
 import { ViewTypes, VolType, VolTypesMap, VolTypeItem } from "../../types";
 import "./index.scss";
 
@@ -42,9 +41,5 @@ function VolTypes() {
     </div>
   );
 }
-
-events.on(EventTypes.ScrollBackVolTypes, () => {
-  volTypesRef.scrollTo(0, 0);
-});
 
 export { VolTypes };

@@ -3,7 +3,6 @@ import { observer } from "mobx-react";
 import classnames from "classnames";
 import { store, volStore } from "../../store";
 import { Icon, IconTypes } from "../icon";
-import { events, EventTypes } from "../../utils";
 import { ViewTypes, VolType } from "../../types";
 import LOGO from "../../static/logo.png";
 import "./index.scss";
@@ -13,7 +12,6 @@ function hideClassName(willHide: boolean) {
 }
 
 function goVolTypes() {
-  events.emit(EventTypes.ScrollBackVolTypes);
   store.changeView(ViewTypes.VOLS_TYPE);
 }
 
@@ -21,7 +19,6 @@ function goVols() {
   if (store.view === ViewTypes.PLAYING) {
     store.backView(goVols);
   }
-  events.emit(EventTypes.ScrollBackVols);
   store.changeView(ViewTypes.VOLS);
 }
 
@@ -29,7 +26,6 @@ function goSingles() {
   if (store.view === ViewTypes.PLAYING) {
     store.backView(goSingles);
   }
-  events.emit(EventTypes.ScrollBackSingles);
   store.changeView(ViewTypes.SINGLES);
 }
 
@@ -37,7 +33,6 @@ function goArticles() {
   if (store.view === ViewTypes.PLAYING) {
     store.backView(goArticles);
   }
-  events.emit(EventTypes.ScrollBackArticles);
   store.changeView(ViewTypes.ARTICLES);
 }
 
@@ -45,7 +40,6 @@ function goUser() {
   if (store.view === ViewTypes.PLAYING) {
     store.backView(goUser);
   }
-  events.emit(EventTypes.ScrollBackUser);
   store.changeView(ViewTypes.USER);
 }
 
@@ -68,7 +62,7 @@ function INav() {
               ViewTypes.USER
             ].includes(view)
           )}
-          onClick={store.backView}
+          onClick={() => store.backView()}
         >
           <Icon type={IconTypes.BACK} />
           <p>返回</p>
