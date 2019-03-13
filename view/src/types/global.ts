@@ -1,6 +1,9 @@
+import * as React from 'react';
+
 declare global {
   type Maybe<T> = T | null;
   type Callback = (...args: any[]) => any;
+  type ReactNode = React.ReactChild | React.ReactFragment | React.ReactPortal | boolean | null | undefined;
   type ID = number;
   type Cover = string;
   type Title = string;

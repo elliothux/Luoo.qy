@@ -5,6 +5,8 @@ import { Background } from "./components/background";
 import { Vols } from "./pages/vols";
 import { VolTypes } from "./pages/vol-types";
 import { Vol } from "./pages/vol";
+import { ViewTypes } from "./types";
+import { store } from "./store";
 
 function App() {
   return (

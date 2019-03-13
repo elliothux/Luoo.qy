@@ -1,6 +1,7 @@
 import * as React from "react";
 import { volStore } from "../../store";
-import { ViewTypes, VolType, VolTypesMap, VolTypeItem } from "../../types";
+import { ViewTypes, VolType, VolTypeItem, VolTypesMap } from "../../types";
+import { Route } from "../../components/Route";
 import "./index.scss";
 
 let volTypesRef: HTMLDivElement;
@@ -32,13 +33,13 @@ function renderVolTypeItem(type: VolType) {
 function VolTypes() {
   const keys = Array.from<VolType>(VolTypesMap.keys());
   return (
-    <div
+    <Route
+      view={ViewTypes.VOLS_TYPE}
       id="vol-types"
-      className={`page view-${ViewTypes.VOLS_TYPE}`}
-      ref={getVolTypesRef}
+      getRef={getVolTypesRef}
     >
       {keys.map(type => renderVolTypeItem(type))}
-    </div>
+    </Route>
   );
 }
 

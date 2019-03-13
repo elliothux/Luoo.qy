@@ -35,21 +35,21 @@ class Store {
       return callback();
     }
 
-    const prevViewElement = document.querySelector(
-      `.view-${prevView}`
-    ) as Maybe<HTMLElement>;
-    const viewElement = document.querySelector(`.view-${viewType}`) as Maybe<
-      HTMLElement
-    >;
-    if (!prevViewElement || !viewElement) return;
-
-    viewElement.className += " show";
-    prevViewElement.className = prevViewElement.className.replace(" show", "");
-    viewElement.style.zIndex = viewType === ViewTypes.VOLS_TYPE ? "20" : "5";
-    setTimeout(() => {
-      prevViewElement.style.zIndex = "-1";
-      return callback();
-    }, 500);
+    // const prevViewElement = document.querySelector(
+    //   `.view-${prevView}`
+    // ) as Maybe<HTMLElement>;
+    // const viewElement = document.querySelector(`.view-${viewType}`) as Maybe<
+    //   HTMLElement
+    // >;
+    // if (!prevViewElement || !viewElement) return;
+    //
+    // viewElement.className += " show";
+    // prevViewElement.className = prevViewElement.className.replace(" show", "");
+    // viewElement.style.zIndex = viewType === ViewTypes.VOLS_TYPE ? "20" : "5";
+    // setTimeout(() => {
+    //   prevViewElement.style.zIndex = "-1";
+    //   return callback();
+    // }, 500);
   };
 
   @action

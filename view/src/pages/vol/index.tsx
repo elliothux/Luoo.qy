@@ -6,6 +6,7 @@ import { TrackItem } from "../../components/track-item";
 import { ViewTypes, VolInfo } from "../../types";
 import { Loading } from "../../components/loading";
 import "./index.scss";
+import { Route } from "../../components/Route";
 
 function renderTracks(vol: VolInfo) {
   const { tracks } = vol;
@@ -41,7 +42,10 @@ function IVol() {
   }
 
   return (
-    <div id="vol" className={`page view-${ViewTypes.VOL_INFO}`}>
+    <Route
+      view={ViewTypes.VOL_INFO}
+      id="vol"
+    >
       <div
         id="vol-bg"
         style={{
@@ -85,7 +89,7 @@ function IVol() {
       </div>
 
       <div id="vol-tracks">{renderTracks(vol)}</div>
-    </div>
+    </Route>
   );
 }
 

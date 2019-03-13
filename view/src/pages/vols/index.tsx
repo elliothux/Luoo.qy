@@ -5,8 +5,10 @@ import { volStore } from "../../store";
 import { VolItem } from "../../components/vol-item";
 import { Pagination } from "../../components/pagination";
 import { ViewTypes, VolInfo } from "../../types";
-import "./index.scss";
 import { Loading } from "../../components/loading";
+import { Route } from "../../components/Route";
+import "./index.scss";
+
 
 @observer
 class Vols extends React.PureComponent {
@@ -40,15 +42,14 @@ class Vols extends React.PureComponent {
 
   render() {
     return (
-      <div
+      <Route
+        view={ViewTypes.VOLS}
         id="vols"
-        className={`page show view-${ViewTypes.VOLS}`}
-        style={{ zIndex: 1 }}
-        ref={this.containerRef}
+        getRef={this.containerRef}
       >
         {this.renderVols()}
         {this.renderPagination()}
-      </div>
+      </Route>
     );
   }
 }
