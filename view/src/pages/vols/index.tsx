@@ -1,14 +1,13 @@
 import * as React from "react";
 import { RefObject } from "react";
 import { observer } from "mobx-react";
-import { volStore } from "../../store";
+import { store, volStore } from "../../store";
 import { VolItem } from "../../components/vol-item";
 import { Pagination } from "../../components/pagination";
 import { ViewTypes, VolInfo } from "../../types";
 import { Loading } from "../../components/loading";
-import { Route } from "../../components/Route";
+import { Route } from "../../components/route";
 import "./index.scss";
-
 
 @observer
 class Vols extends React.PureComponent {
@@ -43,6 +42,7 @@ class Vols extends React.PureComponent {
   render() {
     return (
       <Route
+        currentView={store.view}
         view={ViewTypes.VOLS}
         id="vols"
         getRef={this.containerRef}

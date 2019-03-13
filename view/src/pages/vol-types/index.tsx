@@ -1,8 +1,9 @@
 import * as React from "react";
-import { volStore } from "../../store";
+import { store, volStore } from "../../store";
 import { ViewTypes, VolType, VolTypeItem, VolTypesMap } from "../../types";
-import { Route } from "../../components/Route";
+import { Route } from "../../components/route";
 import "./index.scss";
+import {observer} from "mobx-react";
 
 let volTypesRef: HTMLDivElement;
 
@@ -30,10 +31,11 @@ function renderVolTypeItem(type: VolType) {
   );
 }
 
-function VolTypes() {
+function IVolTypes() {
   const keys = Array.from<VolType>(VolTypesMap.keys());
   return (
     <Route
+      currentView={store.view}
       view={ViewTypes.VOLS_TYPE}
       id="vol-types"
       getRef={getVolTypesRef}
@@ -42,5 +44,7 @@ function VolTypes() {
     </Route>
   );
 }
+
+const VolTypes = observer(IVolTypes);
 
 export { VolTypes };

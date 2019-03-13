@@ -1,12 +1,12 @@
 import * as React from "react";
 import { observer } from "mobx-react";
-import { volStore } from "../../store";
+import { store, volStore } from "../../store";
 import { Icon, IconTypes } from "../../components/icon";
 import { TrackItem } from "../../components/track-item";
-import { ViewTypes, VolInfo } from "../../types";
+import { Route } from "../../components/route";
 import { Loading } from "../../components/loading";
+import { ViewTypes, VolInfo } from "../../types";
 import "./index.scss";
-import { Route } from "../../components/Route";
 
 function renderTracks(vol: VolInfo) {
   const { tracks } = vol;
@@ -35,17 +35,14 @@ function IVol() {
 
   if (!vol) {
     return (
-      <div id="vol" className={`page view-${ViewTypes.VOL_INFO}`}>
+      <Route currentView={store.view} view={ViewTypes.VOL_INFO} id="vol">
         <Loading />
-      </div>
+      </Route>
     );
   }
 
   return (
-    <Route
-      view={ViewTypes.VOL_INFO}
-      id="vol"
-    >
+    <Route currentView={store.view} view={ViewTypes.VOL_INFO} id="vol">
       <div
         id="vol-bg"
         style={{
