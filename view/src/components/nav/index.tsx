@@ -1,7 +1,7 @@
 import * as React from "react";
 import { observer } from "mobx-react";
 import classnames from "classnames";
-import { playerStore, store, volStore } from "../../store";
+import { store, volStore } from "../../store";
 import { Icon, IconTypes } from "../icon";
 import { events, EventTypes } from "../../utils";
 import { ViewTypes, VolType } from "../../types";
@@ -75,7 +75,7 @@ function INav() {
         </div>
         <div
           className={hideClassName(view !== ViewTypes.PLAYING)}
-          onClick={playerStore.goToPlayingSource}
+          // onClick={playerStore.goToPlayingSource}
         >
           <Icon type={IconTypes.SOURCE} />
           <p>来源</p>
@@ -86,9 +86,9 @@ function INav() {
         >
           <Icon type={IconTypes.CATEGORY} />
           <p>
-            {volStore.volType === VolType.All
+            {volStore.type === VolType.All
               ? "分类"
-              : volStore.volTypeItem.name}
+              : volStore.typeItem.name}
           </p>
         </div>
         <div>

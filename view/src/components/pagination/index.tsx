@@ -1,50 +1,52 @@
 import * as React from "react";
+import {observer} from "mobx-react";
 import classnames from "classnames";
+import { Pagination as PaginationStore } from "../../store/pagination";
 import { Icon, IconTypes } from "../icon";
 import "./index.scss";
 
-const noop = () => {};
-
 interface Props {
-  pages: number[];
-  currentPage: number;
-  togglePage: (index: number) => void;
-  paginationCurrentIndex: number;
-  paginationTotalIndex: number;
-  onNext: () => void;
-  onPre: () => void;
+    store: PaginationStore
 }
 
-function Pagination(props: Props) {
-  const isFirst = props.paginationCurrentIndex === 0;
-  const isLast =
-    props.paginationCurrentIndex + 1 === props.paginationTotalIndex;
+function IPagination(props: Props) {
+    const { store: {
+        hasNext,
+        hasPre,
+        changeCurrentPage,
+        nextPagination,
+        prePagination,
+        displayPaginations,
+        currentPage
+    } } = props;
   return (
     <div className="pagination">
       <Icon
         type={IconTypes.ARROW_LEFT}
-        className={classnames({ disable: isFirst })}
-        onClick={isFirst ? noop : props.onPre}
+        className={classnames({ disable: !hasPre })}
+        onClick={prePagination}
       />
-      {props.pages.map(p => (
+      {displayPaginations.map(p => (
         <span
           key={p}
           className={classnames({
             "pagination-item": true,
-            activated: p === props.currentPage
+            activated: p === currentPage
           })}
-          onClick={() => props.togglePage(p)}
+          onClick={() => changeCurrentPage(p)}
         >
           {p + 1}
         </span>
       ))}
       <Icon
         type={IconTypes.ARROW_RIGHT}
-        className={classnames({ disable: isLast })}
-        onClick={isLast ? noop : props.onNext}
+        className={classnames({ disable: !hasNext })}
+        onClick={nextPagination}
       />
     </div>
   );
 }
+
+const Pagination = observer(IPagination);
 
 export { Pagination };

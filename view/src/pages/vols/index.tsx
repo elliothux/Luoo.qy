@@ -35,21 +35,33 @@ class Vols extends React.Component {
     });
   }
 
-  renderVols(ids: number[]) {
-    return vols.map((vol: VolInfo, index: number) => (
+  renderVols = () => {
+    const { displayedItems } = volStore;
+    if (!displayedItems) {
+      return <Loading />;
+    }
+    return displayedItems.map((vol: VolInfo) => (
       <VolItem
         key={vol.id}
-        volInfo={vol}
-        index={index}
+        id={vol.id}
+        cover={vol.cover}
+        title={vol.title}
+        tags={vol.tags}
+        color={vol.color}
+        vol={vol.vol}
         isPlaying={false}
         isLiked={false}
       />
     ));
-  }
+  };
+
+  renderPagination = () => {
+    const { pagination } = volStore;
+    if (!pagination) return null;
+    return <Pagination store={pagination} />;
+  };
 
   render() {
-    const { displayIds } = volStore;
-
     return (
       <div
         id="vols"
@@ -57,16 +69,8 @@ class Vols extends React.Component {
         style={{ zIndex: 1 }}
         ref={this.containerRef}
       >
-        {displayIds ? this.renderVols(displayIds) : <Loading />}
-        <Pagination
-          pages={volStore.displayPaginations}
-          currentPage={volStore.currentPage}
-          togglePage={volStore.changeCurrentPage}
-          paginationCurrentIndex={volStore.paginationCurrentIndex}
-          paginationTotalIndex={volStore.paginationTotalIndex}
-          onNext={volStore.nextPagination}
-          onPre={volStore.prePagination}
-        />
+        {this.renderVols()}
+        {this.renderPagination()}
       </div>
     );
   }

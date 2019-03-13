@@ -1,14 +1,8 @@
 import { action, computed, observable, reaction } from "mobx";
 import { getIPC } from "../utils";
-import { VolType, VolTypeItem, VolTypesMap } from "../types";
+import {VolInfo, VolType, VolTypeItem, VolTypesMap} from "../types";
 import { Pagination } from "./pagination";
 
-interface VolItemInfo {
-  id: ID;
-  cover: string;
-  title: string;
-  vol: number;
-}
 
 const ipc: IpcObject = getIPC();
 const PAGE_SCALE = 3 * 4;
@@ -46,7 +40,7 @@ class VolStore {
   }
 
   @observable
-  public displayedItems: Maybe<VolItemInfo[]> = null;
+  public displayedItems: Maybe<VolInfo[]> = null;
 
   @action
   private updateDisplayedItems = async () => {
@@ -56,7 +50,7 @@ class VolStore {
       return;
     }
 
-    this.displayedItems = await ipc.db.vol.find<VolItemInfo>({
+    this.displayedItems = await ipc.db.vol.find<VolInfo>({
       skip: this.pagination.start,
       limit: PAGE_SCALE,
       query:
@@ -65,16 +59,18 @@ class VolStore {
           : { tags: { $elemMatch: this.typeItem.name } },
       sort: { vol: -1 },
       projection: {
-        id: 1,
-        cover: 1,
-        title: 1,
-        vol: 1
+        link: 0,
+        author: 0,
+        authorAvatar: 0,
+        date: 0,
+        desc: 0,
+        similarVols: 0
       }
     });
   };
 
   @observable
-  private type: VolType = VolType.All;
+  public type: VolType = VolType.All;
 
   @computed
   public get typeItem(): VolTypeItem {

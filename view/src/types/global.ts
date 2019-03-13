@@ -1,7 +1,15 @@
 declare global {
-  type ID = number;
   type Maybe<T> = T | null;
   type Callback = (...args: any[]) => any;
+  type ID = number;
+  type Cover = string;
+  type Title = string;
+  type Name = string;
+  type Artist = string;
+  type Album = string;
+  type Link = string;
+  type Tag = string;
+  type Color = string;
 }
 
 export interface FindOptions {

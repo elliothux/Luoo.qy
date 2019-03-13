@@ -28,7 +28,7 @@ class Pagination {
   private readonly PAGINATION_SCALE: number = 0;
 
   @observable
-  private currentPage: number = 0;
+  public currentPage: number = 0;
 
   @computed
   public get totalPage(): number {
@@ -68,21 +68,23 @@ class Pagination {
 
   @action
   public nextPagination = () => {
+    if (!this.hasNext) { return; }
     this.paginationCurrentIndex += 1;
   };
 
   @action
   public prePagination = () => {
+    if (!this.hasPre) { return; }
     this.paginationCurrentIndex -= 1;
   };
 
   @computed
-  public get hasNextPagination(): boolean {
+  public get hasNext(): boolean {
     return this.paginationCurrentIndex < this.paginationTotalIndex;
   }
 
   @computed
-  public get hasPrePagination(): boolean {
+  public get hasPre(): boolean {
     return this.paginationCurrentIndex > 0;
   }
 }
