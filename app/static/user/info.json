@@ -1,18 +1,3 @@
 {
-  "mail": "6fa515766109cad0434fe01f8b956d86161f2d7eb5ef584d87bec4268c9941d4",
-  "password": "7676e40646dc231763419d2d8a9cf236",
-  "name": "抖腿侠",
-  "id": 260625,
-  "avatar": "http://img-cdn2.luoo.net/pics/avatars/u2606251497643495.jpg!/fwfh/128x128",
-  "session": "l3cldtg6pdu17o8j7198fsg6t7",
-  "lult": "f2ff3b69a1f337d11e34062c3db4564c",
-  "settings": {
-    "autoUpdate": true,
-    "autoSync": true
-  },
-  "collections": {
-    "tracks": [],
-    "vols": [],
-    "articles": []
-  }
+
 }

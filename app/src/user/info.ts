@@ -1,61 +1,65 @@
 import * as path from "path";
 import * as fs from "fs";
-import { UserCollections, UserInfo, UserSettings } from "../types";
+import { UserCollections, UserData, UserInfo, UserSettings } from "../types";
 import { isElectron, runPath, aseEncode, aseDecode } from "../utils";
 
 const infoPath = path.resolve(
   runPath,
   isElectron ? "./dist/user/info.json" : "./static/user/info.json"
 );
-let info: Maybe<UserInfo> = readUserInfoFromFile();
+let userData: UserData = readUserInfoFromFile();
 
-const defaultInfo = {
-  mail: null,
-  password: null,
-  name: null,
-  id: null,
-  avatar: null,
-  session: null,
-  lult: null
-};
-const defaultSettings = {
-  autoUpdate: true,
-  autoSync: true
-};
-const defaultCollections = {
-  tracks: [],
-  vols: [],
-  articles: []
+const defaultUserData: UserData = {
+  info: {
+    mail: null,
+    password: null,
+    id: null,
+    name: null,
+    avatar: null,
+    session: null,
+    lult: null,
+  },
+  settings: {
+    autoUpdate: true,
+    autoSync: true
+  },
+  collections: {
+    tracks: [],
+    vols: [],
+    articles: []
+  }
 };
 const fsOptions = { encoding: "utf-8" };
 
 /*
 @desc Sync user info with config.json
  */
-function readUserInfoFromFile(): UserInfo {
-  const iInfo = JSON.parse(fs.readFileSync(infoPath, fsOptions)) as UserInfo;
-  iInfo.settings = { ...defaultSettings, ...iInfo.settings };
+function readUserInfoFromFile(): UserData {
+  const data = JSON.parse(fs.readFileSync(infoPath, fsOptions)) as UserData;
+  data.info = { ...defaultUserData.info, ...data.info};
+  data.settings = { ...defaultUserData.settings, ...data.settings };
+  data.collections = { ...defaultUserData.collections, ...data.collections };
 
-  if (iInfo.mail) {
-    iInfo.mail = aseDecode(iInfo.mail);
-  }
-  if (iInfo.password) {
-    iInfo.password = aseDecode(iInfo.password);
-  }
+  data.info.mail = aseDecode(data.info.mail);
+  data.info.password = aseDecode(data.info.password);
 
-  return { ...defaultInfo, ...iInfo } as UserInfo;
+  return data;
 }
 
-function writeUserInfoToFile(info: UserInfo): void {
-  const { mail, password } = info;
+function writeUserDataToFile(data: UserData = userData): void {
+  const { info } = data;
+
   return fs.writeFileSync(
     infoPath,
     JSON.stringify(
       {
-        ...info,
-        mail: mail ? aseEncode(mail) : null,
-        password: password ? aseEncode(password) : null
-      },
+        ...data,
+        info: {
+          ...info,
+          mail: aseEncode(info.mail),
+          password: aseEncode(info.password)
+        }
+      } as UserData,
       null,
       4
     ),
@@ -63,25 +67,13 @@ function writeUserInfoToFile(info: UserInfo): void {
   );
 }
 
-function clearUserInfos(): void {
-  return writeUserInfoToFile({
-    ...defaultInfo,
-    settings: defaultSettings,
-    collections: defaultCollections
-  });
+function clearUserInfo(): void {
+  return writeUserDataToFile(defaultUserData);
 }
 
 /*
 @desc User basic info
  */
-function getUserInfos(): UserInfo {
-  return info || readUserInfoFromFile();
-}
-
-function setUserInfo(key: keyof UserInfo, value: string): void {
-  const info = getUserInfos();
-  return writeUserInfoToFile(info);
-}
 
 interface UserInfoParams {
   mail?: string;
@@ -92,84 +84,73 @@ interface UserInfoParams {
   session?: string;
   lult?: string;
 }
-function setUserInfos(infos: UserInfoParams): UserInfo {
-  const info = getUserInfos();
-  writeUserInfoToFile({
-    ...info,
-    ...infos
-  });
-  return info;
+function setUserInfo(info: UserInfoParams): UserInfo {
+  userData.info = {
+    ...userData.info,
+    ...info
+  } as UserInfo;
+  writeUserDataToFile();
+  return userData.info;
 }
 
-function getUserInfo(key: keyof UserInfo): Maybe<string> {
-  const info = getUserInfos();
-  return (info[key] as string) || null;
+function getUserInfo(): UserInfo {
+  return userData.info;
 }
 
 /*
 @desc User collections
  */
-function getUserCollections(): UserCollections {
-  const info = getUserInfos();
-  const { collections } = info;
-  return collections;
-}
 
 function getUserLikedVolIds(): number[] {
-  const { vols } = getUserCollections();
+  const { vols } = userData.collections;
   return vols;
 }
 
 function getUserLikedTrackIds(): number[] {
-  const { tracks } = getUserCollections();
+  const { tracks } = userData.collections;
   return tracks;
 }
 
 function getUserLikedArticleIds(): number[] {
-  const { articles } = getUserCollections();
+  const { articles } = userData.collections;
   return articles;
 }
 
 function setUserLikedVolIds(vols: number[]): void {
-  const collections = getUserCollections();
+  const { collections } = userData;
   collections.vols = vols;
-  return writeUserInfoToFile(info as UserInfo);
+  return writeUserDataToFile();
 }
 
 function setUserLikedTrackIds(tracks: number[]): void {
-  const collections = getUserCollections();
+  const { collections } = userData;
   collections.tracks = tracks;
-  return writeUserInfoToFile(info as UserInfo);
+  return writeUserDataToFile();
 }
 
 function setUserLikedArticleIds(articles: number[]): void {
-  const collections = getUserCollections();
+  const { collections } = userData;
   collections.articles = articles;
-  return writeUserInfoToFile(info as UserInfo);
+  return writeUserDataToFile();
 }
 
 /*
 @desc User settings
  */
 function setUserSetting(key: keyof UserSettings, value: boolean): void {
-  const info = getUserInfos();
-  const { settings } = info;
+  const { settings } = userData;
   settings[key] = value;
-  return writeUserInfoToFile(info);
+  return writeUserDataToFile();
 }
 
 function getUserSetting(key: keyof UserSettings): boolean {
-  const info = getUserInfos();
-  const { settings } = info;
+  const { settings } = userData;
   return !!settings[key];
 }
 
 export {
-  setUserInfo,
-  setUserInfos,
   getUserInfo,
-  getUserInfos,
-  getUserCollections,
+  setUserInfo,
   getUserLikedVolIds,
   getUserLikedTrackIds,
   getUserLikedArticleIds,
@@ -178,5 +159,5 @@ export {
   setUserLikedArticleIds,
   setUserSetting,
   getUserSetting,
-  clearUserInfos
+  clearUserInfo
 };

@@ -8,8 +8,7 @@ import { getHTMLDOM } from "../utils";
 import { baseHeaders } from "./utils";
 
 async function getCollectionHTMLDOM(url: string): Promise<Document> {
-  const session = await getUserInfo("session");
-  const lult = await getUserInfo("lult");
+  const { session, lult } = getUserInfo();
   if (!session || !lult) {
     throw new Error(`Failed to get user collection without cookies`);
   }

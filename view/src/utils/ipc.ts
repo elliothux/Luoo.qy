@@ -6,6 +6,15 @@ import {
   ArticleTrack,
   VolTrack
 } from "../types";
+import {
+  getUserInfo,
+  getUserLikedArticleIds, getUserLikedTrackIds,
+  getUserLikedVolIds,
+  getUserSetting,
+  login,
+  logout
+} from "../../../app/src/user";
+import {UserInfo, UserSettings} from "../../../app/src/types";
 
 declare global {
   interface Window {
@@ -18,6 +27,15 @@ declare global {
       requestSingles(startDate: number): Promise<Single[]>;
       requestArticles(startId: number): Promise<ArticleInfo[]>;
     };
+    user: {
+      login(mail: string, password: string): Promise<UserInfo>,
+      logout(): void,
+      getUserInfo(): UserInfo,
+      getUserSetting(key: keyof UserSettings): boolean,
+      getUserLikedVolIds(): number[],
+      getUserLikedArticleIds(): number[],
+      getUserLikedTrackIds(): number[]
+    },
     db: {
       vol: {
         count(query?: object): Promise<number>;

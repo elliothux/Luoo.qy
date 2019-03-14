@@ -87,6 +87,12 @@ export interface ArticleTrackMap {
   articleId: number;
 }
 
+export interface UserData {
+  info: UserInfo,
+  settings: UserSettings,
+  collections: UserCollections
+}
+
 export interface UserInfo {
   mail: Maybe<string>;
   password: Maybe<string>;
@@ -95,8 +101,6 @@ export interface UserInfo {
   avatar: Maybe<string>;
   session: Maybe<string>;
   lult: Maybe<string>;
-  settings: UserSettings;
-  collections: UserCollections;
 }
 
 export interface UserSettings {

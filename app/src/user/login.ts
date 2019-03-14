@@ -1,5 +1,5 @@
 import { getHeader, getJSON, RequestParams } from "../utils";
-import { clearUserInfos, getUserInfo, setUserInfos } from "./info";
+import { clearUserInfo, getUserInfo, setUserInfo } from "./info";
 import { baseHeaders } from "./utils";
 import { UserInfo } from "../types";
 
@@ -90,14 +90,14 @@ async function getUserInfoFromCGI(
 }
 
 async function login(mail: string, password: string): Promise<UserInfo> {
-  const session: Maybe<string> =
-    getUserInfo("session") || (await getSessionFromCGI());
+  const { session: iSession, lult: iLult } = getUserInfo();
+  const session: Maybe<string> = iSession || (await getSessionFromCGI());
   if (!session) {
     throw new Error(`Get session failed`);
   }
 
   const lult: Maybe<string> =
-    getUserInfo("lult") || (await getLultFromCGI(mail, password, session));
+    iLult || (await getLultFromCGI(mail, password, session));
   if (!lult) {
     throw new Error(`Get lult failed`);
   }
@@ -107,7 +107,7 @@ async function login(mail: string, password: string): Promise<UserInfo> {
     throw new Error(`Get user info failed`);
   }
 
-  return setUserInfos({
+  return setUserInfo({
     session,
     lult,
     mail,
@@ -117,7 +117,7 @@ async function login(mail: string, password: string): Promise<UserInfo> {
 }
 
 function logout(): void {
-  return clearUserInfos();
+  return clearUserInfo();
 }
 
 export { login, logout };

@@ -4,10 +4,28 @@ import * as volTrack from "../db/vol-track";
 import * as single from "../db/single";
 import * as article from "../db/article";
 import * as articleTrack from "../db/article-track";
+import {
+  login,
+  logout,
+  getUserInfo,
+  getUserSetting,
+  getUserLikedVolIds,
+  getUserLikedArticleIds,
+  getUserLikedTrackIds
+} from "../user";
 
 function injectIPC(target: object): void {
   Object.defineProperty(target, "ipc", {
     value: {
+      user: {
+        login,
+        logout,
+        getUserInfo,
+        getUserSetting,
+        getUserLikedVolIds,
+        getUserLikedArticleIds,
+        getUserLikedTrackIds
+      },
       request: {
         requestVols,
         requestSingles,
