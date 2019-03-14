@@ -18,8 +18,9 @@ function renderSingles(singles: Maybe<Single[]>) {
   if (!singles) {
     return <Loading />;
   }
-  return singles.map((single: Single, index: number) => (
+  return singles.map((single: Single) => (
     <SingleItem
+      key={single.id}
       name={single.name}
       artist={single.artist}
       cover={single.cover}
@@ -27,7 +28,7 @@ function renderSingles(singles: Maybe<Single[]>) {
       isPlaying={false}
       isLiked={false}
       onToggle={() => {}}
-      onClick={() => {}}
+      onClick={() => singleStore.setItem(single.id)}
     />
   ));
 }

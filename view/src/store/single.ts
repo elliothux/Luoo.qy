@@ -87,7 +87,7 @@ class SingleStore {
   @action
   public setItem = (id: ID) => {
     this.displayedItemId = id;
-    store.changeView(ViewTypes.SINGLES);
+    store.changeView(ViewTypes.SINGLE_INFO);
   };
 
   @action
@@ -96,9 +96,9 @@ class SingleStore {
       return;
     }
 
-    this.displayedItem = await ipc.db.single.findOne({
-      query: { id: this.displayedItemId }
-    }) as Single;
+    this.displayedItem = (await ipc.db.single.findOne({
+      id: this.displayedItemId
+    })) as Single;
   };
 }
 

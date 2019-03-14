@@ -6,6 +6,7 @@ import { Vols } from "./pages/vols";
 import { VolTypes } from "./pages/vol-types";
 import { Vol } from "./pages/vol";
 import { Singles } from "./pages/singles";
+import { Single } from "./pages/single";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
       <VolTypes />
       <Vol />
       <Singles />
+      <Single />
       <ToastContainer
         position={ToastPosition.BOTTOM_RIGHT}
         autoClose={5000}
