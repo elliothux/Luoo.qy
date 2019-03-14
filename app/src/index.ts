@@ -71,6 +71,6 @@ function launch(): void {
 try {
   launch();
 } catch (e) {
-  console.error(e);
+  console.error('App error: ', e);
   process.exit(0);
 }

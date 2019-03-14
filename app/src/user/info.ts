@@ -3,12 +3,6 @@ import * as fs from "fs";
 import { UserCollections, UserData, UserInfo, UserSettings } from "../types";
 import { isElectron, runPath, aseEncode, aseDecode } from "../utils";
 
-const infoPath = path.resolve(
-  runPath,
-  isElectron ? "./dist/user/info.json" : "./static/user/info.json"
-);
-let userData: UserData = readUserInfoFromFile();
-
 const defaultUserData: UserData = {
   info: {
     mail: null,
@@ -30,15 +24,19 @@ const defaultUserData: UserData = {
   }
 };
 const fsOptions = { encoding: "utf-8" };
-
+const infoPath = path.resolve(
+    runPath,
+    isElectron ? "./dist/user/info.json" : "./static/user/info.json"
+);
+const userData: UserData = readUserInfoFromFile();
 /*
 @desc Sync user info with config.json
  */
 function readUserInfoFromFile(): UserData {
   const data = JSON.parse(fs.readFileSync(infoPath, fsOptions)) as UserData;
-  data.info = { ...defaultUserData.info, ...data.info};
-  data.settings = { ...defaultUserData.settings, ...data.settings };
-  data.collections = { ...defaultUserData.collections, ...data.collections };
+  data.info = { ...defaultUserData.info, ...(data.info || {})};
+  data.settings = { ...defaultUserData.settings, ...(data.settings || {})};
+  data.collections = { ...defaultUserData.collections, ...(data.collections || {}) };
 
   data.info.mail = aseDecode(data.info.mail);
   data.info.password = aseDecode(data.info.password);
@@ -46,8 +44,8 @@ function readUserInfoFromFile(): UserData {
   return data;
 }
 
-function writeUserDataToFile(data: UserData = userData): void {
-  const { info } = data;
+function writeUserDataToFile(data?: UserData): void {
+  const { info } = data || userData;
 
   return fs.writeFileSync(
     infoPath,
