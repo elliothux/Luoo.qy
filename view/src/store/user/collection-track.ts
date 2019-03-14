@@ -1,20 +1,20 @@
 import { action, computed, observable, reaction } from "mobx";
 import { getIPC } from "../../utils";
 import { Pagination } from "../pagination";
-import { ViewTypes, VolInfo } from "../../types";
+import { ViewTypes, Track } from "../../types";
 import { store } from "../index";
 
 const ipc: IpcObject = getIPC();
 const PAGE_SCALE = 3 * 4;
 const PAGINATION_SCALE = 9;
 
-class CollectionVol {
+class CollectionTrack {
   /*
     @desc Init
      */
   public init = async () => {
     this.initReaction();
-    this.ids = ipc.user.getUserLikedVolIds();
+    this.ids = ipc.user.getUserLikedTrackIds();
     await this.updateFromCGI();
   };
 
@@ -48,11 +48,11 @@ class CollectionVol {
     @desc DisplayedItems
      */
   @observable
-  public displayedItems: VolInfo[] = [];
+  public displayedItems: Track[] = [];
 
   @action
   private updateDisplayedItems = async () => {
-    this.displayedItems = await ipc.db.vol.find<VolInfo>({
+    this.displayedItems = await ipc.db.vol.find<Track>({
       skip: this.pagination.start,
       limit: PAGE_SCALE,
       query: { id: { $in: this.ids } },
@@ -108,11 +108,11 @@ class CollectionVol {
   @action
   public updateFromCGI = async () => {
     this.isFetching = true;
-    this.ids = await ipc.user.fetchAndSaveLikedVols();
+    this.ids = await ipc.user.fetchAndSaveLikedTracks();
     this.isFetching = false;
   }
 }
 
-const collectionVolStore = new CollectionVol();
+const collectionTracklStore = new CollectionTrack();
 
-export { collectionVolStore };
+export { collectionTracklStore };

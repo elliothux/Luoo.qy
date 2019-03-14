@@ -11,7 +11,10 @@ import {
   getUserSetting,
   getUserLikedVolIds,
   getUserLikedArticleIds,
-  getUserLikedTrackIds
+  getUserLikedTrackIds,
+  fetchAndSaveLikedVols,
+  fetchAndSaveLikedTracks,
+  fetchAndSaveLikedArticles
 } from "../user";
 
 function injectIPC(target: object): void {

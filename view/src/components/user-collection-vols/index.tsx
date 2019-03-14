@@ -1,50 +1,47 @@
 import * as React from "react";
 import { observer } from "mobx-react";
-import {playerStore, userCollectionVolsStore, userStore} from "../../store";
+import { userStore, collectionVolStore } from "../../store";
 import { Loading } from "../loading";
 import { Empty } from "../empty";
-import { VolInfo } from "../../@types";
+import { VolInfo } from "../../types";
 import { VolItem } from "../vol-item";
+import { Pagination } from "../pagination";
 import "./index.scss";
-import {Pagination} from "../pagination";
 
-function renderVols(vols: ReadonlyArray<VolInfo>) {
-  return vols.map((vol, index) => (
+function renderVols(vols: VolInfo[]) {
+  return vols.map(vol => (
     <VolItem
-      volInfo={vol}
       key={vol.id}
-      index={index}
-      isPlaying={playerStore.isVolPlaying(vol.id)}
-      isLiked={false}
-      isInUserCollection
+      id={vol.id}
+      cover={vol.cover}
+      title={vol.title}
+      tags={vol.tags}
+      color={vol.color}
+      vol={vol.vol}
+      isPlaying={false}
+      isLiked={true}
+      onToggle={() => {}}
     />
   ));
 }
 
 function IUserCollectionVols() {
-  const { isFetching } = userStore;
-  const { likedVols, displayLikedVols} = userCollectionVolsStore;
+  const { displayedItems, isFetching, pagination } = collectionVolStore;
 
   if (isFetching) {
     return <Loading />;
   }
 
-  if (likedVols.length === 0) {
+  if (displayedItems.length === 0) {
     return <Empty />;
   }
 
-  return <div id="user-collection-vols">
-    {renderVols(displayLikedVols)}
-    <Pagination
-        pages={userCollectionVolsStore.displayVolPaginations}
-        currentPage={userCollectionVolsStore.volCurrentPage}
-        togglePage={userCollectionVolsStore.toggleVolIndex}
-        paginationCurrentIndex={userCollectionVolsStore.volPaginationCurrentIndex}
-        paginationTotalIndex={userCollectionVolsStore.volPaginationTotalIndex}
-        onNext={userCollectionVolsStore.nextVolPagination}
-        onPre={userCollectionVolsStore.preVolPagination}
-    />
-  </div>;
+  return (
+    <div id="user-collection-vols">
+      {renderVols(displayedItems)}
+      <Pagination store={pagination} />
+    </div>
+  );
 }
 
 const UserCollectionVols = observer(IUserCollectionVols);

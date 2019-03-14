@@ -26,7 +26,10 @@ declare global {
       getUserSetting(key: keyof UserSettings): boolean,
       getUserLikedVolIds(): number[],
       getUserLikedArticleIds(): number[],
-      getUserLikedTrackIds(): number[]
+      getUserLikedTrackIds(): number[],
+      fetchAndSaveLikedVols(): Promise<number[]>,
+      fetchAndSaveLikedTracks(): Promise<number[]>,
+      fetchAndSaveLikedArticles(): Promise<number[]>
     },
     db: {
       vol: {
