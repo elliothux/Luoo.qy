@@ -6,14 +6,6 @@ import {
   ArticleTrack,
   VolTrack
 } from "../types";
-import {
-  getUserInfo,
-  getUserLikedArticleIds, getUserLikedTrackIds,
-  getUserLikedVolIds,
-  getUserSetting,
-  login,
-  logout
-} from "../../../app/src/user";
 import {UserInfo, UserSettings} from "../../../app/src/types";
 
 declare global {

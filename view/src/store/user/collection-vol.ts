@@ -1,97 +1,60 @@
-import {action, computed, observable, reaction} from "mobx";
-import {getIPC} from "../utils";
-import {ViewTypes, VolInfo, VolType, VolTypeItem, VolTypesMap} from "../types";
-import {Pagination} from "./pagination";
-import {store} from "./index";
+import { action, computed, observable, reaction } from "mobx";
+import { getIPC } from "../../utils";
+import { Pagination } from "../pagination";
+import { ViewTypes, VolInfo } from "../../types";
+import { store } from "../index";
 
 const ipc: IpcObject = getIPC();
 const PAGE_SCALE = 3 * 4;
 const PAGINATION_SCALE = 9;
 
-class VolStore {
+class CollectionVol {
   /*
-  @desc Init
-   */
+    @desc Init
+     */
   public init = async () => {
     this.initReaction();
-    await this.updateTotal();
+    this.ids = ipc.user.getUserLikedVolIds();
   };
 
   private initReaction = () => {
-    // observer for total
-    reaction(() => this.type, this.updateTotal);
     // observer for vols
     reaction(() => {
       if (!this.pagination) {
         return null;
       }
       const { start } = this.pagination;
-      return [this.total, this.type, start];
+      return [this.total, start];
     }, this.updateDisplayedItems);
     // observer for vol
     reaction(() => this.displayedItemId, this.updateDisplayedItem);
   };
 
-  /*
-  @desc Pagination
-   */
   @observable
-  private total: Maybe<number> = null;
-
-  @action
-  private updateTotal = async () => {
-    this.total = await ipc.db.vol.count(
-      this.type === VolType.All
-        ? {}
-        : { tags: { $elemMatch: this.typeItem.name } }
-    );
-  };
+  private ids: ID[] = [];
 
   @computed
-  public get pagination(): Maybe<Pagination> {
-    return this.total
-      ? Pagination.from(this.total, PAGE_SCALE, PAGINATION_SCALE)
-      : null;
+  private get total(): number {
+    return this.ids.length;
+  }
+
+  @computed
+  public get pagination(): Pagination {
+    return Pagination.from(this.total, PAGE_SCALE, PAGINATION_SCALE);
   }
 
   /*
-  @desc Type
-   */
+    @desc DisplayedItems
+     */
   @observable
-  public type: VolType = VolType.All;
-
-  @computed
-  public get typeItem(): VolTypeItem {
-    return VolTypesMap.get(this.type) as VolTypeItem;
-  }
-
-  @action
-  public setType = (type: VolType) => {
-    this.type = type;
-    store.changeView(ViewTypes.VOLS);
-  };
-
-  /*
-  @desc DisplayedItems
-   */
-  @observable
-  public displayedItems: Maybe<VolInfo[]> = null;
+  public displayedItems: VolInfo[] = [];
 
   @action
   private updateDisplayedItems = async () => {
-    // this.displayedItems = null;
-
-    if (!this.pagination) {
-      return;
-    }
-
     this.displayedItems = await ipc.db.vol.find<VolInfo>({
       skip: this.pagination.start,
       limit: PAGE_SCALE,
-      query:
-        this.type === VolType.All
-          ? {}
-          : { tags: { $elemMatch: this.typeItem.name } },
+      query: { id: { $in: this.ids } },
       sort: { vol: -1 },
       projection: {
         link: 0,
@@ -105,8 +68,8 @@ class VolStore {
   };
 
   /*
-  @desc DisplayedItem
-   */
+    @desc DisplayedItem
+     */
   @observable
   private displayedItemId: Maybe<ID> = null;
 
@@ -136,6 +99,6 @@ class VolStore {
   };
 }
 
-const volStore = new VolStore();
+const collectionVolStore = new CollectionVol();
 
-export { volStore };
+export { collectionVolStore };

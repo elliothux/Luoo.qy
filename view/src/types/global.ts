@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 declare global {
-  type Maybe<T> = T | null;
+  // type Maybe<T> = T | null;
   type Callback = (...args: any[]) => any;
   type ReactNode = React.ReactChild | React.ReactFragment | React.ReactPortal | boolean | null | undefined;
   type ID = number;
@@ -127,6 +127,12 @@ export interface ElementPosition {
   left: number;
 }
 
+export interface UserData {
+  info: UserInfo,
+  settings: UserSettings,
+  collections: UserCollections
+}
+
 export interface UserInfo {
   mail: Maybe<string>;
   password: Maybe<string>;
@@ -135,8 +141,6 @@ export interface UserInfo {
   avatar: Maybe<string>;
   session: Maybe<string>;
   lult: Maybe<string>;
-  settings: UserSettings;
-  collections: UserCollections;
 }
 
 export interface UserSettings {

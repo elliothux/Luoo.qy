@@ -4,6 +4,7 @@ import { noop } from "../utils";
 import { volStore } from "./vol";
 import { singleStore } from "./single";
 import { articleStore } from "./article";
+import { userStore } from "./user";
 import { Pagination } from "./pagination";
 
 class Store {
@@ -58,4 +59,4 @@ class Store {
 
 const store = new Store();
 
-export { store, volStore, singleStore, articleStore, Pagination };
+export { store, volStore, singleStore, articleStore, userStore, Pagination };
