@@ -3,9 +3,9 @@ import { observer } from "mobx-react";
 import { UserInfo, ViewTypes } from "../../types";
 import { Login } from "../../components/login";
 import { Icon, IconTypes } from "../../components/icon";
-// import { UserCollection } from "../../components/user-collection";
-// import { UserOffline } from "../../components/user-offline";
-// import { UserRadio } from "../../components/user-radio";
+import { UserCollection } from "../../components/user-collection";
+import { UserOffline } from "../../components/user-offline";
+import { UserRadio } from "../../components/user-radio";
 import { store, userStore } from "../../store";
 import "./index.scss";
 import { Route } from "../../components/route";
@@ -93,9 +93,9 @@ class User extends React.Component {
               transform: `translateX(${this.translateX})`
             }}
           >
-            {/*<UserCollection />*/}
-            {/*<UserOffline />*/}
-            {/*<UserRadio />*/}
+            <UserCollection />
+            <UserOffline />
+            <UserRadio />
           </div>
         </div>
       </Route>

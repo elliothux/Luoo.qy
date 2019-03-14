@@ -1,0 +1,7 @@
+
+#user-collection-vol-tracks {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-column-gap: 3vw;
+  grid-row-gap: 1.5vw;
+}

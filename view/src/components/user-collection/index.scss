@@ -1,0 +1,62 @@
+@import "../../styles/helper";
+
+#user-collection {
+  width: 100vw !important;
+  padding: 0 !important;
+
+  #user-collection-container {
+    display:flex;
+    align-items:flex-start;
+    align-content:flex-start;
+    height: calc(100vh - 212px);
+    overflow-y: scroll;
+    margin-top: 24px;
+    width: 500vw;
+    @include transition;
+    transition-duration: 800ms;
+
+    & > div {
+      width: calc(100vw - 140px);
+      padding: 25px 70px 0;
+      display: inline-grid;
+      align-self: stretch;
+      overflow-x: hidden;
+      overflow-y: scroll;
+
+      .pagination {
+        margin-bottom: 88px;
+      }
+    }
+
+    #user-collection-vols .pagination {
+      grid-column: 1 / 4;
+    }
+    #user-collection-vol-tracks .pagination {
+      margin-top: 30px;
+      grid-column: 1 / 8;
+    }
+  }
+
+  #user-collection-header {
+    padding: 0 70px;
+    & > div {
+      display: inline-block;
+      background: rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      border-radius: 30px;
+      padding: 3px 12px;
+      margin-right: 16px;
+      opacity: 0.8;
+      font-size: 14px;
+      @include cursor;
+      @include transition;
+
+      &.active, &:hover {
+        opacity: 1;
+        background: rgba(0, 0, 0, 0.26);
+        border: 1px solid #ffffff;
+        transform-origin: bottom;
+      }
+    }
+  }
+}
