@@ -7,6 +7,8 @@ import { VolTypes } from "./pages/vol-types";
 import { Vol } from "./pages/vol";
 import { Singles } from "./pages/singles";
 import { Single } from "./pages/single";
+import { Articles } from "./pages/articles";
+import { Article } from "./pages/article";
 
 function App() {
   return (
@@ -18,6 +20,8 @@ function App() {
       <Vol />
       <Singles />
       <Single />
+      <Articles />
+      <Article />
       <ToastContainer
         position={ToastPosition.BOTTOM_RIGHT}
         autoClose={5000}

@@ -8,12 +8,11 @@ import { Loading } from "../../components/loading";
 import { ViewTypes, VolInfo } from "../../types";
 import "./index.scss";
 
-function renderTracks(vol: VolInfo) {
-  const { tracks } = vol;
-  if (!tracks) {
+function renderTracks(vol: Maybe<VolInfo>) {
+  if (!vol || !vol.tracks) {
     return <Loading />;
   }
-  return tracks.map(track => {
+  return vol.tracks.map(track => {
     return (
       <TrackItem
         key={track.id}

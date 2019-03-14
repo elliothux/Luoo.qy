@@ -29,6 +29,7 @@ class Vols extends React.PureComponent {
         vol={vol.vol}
         isPlaying={false}
         isLiked={false}
+        onToggle={() => {}}
       />
     ));
   };

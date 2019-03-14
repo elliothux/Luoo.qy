@@ -3,12 +3,17 @@ import { ViewTypes } from "../types";
 import { noop } from "../utils";
 import { volStore } from "./vol";
 import { singleStore } from "./single";
+import { articleStore } from "./article";
 import { Pagination } from "./pagination";
 
 class Store {
   @action
   init = async (): Promise<void> => {
-    await Promise.all([volStore.init(), singleStore.init()]);
+    await Promise.all([
+      volStore.init(),
+      singleStore.init(),
+      articleStore.init()
+    ]);
   };
 
   protected viewHistory: ViewTypes[] = [];
@@ -53,4 +58,4 @@ class Store {
 
 const store = new Store();
 
-export { store, volStore, singleStore, Pagination };
+export { store, volStore, singleStore, articleStore, Pagination };

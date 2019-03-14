@@ -3,7 +3,6 @@ import { Icon, IconTypes } from "../icon";
 import { volStore } from "../../store";
 import "./index.scss";
 
-
 export interface Props {
   id: ID;
   cover: Cover;
@@ -13,6 +12,7 @@ export interface Props {
   vol: number;
   isPlaying: boolean;
   isLiked: boolean;
+  onToggle: () => void;
 }
 
 class VolItem extends React.PureComponent<Props> {
@@ -22,7 +22,7 @@ class VolItem extends React.PureComponent<Props> {
   };
 
   public render() {
-    const { cover, title, vol, tags, color, isPlaying, isLiked } = this.props;
+    const { cover, title, vol, tags, color, isPlaying, isLiked, onToggle } = this.props;
     return (
       <div className="vol-item" onClick={this.onClick}>
         <div
@@ -44,6 +44,7 @@ class VolItem extends React.PureComponent<Props> {
             />
             <Icon
               type={isPlaying ? IconTypes.PAUSE : IconTypes.PLAY}
+              onClick={onToggle}
               preventDefault
             />
           </div>
