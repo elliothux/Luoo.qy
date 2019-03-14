@@ -5,8 +5,7 @@ import { Background } from "./components/background";
 import { Vols } from "./pages/vols";
 import { VolTypes } from "./pages/vol-types";
 import { Vol } from "./pages/vol";
-import { ViewTypes } from "./types";
-import { store } from "./store";
+import { Singles } from "./pages/singles";
 
 function App() {
   return (
@@ -16,6 +15,7 @@ function App() {
       <Vols />
       <VolTypes />
       <Vol />
+      <Singles />
       <ToastContainer
         position={ToastPosition.BOTTOM_RIGHT}
         autoClose={5000}

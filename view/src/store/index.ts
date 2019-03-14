@@ -1,12 +1,14 @@
 import { action, observable } from "mobx";
-import { volStore } from "./vol";
 import { ViewTypes } from "../types";
-import {noop} from "../utils";
+import { noop } from "../utils";
+import { volStore } from "./vol";
+import { singleStore } from "./single";
+import { Pagination } from "./pagination";
 
 class Store {
   @action
   init = async (): Promise<void> => {
-    await Promise.all([volStore.init()]);
+    await Promise.all([volStore.init(), singleStore.init()]);
   };
 
   protected viewHistory: ViewTypes[] = [];
@@ -34,22 +36,6 @@ class Store {
     if (viewType === ViewTypes.PLAYING || prevView === ViewTypes.PLAYING) {
       return callback();
     }
-
-    // const prevViewElement = document.querySelector(
-    //   `.view-${prevView}`
-    // ) as Maybe<HTMLElement>;
-    // const viewElement = document.querySelector(`.view-${viewType}`) as Maybe<
-    //   HTMLElement
-    // >;
-    // if (!prevViewElement || !viewElement) return;
-    //
-    // viewElement.className += " show";
-    // prevViewElement.className = prevViewElement.className.replace(" show", "");
-    // viewElement.style.zIndex = viewType === ViewTypes.VOLS_TYPE ? "20" : "5";
-    // setTimeout(() => {
-    //   prevViewElement.style.zIndex = "-1";
-    //   return callback();
-    // }, 500);
   };
 
   @action
@@ -67,4 +53,4 @@ class Store {
 
 const store = new Store();
 
-export { store, volStore };
+export { store, volStore, singleStore, Pagination };
