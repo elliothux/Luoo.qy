@@ -1,5 +1,5 @@
 import { action, computed, observable, reaction } from "mobx";
-import { getIPC } from "../../utils";
+import { exec, getIPC } from "../../utils";
 import { Pagination } from "../pagination";
 import { ViewTypes, VolInfo } from "../../types";
 import { store } from "../index";
@@ -9,21 +9,22 @@ const PAGE_SCALE = 3 * 4;
 const PAGINATION_SCALE = 9;
 
 class CollectionVol {
+  constructor() {
+    this.initReaction();
+  }
   /*
     @desc Init
      */
   public init = async () => {
-    this.initReaction();
     this.ids = ipc.user.getUserLikedVolIds();
-    await this.updateFromCGI();
+    if (!this.ids.length) {
+      exec(this.updateFromCGI);
+    }
   };
 
   private initReaction = () => {
     // observer for vols
     reaction(() => {
-      if (!this.pagination) {
-        return null;
-      }
       const { start } = this.pagination;
       return [this.total, start];
     }, this.updateDisplayedItems);
@@ -110,7 +111,7 @@ class CollectionVol {
     this.isFetching = true;
     this.ids = await ipc.user.fetchAndSaveLikedVols();
     this.isFetching = false;
-  }
+  };
 }
 
 const collectionVolStore = new CollectionVol();

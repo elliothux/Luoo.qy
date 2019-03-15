@@ -61,11 +61,24 @@ function promiseWrapper<T>(p: Promise<T>): PromiseResult<T> {
   });
 }
 
+function uniqueBy<T>(array: T[], getKey: (item: T) => string): T[] {
+  const map: {
+    [key: string]: T;
+  } = {};
+  array.forEach(i => {
+    const key = getKey(i);
+    if (map[key]) return;
+    map[key] = i;
+  });
+  return Object.keys(map).map(key => map[key]);
+}
+
 export {
   genRange,
   px,
   noop,
   exec,
+  uniqueBy,
   preventSyntheticEvent,
   formatPlayingTime,
   isAnyPartOfElementInViewport,

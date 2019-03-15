@@ -11,7 +11,7 @@ const defaultUserData: UserData = {
     name: null,
     avatar: null,
     session: null,
-    lult: null,
+    lult: null
   },
   settings: {
     autoUpdate: true,
@@ -25,8 +25,8 @@ const defaultUserData: UserData = {
 };
 const fsOptions = { encoding: "utf-8" };
 const infoPath = path.resolve(
-    runPath,
-    isElectron ? "./dist/user/info.json" : "./static/user/info.json"
+  runPath,
+  isElectron ? "./dist/user/info.json" : "./static/user/info.json"
 );
 const userData: UserData = readUserInfoFromFile();
 /*
@@ -34,9 +34,9 @@ const userData: UserData = readUserInfoFromFile();
  */
 function readUserInfoFromFile(): UserData {
   const data = JSON.parse(fs.readFileSync(infoPath, fsOptions)) as UserData;
-  data.info = { ...defaultUserData.info, ...(data.info || {})};
-  data.settings = { ...defaultUserData.settings, ...(data.settings || {})};
-  data.collections = { ...defaultUserData.collections, ...(data.collections || {}) };
+  data.info = { ...defaultUserData.info, ...data.info };
+  data.settings = { ...defaultUserData.settings, ...data.settings };
+  data.collections = { ...defaultUserData.collections, ...data.collections };
 
   data.info.mail = aseDecode(data.info.mail);
   data.info.password = aseDecode(data.info.password);
@@ -45,24 +45,22 @@ function readUserInfoFromFile(): UserData {
 }
 
 function writeUserDataToFile(data?: UserData): void {
-  const { info } = data || userData;
-
-  return fs.writeFileSync(
-    infoPath,
-    JSON.stringify(
-      {
-        ...data,
-        info: {
-          ...info,
-          mail: aseEncode(info.mail),
-          password: aseEncode(info.password)
-        }
-      } as UserData,
-      null,
-      4
-    ),
-    fsOptions
+  const iData = data || userData;
+  const { info } = iData;
+  const content = JSON.stringify(
+    {
+      ...iData,
+      info: {
+        ...info,
+        mail: aseEncode(info.mail),
+        password: aseEncode(info.password)
+      }
+    } as UserData,
+    null,
+    4
   );
+
+  return fs.writeFileSync(infoPath, content, fsOptions);
 }
 
 function clearUserInfo(): void {

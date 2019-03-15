@@ -9,11 +9,13 @@ const PAGE_SCALE = 3 * 4;
 const PAGINATION_SCALE = 9;
 
 class ArticleStore {
+  constructor() {
+    this.initReaction();
+  }
   /*
   @desc Init
    */
   public init = async () => {
-    this.initReaction();
     await this.updateTotal();
   };
 

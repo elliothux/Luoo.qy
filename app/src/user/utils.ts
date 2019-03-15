@@ -11,4 +11,16 @@ const baseHeaders = {
     "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36"
 };
 
-export { baseHeaders };
+function unique<T>(array: T[]): T[] {
+  const map: {
+    [key: string]: T;
+  } = {};
+  array.forEach(i => {
+    const key = String(i);
+    if (map[key]) return;
+    map[key] = i;
+  });
+  return Object.keys(map).map(key => map[key]);
+}
+
+export { baseHeaders, unique };

@@ -1,26 +1,47 @@
 import * as React from "react";
 import { observer } from "mobx-react";
-import {userCollectionVolTracksStore, userStore} from "../../store";
+import {collectionArticleStore} from "../../store";
 import { Loading } from "../loading";
 import { Empty } from "../empty";
+import {Pagination} from "../pagination";
+import {ArticleInfo} from "../../types";
+import {ArticleItem} from "../article-item";
 import "./index.scss";
 
+
+function renderArticles(articles: ArticleInfo[]) {
+  return articles.map((article: ArticleInfo) => (
+      <ArticleItem
+          key={article.id}
+          id={article.id}
+          cover={article.cover}
+          title={article.title}
+          color={article.color}
+          metaInfo={article.metaInfo}
+          isPlaying={false}
+          isLiked={false}
+          onToggle={() => {}}
+      />
+  ));
+}
+
+
 function IUserCollectionArticles() {
-  const { isFetching } = userStore;
-  const { likedVolTracks } = userCollectionVolTracksStore;
+  const { isFetching, pagination, displayedItems } = collectionArticleStore;
 
   if (isFetching) {
     return <Loading />;
   }
 
-  if (likedVolTracks.length === 0) {
+  if (displayedItems.length === 0) {
     return <Empty />;
   }
 
   return (
-    <div id="user-collection-articles">
-      <h1>VolTracks</h1>
-    </div>
+      <div id="user-collection-tracks">
+        {renderArticles(displayedItems)}
+        <Pagination store={pagination} />
+      </div>
   );
 }
 

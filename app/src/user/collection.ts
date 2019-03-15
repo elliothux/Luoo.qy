@@ -5,7 +5,7 @@ import {
   setUserLikedVolIds
 } from "./info";
 import { getHTMLDOM } from "../utils";
-import { baseHeaders } from "./utils";
+import {baseHeaders} from "./utils";
 
 async function getCollectionHTMLDOM(url: string): Promise<Document> {
   const { session, lult } = getUserInfo();

@@ -11,7 +11,7 @@
     height: calc(100vh - 212px);
     overflow-y: scroll;
     margin-top: 24px;
-    width: 500vw;
+    width: 300vw;
     @include transition;
     transition-duration: 800ms;
 
@@ -31,7 +31,7 @@
     #user-collection-vols .pagination {
       grid-column: 1 / 4;
     }
-    #user-collection-vol-tracks .pagination {
+    #user-collection-tracks .pagination {
       margin-top: 30px;
       grid-column: 1 / 8;
     }

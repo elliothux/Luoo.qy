@@ -10,7 +10,7 @@ import { Route } from "../../components/route";
 import "./index.scss";
 
 @observer
-class Vols extends React.PureComponent {
+class Vols extends React.Component {
   containerRef: RefObject<HTMLDivElement> = React.createRef();
 
   renderVols = () => {

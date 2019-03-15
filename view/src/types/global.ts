@@ -55,6 +55,7 @@ export enum PlayingMode {
 }
 
 interface ITrack {
+  id: number;
   name: string;
   artist: string;
   album: string;
@@ -82,14 +83,12 @@ interface IVolInfo {
 export type VolInfo = Readonly<IVolInfo>;
 
 interface IVolTrack extends Track {
-  id: number;
   volId: number;
   color: string;
 }
 export type VolTrack = Readonly<IVolTrack>;
 
 interface ISingle extends Track {
-  id: number;
   desc: string;
   date: number;
   recommender: string;
@@ -114,7 +113,6 @@ interface IArticleInfo {
 export type ArticleInfo = Readonly<IArticleInfo>;
 
 interface IArticleTrack extends Track {
-  id: number;
   articleId: number;
   color: string;
 }

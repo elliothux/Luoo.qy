@@ -27,7 +27,10 @@ function injectIPC(target: object): void {
         getUserSetting,
         getUserLikedVolIds,
         getUserLikedArticleIds,
-        getUserLikedTrackIds
+        getUserLikedTrackIds,
+        fetchAndSaveLikedVols,
+        fetchAndSaveLikedTracks,
+        fetchAndSaveLikedArticles
       },
       request: {
         requestVols,

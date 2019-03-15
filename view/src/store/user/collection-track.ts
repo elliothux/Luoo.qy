@@ -1,25 +1,29 @@
-import { action, computed, observable, reaction } from "mobx";
-import { getIPC } from "../../utils";
+import {action, computed, observable, reaction, toJS} from "mobx";
+import {exec, getIPC, uniqueBy} from "../../utils";
 import { Pagination } from "../pagination";
-import { ViewTypes, Track } from "../../types";
+import { ViewTypes, Track, FindOptions } from "../../types";
 import { store } from "../index";
 
 const ipc: IpcObject = getIPC();
-const PAGE_SCALE = 3 * 4;
+const PAGE_SCALE = 7 * 3;
 const PAGINATION_SCALE = 9;
 
 class CollectionTrack {
+  constructor() {
+    this.initReaction();
+  }
   /*
     @desc Init
      */
   public init = async () => {
-    this.initReaction();
     this.ids = ipc.user.getUserLikedTrackIds();
-    await this.updateFromCGI();
+    if (!this.ids.length) {
+      exec(this.updateFromCGI);
+    }
   };
 
   private initReaction = () => {
-    // observer for vols
+    // observer for tracks
     reaction(() => {
       if (!this.pagination) {
         return null;
@@ -27,7 +31,7 @@ class CollectionTrack {
       const { start } = this.pagination;
       return [this.total, start];
     }, this.updateDisplayedItems);
-    // observer for vol
+    // observer for track
     reaction(() => this.displayedItemId, this.updateDisplayedItem);
   };
 
@@ -52,20 +56,21 @@ class CollectionTrack {
 
   @action
   private updateDisplayedItems = async () => {
-    this.displayedItems = await ipc.db.vol.find<Track>({
-      skip: this.pagination.start,
-      limit: PAGE_SCALE,
-      query: { id: { $in: this.ids } },
-      sort: { vol: -1 },
-      projection: {
-        link: 0,
-        author: 0,
-        authorAvatar: 0,
-        date: 0,
-        desc: 0,
-        similarVols: 0
-      }
-    });
+    const from = this.pagination.start;
+    const to = from + PAGE_SCALE;
+    const options: FindOptions = {
+      query: { id: { $in: this.ids.slice(from, to) } },
+      sort: { id: -1 }
+    };
+    const [volTracks, singles, articleTracks] = await Promise.all([
+      ipc.db.volTrack.find<Track>(options),
+      ipc.db.single.find<Track>(options),
+      ipc.db.articleTrack.find<Track>(options)
+    ]);
+    this.displayedItems = uniqueBy<Track>(
+        [...volTracks, ...singles, ...articleTracks],
+        i => String(i.id)
+    );
   };
 
   /*
@@ -75,7 +80,7 @@ class CollectionTrack {
   private displayedItemId: Maybe<ID> = null;
 
   @observable
-  public displayedItem: Maybe<VolInfo> = null;
+  public displayedItem: Maybe<Track> = null;
 
   @action
   public setItem = (id: ID) => {
@@ -89,14 +94,9 @@ class CollectionTrack {
       return;
     }
 
-    const volInfo = (await ipc.db.vol.findOne({
-      id: this.displayedItemId
-    })) as VolInfo;
-    const tracks = await ipc.db.volTrack.find({ query: { volId: volInfo.id } });
-    this.displayedItem = {
-      ...volInfo,
-      tracks
-    } as VolInfo;
+    this.displayedItem = this.displayedItems.find(
+      i => i.id === this.displayedItemId
+    ) as Track;
   };
 
   /*
@@ -110,9 +110,9 @@ class CollectionTrack {
     this.isFetching = true;
     this.ids = await ipc.user.fetchAndSaveLikedTracks();
     this.isFetching = false;
-  }
+  };
 }
 
-const collectionTracklStore = new CollectionTrack();
+const collectionTrackStore = new CollectionTrack();
 
-export { collectionTracklStore };
+export { collectionTrackStore };

@@ -1,18 +1,14 @@
 import * as React from "react";
 import { observer } from "mobx-react";
 import { UserCollectionVols } from "../user-collection-vols";
-import { UserCollectionVolTracks } from "../user-collection-vol-tracks";
-import { UserCollectionSingles } from "../user-collection-singles";
+import { UserCollectionTracks } from "../user-collection-tracks";
 import { UserCollectionArticles } from "../user-collection-articles";
-import { UserCollectionArticleTracks } from "../user-collection-article-tracks";
 import "./index.scss";
 
 enum UserCollectionViewTypes {
   VOLS,
-  VOL_TRACKS,
-  SINGLES,
-  ARTICLES,
-  ARTICLE_TRACKS
+  TRACKS,
+  ARTICLES
 }
 
 @observer
@@ -26,14 +22,10 @@ class UserCollection extends React.Component {
     switch (view) {
       case UserCollectionViewTypes.VOLS:
         return `0%`;
-      case UserCollectionViewTypes.VOL_TRACKS:
-        return `-20%`;
-      case UserCollectionViewTypes.SINGLES:
-        return `-40%`;
+      case UserCollectionViewTypes.TRACKS:
+        return `-33.333333%`;
       case UserCollectionViewTypes.ARTICLES:
-        return `-60%`;
-      case UserCollectionViewTypes.ARTICLE_TRACKS:
-        return `-80%`;
+        return `-66.66666%`;
       default:
         throw new Error("Invalid view type");
     }
@@ -54,38 +46,16 @@ class UserCollection extends React.Component {
           期刊
         </div>
         <div
-          className={
-            view === UserCollectionViewTypes.VOL_TRACKS ? "active" : ""
-          }
-          onClick={this.changeView.bind(
-            this,
-            UserCollectionViewTypes.VOL_TRACKS
-          )}
+          className={view === UserCollectionViewTypes.TRACKS ? "active" : ""}
+          onClick={this.changeView.bind(this, UserCollectionViewTypes.TRACKS)}
         >
-          期刊曲目
-        </div>
-        <div
-          className={view === UserCollectionViewTypes.SINGLES ? "active" : ""}
-          onClick={this.changeView.bind(this, UserCollectionViewTypes.SINGLES)}
-        >
-          单曲
+          曲目
         </div>
         <div
           className={view === UserCollectionViewTypes.ARTICLES ? "active" : ""}
           onClick={this.changeView.bind(this, UserCollectionViewTypes.ARTICLES)}
         >
           专栏
-        </div>
-        <div
-          className={
-            view === UserCollectionViewTypes.ARTICLE_TRACKS ? "active" : ""
-          }
-          onClick={this.changeView.bind(
-            this,
-            UserCollectionViewTypes.ARTICLE_TRACKS
-          )}
-        >
-          专栏曲目
         </div>
       </div>
     );
@@ -100,10 +70,8 @@ class UserCollection extends React.Component {
         }}
       >
         <UserCollectionVols />
-        <UserCollectionVolTracks />
-        <UserCollectionSingles />
+        <UserCollectionTracks />
         <UserCollectionArticles />
-        <UserCollectionArticleTracks />
       </div>
     );
   };

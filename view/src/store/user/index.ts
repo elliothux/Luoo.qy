@@ -1,8 +1,10 @@
 import { action, computed, observable } from "mobx";
 import { toast } from "react-toastify";
 import { UserInfo } from "../../types";
-import { getIPC } from "../../utils";
+import {exec, getIPC} from "../../utils";
 import { collectionVolStore } from "./collection-vol";
+import { collectionTrackStore } from "./collection-track";
+import { collectionArticleStore } from "./collection-article";
 
 const ipc: IpcObject = getIPC();
 
@@ -19,8 +21,12 @@ class UserStore {
   };
 
   @action
-  private initCollection = async () => {
-    await Promise.all([collectionVolStore.init()]);
+  private initCollection = () => {
+    return Promise.all([
+      collectionVolStore.init(),
+      collectionTrackStore.init(),
+      collectionArticleStore.init()
+    ]);
   };
 
   @observable
@@ -34,4 +40,9 @@ class UserStore {
 
 const userStore = new UserStore();
 
-export { userStore, collectionVolStore };
+export {
+  userStore,
+  collectionVolStore,
+  collectionTrackStore,
+  collectionArticleStore
+};

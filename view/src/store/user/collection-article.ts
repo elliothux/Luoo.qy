@@ -1,25 +1,29 @@
 import { action, computed, observable, reaction } from "mobx";
-import { getIPC } from "../../utils";
+import {exec, getIPC} from "../../utils";
 import { Pagination } from "../pagination";
-import { ViewTypes, VolInfo } from "../../types";
+import {ArticleInfo, ViewTypes} from "../../types";
 import { store } from "../index";
 
 const ipc: IpcObject = getIPC();
 const PAGE_SCALE = 3 * 4;
 const PAGINATION_SCALE = 9;
 
-class CollectionVol {
+class CollectionArticle {
+  constructor() {
+    this.initReaction();
+  }
   /*
     @desc Init
      */
   public init = async () => {
-    this.initReaction();
-    this.ids = ipc.user.getUserLikedVolIds();
-    await this.updateFromCGI();
+    this.ids = ipc.user.getUserLikedArticleIds();
+    if (!this.ids.length) {
+      exec(this.updateFromCGI);
+    }
   };
 
   private initReaction = () => {
-    // observer for vols
+    // observer for articles
     reaction(() => {
       if (!this.pagination) {
         return null;
@@ -27,7 +31,7 @@ class CollectionVol {
       const { start } = this.pagination;
       return [this.total, start];
     }, this.updateDisplayedItems);
-    // observer for vol
+    // observer for article
     reaction(() => this.displayedItemId, this.updateDisplayedItem);
   };
 
@@ -48,22 +52,21 @@ class CollectionVol {
     @desc DisplayedItems
      */
   @observable
-  public displayedItems: VolInfo[] = [];
+  public displayedItems: ArticleInfo[] = [];
 
   @action
   private updateDisplayedItems = async () => {
-    this.displayedItems = await ipc.db.vol.find<VolInfo>({
+    this.displayedItems = await ipc.db.article.find<ArticleInfo>({
       skip: this.pagination.start,
       limit: PAGE_SCALE,
       query: { id: { $in: this.ids } },
-      sort: { vol: -1 },
+      sort: { id: -1 },
       projection: {
-        link: 0,
+        url: 0,
+        desc: 0,
         author: 0,
         authorAvatar: 0,
         date: 0,
-        desc: 0,
-        similarVols: 0
       }
     });
   };
@@ -75,7 +78,7 @@ class CollectionVol {
   private displayedItemId: Maybe<ID> = null;
 
   @observable
-  public displayedItem: Maybe<VolInfo> = null;
+  public displayedItem: Maybe<ArticleInfo> = null;
 
   @action
   public setItem = (id: ID) => {
@@ -89,14 +92,14 @@ class CollectionVol {
       return;
     }
 
-    const volInfo = (await ipc.db.vol.findOne({
+    const articleInfo = (await ipc.db.article.findOne({
       id: this.displayedItemId
-    })) as VolInfo;
-    const tracks = await ipc.db.volTrack.find({ query: { volId: volInfo.id } });
+    })) as ArticleInfo;
+    const tracks = await ipc.db.articleTrack.find({ query: { articleId: articleInfo.id } });
     this.displayedItem = {
-      ...volInfo,
+      ...articleInfo,
       tracks
-    } as VolInfo;
+    } as ArticleInfo;
   };
 
   /*
@@ -113,6 +116,6 @@ class CollectionVol {
   }
 }
 
-const collectionVolStore = new CollectionVol();
+const collectionArticleStore = new CollectionArticle();
 
-export { collectionVolStore };
+export { collectionArticleStore };

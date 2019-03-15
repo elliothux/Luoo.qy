@@ -4,7 +4,7 @@ import { noop } from "../utils";
 import { volStore } from "./vol";
 import { singleStore } from "./single";
 import { articleStore } from "./article";
-import { userStore, collectionVolStore } from "./user";
+import { userStore, collectionVolStore, collectionTrackStore, collectionArticleStore } from "./user";
 import { Pagination } from "./pagination";
 
 class Store {
@@ -13,7 +13,8 @@ class Store {
     await Promise.all([
       volStore.init(),
       singleStore.init(),
-      articleStore.init()
+      articleStore.init(),
+      userStore.init()
     ]);
   };
 
@@ -66,5 +67,7 @@ export {
   articleStore,
   userStore,
   collectionVolStore,
+  collectionTrackStore,
+  collectionArticleStore,
   Pagination
 };
