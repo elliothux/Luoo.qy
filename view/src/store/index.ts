@@ -12,6 +12,8 @@ import {
 } from "./user";
 import { Pagination } from "./pagination";
 
+type ChangeViewListener = (view?: ViewTypes, preView?: ViewTypes) => void;
+
 class Store {
   @action
   init = async (): Promise<void> => {
@@ -40,7 +42,7 @@ class Store {
 
     const prevView = this.view;
     this.view = viewType;
-    events.emit(EventTypes.ChangeView, viewType, prevView);
+    this.changeViewListeners.forEach(callback => callback(viewType, prevView));
 
     if (!isBack && prevView !== ViewTypes.PLAYING) {
       this.viewHistory.push(prevView);
@@ -60,11 +62,11 @@ class Store {
     this.changeView(prevView, true, callback);
   };
 
-  public onChangeView = (
-    callback: (view?: ViewTypes, preView?: ViewTypes) => void
-  ) => {
-    events.on(EventTypes.ChangeView, callback);
+  public onChangeView = (callback: ChangeViewListener) => {
+    this.changeViewListeners.push(callback);
   };
+
+  private changeViewListeners: ChangeViewListener[] = [];
 
   /*
   @desc Background

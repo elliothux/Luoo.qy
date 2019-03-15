@@ -36,11 +36,6 @@ function renderArticles(articles: Maybe<ArticleInfo[]>) {
   ));
 }
 
-function renderPagination(pagination: Maybe<PaginationStore>) {
-  if (!pagination) return null;
-  return <Pagination store={pagination} />;
-}
-
 function IArticles() {
   const { displayedItems, pagination } = articleStore;
   return (
@@ -51,7 +46,7 @@ function IArticles() {
       getRef={getArticlesRef}
     >
       {renderArticles(displayedItems)}
-      {renderPagination(pagination)}
+      <Pagination store={pagination} />
     </Route>
   );
 }

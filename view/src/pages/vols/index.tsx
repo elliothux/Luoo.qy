@@ -34,12 +34,6 @@ class Vols extends React.Component {
     ));
   };
 
-  renderPagination = () => {
-    const { pagination } = volStore;
-    if (!pagination) return null;
-    return <Pagination store={pagination} />;
-  };
-
   render() {
     return (
       <Route
@@ -49,7 +43,7 @@ class Vols extends React.Component {
         getRef={this.containerRef}
       >
         {this.renderVols()}
-        {this.renderPagination()}
+        <Pagination store={volStore.pagination} />
       </Route>
     );
   }

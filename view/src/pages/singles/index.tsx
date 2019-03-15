@@ -33,11 +33,6 @@ function renderSingles(singles: Maybe<Single[]>) {
   ));
 }
 
-function renderPagination(pagination: Maybe<PaginationStore>) {
-  if (!pagination) return null;
-  return <Pagination store={pagination} />;
-}
-
 function ISingles() {
   const { displayedItems, pagination } = singleStore;
   return (
@@ -48,7 +43,7 @@ function ISingles() {
       getRef={getSinglesRef}
     >
       {renderSingles(displayedItems)}
-      {renderPagination(pagination)}
+      <Pagination store={pagination} />
     </Route>
   );
 }

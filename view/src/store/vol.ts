@@ -50,10 +50,8 @@ class VolStore {
   };
 
   @computed
-  public get pagination(): Maybe<Pagination> {
-    return this.total
-      ? Pagination.from(this.total, PAGE_SCALE, PAGINATION_SCALE)
-      : null;
+  public get pagination(): Pagination {
+    return Pagination.from(this.total || 0, PAGE_SCALE, PAGINATION_SCALE)
   }
 
   /*

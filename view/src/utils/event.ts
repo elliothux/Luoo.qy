@@ -53,7 +53,6 @@ class EventProxy {
 const events = new EventProxy();
 
 export enum EventTypes {
-  ChangeView
 }
 
 export { EventProxy, events };
