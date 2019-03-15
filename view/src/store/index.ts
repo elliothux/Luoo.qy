@@ -54,8 +54,16 @@ class Store {
     this.changeView(prevView, true, callback);
   };
 
+  /*
+  @desc Background
+   */
   @observable
-  backgroundImage: string = require("../static/fake-bg.jpg");
+  public backgroundImage: string = require("../static/fake-bg.jpg");
+
+  @action
+  public setBackgroundImage = (src: string) => {
+    this.backgroundImage = src;
+  }
 }
 
 const store = new Store();

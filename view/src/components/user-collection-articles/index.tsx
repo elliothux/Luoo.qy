@@ -38,7 +38,7 @@ function IUserCollectionArticles() {
   }
 
   return (
-      <div id="user-collection-tracks">
+      <div id="user-collection-articles">
         {renderArticles(displayedItems)}
         <Pagination store={pagination} />
       </div>

@@ -33,6 +33,9 @@ function ISingle() {
       </Route>
     );
   }
+  if (store.view === ViewTypes.SINGLE_INFO) {
+    store.setBackgroundImage(single.cover);
+  }
 
   return (
     <Route currentView={store.view} view={ViewTypes.SINGLE_INFO} id="single">
@@ -48,23 +51,7 @@ function ISingle() {
         <p id="single-info-name">
           {single.name}
           <Icon type={IconTypes.LIKE} />
-          <Icon
-              preventDefault
-              type={IconTypes.PLAY}
-          />
-          {/*{playerStore.isSinglePlaying(single.id) ? (*/}
-            {/*<Icon*/}
-              {/*preventDefault*/}
-              {/*type={IconTypes.PAUSE}*/}
-              {/*onClick={playerStore.pause}*/}
-            {/*/>*/}
-          {/*) : (*/}
-            {/*<Icon*/}
-              {/*preventDefault*/}
-              {/*type={IconTypes.PLAY}*/}
-              {/*onClick={() => playerStore.playSingle(single.id)}*/}
-            {/*/>*/}
-          {/*)}*/}
+          <Icon preventDefault type={IconTypes.PLAY} />
         </p>
         <p id="single-info-artist">{single.artist}</p>
         <div

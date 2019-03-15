@@ -1,11 +1,11 @@
 import * as React from "react";
-import { observer } from "mobx-react";
-import { articleStore, store } from "../../store";
-import { Icon, IconTypes } from "../../components/icon";
-import { ArticleInfo, ViewTypes } from "../../types";
-import { Route } from "../../components/route";
-import { Loading } from "../../components/loading";
-import { TrackItem } from "../../components/track-item";
+import {observer} from "mobx-react";
+import {articleStore, store} from "../../store";
+import {Icon, IconTypes} from "../../components/icon";
+import {ArticleInfo, ViewTypes} from "../../types";
+import {Route} from "../../components/route";
+import {Loading} from "../../components/loading";
+import {TrackItem} from "../../components/track-item";
 import "./index.scss";
 
 function renderTracks(article: Maybe<ArticleInfo>) {
@@ -31,7 +31,21 @@ function renderTracks(article: Maybe<ArticleInfo>) {
 
 function IArticle() {
   const { displayedItem: article } = articleStore;
-  if (!article) return null;
+  if (!article) {
+    return (
+      <Route
+        currentView={store.view}
+        view={ViewTypes.ARTICLE_INFO}
+        id="article"
+      >
+        <Loading />
+      </Route>
+    );
+  }
+  if (store.view === ViewTypes.ARTICLE_INFO) {
+      store.setBackgroundImage(article.cover);
+  }
+
   return (
     <Route currentView={store.view} view={ViewTypes.ARTICLE_INFO} id="article">
       <div

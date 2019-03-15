@@ -39,6 +39,9 @@ function IVol() {
       </Route>
     );
   }
+  if (store.view === ViewTypes.VOL_INFO) {
+    store.setBackgroundImage(vol.cover);
+  }
 
   return (
     <Route currentView={store.view} view={ViewTypes.VOL_INFO} id="vol">
@@ -62,13 +65,6 @@ function IVol() {
           {vol.vol}
           <Icon type={IconTypes.LIKE} />
           <Icon type={IconTypes.PLAY} />
-          {/*{playerStore.isVolPlaying(vol.id) ? (*/}
-          {/*<Icon type={IconTypes.PAUSE} />*/}
-          {/*) : (*/}
-          {/*<Icon*/}
-          {/*type={IconTypes.PLAY}*/}
-          {/*/>*/}
-          {/*)}*/}
         </p>
         <p id="vol-info-title">{vol.title}</p>
         <div

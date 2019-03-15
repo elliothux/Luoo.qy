@@ -4,4 +4,9 @@
   grid-template-columns: repeat(7, 1fr);
   grid-column-gap: 3vw;
   grid-row-gap: 1.5vw;
+
+  .pagination {
+    margin-top: 30px;
+    grid-column: 1 / 8;
+  }
 }
