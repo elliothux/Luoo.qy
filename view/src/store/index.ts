@@ -1,10 +1,15 @@
 import { action, observable } from "mobx";
 import { ViewTypes } from "../types";
-import { noop } from "../utils";
+import { events, EventTypes, noop } from "../utils";
 import { volStore } from "./vol";
 import { singleStore } from "./single";
 import { articleStore } from "./article";
-import { userStore, collectionVolStore, collectionTrackStore, collectionArticleStore } from "./user";
+import {
+  collectionArticleStore,
+  collectionTrackStore,
+  collectionVolStore,
+  userStore
+} from "./user";
 import { Pagination } from "./pagination";
 
 class Store {
@@ -35,6 +40,7 @@ class Store {
 
     const prevView = this.view;
     this.view = viewType;
+    events.emit(EventTypes.ChangeView, viewType, prevView);
 
     if (!isBack && prevView !== ViewTypes.PLAYING) {
       this.viewHistory.push(prevView);
@@ -54,6 +60,12 @@ class Store {
     this.changeView(prevView, true, callback);
   };
 
+  public onChangeView = (
+    callback: (view?: ViewTypes, preView?: ViewTypes) => void
+  ) => {
+    events.on(EventTypes.ChangeView, callback);
+  };
+
   /*
   @desc Background
    */
@@ -63,7 +75,7 @@ class Store {
   @action
   public setBackgroundImage = (src: string) => {
     this.backgroundImage = src;
-  }
+  };
 }
 
 const store = new Store();

@@ -1,12 +1,15 @@
 import * as React from "react";
-import {observer} from "mobx-react";
-import {articleStore, store} from "../../store";
-import {Icon, IconTypes} from "../../components/icon";
-import {ArticleInfo, ViewTypes} from "../../types";
-import {Route} from "../../components/route";
-import {Loading} from "../../components/loading";
-import {TrackItem} from "../../components/track-item";
+import { observer } from "mobx-react";
+import { articleStore, store } from "../../store";
+import { Icon, IconTypes } from "../../components/icon";
+import { ArticleInfo, ViewTypes } from "../../types";
+import { Route } from "../../components/route";
+import { Loading } from "../../components/loading";
+import { TrackItem } from "../../components/track-item";
 import "./index.scss";
+
+let infoRef: Maybe<HTMLDivElement> = null;
+let tracksRef: Maybe<HTMLDivElement> = null;
 
 function renderTracks(article: Maybe<ArticleInfo>) {
   if (!article || !article.tracks) {
@@ -43,7 +46,7 @@ function IArticle() {
     );
   }
   if (store.view === ViewTypes.ARTICLE_INFO) {
-      store.setBackgroundImage(article.cover);
+    store.setBackgroundImage(article.cover);
   }
 
   return (
@@ -57,7 +60,7 @@ function IArticle() {
 
       <div id="article-bg-mask" />
 
-      <div id="article-info">
+      <div id="article-info" ref={i => (infoRef = i)}>
         <p id="article-info-title">
           {article.title}
           <Icon type={IconTypes.LIKE} />
@@ -77,10 +80,19 @@ function IArticle() {
         </div>
       </div>
 
-      <div id="article-tracks">{renderTracks(article)}</div>
+      <div id="article-tracks" ref={i => (tracksRef = i)}>
+        {renderTracks(article)}
+      </div>
     </Route>
   );
 }
+
+store.onChangeView(view => {
+  if (infoRef && tracksRef && view === ViewTypes.ARTICLE_INFO) {
+    infoRef.scroll(0, 0);
+    tracksRef.scroll(0, 0);
+  }
+});
 
 const Article = observer(IArticle);
 

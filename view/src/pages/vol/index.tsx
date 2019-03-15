@@ -8,6 +8,9 @@ import { Loading } from "../../components/loading";
 import { ViewTypes, VolInfo } from "../../types";
 import "./index.scss";
 
+let infoRef: Maybe<HTMLDivElement> = null;
+let tracksRef: Maybe<HTMLDivElement> = null;
+
 function renderTracks(vol: Maybe<VolInfo>) {
   if (!vol || !vol.tracks) {
     return <Loading />;
@@ -54,7 +57,7 @@ function IVol() {
 
       <div id="vol-bg-mask" />
 
-      <div id="vol-info">
+      <div id="vol-info" ref={i => (infoRef = i)}>
         <div id="vol-info-tags">
           {vol.tags.map(t => (
             <span key={t}>#{t}</span>
@@ -80,10 +83,19 @@ function IVol() {
         </div>
       </div>
 
-      <div id="vol-tracks">{renderTracks(vol)}</div>
+      <div id="vol-tracks" ref={i => (tracksRef = i)}>
+        {renderTracks(vol)}
+      </div>
     </Route>
   );
 }
+
+store.onChangeView((view) => {
+  if (infoRef && tracksRef && view === ViewTypes.VOL_INFO) {
+    infoRef.scroll(0, 0);
+    tracksRef.scroll(0, 0);
+  }
+});
 
 const Vol = observer(IVol);
 
