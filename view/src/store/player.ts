@@ -7,9 +7,9 @@ const audio: HTMLAudioElement = new Audio();
 
 class PlayerStore {
   @action
-  public init = async () => {
-    this.initReaction();
+  public init = () => {
     this.initAudio();
+    this.initReaction();
   };
 
   @action
@@ -26,6 +26,7 @@ class PlayerStore {
       return this.setTotalTime(audio.duration);
     });
     audio.addEventListener("timeupdate", () => {
+      debugger;
       return this.setPlayedTime(audio.currentTime);
     });
     audio.addEventListener("ended", () => {
@@ -34,13 +35,7 @@ class PlayerStore {
   };
 
   private initReaction = () => {
-    reaction(
-      () => (this.playingTrack ? this.playingTrack.url : null),
-      () => {
-        this.setPlayedTime(0);
-        return this.changeAudio();
-      }
-    );
+
   };
 
   /*
@@ -78,6 +73,7 @@ class PlayerStore {
     if (!id) {
       this.playingTrack = null;
     }
+
     const query = { id };
     switch (this.playingType) {
       case PlayingTypes.VOL:
@@ -87,7 +83,7 @@ class PlayerStore {
           ...track,
           type: TrackType.VOL_TRACK
         } as Track;
-        return;
+        break;
       }
       case PlayingTypes.ARTICLE:
       case PlayingTypes.COLLECTION_ARTICLE: {
@@ -96,7 +92,7 @@ class PlayerStore {
           ...track,
           type: TrackType.ARTICLE_TRACK
         } as Track;
-        return;
+        break;
       }
       case PlayingTypes.SINGLE: {
         const track = await ipc.db.single.findOne(query);
@@ -104,7 +100,7 @@ class PlayerStore {
           ...track,
           type: TrackType.SINGLE
         } as Track;
-        return;
+        break;
       }
       case PlayingTypes.COLLECTION_TRACK: {
         const [volTrack, single, articleTrack] = await Promise.all([
@@ -130,12 +126,15 @@ class PlayerStore {
         } else {
           throw new Error(`Cannot found track id${id}`);
         }
-        return;
+        break;
       }
       default: {
         throw new Error(`Invalid playing-type`);
       }
     }
+
+    this.setPlayedTime(0);
+    return this.updateAudio();
   };
 
   @action
@@ -200,7 +199,7 @@ class PlayerStore {
   /*
   * @desc Control
    */
-  private changeAudio = () => {
+  private updateAudio = () => {
     if (!this.playingTrack) {
       return;
     }
@@ -235,21 +234,23 @@ class PlayerStore {
   };
 
   @action
-  public next = () => {
+  public next = async () => {
     const index =
       this.playingIndex + 1 === this.playingIds.length
         ? 0
         : this.playingIndex + 1;
-    return this.setPlayingIndex(index);
+    await this.setPlayingIndex(index);
+    return this.play();
   };
 
   @action
-  public pre = () => {
+  public pre = async () => {
     const index = (this.playingIndex =
       this.playingIndex === 0
         ? this.playingIds.length - 1
         : this.playingIndex - 1);
-    return this.setPlayingIndex(index);
+    await this.setPlayingIndex(index);
+    return this.play();
   };
   /*
     * @desc Lyric

@@ -22,8 +22,9 @@ class Store {
       volStore.init(),
       singleStore.init(),
       articleStore.init(),
-      userStore.init()
+      userStore.init(),
     ]);
+    playerStore.init();
   };
 
   protected viewHistory: ViewTypes[] = [];
