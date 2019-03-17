@@ -2,11 +2,11 @@ import * as React from "react";
 import { observer } from "mobx-react";
 import classnames from "classnames";
 import { playerStore, store } from "../../store";
-import { Icon, IconTypes } from "../../components/icon";
-import { SoundWave } from "../../components/sound-wave";
-import { ViewTypes, PlayingStatus } from "../../types";
+import { Icon, IconTypes } from "../icon";
+import { SoundWave } from "../sound-wave";
+import { Loading } from "../loading";
+import { PlayingStatus } from "../../types";
 import "./index.scss";
-import { Loading } from "../../components/loading";
 
 function IPlayer() {
   const {
@@ -15,26 +15,28 @@ function IPlayer() {
     playingProgress,
     playingStatus,
     playingTrack,
-    playingLyrics
+    playingLyrics,
+      showPlayer
   } = playerStore;
 
   if (!playingTrack) {
-    return <Loading />;
+    return (
+        <div
+            id="player"
+            className={showPlayer ? 'show' : ''}
+        >
+          <Loading />
+        </div>
+    );
   }
 
   const { cover, name, artist, album } = playingTrack;
-  const isPlayingView = store.view === ViewTypes.PLAYING;
   const isPlaying = playingStatus === PlayingStatus.PLAYING;
 
   return (
     <div
       id="player"
-      className={
-        `view-${ViewTypes.PLAYING} ` +
-        classnames({
-          show: store.view === ViewTypes.PLAYING
-        })
-      }
+      className={showPlayer ? 'show' : ''}
     >
       <div id="player-left-block">
         <div
@@ -81,7 +83,7 @@ function IPlayer() {
             id="player-lyric"
             className={classnames({
               "with-lyric": true,
-              hide: !isPlayingView
+              hide: !showPlayer
             })}
           >
             <p>{playingLyrics[0]}</p>
@@ -100,7 +102,7 @@ function IPlayer() {
       </div>
 
       <div id="player-bg">
-        <SoundWave isActive={isPlaying} show={isPlayingView} />
+        <SoundWave isActive={isPlaying} show={showPlayer} />
         <div
           id="player-bg-image"
           style={{

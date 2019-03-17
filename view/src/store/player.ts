@@ -1,12 +1,6 @@
-import { action, computed, observable, reaction } from "mobx";
-import { formatPlayingTime, getIPC, LrcLine, LyricParser } from "../utils";
-import {
-  PlayingMode,
-  PlayingStatus,
-  PlayingTypes,
-  Track,
-  TrackType
-} from "../types";
+import {action, computed, observable, reaction} from "mobx";
+import {formatPlayingTime, getIPC, LrcLine, LyricParser} from "../utils";
+import {PlayingMode, PlayingStatus, PlayingTypes, Track, TrackType} from "../types";
 
 const ipc = getIPC();
 const audio: HTMLAudioElement = new Audio();
@@ -14,8 +8,8 @@ const audio: HTMLAudioElement = new Audio();
 class PlayerStore {
   @action
   public init = async () => {
-    this.initAudio();
     this.initReaction();
+    this.initAudio();
   };
 
   @action
@@ -41,16 +35,23 @@ class PlayerStore {
 
   private initReaction = () => {
     reaction(
-      () => [this.playingIndex, this.playingIds],
-      this.updatePlayingInfo
-    );
-    reaction(
       () => (this.playingTrack ? this.playingTrack.url : null),
       () => {
         this.setPlayedTime(0);
         return this.changeAudio();
       }
     );
+  };
+
+  /*
+  @desc player view
+   */
+  @observable
+  public showPlayer: boolean = false;
+
+  @action
+  public toggleShowPlayer = (show?: boolean) => {
+    this.showPlayer = typeof show === "boolean" ? show : !this.showPlayer;
   };
 
   /*
@@ -61,6 +62,12 @@ class PlayerStore {
 
   @observable
   private playingIndex: number = 0;
+
+  @action
+  private setPlayingIndex(index: number) {
+    this.playingIndex = index;
+    return this.updatePlayingInfo();
+  }
 
   @observable
   public playingTrack: Maybe<Track> = null;
@@ -134,8 +141,9 @@ class PlayerStore {
   @action
   public setPlayingIds = (ids: number[], currentId: Maybe<number>) => {
     this.playingIds = ids;
-    this.playingIndex =
-      typeof currentId === "number" ? ids.findIndex(i => i === currentId) : 0;
+    return this.setPlayingIndex(
+      typeof currentId === "number" ? ids.findIndex(i => i === currentId) : 0
+    );
   };
 
   @observable
@@ -183,7 +191,7 @@ class PlayerStore {
   }
 
   public isPlaying(id: ID): boolean {
-    if (!this.playingTrack) {
+    if (!this.playingTrack || this.playingStatus !== PlayingStatus.PLAYING) {
       return false;
     }
     return this.playingTrack.id === id;
@@ -228,18 +236,20 @@ class PlayerStore {
 
   @action
   public next = () => {
-    this.playingIndex =
+    const index =
       this.playingIndex + 1 === this.playingIds.length
         ? 0
         : this.playingIndex + 1;
+    return this.setPlayingIndex(index);
   };
 
   @action
   public pre = () => {
-    this.playingIndex =
+    const index = (this.playingIndex =
       this.playingIndex === 0
         ? this.playingIds.length - 1
-        : this.playingIndex - 1;
+        : this.playingIndex - 1);
+    return this.setPlayingIndex(index);
   };
   /*
     * @desc Lyric

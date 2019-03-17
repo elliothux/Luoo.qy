@@ -19,8 +19,7 @@ function IMiniPlayer() {
     ViewTypes.VOL_INFO,
     ViewTypes.SINGLE_INFO,
     ViewTypes.ARTICLE_INFO,
-    ViewTypes.PLAYING
-  ].includes(view);
+  ].includes(view) || playerStore.showPlayer;
 
   if (show) {
     return (
@@ -33,7 +32,7 @@ function IMiniPlayer() {
         <div
           id="mini-player-cover"
           style={{ backgroundImage: `url(${info.cover})` }}
-          onClick={() => store.changeView(ViewTypes.PLAYING)}
+          onClick={() => playerStore.toggleShowPlayer(true)}
         >
           <Icon type={IconTypes.EXPAND} />
         </div>
@@ -74,7 +73,7 @@ function IMiniPlayer() {
     <div id="mini-player-collapsed">
       <Icon
         type={IconTypes.WAVE}
-        onClick={() => store.changeView(ViewTypes.PLAYING)}
+        onClick={() => playerStore.toggleShowPlayer(true)}
       />
     </div>
   );

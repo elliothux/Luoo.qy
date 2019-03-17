@@ -1,6 +1,6 @@
 import * as React from "react";
 import { observer } from "mobx-react";
-import { store, volStore } from "../../store";
+import {collectionTrackStore, playerStore, store, volStore} from "../../store";
 import { Icon, IconTypes } from "../../components/icon";
 import { TrackItem } from "../../components/track-item";
 import { Route } from "../../components/route";
@@ -15,18 +15,29 @@ function renderTracks(vol: Maybe<VolInfo>) {
   if (!vol || !vol.tracks) {
     return <Loading />;
   }
+  const ids = vol.tracks.map(i => i.id);
   return vol.tracks.map(track => {
+    const { id, name, artist, album, cover } = track;
+    const isPlaying = playerStore.isPlaying(id);
+    const play = async () => {
+      await playerStore.setPlayingIds(ids, id);
+      return playerStore.play();
+    };
+    const onClick = () => {
+      playerStore.toggleShowPlayer(true);
+      return play();
+    };
     return (
       <TrackItem
-        key={track.id}
-        name={track.name}
-        artist={track.artist}
-        album={track.album}
-        cover={track.cover}
-        isPlaying={false}
-        isLiked={false}
-        onToggle={() => {}}
-        onClick={() => {}}
+        key={id}
+        name={name}
+        artist={artist}
+        album={album}
+        cover={cover}
+        isPlaying={isPlaying}
+        isLiked={collectionTrackStore.isLiked(id)}
+        onToggle={isPlaying ? playerStore.pause : play}
+        onClick={onClick}
       />
     );
   });

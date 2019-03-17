@@ -48,6 +48,10 @@ class CollectionTrack {
     return Pagination.from(this.total, PAGE_SCALE, PAGINATION_SCALE);
   }
 
+  public isLiked = (id: ID): boolean => {
+    return this.ids.includes(id);
+  };
+
   /*
     @desc DisplayedItems
      */

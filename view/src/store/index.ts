@@ -32,35 +32,39 @@ class Store {
   public view: ViewTypes = ViewTypes.VOLS;
 
   @action
-  public changeView = (
-    viewType: ViewTypes,
-    isBack: boolean = false,
-    callback: Callback = noop
-  ) => {
+  public changeView = (viewType: ViewTypes, isBack: boolean = false) => {
+    if (playerStore.showPlayer) {
+      playerStore.toggleShowPlayer(false);
+      setTimeout(() => {
+        this.changeView(viewType, isBack);
+      }, 500);
+      return;
+    }
+
     if (viewType === this.view) {
-      return callback();
+      return;
     }
 
     const prevView = this.view;
     this.view = viewType;
     this.changeViewListeners.forEach(callback => callback(viewType, prevView));
 
-    if (!isBack && prevView !== ViewTypes.PLAYING) {
+    if (!isBack) {
       this.viewHistory.push(prevView);
-    }
-
-    if (viewType === ViewTypes.PLAYING || prevView === ViewTypes.PLAYING) {
-      return callback();
     }
   };
 
   @action
-  public backView = (callback?: Callback) => {
+  public backView = () => {
+    if (playerStore.showPlayer) {
+      return playerStore.toggleShowPlayer(false);
+    }
+
     const prevView = this.viewHistory.pop();
     if (prevView === undefined) {
       throw new Error("Invalid previous view");
     }
-    this.changeView(prevView, true, callback);
+    this.changeView(prevView, true);
   };
 
   public onChangeView = (callback: ChangeViewListener) => {

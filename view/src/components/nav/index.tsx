@@ -1,7 +1,7 @@
 import * as React from "react";
 import { observer } from "mobx-react";
 import classnames from "classnames";
-import { store, volStore } from "../../store";
+import { playerStore, store, volStore } from "../../store";
 import { Icon, IconTypes } from "../icon";
 import { ViewTypes, VolType } from "../../types";
 import LOGO from "../../static/logo.png";
@@ -16,30 +16,18 @@ function goVolTypes() {
 }
 
 function goVols() {
-  if (store.view === ViewTypes.PLAYING) {
-    store.backView(goVols);
-  }
   store.changeView(ViewTypes.VOLS);
 }
 
 function goSingles() {
-  if (store.view === ViewTypes.PLAYING) {
-    store.backView(goSingles);
-  }
   store.changeView(ViewTypes.SINGLES);
 }
 
 function goArticles() {
-  if (store.view === ViewTypes.PLAYING) {
-    store.backView(goArticles);
-  }
   store.changeView(ViewTypes.ARTICLES);
 }
 
 function goUser() {
-  if (store.view === ViewTypes.PLAYING) {
-    store.backView(goUser);
-  }
   store.changeView(ViewTypes.USER);
 }
 
@@ -55,12 +43,13 @@ function INav() {
       <div id="nav-actions">
         <div
           className={hideClassName(
-            [
-              ViewTypes.VOLS,
-              ViewTypes.SINGLES,
-              ViewTypes.ARTICLES,
-              ViewTypes.USER
-            ].includes(view)
+            !playerStore.showPlayer &&
+              [
+                ViewTypes.VOLS,
+                ViewTypes.SINGLES,
+                ViewTypes.ARTICLES,
+                ViewTypes.USER
+              ].includes(view)
           )}
           onClick={() => store.backView()}
         >
@@ -68,7 +57,7 @@ function INav() {
           <p>返回</p>
         </div>
         <div
-          className={hideClassName(view !== ViewTypes.PLAYING)}
+          className={hideClassName(!playerStore.showPlayer)}
           // onClick={playerStore.goToPlayingSource}
         >
           <Icon type={IconTypes.SOURCE} />
