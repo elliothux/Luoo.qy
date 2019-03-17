@@ -1,8 +1,15 @@
-import {action, computed, observable, reaction} from "mobx";
-import {getIPC} from "../utils";
-import {ViewTypes, VolInfo, VolType, VolTypeItem, VolTypesMap} from "../types";
-import {Pagination} from "./pagination";
-import {store} from "./index";
+import { action, computed, observable, reaction } from "mobx";
+import { getIPC } from "../utils";
+import {
+  TrackType,
+  ViewTypes,
+  VolInfo,
+  VolType,
+  VolTypeItem,
+  VolTypesMap
+} from "../types";
+import { Pagination } from "./pagination";
+import { store } from "./index";
 
 const ipc: IpcObject = getIPC();
 const PAGE_SCALE = 3 * 4;
@@ -51,7 +58,7 @@ class VolStore {
 
   @computed
   public get pagination(): Pagination {
-    return Pagination.from(this.total || 0, PAGE_SCALE, PAGINATION_SCALE)
+    return Pagination.from(this.total || 0, PAGE_SCALE, PAGINATION_SCALE);
   }
 
   /*
@@ -69,6 +76,14 @@ class VolStore {
   public setType = (type: VolType) => {
     this.type = type;
     store.changeView(ViewTypes.VOLS);
+  };
+
+  @observable
+  public showVolTypes: boolean = false;
+
+  @action
+  public toggleShowVolTypes = (show: boolean) => {
+    this.showVolTypes = show;
   };
 
   /*
@@ -128,7 +143,9 @@ class VolStore {
     const volInfo = (await ipc.db.vol.findOne({
       id: this.displayedItemId
     })) as VolInfo;
-    const tracks = await ipc.db.volTrack.find({ query: { volId: volInfo.id } });
+    const tracks = (await ipc.db.volTrack.find({
+      query: { volId: volInfo.id }
+    })).map(i => ({ ...i, type: TrackType.VOL_TRACK }));
     this.displayedItem = {
       ...volInfo,
       tracks

@@ -52,7 +52,6 @@ class EventProxy {
 
 const events = new EventProxy();
 
-export enum EventTypes {
-}
+export enum EventTypes {}
 
 export { EventProxy, events };

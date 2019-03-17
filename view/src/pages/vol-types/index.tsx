@@ -2,7 +2,7 @@ import * as React from "react";
 import { store, volStore } from "../../store";
 import { ViewTypes, VolType, VolTypeItem, VolTypesMap } from "../../types";
 import { Route } from "../../components/route";
-import {observer} from "mobx-react";
+import { observer } from "mobx-react";
 import "./index.scss";
 
 let containerRef: Maybe<HTMLDivElement> = null;
@@ -34,14 +34,14 @@ function IVolTypes() {
       currentView={store.view}
       view={ViewTypes.VOLS_TYPE}
       id="vol-types"
-      getRef={i => containerRef = i}
+      getRef={i => (containerRef = i)}
     >
       {keys.map(type => renderVolTypeItem(type))}
     </Route>
   );
 }
 
-store.onChangeView((view) => {
+store.onChangeView(view => {
   if (containerRef && view === ViewTypes.VOLS_TYPE) {
     containerRef.scroll(0, 0);
   }

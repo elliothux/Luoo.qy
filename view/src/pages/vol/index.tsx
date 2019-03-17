@@ -90,7 +90,7 @@ function IVol() {
   );
 }
 
-store.onChangeView((view) => {
+store.onChangeView(view => {
   if (infoRef && tracksRef && view === ViewTypes.VOL_INFO) {
     infoRef.scroll(0, 0);
     tracksRef.scroll(0, 0);

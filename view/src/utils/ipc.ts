@@ -6,7 +6,7 @@ import {
   ArticleTrack,
   VolTrack
 } from "../types";
-import {UserInfo, UserSettings} from "../../../app/src/types";
+import { UserInfo, UserSettings } from "../../../app/src/types";
 
 declare global {
   interface Window {
@@ -20,17 +20,17 @@ declare global {
       requestArticles(startId: number): Promise<ArticleInfo[]>;
     };
     user: {
-      login(mail: string, password: string): Promise<UserInfo>,
-      logout(): void,
-      getUserInfo(): UserInfo,
-      getUserSetting(key: keyof UserSettings): boolean,
-      getUserLikedVolIds(): number[],
-      getUserLikedArticleIds(): number[],
-      getUserLikedTrackIds(): number[],
-      fetchAndSaveLikedVols(): Promise<number[]>,
-      fetchAndSaveLikedTracks(): Promise<number[]>,
-      fetchAndSaveLikedArticles(): Promise<number[]>
-    },
+      login(mail: string, password: string): Promise<UserInfo>;
+      logout(): void;
+      getUserInfo(): UserInfo;
+      getUserSetting(key: keyof UserSettings): boolean;
+      getUserLikedVolIds(): number[];
+      getUserLikedArticleIds(): number[];
+      getUserLikedTrackIds(): number[];
+      fetchAndSaveLikedVols(): Promise<number[]>;
+      fetchAndSaveLikedTracks(): Promise<number[]>;
+      fetchAndSaveLikedArticles(): Promise<number[]>;
+    };
     db: {
       vol: {
         count(query?: object): Promise<number>;

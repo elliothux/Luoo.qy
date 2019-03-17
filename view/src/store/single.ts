@@ -1,6 +1,6 @@
 import { action, computed, observable, reaction } from "mobx";
 import { getIPC } from "../utils";
-import { ViewTypes, Single } from "../types";
+import { ViewTypes, Single, TrackType } from "../types";
 import { Pagination } from "./pagination";
 import { store } from "./index";
 
@@ -62,7 +62,7 @@ class SingleStore {
       return;
     }
 
-    this.displayedItems = await ipc.db.single.find<Single>({
+    const items = await ipc.db.single.find<Single>({
       skip: this.pagination.start,
       limit: PAGE_SCALE,
       sort: { id: -1 },
@@ -73,6 +73,7 @@ class SingleStore {
         url: 0
       }
     });
+    this.displayedItems = items.map(i => ({ ...i, type: TrackType.SINGLE }));
   };
 
   /*

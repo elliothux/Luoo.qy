@@ -22,7 +22,16 @@ class VolItem extends React.PureComponent<Props> {
   };
 
   public render() {
-    const { cover, title, vol, tags, color, isPlaying, isLiked, onToggle } = this.props;
+    const {
+      cover,
+      title,
+      vol,
+      tags,
+      color,
+      isPlaying,
+      isLiked,
+      onToggle
+    } = this.props;
     return (
       <div className="vol-item" onClick={this.onClick}>
         <div

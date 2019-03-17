@@ -1,7 +1,7 @@
 import { action, computed, observable, reaction } from "mobx";
-import {exec, getIPC} from "../../utils";
+import { exec, getIPC } from "../../utils";
 import { Pagination } from "../pagination";
-import {ArticleInfo, ViewTypes} from "../../types";
+import { ArticleInfo, ViewTypes } from "../../types";
 import { store } from "../index";
 
 const ipc: IpcObject = getIPC();
@@ -66,7 +66,7 @@ class CollectionArticle {
         desc: 0,
         author: 0,
         authorAvatar: 0,
-        date: 0,
+        date: 0
       }
     });
   };
@@ -95,7 +95,9 @@ class CollectionArticle {
     const articleInfo = (await ipc.db.article.findOne({
       id: this.displayedItemId
     })) as ArticleInfo;
-    const tracks = await ipc.db.articleTrack.find({ query: { articleId: articleInfo.id } });
+    const tracks = await ipc.db.articleTrack.find({
+      query: { articleId: articleInfo.id }
+    });
     this.displayedItem = {
       ...articleInfo,
       tracks
@@ -113,7 +115,7 @@ class CollectionArticle {
     this.isFetching = true;
     this.ids = await ipc.user.fetchAndSaveLikedVols();
     this.isFetching = false;
-  }
+  };
 }
 
 const collectionArticleStore = new CollectionArticle();

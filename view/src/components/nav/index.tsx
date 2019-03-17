@@ -80,9 +80,7 @@ function INav() {
         >
           <Icon type={IconTypes.CATEGORY} />
           <p>
-            {volStore.type === VolType.All
-              ? "分类"
-              : volStore.typeItem.name}
+            {volStore.type === VolType.All ? "分类" : volStore.typeItem.name}
           </p>
         </div>
         <div>

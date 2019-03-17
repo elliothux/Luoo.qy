@@ -1,9 +1,10 @@
 import { action, observable } from "mobx";
 import { ViewTypes } from "../types";
-import { events, EventTypes, noop } from "../utils";
+import { noop } from "../utils";
 import { volStore } from "./vol";
 import { singleStore } from "./single";
 import { articleStore } from "./article";
+import { playerStore } from "./player";
 import {
   collectionArticleStore,
   collectionTrackStore,
@@ -87,6 +88,7 @@ export {
   volStore,
   singleStore,
   articleStore,
+  playerStore,
   userStore,
   collectionVolStore,
   collectionTrackStore,

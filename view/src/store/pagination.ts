@@ -68,13 +68,17 @@ class Pagination {
 
   @action
   public nextPagination = () => {
-    if (!this.hasNext) { return; }
+    if (!this.hasNext) {
+      return;
+    }
     this.paginationCurrentIndex += 1;
   };
 
   @action
   public prePagination = () => {
-    if (!this.hasPre) { return; }
+    if (!this.hasPre) {
+      return;
+    }
     this.paginationCurrentIndex -= 1;
   };
 

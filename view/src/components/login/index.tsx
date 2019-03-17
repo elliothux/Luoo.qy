@@ -7,7 +7,6 @@ import { userStore } from "../../store";
 import CONNECT from "../../static/connect.png";
 import "./index.scss";
 
-
 const ipc = getIPC();
 
 class Login extends React.Component {

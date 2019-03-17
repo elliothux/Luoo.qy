@@ -1,9 +1,15 @@
-import * as React from 'react';
+import * as React from "react";
 
 declare global {
   // type Maybe<T> = T | null;
   type Callback = (...args: any[]) => any;
-  type ReactNode = React.ReactChild | React.ReactFragment | React.ReactPortal | boolean | null | undefined;
+  type ReactNode =
+    | React.ReactChild
+    | React.ReactFragment
+    | React.ReactPortal
+    | boolean
+    | null
+    | undefined;
   type ID = number;
   type Cover = string;
   type Title = string;
@@ -24,7 +30,6 @@ export interface FindOptions {
 }
 
 export enum ViewTypes {
-  PLAYING,
   VOLS,
   VOLS_TYPE,
   VOL_INFO,
@@ -38,7 +43,10 @@ export enum ViewTypes {
 export enum PlayingTypes {
   VOL,
   SINGLE,
-  ARTICLE
+  ARTICLE,
+  COLLECTION_VOL,
+  COLLECTION_TRACK,
+  COLLECTION_ARTICLE
 }
 
 export enum PlayingStatus {
@@ -54,7 +62,13 @@ export enum PlayingMode {
   LOOP
 }
 
+export enum TrackType {
+  VOL_TRACK,
+  SINGLE,
+  ARTICLE_TRACK
+}
 interface ITrack {
+  type: TrackType;
   id: number;
   name: string;
   artist: string;
@@ -126,9 +140,9 @@ export interface ElementPosition {
 }
 
 export interface UserData {
-  info: UserInfo,
-  settings: UserSettings,
-  collections: UserCollections
+  info: UserInfo;
+  settings: UserSettings;
+  collections: UserCollections;
 }
 
 export interface UserInfo {

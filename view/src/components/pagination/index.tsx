@@ -1,24 +1,26 @@
 import * as React from "react";
-import {observer} from "mobx-react";
+import { observer } from "mobx-react";
 import classnames from "classnames";
 import { Pagination as PaginationStore } from "../../store/pagination";
 import { Icon, IconTypes } from "../icon";
 import "./index.scss";
 
 interface Props {
-    store: PaginationStore
+  store: PaginationStore;
 }
 
 function IPagination(props: Props) {
-    const { store: {
-        hasNext,
-        hasPre,
-        changeCurrentPage,
-        nextPagination,
-        prePagination,
-        displayPaginations,
-        currentPage
-    } } = props;
+  const {
+    store: {
+      hasNext,
+      hasPre,
+      changeCurrentPage,
+      nextPagination,
+      prePagination,
+      displayPaginations,
+      currentPage
+    }
+  } = props;
   return (
     <div className="pagination">
       <Icon

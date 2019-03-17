@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Icon, IconTypes} from "../icon";
+import { Icon, IconTypes } from "../icon";
 import "./index.scss";
 
 export interface Props {
@@ -41,16 +41,13 @@ class SingleItem extends React.Component<Props> {
           <div className="single-item-operation">
             <Icon type={isLiked ? IconTypes.LIKE : IconTypes.LIKE} />
             <Icon
-                preventDefault
-                type={isPlaying ? IconTypes.PAUSE : IconTypes.PLAY}
-                onClick={onToggle}
+              preventDefault
+              type={isPlaying ? IconTypes.PAUSE : IconTypes.PLAY}
+              onClick={onToggle}
             />
           </div>
         </div>
-        <div
-          className="single-item-bg"
-          style={{ backgroundColor: color }}
-        />
+        <div className="single-item-bg" style={{ backgroundColor: color }} />
       </div>
     );
   }

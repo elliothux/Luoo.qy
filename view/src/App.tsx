@@ -9,7 +9,9 @@ import { Singles } from "./pages/singles";
 import { Single } from "./pages/single";
 import { Articles } from "./pages/articles";
 import { Article } from "./pages/article";
-import {User} from "./pages/user";
+import { Player } from "./pages/player";
+import { MiniPlayer } from "./components/mini-player";
+import { User } from "./pages/user";
 
 function App() {
   return (
@@ -23,7 +25,9 @@ function App() {
       <Single />
       <Articles />
       <Article />
-      <User/>
+      <User />
+      <Player />
+      <MiniPlayer />
       <ToastContainer
         position={ToastPosition.BOTTOM_RIGHT}
         autoClose={5000}

@@ -1,7 +1,7 @@
-import {action, computed, observable, reaction, toJS} from "mobx";
-import {exec, getIPC, uniqueBy} from "../../utils";
+import { action, computed, observable, reaction } from "mobx";
+import { exec, getIPC, uniqueBy } from "../../utils";
 import { Pagination } from "../pagination";
-import { ViewTypes, Track, FindOptions } from "../../types";
+import { ViewTypes, Track, FindOptions, TrackType } from "../../types";
 import { store } from "../index";
 
 const ipc: IpcObject = getIPC();
@@ -62,14 +62,23 @@ class CollectionTrack {
       query: { id: { $in: this.ids.slice(from, to) } },
       sort: { id: -1 }
     };
-    const [volTracks, singles, articleTracks] = await Promise.all([
+    const [iVolTracks, iSingles, iArticleTracks] = await Promise.all([
       ipc.db.volTrack.find<Track>(options),
       ipc.db.single.find<Track>(options),
       ipc.db.articleTrack.find<Track>(options)
     ]);
+    const volTracks = iVolTracks.map(i => ({
+      ...i,
+      type: TrackType.VOL_TRACK
+    }));
+    const singles = iSingles.map(i => ({ ...i, type: TrackType.SINGLE }));
+    const articleTracks = iArticleTracks.map(i => ({
+      ...i,
+      type: TrackType.ARTICLE_TRACK
+    }));
     this.displayedItems = uniqueBy<Track>(
-        [...volTracks, ...singles, ...articleTracks],
-        i => String(i.id)
+      [...volTracks, ...singles, ...articleTracks],
+      i => String(i.id)
     );
   };
 

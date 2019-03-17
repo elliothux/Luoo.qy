@@ -1,8 +1,8 @@
-import {action, computed, observable, reaction} from "mobx";
-import {getIPC} from "../utils";
-import {ArticleInfo, ViewTypes} from "../types";
-import {Pagination} from "./pagination";
-import {store} from "./index";
+import { action, computed, observable, reaction } from "mobx";
+import { getIPC } from "../utils";
+import { ArticleInfo, TrackType, ViewTypes } from "../types";
+import { Pagination } from "./pagination";
+import { store } from "./index";
 
 const ipc: IpcObject = getIPC();
 const PAGE_SCALE = 3 * 4;
@@ -45,7 +45,7 @@ class ArticleStore {
 
   @computed
   public get pagination(): Pagination {
-    return Pagination.from(this.total || 0, PAGE_SCALE, PAGINATION_SCALE)
+    return Pagination.from(this.total || 0, PAGE_SCALE, PAGINATION_SCALE);
   }
 
   /*
@@ -69,7 +69,7 @@ class ArticleStore {
         desc: 0,
         author: 0,
         authorAvatar: 0,
-        date: 0,
+        date: 0
       }
     });
   };
@@ -98,7 +98,9 @@ class ArticleStore {
     const articleInfo = (await ipc.db.article.findOne({
       id: this.displayedItemId
     })) as ArticleInfo;
-    const tracks = await ipc.db.articleTrack.find({ query: { articleId: articleInfo.id } });
+    const tracks = (await ipc.db.articleTrack.find({
+      query: { articleId: articleInfo.id }
+    })).map(i => ({ ...i, type: TrackType.ARTICLE_TRACK }));
     this.displayedItem = {
       ...articleInfo,
       tracks
