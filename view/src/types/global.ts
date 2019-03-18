@@ -77,7 +77,7 @@ interface ITrack {
   url: string;
   lyric?: string;
 }
-export type Track = Readonly<ITrack>;
+type JTrack = Readonly<ITrack>;
 
 interface IVolInfo {
   id: number;
@@ -96,13 +96,13 @@ interface IVolInfo {
 }
 export type VolInfo = Readonly<IVolInfo>;
 
-interface IVolTrack extends Track {
+interface IVolTrack extends JTrack {
   volId: number;
   color: string;
 }
 export type VolTrack = Readonly<IVolTrack>;
 
-interface ISingle extends Track {
+interface ISingle extends JTrack {
   desc: string;
   date: number;
   recommender: string;
@@ -126,11 +126,13 @@ interface IArticleInfo {
 }
 export type ArticleInfo = Readonly<IArticleInfo>;
 
-interface IArticleTrack extends Track {
+interface IArticleTrack extends JTrack {
   articleId: number;
   color: string;
 }
 export type ArticleTrack = Readonly<IArticleTrack>;
+
+export type Track = VolTrack | ArticleTrack | Single;
 
 export interface ElementPosition {
   top: number;

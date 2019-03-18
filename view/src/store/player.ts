@@ -35,7 +35,27 @@ class PlayerStore {
   };
 
   private initReaction = () => {
-
+    reaction(
+        () => [this.playingIds, this.playingIndex],
+        this.updatePlayingInfo
+    );
+    reaction(
+        () => this.playingTrack ? this.playingTrack.id : null,
+        () => {
+          this.setPlayedTime(0);
+          return this.updateAudio();
+        }
+    );
+    reaction(
+        () => this.playingStatus,
+        () => {
+          switch (this.playingStatus) {
+            case PlayingStatus.PLAYING: return audio.play();
+            case PlayingStatus.PAUSE: return audio.pause;
+            default: return;
+          }
+        }
+    )
   };
 
   /*
@@ -61,7 +81,6 @@ class PlayerStore {
   @action
   private setPlayingIndex(index: number) {
     this.playingIndex = index;
-    return this.updatePlayingInfo();
   }
 
   @observable
@@ -132,13 +151,10 @@ class PlayerStore {
         throw new Error(`Invalid playing-type`);
       }
     }
-
-    this.setPlayedTime(0);
-    return this.updateAudio();
   };
 
   @action
-  public setPlayingIds = (ids: number[], currentId: Maybe<number>) => {
+  public setPlayingIds = (ids: number[], currentId: Maybe<number> = null) => {
     this.playingIds = ids;
     return this.setPlayingIndex(
       typeof currentId === "number" ? ids.findIndex(i => i === currentId) : 0
@@ -224,33 +240,29 @@ class PlayerStore {
   @action
   public play = () => {
     this.playingStatus = PlayingStatus.PLAYING;
-    return audio.play();
   };
 
   @action
   public pause = () => {
     this.playingStatus = PlayingStatus.PAUSE;
-    return audio.pause();
   };
 
   @action
-  public next = async () => {
+  public next = () => {
     const index =
       this.playingIndex + 1 === this.playingIds.length
         ? 0
         : this.playingIndex + 1;
-    await this.setPlayingIndex(index);
-    return this.play();
+    return this.setPlayingIndex(index);
   };
 
   @action
-  public pre = async () => {
+  public pre = () => {
     const index = (this.playingIndex =
       this.playingIndex === 0
         ? this.playingIds.length - 1
         : this.playingIndex - 1);
-    await this.setPlayingIndex(index);
-    return this.play();
+    return this.setPlayingIndex(index);
   };
   /*
     * @desc Lyric

@@ -5,28 +5,30 @@ import { Icon, IconTypes } from "../../components/icon";
 import { TrackItem } from "../../components/track-item";
 import { Route } from "../../components/route";
 import { Loading } from "../../components/loading";
-import { ViewTypes, VolInfo } from "../../types";
+import {ViewTypes, VolInfo, VolTrack} from "../../types";
 import "./index.scss";
 
 let infoRef: Maybe<HTMLDivElement> = null;
 let tracksRef: Maybe<HTMLDivElement> = null;
 
-function renderTracks(vol: Maybe<VolInfo>) {
-  if (!vol || !vol.tracks) {
-    return <Loading />;
-  }
-  const ids = vol.tracks.map(i => i.id);
-  return vol.tracks.map(track => {
+function renderTracks(vol: VolInfo) {
+  const tracks = vol.tracks as VolTrack[];
+  const ids = tracks.map(i => i.id);
+
+  return tracks.map(track => {
     const { id, name, artist, album, cover } = track;
     const isPlaying = playerStore.isPlaying(id);
+
     const play = async () => {
       await playerStore.setPlayingIds(ids, id);
       return playerStore.play();
     };
+
     const onClick = () => {
       playerStore.toggleShowPlayer(true);
       return play();
     };
+
     return (
       <TrackItem
         key={id}
@@ -41,6 +43,14 @@ function renderTracks(vol: Maybe<VolInfo>) {
       />
     );
   });
+}
+
+function play(vol: VolInfo) {
+  return () => {
+    const tracks = vol.tracks as VolTrack[];
+    const ids = tracks.map(i => i.id);
+    playerStore.setPlayingIds(ids);
+  }
 }
 
 function IVol() {
