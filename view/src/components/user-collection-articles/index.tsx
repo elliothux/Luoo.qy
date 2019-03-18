@@ -19,7 +19,8 @@ function renderArticles(articles: ArticleInfo[]) {
       metaInfo={article.metaInfo}
       isPlaying={false}
       isLiked={false}
-      onToggle={() => {}}
+      onPlay={() => {}}
+      onPause={() => {}}
     />
   ));
 }

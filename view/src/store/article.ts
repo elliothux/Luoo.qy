@@ -99,7 +99,8 @@ class ArticleStore {
       id: this.displayedItemId
     })) as ArticleInfo;
     const tracks = (await ipc.db.articleTrack.find({
-      query: { articleId: articleInfo.id }
+      query: { articleId: articleInfo.id },
+      sort: { id: -1 }
     })).map(i => ({ ...i, type: TrackType.ARTICLE_TRACK }));
     this.displayedItem = {
       ...articleInfo,

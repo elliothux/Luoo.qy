@@ -77,7 +77,7 @@ const ipcUtils = {
       sort: { id: -1 }
     })).map(i => i.id);
   },
-  getTrackIdsByTrackId: async (id: ID): Promise<ID[]> => {
+  getTrackIdsByArticleId: async (id: ID): Promise<ID[]> => {
     if (!ipc) {
       return [];
     }

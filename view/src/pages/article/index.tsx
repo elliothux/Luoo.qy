@@ -1,21 +1,52 @@
 import * as React from "react";
 import { observer } from "mobx-react";
-import { articleStore, store } from "../../store";
+import {
+  articleStore,
+  collectionArticleStore,
+  playerStore,
+  store
+} from "../../store";
 import { Icon, IconTypes } from "../../components/icon";
-import { ArticleInfo, ViewTypes } from "../../types";
+import {
+  ArticleInfo,
+  ArticleTrack,
+  PlayingTypes,
+  ViewTypes
+} from "../../types";
 import { Route } from "../../components/route";
 import { Loading } from "../../components/loading";
 import { TrackItem } from "../../components/track-item";
 import "./index.scss";
+import { ipcUtils } from "../../utils";
 
 let infoRef: Maybe<HTMLDivElement> = null;
 let tracksRef: Maybe<HTMLDivElement> = null;
 
-function renderTracks(article: Maybe<ArticleInfo>) {
-  if (!article || !article.tracks) {
-    return <Loading />;
-  }
-  return article.tracks.map(track => {
+function renderTracks(article: ArticleInfo) {
+  const tracks = article.tracks as ArticleTrack[];
+  const ids = tracks.map(i => i.id);
+
+  return tracks.map(track => {
+    const { id } = track;
+    const isPlaying = playerStore.isTrackPlaying(id);
+
+    const onPlay = async () => {
+      await playerStore.setPlayingIds(
+        ids,
+        id,
+        PlayingTypes.ARTICLE,
+        article.id
+      );
+      return playerStore.play();
+    };
+
+    const onClick = () => {
+      playerStore.toggleShowPlayer(true);
+      if (!isPlaying) {
+        return onPlay();
+      }
+    };
+
     return (
       <TrackItem
         key={track.id}
@@ -23,11 +54,11 @@ function renderTracks(article: Maybe<ArticleInfo>) {
         artist={track.artist}
         album={track.album}
         cover={track.cover}
-        isPlaying={false}
-        isLiked={false}
-        onClick={() => {}}
-        onPlay={() => {}}
-        onPause={() => {}}
+        isPlaying={isPlaying}
+        isLiked={collectionArticleStore.isLiked(id)}
+        onClick={onClick}
+        onPlay={onPlay}
+        onPause={playerStore.pause}
       />
     );
   });
@@ -35,6 +66,7 @@ function renderTracks(article: Maybe<ArticleInfo>) {
 
 function IArticle() {
   const { displayedItem: article } = articleStore;
+
   if (!article) {
     return (
       <Route
@@ -46,9 +78,17 @@ function IArticle() {
       </Route>
     );
   }
+
   if (store.view === ViewTypes.ARTICLE_INFO) {
     store.setBackgroundImage(article.cover);
   }
+
+  const { id } = article;
+  const isPlaying = playerStore.isArticlePlaying(id);
+  const onPlay = async () => {
+    const ids = await ipcUtils.getTrackIdsByArticleId(id);
+    playerStore.setPlayingIds(ids, null, PlayingTypes.ARTICLE, id);
+  };
 
   return (
     <Route currentView={store.view} view={ViewTypes.ARTICLE_INFO} id="article">
@@ -65,7 +105,10 @@ function IArticle() {
         <p id="article-info-title">
           {article.title}
           <Icon type={IconTypes.LIKE} />
-          <Icon type={IconTypes.PLAY} />
+          <Icon
+            type={isPlaying ? IconTypes.PAUSE : IconTypes.PLAY}
+            onClick={isPlaying ? playerStore.pause : onPlay}
+          />
         </p>
         <p id="article-info-meta">{article.metaInfo}</p>
         <div

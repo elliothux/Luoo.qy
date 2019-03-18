@@ -11,7 +11,8 @@ export interface Props {
   metaInfo: string;
   isPlaying: boolean;
   isLiked: boolean;
-  onToggle: () => void;
+  onPlay: () => void;
+  onPause: () => void;
 }
 
 class ArticleItem extends React.PureComponent<Props> {
@@ -24,7 +25,8 @@ class ArticleItem extends React.PureComponent<Props> {
       metaInfo,
       isPlaying,
       isLiked,
-      onToggle
+      onPlay,
+        onPause
     } = this.props;
     return (
       <div className="article-item" onClick={() => articleStore.setItem(id)}>
@@ -43,7 +45,7 @@ class ArticleItem extends React.PureComponent<Props> {
             <Icon type={isLiked ? IconTypes.LIKE : IconTypes.LIKE} />
             <Icon
               type={isPlaying ? IconTypes.PAUSE : IconTypes.PLAY}
-              onClick={onToggle}
+              onClick={isPlaying ? onPause : onPlay}
               preventDefault
             />
           </div>
