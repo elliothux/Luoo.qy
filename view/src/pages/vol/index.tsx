@@ -1,16 +1,11 @@
 import * as React from "react";
-import { observer } from "mobx-react";
-import {
-  collectionTrackStore,
-  playerStore,
-  store,
-  volStore
-} from "../../store";
-import { Icon, IconTypes } from "../../components/icon";
-import { TrackItem } from "../../components/track-item";
-import { Route } from "../../components/route";
-import { Loading } from "../../components/loading";
-import { PlayingTypes, ViewTypes, VolInfo, VolTrack } from "../../types";
+import {observer} from "mobx-react";
+import {collectionTrackStore, collectionVolStore, playerStore, store, volStore} from "../../store";
+import {Icon, IconTypes} from "../../components/icon";
+import {TrackItem} from "../../components/track-item";
+import {Route} from "../../components/route";
+import {Loading} from "../../components/loading";
+import {PlayingTypes, ViewTypes, VolInfo, VolTrack} from "../../types";
 import "./index.scss";
 
 let infoRef: Maybe<HTMLDivElement> = null;
@@ -75,6 +70,7 @@ function IVol() {
   }
 
   const isPlaying = playerStore.isVolPlaying(vol.id);
+  const isLiked = collectionVolStore.isLiked(vol.id);
 
   return (
     <Route currentView={store.view} view={ViewTypes.VOL_INFO} id="vol">
@@ -96,7 +92,7 @@ function IVol() {
         <p id="vol-info-index">
           vol.
           {vol.vol}
-          <Icon type={IconTypes.LIKE} />
+          <Icon type={isLiked ? IconTypes.LIKED : IconTypes.LIKE} />
           <Icon
             type={isPlaying ? IconTypes.PAUSE : IconTypes.PLAY}
             onClick={isPlaying ? playerStore.pause : () => play(vol)}

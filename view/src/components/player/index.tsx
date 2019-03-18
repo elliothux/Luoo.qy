@@ -1,7 +1,7 @@
 import * as React from "react";
 import { observer } from "mobx-react";
 import classnames from "classnames";
-import { playerStore, store } from "../../store";
+import {collectionTrackStore, playerStore, store} from "../../store";
 import { Icon, IconTypes } from "../icon";
 import { SoundWave } from "../sound-wave";
 import { Loading } from "../loading";
@@ -30,8 +30,9 @@ function IPlayer() {
     );
   }
 
-  const { cover, name, artist, album } = playingTrack;
+  const { cover, name, artist, album, id } = playingTrack;
   const isPlaying = playingStatus === PlayingStatus.PLAYING;
+  const isLiked = collectionTrackStore.isLiked(id);
 
   return (
     <div
@@ -57,7 +58,7 @@ function IPlayer() {
 
           <div id="player-operation">
             <div>
-              <Icon type={IconTypes.LIKE2} />
+              <Icon type={isLiked ? IconTypes.LIKED2 : IconTypes.LIKE2} />
               <p>喜欢</p>
             </div>
             <div className="player-mode">

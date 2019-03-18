@@ -1,6 +1,6 @@
 import * as React from "react";
 import { observer } from "mobx-react";
-import { playerStore, singleStore, store } from "../../store";
+import {collectionTrackStore, playerStore, singleStore, store} from "../../store";
 import { Icon, IconTypes } from "../../components/icon";
 import { PlayingTypes, ViewTypes } from "../../types";
 import { Route } from "../../components/route";
@@ -41,6 +41,8 @@ function ISingle() {
 
   const { id } = single;
   const isPlaying = playerStore.isTrackPlaying(id);
+  const isLiked = collectionTrackStore.isLiked(id);
+
   const onPlay = async () => {
     const ids = await ipcUtils.getSingleIds();
     playerStore.setPlayingIds(ids, id, PlayingTypes.SINGLE);
@@ -59,7 +61,7 @@ function ISingle() {
       <div id="single-info">
         <p id="single-info-name">
           {single.name}
-          <Icon type={IconTypes.LIKE} />
+          <Icon type={isLiked ? IconTypes.LIKED : IconTypes.LIKE} />
           <Icon
             preventDefault
             type={isPlaying ? IconTypes.PAUSE : IconTypes.PLAY}

@@ -15,6 +15,8 @@ import VOL from "../../static/icon/vol.svg";
 import VOL_SOLID from "../../static/icon/vol-solid.svg";
 import LIKE from "../../static/icon/like.svg";
 import LIKE2 from "../../static/icon/like2.svg";
+import LIKED from "../../static/icon/liked.svg";
+import LIKED2 from "../../static/icon/liked2.svg";
 import PLAY from "../../static/icon/play.svg";
 import PLAY_SOLID from "../../static/icon/play-solid.svg";
 import PAUSE from "../../static/icon/pause.svg";
@@ -55,6 +57,8 @@ export enum IconTypes {
   VOL_SOLID = "VOL_SOLID",
   LIKE = "LIKE",
   LIKE2 = "LIKE2",
+  LIKED = "LIKED",
+  LIKED2 = "LIKED2",
   PLAY = "PLAY",
   PLAY_SOLID = "PLAY_SOLID",
   PAUSE = "PAUSE",
@@ -147,6 +151,12 @@ function Icon(props: Props) {
       break;
     case IconTypes.LIKE2:
       src = LIKE2;
+      break;
+    case IconTypes.LIKED:
+      src = LIKED;
+      break;
+    case IconTypes.LIKED2:
+      src = LIKED2;
       break;
     case IconTypes.LOGO:
       src = LOGO;

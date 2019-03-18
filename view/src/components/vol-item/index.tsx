@@ -50,7 +50,7 @@ class VolItem extends React.PureComponent<Props> {
           <p className="vol-item-info-title">{title}</p>
           <div className="vol-item-operation">
             <Icon
-              type={isLiked ? IconTypes.LIKE : IconTypes.LIKE}
+              type={isLiked ? IconTypes.LIKED : IconTypes.LIKE}
               preventDefault
             />
             <Icon

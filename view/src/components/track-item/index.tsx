@@ -46,7 +46,7 @@ function TrackItem(props: Props) {
         />
         <Icon
           className="like"
-          type={isLiked ? IconTypes.LIKE : IconTypes.LIKE}
+          type={isLiked ? IconTypes.LIKED : IconTypes.LIKE}
           preventDefault
         />
       </div>

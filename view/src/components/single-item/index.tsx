@@ -42,7 +42,7 @@ class SingleItem extends React.Component<Props> {
             <p className="single-item-info-artist">{artist}</p>
           </div>
           <div className="single-item-operation">
-            <Icon type={isLiked ? IconTypes.LIKE : IconTypes.LIKE} />
+            <Icon type={isLiked ? IconTypes.LIKED : IconTypes.LIKE} />
             <Icon
               preventDefault
               type={isPlaying ? IconTypes.PAUSE : IconTypes.PLAY}

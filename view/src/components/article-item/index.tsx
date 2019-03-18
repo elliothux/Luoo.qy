@@ -42,7 +42,7 @@ class ArticleItem extends React.PureComponent<Props> {
             <p className="article-item-info-meta">{metaInfo}</p>
           </div>
           <div className="article-item-operation">
-            <Icon type={isLiked ? IconTypes.LIKE : IconTypes.LIKE} />
+            <Icon type={isLiked ? IconTypes.LIKED : IconTypes.LIKE} />
             <Icon
               type={isPlaying ? IconTypes.PAUSE : IconTypes.PLAY}
               onClick={isPlaying ? onPause : onPlay}

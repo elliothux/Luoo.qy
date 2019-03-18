@@ -85,6 +85,8 @@ function IArticle() {
 
   const { id } = article;
   const isPlaying = playerStore.isArticlePlaying(id);
+  const isLiked = collectionArticleStore.isLiked(id);
+
   const onPlay = async () => {
     const ids = await ipcUtils.getTrackIdsByArticleId(id);
     playerStore.setPlayingIds(ids, null, PlayingTypes.ARTICLE, id);
@@ -104,7 +106,7 @@ function IArticle() {
       <div id="article-info" ref={i => (infoRef = i)}>
         <p id="article-info-title">
           {article.title}
-          <Icon type={IconTypes.LIKE} />
+          <Icon type={isLiked ? IconTypes.LIKED : IconTypes.LIKE} />
           <Icon
             type={isPlaying ? IconTypes.PAUSE : IconTypes.PLAY}
             onClick={isPlaying ? playerStore.pause : onPlay}
