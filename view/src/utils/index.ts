@@ -84,6 +84,6 @@ export {
   isAnyPartOfElementInViewport,
   promiseWrapper
 };
-export * from "./ipc";
+export { getIPC, ipcUtils } from "./ipc";
 export * from "./event";
 export * from "./lyric-parser";

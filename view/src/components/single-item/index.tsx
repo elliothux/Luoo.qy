@@ -9,8 +9,9 @@ export interface Props {
   color: Color;
   isPlaying: boolean;
   isLiked: boolean;
-  onToggle: () => void;
   onClick: () => void;
+  onPlay: () => void;
+  onPause: () => void;
 }
 
 class SingleItem extends React.Component<Props> {
@@ -23,8 +24,10 @@ class SingleItem extends React.Component<Props> {
       isLiked,
       color,
       onClick,
-      onToggle
+      onPlay,
+      onPause
     } = this.props;
+
     return (
       <div className="single-item" onClick={onClick}>
         <div
@@ -43,7 +46,7 @@ class SingleItem extends React.Component<Props> {
             <Icon
               preventDefault
               type={isPlaying ? IconTypes.PAUSE : IconTypes.PLAY}
-              onClick={onToggle}
+              onClick={isPlaying ? onPause : onPlay}
             />
           </div>
         </div>

@@ -31,7 +31,9 @@ function renderTracks(vol: VolInfo) {
 
     const onClick = () => {
       playerStore.toggleShowPlayer(true);
-      return onPlay();
+      if (!isPlaying) {
+        return onPlay();
+      }
     };
 
     return (

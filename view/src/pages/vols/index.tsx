@@ -8,7 +8,7 @@ import {PlayingTypes, ViewTypes, VolInfo, VolTrack} from "../../types";
 import {Loading} from "../../components/loading";
 import {Route} from "../../components/route";
 import "./index.scss";
-import {getIPC} from "../../utils";
+import {getIPC, ipcUtils} from "../../utils";
 
 const ipc = getIPC();
 
@@ -26,10 +26,7 @@ class Vols extends React.Component {
       const { id } = vol;
 
       const onPlay = async () => {
-        const ids = (await ipc.db.volTrack.find<VolTrack>({
-          query: { volId: id },
-          projection: { id: 1 }
-        })).map(i => i.id);
+        const ids = await ipcUtils.getTrackIdsByVolId(id);
         playerStore.setPlayingIds(ids, null, PlayingTypes.VOL, vol.id);
       };
 

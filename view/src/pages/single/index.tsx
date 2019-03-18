@@ -1,11 +1,12 @@
 import * as React from "react";
 import { observer } from "mobx-react";
-import { singleStore, store } from "../../store";
+import { playerStore, singleStore, store } from "../../store";
 import { Icon, IconTypes } from "../../components/icon";
-import { ViewTypes } from "../../types";
+import { PlayingTypes, ViewTypes } from "../../types";
 import { Route } from "../../components/route";
 import { Loading } from "../../components/loading";
 import "./index.scss";
+import { ipcUtils } from "../../utils";
 
 let coverRef: HTMLDivElement;
 
@@ -33,9 +34,17 @@ function ISingle() {
       </Route>
     );
   }
+
   if (store.view === ViewTypes.SINGLE_INFO) {
     store.setBackgroundImage(single.cover);
   }
+
+  const { id } = single;
+  const isPlaying = playerStore.isTrackPlaying(id);
+  const onPlay = async () => {
+    const ids = await ipcUtils.getSingleIds();
+    playerStore.setPlayingIds(ids, id, PlayingTypes.SINGLE);
+  };
 
   return (
     <Route currentView={store.view} view={ViewTypes.SINGLE_INFO} id="single">
@@ -51,7 +60,11 @@ function ISingle() {
         <p id="single-info-name">
           {single.name}
           <Icon type={IconTypes.LIKE} />
-          <Icon preventDefault type={IconTypes.PLAY} />
+          <Icon
+            preventDefault
+            type={isPlaying ? IconTypes.PAUSE : IconTypes.PLAY}
+            onClick={isPlaying ? playerStore.pause : onPlay}
+          />
         </p>
         <p id="single-info-artist">{single.artist}</p>
         <div

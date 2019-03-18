@@ -7,6 +7,7 @@ import {
   VolTrack
 } from "../types";
 import { UserInfo, UserSettings } from "../../../app/src/types";
+import { func } from "prop-types";
 
 declare global {
   interface Window {
@@ -64,6 +65,41 @@ declare global {
 
 let ipc: Maybe<IpcObject> = null;
 
+const ipcUtils = {
+  getTrackIdsByVolId: async (id: ID): Promise<ID[]> => {
+    if (!ipc) {
+      return [];
+    }
+
+    return (await ipc.db.volTrack.find<VolTrack>({
+      query: { volId: id },
+      projection: { id: 1 },
+      sort: { id: -1 }
+    })).map(i => i.id);
+  },
+  getTrackIdsByTrackId: async (id: ID): Promise<ID[]> => {
+    if (!ipc) {
+      return [];
+    }
+
+    return (await ipc.db.articleTrack.find<VolTrack>({
+      query: { articleId: id },
+      projection: { id: 1 },
+      sort: { id: -1 }
+    })).map(i => i.id);
+  },
+  getSingleIds: async (): Promise<ID[]> => {
+    if (!ipc) {
+      return [];
+    }
+
+    return (await ipc.db.single.find<Single>({
+      projection: { id: 1 },
+      sort: { id: -1 }
+    })).map(i => i.id);
+  },
+};
+
 function getIPC(): IpcObject {
   if (ipc) {
     return ipc;
@@ -71,7 +107,8 @@ function getIPC(): IpcObject {
   const electron = window.require("electron");
   const { remote } = electron;
   ipc = remote.getGlobal("ipc") as IpcObject;
+
   return ipc;
 }
 
-export { getIPC };
+export { getIPC, ipcUtils };
