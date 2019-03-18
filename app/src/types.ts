@@ -76,17 +76,6 @@ export interface ArticleTrack extends Track {
   color: string;
 }
 
-export interface VolTrackMap {
-  id: number;
-  vol: number;
-  volId: number;
-}
-
-export interface ArticleTrackMap {
-  id: number;
-  articleId: number;
-}
-
 export interface UserData {
   info: UserInfo,
   settings: UserSettings,
