@@ -313,7 +313,11 @@ class PlayerStore {
      */
   @computed
   get lyrics(): Maybe<LrcLine[]> {
-    if (!this.playingTrack || !this.playingTrack.lyric || this.playingTrack.lyric.match('暂无歌词')) {
+    if (
+      !this.playingTrack ||
+      !this.playingTrack.lyric ||
+      this.playingTrack.lyric.match("暂无歌词")
+    ) {
       return null;
     }
     const lrc = new LyricParser(this.playingTrack.lyric);
@@ -339,7 +343,7 @@ class PlayerStore {
       lyrics[i + 2],
       lyrics[i + 3],
       lyrics[i + 4]
-    ].map(i => i ? i.text : '');
+    ].map(i => (i ? i.text : ""));
   }
 
   @action
@@ -349,7 +353,10 @@ class PlayerStore {
     }
 
     const { playedTime, lyrics, currentLyricIndex } = this;
-    if (currentLyricIndex + 1 === this.lyrics.length) {
+    if (
+      currentLyricIndex + 1 === this.lyrics.length ||
+      !lyrics[currentLyricIndex + 1]
+    ) {
       return;
     }
 

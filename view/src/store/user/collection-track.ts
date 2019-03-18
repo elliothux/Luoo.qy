@@ -3,6 +3,7 @@ import { exec, getIPC, uniqueBy } from "../../utils";
 import { Pagination } from "../pagination";
 import { ViewTypes, Track, FindOptions, TrackType } from "../../types";
 import { store } from "../index";
+import {debug} from "util";
 
 const ipc: IpcObject = getIPC();
 const PAGE_SCALE = 7 * 3;
@@ -84,6 +85,7 @@ class CollectionTrack {
       [...volTracks, ...singles, ...articleTracks],
       i => String(i.id)
     );
+    debugger;
   };
 
   /*

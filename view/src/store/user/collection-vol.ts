@@ -97,7 +97,7 @@ class CollectionVol {
     const volInfo = (await ipc.db.vol.findOne({
       id: this.displayedItemId
     })) as VolInfo;
-    const tracks = await ipc.db.volTrack.find({ query: { volId: volInfo.id } });
+    const tracks = await ipc.db.volTrack.find({ query: { volId: volInfo.id },       sort: { id: -1 }});
     this.displayedItem = {
       ...volInfo,
       tracks

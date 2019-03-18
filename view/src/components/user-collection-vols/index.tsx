@@ -1,29 +1,39 @@
 import * as React from "react";
 import { observer } from "mobx-react";
-import { userStore, collectionVolStore } from "../../store";
+import {collectionVolStore, playerStore} from "../../store";
 import { Loading } from "../loading";
 import { Empty } from "../empty";
-import { VolInfo } from "../../types";
+import {PlayingTypes, VolInfo} from "../../types";
 import { VolItem } from "../vol-item";
 import { Pagination } from "../pagination";
 import "./index.scss";
+import {ipcUtils} from "../../utils";
 
 function renderVols(vols: VolInfo[]) {
-  return vols.map(vol => (
-    <VolItem
-      key={vol.id}
-      id={vol.id}
-      cover={vol.cover}
-      title={vol.title}
-      tags={vol.tags}
-      color={vol.color}
-      vol={vol.vol}
-      isPlaying={false}
-      isLiked={true}
-      onPlay={() => {}}
-      onPause={() => {}}
-    />
-  ));
+  return vols.map(vol => {
+    const { id } = vol;
+
+    const onPlay = async () => {
+      const ids = await ipcUtils.getTrackIdsByVolId(id);
+      playerStore.setPlayingIds(ids, null, PlayingTypes.VOL, vol.id);
+    };
+
+    return (
+        <VolItem
+            key={vol.id}
+            id={vol.id}
+            cover={vol.cover}
+            title={vol.title}
+            tags={vol.tags}
+            color={vol.color}
+            vol={vol.vol}
+            isPlaying={playerStore.isVolPlaying(id)}
+            isLiked={true}
+            onPlay={onPlay}
+            onPause={playerStore.pause}
+        />
+    )
+  });
 }
 
 function IUserCollectionVols() {

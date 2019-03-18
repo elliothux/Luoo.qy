@@ -144,7 +144,8 @@ class VolStore {
       id: this.displayedItemId
     })) as VolInfo;
     const tracks = (await ipc.db.volTrack.find({
-      query: { volId: volInfo.id }
+      query: { volId: volInfo.id },
+      sort: { id: -1 }
     })).map(i => ({ ...i, type: TrackType.VOL_TRACK }));
     this.displayedItem = {
       ...volInfo,

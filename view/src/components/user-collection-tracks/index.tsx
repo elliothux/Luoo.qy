@@ -1,27 +1,45 @@
 import * as React from "react";
-import { observer } from "mobx-react";
-import { collectionTrackStore } from "../../store";
-import { Loading } from "../loading";
-import { Empty } from "../empty";
-import { Track } from "../../types";
-import { Pagination } from "../pagination";
-import { TrackItem } from "../track-item";
+import {observer} from "mobx-react";
+import {collectionTrackStore, playerStore} from "../../store";
+import {Loading} from "../loading";
+import {Empty} from "../empty";
+import {PlayingTypes, Track} from "../../types";
+import {Pagination} from "../pagination";
+import {TrackItem} from "../track-item";
 import "./index.scss";
+import {getIPC} from "../../utils";
+
+const ipc = getIPC();
 
 function renderTracks(tracks: Track[]) {
   return tracks.map(track => {
+    const { id } = track;
+    const isPlaying = playerStore.isTrackPlaying(id);
+
+    const onPlay = async () => {
+      const ids = ipc.user.getUserLikedTrackIds();
+      playerStore.setPlayingIds(ids, id, PlayingTypes.COLLECTION_TRACK);
+    };
+
+    const onClick = () => {
+      playerStore.toggleShowPlayer(true);
+      if (!isPlaying) {
+        return onPlay();
+      }
+    };
+
     return (
       <TrackItem
-        key={`${track.name}-${track.id}`}
+        key={id}
         name={track.name}
         artist={track.artist}
         album={track.album}
         cover={track.cover}
-        isPlaying={false}
-        isLiked={false}
-        onPlay={() => {}}
-        onPause={() => {}}
-        onClick={() => {}}
+        isPlaying={isPlaying}
+        isLiked={true}
+        onPlay={onPlay}
+        onPause={playerStore.pause}
+        onClick={onClick}
       />
     );
   });

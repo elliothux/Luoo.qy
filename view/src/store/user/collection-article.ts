@@ -100,7 +100,8 @@ class CollectionArticle {
       id: this.displayedItemId
     })) as ArticleInfo;
     const tracks = await ipc.db.articleTrack.find({
-      query: { articleId: articleInfo.id }
+      query: { articleId: articleInfo.id },
+      sort: { id: -1 }
     });
     this.displayedItem = {
       ...articleInfo,
