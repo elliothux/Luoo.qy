@@ -20,7 +20,8 @@ function renderVols(vols: VolInfo[]) {
       vol={vol.vol}
       isPlaying={false}
       isLiked={true}
-      onToggle={() => {}}
+      onPlay={() => {}}
+      onPause={() => {}}
     />
   ));
 }

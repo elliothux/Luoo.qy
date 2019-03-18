@@ -9,7 +9,8 @@ export interface Props {
   cover: Cover;
   isPlaying: boolean;
   isLiked: boolean;
-  onToggle: () => void;
+  onPlay: () => void;
+  onPause: () => void;
   onClick: () => void;
 }
 
@@ -22,7 +23,8 @@ function TrackItem(props: Props) {
     isPlaying,
     isLiked,
     onClick,
-    onToggle
+    onPlay,
+    onPause
   } = props;
   return (
     <div className="vol-track-item" onClick={onClick}>
@@ -39,7 +41,7 @@ function TrackItem(props: Props) {
         <Icon
           className="play"
           type={isPlaying ? IconTypes.PAUSE_SOLID : IconTypes.PLAY_SOLID}
-          onClick={onToggle}
+          onClick={isPlaying ? onPause : onPlay}
           preventDefault
         />
         <Icon

@@ -44,9 +44,7 @@ export enum PlayingTypes {
   VOL,
   SINGLE,
   ARTICLE,
-  COLLECTION_VOL,
-  COLLECTION_TRACK,
-  COLLECTION_ARTICLE
+  COLLECTION_TRACK
 }
 
 export enum PlayingStatus {

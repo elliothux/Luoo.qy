@@ -19,7 +19,8 @@ function renderTracks(tracks: Track[]) {
         cover={track.cover}
         isPlaying={false}
         isLiked={false}
-        onToggle={() => {}}
+        onPlay={() => {}}
+        onPause={() => {}}
         onClick={() => {}}
       />
     );

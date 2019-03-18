@@ -1,6 +1,12 @@
-import {action, computed, observable, reaction} from "mobx";
-import {formatPlayingTime, getIPC, LrcLine, LyricParser} from "../utils";
-import {PlayingMode, PlayingStatus, PlayingTypes, Track, TrackType} from "../types";
+import { action, computed, observable, reaction } from "mobx";
+import { formatPlayingTime, getIPC, LrcLine, LyricParser } from "../utils";
+import {
+  PlayingMode,
+  PlayingStatus,
+  PlayingTypes,
+  Track,
+  TrackType
+} from "../types";
 
 const ipc = getIPC();
 const audio: HTMLAudioElement = new Audio();
@@ -26,7 +32,6 @@ class PlayerStore {
       return this.setTotalTime(audio.duration);
     });
     audio.addEventListener("timeupdate", () => {
-      debugger;
       return this.setPlayedTime(audio.currentTime);
     });
     audio.addEventListener("ended", () => {
@@ -36,26 +41,29 @@ class PlayerStore {
 
   private initReaction = () => {
     reaction(
-        () => [this.playingIds, this.playingIndex],
-        this.updatePlayingInfo
+      () => [this.playingIds, this.playingIndex],
+      this.updatePlayingInfo
     );
     reaction(
-        () => this.playingTrack ? this.playingTrack.id : null,
-        () => {
-          this.setPlayedTime(0);
-          return this.updateAudio();
-        }
+      () => (this.playingTrack ? this.playingTrack.id : null),
+      () => {
+        this.setPlayedTime(0);
+        return this.updateAudio();
+      }
     );
     reaction(
-        () => this.playingStatus,
-        () => {
-          switch (this.playingStatus) {
-            case PlayingStatus.PLAYING: return audio.play();
-            case PlayingStatus.PAUSE: return audio.pause;
-            default: return;
-          }
+      () => this.playingStatus,
+      () => {
+        switch (this.playingStatus) {
+          case PlayingStatus.PLAYING:
+            return audio.play();
+          case PlayingStatus.PAUSE:
+            return audio.pause();
+          default:
+            return;
         }
-    )
+      }
+    );
   };
 
   /*
@@ -95,8 +103,7 @@ class PlayerStore {
 
     const query = { id };
     switch (this.playingType) {
-      case PlayingTypes.VOL:
-      case PlayingTypes.COLLECTION_VOL: {
+      case PlayingTypes.VOL: {
         const track = await ipc.db.volTrack.findOne(query);
         this.playingTrack = {
           ...track,
@@ -104,8 +111,7 @@ class PlayerStore {
         } as Track;
         break;
       }
-      case PlayingTypes.ARTICLE:
-      case PlayingTypes.COLLECTION_ARTICLE: {
+      case PlayingTypes.ARTICLE: {
         const track = await ipc.db.articleTrack.findOne(query);
         this.playingTrack = {
           ...track,
@@ -151,11 +157,25 @@ class PlayerStore {
         throw new Error(`Invalid playing-type`);
       }
     }
+    this.play();
   };
 
   @action
-  public setPlayingIds = (ids: number[], currentId: Maybe<number> = null) => {
+  public setPlayingIds = (
+    ids: number[],
+    currentId: Maybe<number>,
+    type: PlayingTypes,
+    typedId: ID = 0
+  ) => {
     this.playingIds = ids;
+    this.playingType = type;
+
+    if (type === PlayingTypes.VOL) {
+      this.playingVolId = typedId;
+    } else if (type === PlayingTypes.ARTICLE) {
+      this.playingArticleId = typedId;
+    }
+
     return this.setPlayingIndex(
       typeof currentId === "number" ? ids.findIndex(i => i === currentId) : 0
     );
@@ -169,6 +189,36 @@ class PlayerStore {
 
   @observable
   public playingType: PlayingTypes = PlayingTypes.VOL;
+
+  @observable
+  private playingVolId: ID = 0;
+
+  @observable
+  private playingArticleId: ID = 0;
+
+  public isVolPlaying = (id: ID): boolean => {
+    return (
+      this.playingType === PlayingTypes.VOL &&
+      this.playingStatus === PlayingStatus.PLAYING &&
+      this.playingVolId === id
+    );
+  };
+
+  public isArticlePlaying = (id: ID): boolean => {
+    return (
+      this.playingType === PlayingTypes.ARTICLE &&
+      this.playingStatus === PlayingStatus.PLAYING &&
+      this.playingArticleId === id
+    );
+  };
+
+  public isTrackPlaying(id: ID): boolean {
+    return (
+      this.playingStatus === PlayingStatus.PLAYING &&
+      !!this.playingTrack &&
+      this.playingTrack.id === id
+    );
+  }
 
   /*
     * @desc Duration
@@ -203,13 +253,6 @@ class PlayerStore {
   @computed
   public get playingProgress(): number {
     return Math.ceil((this.playedTime / this.totalTime) * 100);
-  }
-
-  public isPlaying(id: ID): boolean {
-    if (!this.playingTrack || this.playingStatus !== PlayingStatus.PLAYING) {
-      return false;
-    }
-    return this.playingTrack.id === id;
   }
 
   /*
@@ -264,12 +307,13 @@ class PlayerStore {
         : this.playingIndex - 1);
     return this.setPlayingIndex(index);
   };
+
   /*
     * @desc Lyric
      */
   @computed
   get lyrics(): Maybe<LrcLine[]> {
-    if (!this.playingTrack || !this.playingTrack.lyric) {
+    if (!this.playingTrack || !this.playingTrack.lyric || this.playingTrack.lyric.match('暂无歌词')) {
       return null;
     }
     const lrc = new LyricParser(this.playingTrack.lyric);
@@ -285,18 +329,17 @@ class PlayerStore {
     if (!lyrics) {
       return null;
     }
-    const empty = { text: " " };
     return [
-      lyrics[i - 4] || empty,
-      lyrics[i - 3] || empty,
-      lyrics[i - 2] || empty,
-      lyrics[i - 1] || empty,
+      lyrics[i - 4],
+      lyrics[i - 3],
+      lyrics[i - 2],
+      lyrics[i - 1],
       lyrics[i],
-      lyrics[i + 1] || empty,
-      lyrics[i + 2] || empty,
-      lyrics[i + 3] || empty,
-      lyrics[i + 4] || empty
-    ].map(i => i.text);
+      lyrics[i + 1],
+      lyrics[i + 2],
+      lyrics[i + 3],
+      lyrics[i + 4]
+    ].map(i => i ? i.text : '');
   }
 
   @action

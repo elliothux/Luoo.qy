@@ -1,11 +1,16 @@
 import * as React from "react";
 import { observer } from "mobx-react";
-import {collectionTrackStore, playerStore, store, volStore} from "../../store";
+import {
+  collectionTrackStore,
+  playerStore,
+  store,
+  volStore
+} from "../../store";
 import { Icon, IconTypes } from "../../components/icon";
 import { TrackItem } from "../../components/track-item";
 import { Route } from "../../components/route";
 import { Loading } from "../../components/loading";
-import {ViewTypes, VolInfo, VolTrack} from "../../types";
+import { PlayingTypes, ViewTypes, VolInfo, VolTrack } from "../../types";
 import "./index.scss";
 
 let infoRef: Maybe<HTMLDivElement> = null;
@@ -17,16 +22,16 @@ function renderTracks(vol: VolInfo) {
 
   return tracks.map(track => {
     const { id, name, artist, album, cover } = track;
-    const isPlaying = playerStore.isPlaying(id);
+    const isPlaying = playerStore.isTrackPlaying(id);
 
-    const play = async () => {
-      await playerStore.setPlayingIds(ids, id);
+    const onPlay = async () => {
+      await playerStore.setPlayingIds(ids, id, PlayingTypes.VOL, vol.id);
       return playerStore.play();
     };
 
     const onClick = () => {
       playerStore.toggleShowPlayer(true);
-      return play();
+      return onPlay();
     };
 
     return (
@@ -38,7 +43,8 @@ function renderTracks(vol: VolInfo) {
         cover={cover}
         isPlaying={isPlaying}
         isLiked={collectionTrackStore.isLiked(id)}
-        onToggle={isPlaying ? playerStore.pause : play}
+        onPlay={onPlay}
+        onPause={playerStore.pause}
         onClick={onClick}
       />
     );
@@ -46,11 +52,9 @@ function renderTracks(vol: VolInfo) {
 }
 
 function play(vol: VolInfo) {
-  return () => {
-    const tracks = vol.tracks as VolTrack[];
-    const ids = tracks.map(i => i.id);
-    playerStore.setPlayingIds(ids);
-  }
+  const tracks = vol.tracks as VolTrack[];
+  const ids = tracks.map(i => i.id);
+  playerStore.setPlayingIds(ids, null, PlayingTypes.VOL, vol.id);
 }
 
 function IVol() {
@@ -63,9 +67,12 @@ function IVol() {
       </Route>
     );
   }
+
   if (store.view === ViewTypes.VOL_INFO) {
     store.setBackgroundImage(vol.cover);
   }
+
+  const isPlaying = playerStore.isVolPlaying(vol.id);
 
   return (
     <Route currentView={store.view} view={ViewTypes.VOL_INFO} id="vol">
@@ -88,7 +95,10 @@ function IVol() {
           vol.
           {vol.vol}
           <Icon type={IconTypes.LIKE} />
-          <Icon type={IconTypes.PLAY} />
+          <Icon
+            type={isPlaying ? IconTypes.PAUSE : IconTypes.PLAY}
+            onClick={isPlaying ? playerStore.pause : () => play(vol)}
+          />
         </p>
         <p id="vol-info-title">{vol.title}</p>
         <div

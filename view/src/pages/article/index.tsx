@@ -25,8 +25,9 @@ function renderTracks(article: Maybe<ArticleInfo>) {
         cover={track.cover}
         isPlaying={false}
         isLiked={false}
-        onToggle={() => {}}
         onClick={() => {}}
+        onPlay={() => {}}
+        onPause={() => {}}
       />
     );
   });

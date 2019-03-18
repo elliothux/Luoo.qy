@@ -12,7 +12,8 @@ export interface Props {
   vol: number;
   isPlaying: boolean;
   isLiked: boolean;
-  onToggle: () => void;
+  onPlay: () => void;
+  onPause: () => void;
 }
 
 class VolItem extends React.PureComponent<Props> {
@@ -30,7 +31,8 @@ class VolItem extends React.PureComponent<Props> {
       color,
       isPlaying,
       isLiked,
-      onToggle
+        onPlay,
+        onPause
     } = this.props;
     return (
       <div className="vol-item" onClick={this.onClick}>
@@ -53,7 +55,7 @@ class VolItem extends React.PureComponent<Props> {
             />
             <Icon
               type={isPlaying ? IconTypes.PAUSE : IconTypes.PLAY}
-              onClick={onToggle}
+              onClick={isPlaying ? onPause : onPlay}
               preventDefault
             />
           </div>
