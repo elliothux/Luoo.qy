@@ -9,7 +9,7 @@ import {
   VolTypesMap
 } from "../types";
 import { Pagination } from "./pagination";
-import { store } from "./index";
+import {playerStore, store} from "./index";
 
 const ipc: IpcObject = getIPC();
 const PAGE_SCALE = 3 * 4;
@@ -39,6 +39,12 @@ class VolStore {
     }, this.updateDisplayedItems);
     // observer for vol
     reaction(() => this.displayedItemId, this.updateDisplayedItem);
+    // observer for cover
+    reaction(() => this.displayedItem ? this.displayedItem.cover : null, () => {
+      if (store.view === ViewTypes.VOL_INFO && this.displayedItem) {
+        store.setBackgroundImage(this.displayedItem.cover);
+      }
+    });
   };
 
   /*

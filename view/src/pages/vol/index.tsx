@@ -64,10 +64,6 @@ function IVol() {
     );
   }
 
-  if (store.view === ViewTypes.VOL_INFO) {
-    store.setBackgroundImage(vol.cover);
-  }
-
   const isPlaying = playerStore.isVolPlaying(vol.id);
   const isLiked = collectionVolStore.isLiked(vol.id);
 

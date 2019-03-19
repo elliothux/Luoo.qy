@@ -78,10 +78,6 @@ function IArticle() {
     );
   }
 
-  if (store.view === ViewTypes.ARTICLE_INFO) {
-    store.setBackgroundImage(article.cover);
-  }
-
   const { id } = article;
   const isPlaying = playerStore.isArticlePlaying(id);
   const isLiked = collectionArticleStore.isLiked(id);

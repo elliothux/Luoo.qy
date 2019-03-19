@@ -30,6 +30,12 @@ class ArticleStore {
     }, this.updateDisplayedItems);
     // observer for article
     reaction(() => this.displayedItemId, this.updateDisplayedItem);
+    // observer for cover
+    reaction(() => this.displayedItem ? this.displayedItem.cover : null, () => {
+      if (store.view === ViewTypes.ARTICLE_INFO && this.displayedItem) {
+        store.setBackgroundImage(this.displayedItem.cover);
+      }
+    });
   };
 
   /*

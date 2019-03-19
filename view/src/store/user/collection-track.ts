@@ -85,7 +85,6 @@ class CollectionTrack {
       [...volTracks, ...singles, ...articleTracks],
       i => String(i.id)
     );
-    debugger;
   };
 
   /*

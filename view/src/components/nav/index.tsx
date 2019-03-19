@@ -60,7 +60,7 @@ function INav() {
           className={hideClassName(!playerStore.showPlayer)}
           // onClick={playerStore.goToPlayingSource}
         >
-          <Icon type={IconTypes.SOURCE} />
+          <Icon type={IconTypes.SOURCE} onClick={playerStore.goToSource} />
           <p>来源</p>
         </div>
         <div

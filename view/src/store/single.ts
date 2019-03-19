@@ -30,6 +30,12 @@ class SingleStore {
     }, this.updateDisplayedItems);
     // observer for single
     reaction(() => this.displayedItemId, this.updateDisplayedItem);
+    // observer for cover
+    reaction(() => this.displayedItem ? this.displayedItem.cover : null, () => {
+      if (store.view === ViewTypes.SINGLE_INFO && this.displayedItem) {
+        store.setBackgroundImage(this.displayedItem.cover);
+      }
+    });
   };
 
   /*

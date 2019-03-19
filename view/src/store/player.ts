@@ -1,12 +1,9 @@
-import { action, computed, observable, reaction } from "mobx";
-import { formatPlayingTime, getIPC, LrcLine, LyricParser } from "../utils";
-import {
-  PlayingMode,
-  PlayingStatus,
-  PlayingTypes,
-  Track,
-  TrackType
-} from "../types";
+import {action, computed, observable, reaction} from "mobx";
+import {formatPlayingTime, getIPC, LrcLine, LyricParser} from "../utils";
+import {PlayingMode, PlayingStatus, PlayingTypes, Track, TrackType} from "../types";
+import {volStore} from "./vol";
+import {articleStore} from "./article";
+import {singleStore} from "./single";
 
 const ipc = getIPC();
 const audio: HTMLAudioElement = new Audio();
@@ -306,6 +303,34 @@ class PlayerStore {
         ? this.playingIds.length - 1
         : this.playingIndex - 1);
     return this.setPlayingIndex(index);
+  };
+
+  @action
+  public goToSource = () => {
+    const { playingTrack } = this;
+    if (!playingTrack) {
+      return;
+    }
+
+    const { id, type } = playingTrack;
+    switch (type) {
+      case TrackType.VOL_TRACK: {
+        if ('volId' in playingTrack) {
+          return volStore.setItem(playingTrack.volId);
+        }
+        break;
+      }
+      case TrackType.ARTICLE_TRACK: {
+        if ('articleId' in playingTrack) {
+          return articleStore.setItem(playingTrack.articleId);
+        }
+        break;
+      }
+      case TrackType.SINGLE: {
+        return singleStore.setItem(id);
+      }
+    }
+    throw new Error(`Jump to source failed.`);
   };
 
   /*

@@ -35,10 +35,6 @@ function ISingle() {
     );
   }
 
-  if (store.view === ViewTypes.SINGLE_INFO) {
-    store.setBackgroundImage(single.cover);
-  }
-
   const { id } = single;
   const isPlaying = playerStore.isTrackPlaying(id);
   const isLiked = collectionTrackStore.isLiked(id);
