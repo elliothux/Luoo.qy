@@ -58,7 +58,6 @@ function renderTracks(article: ArticleInfo) {
         isLiked={collectionArticleStore.isLiked(id)}
         onClick={onClick}
         onPlay={onPlay}
-        onPause={playerStore.pause}
       />
     );
   });

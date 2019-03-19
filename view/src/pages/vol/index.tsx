@@ -41,7 +41,6 @@ function renderTracks(vol: VolInfo) {
         isPlaying={isPlaying}
         isLiked={collectionTrackStore.isLiked(id)}
         onPlay={onPlay}
-        onPause={playerStore.pause}
         onClick={onClick}
       />
     );

@@ -30,7 +30,6 @@ function renderVols(vols: VolInfo[]) {
             isPlaying={playerStore.isVolPlaying(id)}
             isLiked={true}
             onPlay={onPlay}
-            onPause={playerStore.pause}
         />
     )
   });

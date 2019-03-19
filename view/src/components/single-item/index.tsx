@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Icon, IconTypes } from "../icon";
 import "./index.scss";
+import {playerStore} from "../../store";
 
 export interface Props {
   name: Title;
@@ -11,7 +12,7 @@ export interface Props {
   isLiked: boolean;
   onClick: () => void;
   onPlay: () => void;
-  onPause: () => void;
+  onPause?: () => void;
 }
 
 class SingleItem extends React.Component<Props> {
@@ -25,7 +26,7 @@ class SingleItem extends React.Component<Props> {
       color,
       onClick,
       onPlay,
-      onPause
+      onPause = playerStore.pause
     } = this.props;
 
     return (

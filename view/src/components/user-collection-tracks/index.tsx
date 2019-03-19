@@ -38,7 +38,6 @@ function renderTracks(tracks: Track[]) {
         isPlaying={isPlaying}
         isLiked={true}
         onPlay={onPlay}
-        onPause={playerStore.pause}
         onClick={onClick}
       />
     );

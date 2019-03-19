@@ -42,7 +42,6 @@ class Vols extends React.Component {
           isPlaying={playerStore.isVolPlaying(id)}
           isLiked={collectionVolStore.isLiked(id)}
           onPlay={onPlay}
-          onPause={playerStore.pause}
         />
       );
     });

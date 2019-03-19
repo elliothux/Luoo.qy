@@ -40,7 +40,6 @@ function renderSingles(singles: Maybe<Single[]>) {
             isLiked={collectionTrackStore.isLiked(single.id)}
             onClick={() => singleStore.setItem(single.id)}
             onPlay={onPlay}
-            onPause={playerStore.pause}
         />
     )
   });

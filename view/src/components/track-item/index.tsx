@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Icon, IconTypes } from "../icon";
 import "./index.scss";
+import { playerStore } from "../../store";
 
 export interface Props {
   name: Title;
@@ -9,9 +10,9 @@ export interface Props {
   cover: Cover;
   isPlaying: boolean;
   isLiked: boolean;
-  onPlay: () => void;
-  onPause: () => void;
   onClick: () => void;
+  onPlay: () => void;
+  onPause?: () => void;
 }
 
 function TrackItem(props: Props) {
@@ -24,7 +25,7 @@ function TrackItem(props: Props) {
     isLiked,
     onClick,
     onPlay,
-    onPause
+    onPause = playerStore.pause
   } = props;
   return (
     <div className="vol-track-item" onClick={onClick}>

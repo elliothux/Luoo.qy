@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Icon, IconTypes } from "../icon";
-import { volStore } from "../../store";
+import { playerStore, volStore } from "../../store";
 import "./index.scss";
 
 export interface Props {
@@ -13,7 +13,7 @@ export interface Props {
   isPlaying: boolean;
   isLiked: boolean;
   onPlay: () => void;
-  onPause: () => void;
+  onPause?: () => void;
 }
 
 class VolItem extends React.PureComponent<Props> {
@@ -31,8 +31,8 @@ class VolItem extends React.PureComponent<Props> {
       color,
       isPlaying,
       isLiked,
-        onPlay,
-        onPause
+      onPlay,
+      onPause = playerStore.pause
     } = this.props;
     return (
       <div className="vol-item" onClick={this.onClick}>
