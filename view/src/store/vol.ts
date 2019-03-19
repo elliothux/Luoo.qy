@@ -1,5 +1,5 @@
 import { action, computed, observable, reaction } from "mobx";
-import { getIPC } from "../utils";
+import {getIPC, noop} from "../utils";
 import {
   TrackType,
   ViewTypes,
@@ -81,6 +81,7 @@ class VolStore {
   @action
   public setType = (type: VolType) => {
     this.type = type;
+    this.changeVolTypeListener();
     store.changeView(ViewTypes.VOLS);
   };
 
@@ -90,6 +91,12 @@ class VolStore {
   @action
   public toggleShowVolTypes = (show: boolean) => {
     this.showVolTypes = show;
+  };
+
+  private changeVolTypeListener: Callback = noop;
+
+  public onChangeVolType = (listener: Callback) => {
+    this.changeVolTypeListener = listener;
   };
 
   /*

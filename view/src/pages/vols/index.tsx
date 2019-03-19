@@ -17,6 +17,7 @@ class Vols extends React.Component {
 
   componentDidMount(): void {
     volStore.pagination.onChangePage(() => scrollToTop(this.containerRef.current));
+    volStore.onChangeVolType(() => scrollToTop(this.containerRef.current, false));
   }
 
   renderVols = () => {
