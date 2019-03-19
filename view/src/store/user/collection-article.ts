@@ -118,7 +118,7 @@ class CollectionArticle {
   @action
   public updateFromCGI = async () => {
     this.isFetching = true;
-    this.ids = await ipc.user.fetchAndSaveLikedVols();
+    this.ids = await ipc.user.fetchAndSaveLikedArticles();
     this.isFetching = false;
   };
 }

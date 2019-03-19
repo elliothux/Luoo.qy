@@ -6,12 +6,12 @@ import {Pagination} from "../../components/pagination";
 import {ArticleInfo, PlayingTypes, ViewTypes} from "../../types";
 import {Route} from "../../components/route";
 import "./index.scss";
-import {ipcUtils} from "../../utils";
+import {ipcUtils, scrollToTop} from "../../utils";
 
-let articlesRef: HTMLDivElement;
+let containerRef: HTMLDivElement;
 
-function getArticlesRef(i: HTMLDivElement) {
-  articlesRef = i as HTMLDivElement;
+function getContainerRef(i: HTMLDivElement) {
+  containerRef = i;
 }
 
 function renderArticles(articles: Maybe<ArticleInfo[]>) {
@@ -49,13 +49,15 @@ function IArticles() {
       currentView={store.view}
       view={ViewTypes.ARTICLES}
       id="articles"
-      getRef={getArticlesRef}
+      getRef={getContainerRef}
     >
       {renderArticles(displayedItems)}
       <Pagination store={pagination} />
     </Route>
   );
 }
+
+articleStore.pagination.onChangePage(() => scrollToTop(containerRef));
 
 const Articles = observer(IArticles);
 

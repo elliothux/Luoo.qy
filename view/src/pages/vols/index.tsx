@@ -4,17 +4,20 @@ import {observer} from "mobx-react";
 import {collectionVolStore, playerStore, store, volStore} from "../../store";
 import {VolItem} from "../../components/vol-item";
 import {Pagination} from "../../components/pagination";
-import {PlayingTypes, ViewTypes, VolInfo, VolTrack} from "../../types";
+import {PlayingTypes, ViewTypes, VolInfo} from "../../types";
 import {Loading} from "../../components/loading";
 import {Route} from "../../components/route";
 import "./index.scss";
-import {getIPC, ipcUtils} from "../../utils";
+import {ipcUtils, scrollToTop} from "../../utils";
 
-const ipc = getIPC();
 
 @observer
 class Vols extends React.Component {
   containerRef: RefObject<HTMLDivElement> = React.createRef();
+
+  componentDidMount(): void {
+    volStore.pagination.onChangePage(() => scrollToTop(this.containerRef.current));
+  }
 
   renderVols = () => {
     const { displayedItems } = volStore;

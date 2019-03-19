@@ -1,6 +1,7 @@
 import * as React from "react";
 import { ViewTypes } from "../../types";
 import { Ref } from "react";
+import {noop} from "../../utils";
 
 export interface RouteProps {
   currentView: ViewTypes;
@@ -47,14 +48,13 @@ class Route extends React.PureComponent<RouteProps> {
 
   render() {
     const { style: iStyle } = this.state;
-    const { children, id, className, style, getRef } = this.props;
+    const { children, id, className, style, getRef = noop } = this.props;
     const elemProps = {
       id,
       className,
       style: { ...style, ...iStyle },
-      ref: getRef
     };
-    return <div {...elemProps}>{children}</div>;
+    return <div ref={getRef} {...elemProps}>{children}</div>;
   }
 }
 

@@ -1,19 +1,18 @@
 import * as React from "react";
 import { observer } from "mobx-react";
-import {singleStore, store, Pagination as PaginationStore, playerStore, collectionTrackStore} from "../../store";
+import {singleStore, store, playerStore, collectionTrackStore} from "../../store";
 import { Pagination } from "../../components/pagination";
 import { SingleItem } from "../../components/single-item";
-import {ViewTypes, Single, VolTrack, PlayingTypes} from "../../types";
+import {ViewTypes, Single, PlayingTypes} from "../../types";
 import { Route } from "../../components/route";
 import { Loading } from "../../components/loading";
+import {ipcUtils, scrollToTop} from "../../utils";
 import "./index.scss";
-import {getIPC, ipcUtils} from "../../utils";
 
-const ipc = getIPC();
-let singlesRef: HTMLDivElement;
+let containerRef: HTMLDivElement;
 
-function getSinglesRef(i: Maybe<HTMLDivElement>) {
-  singlesRef = i as HTMLDivElement;
+function getContainerRef(i: HTMLDivElement) {
+  containerRef = i;
 }
 
 function renderSingles(singles: Maybe<Single[]>) {
@@ -52,13 +51,17 @@ function ISingles() {
       currentView={store.view}
       view={ViewTypes.SINGLES}
       id="singles"
-      getRef={getSinglesRef}
+      getRef={getContainerRef}
     >
       {renderSingles(displayedItems)}
       <Pagination store={pagination} />
     </Route>
   );
 }
+
+singleStore.pagination.onChangePage(() => {
+  scrollToTop(containerRef);
+});
 
 const Singles = observer(ISingles);
 

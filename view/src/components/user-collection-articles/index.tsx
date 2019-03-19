@@ -7,7 +7,13 @@ import { Pagination } from "../pagination";
 import {ArticleInfo, PlayingTypes} from "../../types";
 import { ArticleItem } from "../article-item";
 import "./index.scss";
-import {ipcUtils} from "../../utils";
+import {ipcUtils, scrollToTop} from "../../utils";
+
+let containerRef: HTMLDivElement;
+
+function getContainerRef(i: HTMLDivElement) {
+  containerRef = i;
+}
 
 function renderArticles(articles: ArticleInfo[]) {
   return articles.map((article: ArticleInfo) => {
@@ -46,12 +52,16 @@ function IUserCollectionArticles() {
   }
 
   return (
-    <div id="user-collection-articles">
+    <div id="user-collection-articles" ref={getContainerRef}>
       {renderArticles(displayedItems)}
       <Pagination store={pagination} />
     </div>
   );
 }
+
+collectionArticleStore.pagination.onChangePage(() => {
+  scrollToTop(containerRef);
+});
 
 const UserCollectionArticles = observer(IUserCollectionArticles);
 

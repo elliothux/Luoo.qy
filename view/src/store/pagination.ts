@@ -1,6 +1,10 @@
 import { action, computed, observable } from "mobx";
 import { genRange } from "../utils";
 
+
+type ChangePageListener = (page?: number, prePage?: number) => void;
+const changePageListeners: ChangePageListener[] = [];
+
 class Pagination {
   static from = (
     total: number,
@@ -42,6 +46,7 @@ class Pagination {
 
   @action
   public changeCurrentPage = (page: number) => {
+    changePageListeners.forEach(callback => callback(page, this.currentPage));
     this.currentPage = page;
   };
 
@@ -91,6 +96,13 @@ class Pagination {
   public get hasPre(): boolean {
     return this.paginationCurrentIndex > 0;
   }
+
+  /*
+  @desc Listeners
+   */
+  public onChangePage = (callback: ChangePageListener) => {
+    changePageListeners.push(callback);
+  };
 }
 
 export { Pagination };

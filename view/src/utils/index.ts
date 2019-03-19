@@ -1,4 +1,5 @@
 import * as React from "react";
+import {func} from "prop-types";
 
 function genRange(start: number, end: number): number[] {
   const result: number[] = [];
@@ -73,6 +74,16 @@ function uniqueBy<T>(array: T[], getKey: (item: T) => string): T[] {
   return Object.keys(map).map(key => map[key]);
 }
 
+function scrollToTop(element: Maybe<HTMLElement>, smooth: boolean = true): void {
+  if (!element) {
+    return;
+  }
+  return element.scrollTo({
+    top: 0,
+    behavior: smooth ? "smooth" : "auto"
+  });
+}
+
 export {
   genRange,
   px,
@@ -82,7 +93,8 @@ export {
   preventSyntheticEvent,
   formatPlayingTime,
   isAnyPartOfElementInViewport,
-  promiseWrapper
+  promiseWrapper,
+  scrollToTop
 };
 export { getIPC, ipcUtils } from "./ipc";
 export * from "./event";

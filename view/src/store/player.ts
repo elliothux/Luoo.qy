@@ -9,10 +9,13 @@ const ipc = getIPC();
 const audio: HTMLAudioElement = new Audio();
 
 class PlayerStore {
+  constructor() {
+    this.initReaction();
+  }
+
   @action
   public init = () => {
     this.initAudio();
-    this.initReaction();
   };
 
   @action

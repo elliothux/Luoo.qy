@@ -17,7 +17,7 @@ import { Route } from "../../components/route";
 import { Loading } from "../../components/loading";
 import { TrackItem } from "../../components/track-item";
 import "./index.scss";
-import { ipcUtils } from "../../utils";
+import {ipcUtils, scrollToTop} from "../../utils";
 
 let infoRef: Maybe<HTMLDivElement> = null;
 let tracksRef: Maybe<HTMLDivElement> = null;
@@ -130,8 +130,8 @@ function IArticle() {
 
 store.onChangeView(view => {
   if (infoRef && tracksRef && view === ViewTypes.ARTICLE_INFO) {
-    infoRef.scroll(0, 0);
-    tracksRef.scroll(0, 0);
+    scrollToTop(infoRef, false);
+    scrollToTop(tracksRef, false);
   }
 });
 

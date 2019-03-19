@@ -1,15 +1,22 @@
 import * as React from "react";
 import {observer} from "mobx-react";
-import {collectionTrackStore, playerStore} from "../../store";
+import {collectionTrackStore, collectionVolStore, playerStore} from "../../store";
 import {Loading} from "../loading";
 import {Empty} from "../empty";
 import {PlayingTypes, Track} from "../../types";
 import {Pagination} from "../pagination";
 import {TrackItem} from "../track-item";
 import "./index.scss";
-import {getIPC} from "../../utils";
+import {getIPC, scrollToTop} from "../../utils";
 
 const ipc = getIPC();
+
+let containerRef: HTMLDivElement;
+
+function getContainerRef(i: HTMLDivElement) {
+  containerRef = i;
+}
+
 
 function renderTracks(tracks: Track[]) {
   return tracks.map(track => {
@@ -56,12 +63,16 @@ function IUserCollectionTracks() {
   }
 
   return (
-    <div id="user-collection-tracks">
+    <div id="user-collection-tracks" ref={getContainerRef}>
       {renderTracks(displayedItems)}
       <Pagination store={pagination} />
     </div>
   );
 }
+
+collectionTrackStore.pagination.onChangePage(() => {
+  scrollToTop(containerRef);
+});
 
 const UserCollectionTracks = observer(IUserCollectionTracks);
 

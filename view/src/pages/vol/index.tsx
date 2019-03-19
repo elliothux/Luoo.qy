@@ -7,6 +7,7 @@ import {Route} from "../../components/route";
 import {Loading} from "../../components/loading";
 import {PlayingTypes, ViewTypes, VolInfo, VolTrack} from "../../types";
 import "./index.scss";
+import {scrollToTop} from "../../utils";
 
 let infoRef: Maybe<HTMLDivElement> = null;
 let tracksRef: Maybe<HTMLDivElement> = null;
@@ -116,8 +117,8 @@ function IVol() {
 
 store.onChangeView(view => {
   if (infoRef && tracksRef && view === ViewTypes.VOL_INFO) {
-    infoRef.scroll(0, 0);
-    tracksRef.scroll(0, 0);
+    scrollToTop(infoRef, false);
+    scrollToTop(tracksRef, false);
   }
 });
 

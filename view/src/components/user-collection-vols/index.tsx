@@ -7,7 +7,13 @@ import {PlayingTypes, VolInfo} from "../../types";
 import { VolItem } from "../vol-item";
 import { Pagination } from "../pagination";
 import "./index.scss";
-import {ipcUtils} from "../../utils";
+import {ipcUtils, scrollToTop} from "../../utils";
+
+let containerRef: HTMLDivElement;
+
+function getContainerRef(i: HTMLDivElement) {
+  containerRef = i;
+}
 
 function renderVols(vols: VolInfo[]) {
   return vols.map(vol => {
@@ -47,12 +53,16 @@ function IUserCollectionVols() {
   }
 
   return (
-    <div id="user-collection-vols">
+    <div id="user-collection-vols" ref={getContainerRef}>
       {renderVols(displayedItems)}
       <Pagination store={pagination} />
     </div>
   );
 }
+
+collectionVolStore.pagination.onChangePage(() => {
+  scrollToTop(containerRef);
+});
 
 const UserCollectionVols = observer(IUserCollectionVols);
 
