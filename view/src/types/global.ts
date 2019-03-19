@@ -1,7 +1,7 @@
 import * as React from "react";
 
 declare global {
-  // type Maybe<T> = T | null;
+  type Maybe<T> = T | null;
   type Callback = (...args: any[]) => any;
   type ReactNode =
     | React.ReactChild

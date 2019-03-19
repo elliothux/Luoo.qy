@@ -6,8 +6,7 @@ import {
   ArticleTrack,
   VolTrack
 } from "../types";
-import { UserInfo, UserSettings } from "../../../app/src/types";
-import { func } from "prop-types";
+import { UserInfo, UserSettings } from "../types";
 
 declare global {
   interface Window {

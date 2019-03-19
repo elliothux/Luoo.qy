@@ -1,5 +1,15 @@
 declare global {
   type Maybe<T> = T | null;
+  type Callback = (...args: any[]) => any;
+  type ID = number;
+  type Cover = string;
+  type Title = string;
+  type Name = string;
+  type Artist = string;
+  type Album = string;
+  type Link = string;
+  type Tag = string;
+  type Color = string;
 }
 
 export interface FindOptions {
@@ -11,6 +21,7 @@ export interface FindOptions {
 }
 
 export interface Track {
+  id: number;
   name: string;
   artist: string;
   album: string;
@@ -42,13 +53,11 @@ export interface VolInfo {
 }
 
 export interface VolTrack extends Track {
-  id: number;
   volId: number;
   color: string;
 }
 
 export interface Single extends Track {
-  id: number;
   desc: string;
   date: number;
   recommender: string;
@@ -71,7 +80,6 @@ export interface ArticleInfo {
 }
 
 export interface ArticleTrack extends Track {
-  id: number;
   articleId: number;
   color: string;
 }
