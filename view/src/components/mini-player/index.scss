@@ -25,7 +25,7 @@ $mini-player-height: 80px;
   justify-content: flex-start;
   height: $mini-player-height;
   bottom: -$mini-player-height;
-  animation: mini-player 260ms 1100ms ease forwards;
+  animation: mini-player 260ms 600ms ease forwards;
   @keyframes mini-player {
     0% {
       transform: none;
@@ -54,6 +54,7 @@ $mini-player-height: 80px;
     background-position: center;
     border-color: white;
     margin: 0 12px;
+    background-color: black;
     box-shadow: 0 0 30px 5px rgba(0, 0, 0, 0.35);
     @include transition;
     @include cursor;

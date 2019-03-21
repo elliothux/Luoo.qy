@@ -45,9 +45,10 @@ class PlayerStore {
       this.updatePlayingInfo
     );
     reaction(
-      () => (this.playingTrack ? this.playingTrack.id : null),
+      () => (this.playingTrack ? this.playingTrack.url : null),
       () => {
         this.setPlayedTime(0);
+        this.changePlayingRatio(0);
         return this.updateAudio();
       }
     );
@@ -157,7 +158,6 @@ class PlayerStore {
         throw new Error(`Invalid playing-type`);
       }
     }
-    this.play();
   };
 
   @action
@@ -258,7 +258,7 @@ class PlayerStore {
   /*
   * @desc Control
    */
-  private updateAudio = () => {
+  private updateAudio = async () => {
     if (!this.playingTrack) {
       return;
     }
@@ -267,14 +267,13 @@ class PlayerStore {
       return;
     }
     audio.pause();
-    audio.src = src;
-    audio.load();
-    return audio.play();
+    audio.setAttribute('src', src);
+    return audio.load();
   };
 
   @action
   public changePlayingRatio = (ratio: number) => {
-    const time = (audio.duration * ratio) / 100;
+    const time = ((audio.duration || 0) * ratio) / 100;
     audio.currentTime = time;
     this.setPlayedTime(time);
     this.currentLyricIndex = 0;

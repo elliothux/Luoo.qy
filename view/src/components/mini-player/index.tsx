@@ -3,6 +3,7 @@ import { observer } from "mobx-react";
 import { playerStore, store } from "../../store";
 import { Icon, IconTypes } from "../icon";
 import { ViewTypes, PlayingStatus } from "../../types";
+import { noop } from "../../utils";
 import "./index.scss";
 
 function IMiniPlayer() {
@@ -15,11 +16,12 @@ function IMiniPlayer() {
     artist: ""
   };
 
-  const show = [
-    ViewTypes.VOL_INFO,
-    ViewTypes.SINGLE_INFO,
-    ViewTypes.ARTICLE_INFO,
-  ].includes(view) || playerStore.showPlayer;
+  const show =
+    [
+      ViewTypes.VOL_INFO,
+      ViewTypes.SINGLE_INFO,
+      ViewTypes.ARTICLE_INFO
+    ].includes(view) || playerStore.showPlayer;
 
   if (show) {
     return (
@@ -32,7 +34,9 @@ function IMiniPlayer() {
         <div
           id="mini-player-cover"
           style={{ backgroundImage: `url(${info.cover})` }}
-          onClick={() => playerStore.toggleShowPlayer(true)}
+          onClick={
+            playingTrack ? () => playerStore.toggleShowPlayer(true) : noop
+          }
         >
           <Icon type={IconTypes.EXPAND} />
         </div>
@@ -40,7 +44,8 @@ function IMiniPlayer() {
           <div id="mini-player-info-text">
             <p id="mini-player-info-name">{info.name}</p>
             <p id="mini-player-info-album">
-              {info.album} / {info.artist}
+              {info.album ? `${info.album} / ` : ""}
+              {info.artist}
             </p>
           </div>
           <div id="mini-player-controller">
@@ -69,14 +74,18 @@ function IMiniPlayer() {
     );
   }
 
-  return (
-    <div id="mini-player-collapsed">
-      <Icon
-        type={IconTypes.WAVE}
-        onClick={() => playerStore.toggleShowPlayer(true)}
-      />
-    </div>
-  );
+  if (playingTrack) {
+    return (
+      <div id="mini-player-collapsed">
+        <Icon
+          type={IconTypes.WAVE}
+          onClick={() => playerStore.toggleShowPlayer(true)}
+        />
+      </div>
+    );
+  }
+
+  return null;
 }
 
 const MiniPlayer = observer(IMiniPlayer);
