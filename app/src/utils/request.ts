@@ -11,10 +11,11 @@ export type RequestHeaders = {
 
 export type Cookies = RequestHeaders;
 
+export type Forms = { [key: string]: HeaderValue };
 interface IRequestParams {
   url: string;
   method?: "GET" | "POST";
-  form?: { [key: string]: HeaderValue };
+  form?: Forms;
   headers?: RequestHeaders;
 }
 export interface RequestParams extends IRequestParams {
@@ -130,4 +131,25 @@ function getHTMLDOM(params: RequestParams): Promise<Document> {
   });
 }
 
-export { getJSON, getHeader, getHTMLDOM };
+function postForm<T>(data: Forms, params: RequestParams): Promise<T> {
+    params.method = 'POST';
+    params.form = data;
+    return new Promise((resolve, reject) => {
+        proxiedRequest(
+            handleCookie(params),
+            (error: Maybe<Error>, response: Maybe<Response>, body: Maybe<string>) => {
+                const e = getResponseError(params.url, error, response, body);
+                if (e) {
+                    return reject(e);
+                }
+                try {
+                    return resolve(JSON.parse(body as string) as T);
+                } catch (e) {
+                    return reject(e);
+                }
+            }
+        );
+    });
+}
+
+export { getJSON, getHeader, getHTMLDOM, postForm };
