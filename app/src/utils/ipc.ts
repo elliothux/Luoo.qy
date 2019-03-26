@@ -14,7 +14,10 @@ import {
   getUserLikedTrackIds,
   fetchAndSaveLikedVols,
   fetchAndSaveLikedTracks,
-  fetchAndSaveLikedArticles
+  fetchAndSaveLikedArticles,
+  likeVol,
+  likeArticle,
+  likeTrack
 } from "../user";
 
 function injectIPC(target: object): void {
@@ -30,7 +33,10 @@ function injectIPC(target: object): void {
         getUserLikedTrackIds,
         fetchAndSaveLikedVols,
         fetchAndSaveLikedTracks,
-        fetchAndSaveLikedArticles
+        fetchAndSaveLikedArticles,
+        likeVol,
+        likeArticle,
+        likeTrack
       },
       request: {
         requestVols,

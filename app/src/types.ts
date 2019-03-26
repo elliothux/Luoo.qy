@@ -20,6 +20,11 @@ export interface FindOptions {
   sort?: object;
 }
 
+export enum TrackType {
+  VOL_TRACK = 'VOL_TRACK',
+  SINGLE = 'VOL_TRACK',
+  ARTICLE_TRACK = 'ARTICLE_TRACK'
+}
 export interface Track {
   id: number;
   name: string;

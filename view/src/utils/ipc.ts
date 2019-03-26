@@ -4,9 +4,11 @@ import {
   Single,
   ArticleInfo,
   ArticleTrack,
-  VolTrack
+  VolTrack,
+  TrackType,
+  UserInfo,
+  UserSettings
 } from "../types";
-import { UserInfo, UserSettings } from "../types";
 
 declare global {
   interface Window {
@@ -30,6 +32,9 @@ declare global {
       fetchAndSaveLikedVols(): Promise<number[]>;
       fetchAndSaveLikedTracks(): Promise<number[]>;
       fetchAndSaveLikedArticles(): Promise<number[]>;
+      likeVol(id: ID): Promise<ID[]>;
+      likeArticle(id: ID): Promise<ID[]>;
+      likeTrack(type: TrackType, id: ID, fromID: ID): Promise<ID[]>;
     };
     db: {
       vol: {
@@ -99,7 +104,7 @@ const ipcUtils = {
       projection: { id: 1 },
       sort: { id: -1 }
     })).map(i => i.id);
-  },
+  }
 };
 
 function getIPC(): IpcObject {
