@@ -34,8 +34,30 @@ async function likeVol(id: ID): Promise<void> {
   }
 }
 
-async function likeVolTrack(id: ID): Promise<void> {
-  const data = { id, res: 3 };
+async function likeArticle(id: ID): Promise<void> {
+  const data = { id, res: 2 };
+  const res = await postFormWithCookie<LikeResponse>(data, 'http://www.luoo.net/user/like');
+
+  if (res.status !== 1) {
+    throw new Error(`Like vol failed with response: ${JSON.stringify(res)}`);
+  }
+}
+
+async function likeTrack(type: TrackType, id: ID, fromID: ID) {
+  const data = {
+    id,
+    'res': 3,
+    'form[0][res_id]': fromID
+  };
+  const appIdKey = 'form[0][app_id]';
+
+  switch (type) {
+    case TrackType.VOL_TRACK: data[appIdKey] = 1; break;
+    case TrackType.SINGLE: data[appIdKey] = 14; break;
+    case TrackType.ARTICLE_TRACK: data[appIdKey] = 2; break;
+    default: throw new Error(`Invalid track type`);
+  }
+
   const res = await postFormWithCookie<LikeResponse>(data, 'http://www.luoo.net/user/like');
 
   if (res.status !== 1) {
@@ -43,22 +65,5 @@ async function likeVolTrack(id: ID): Promise<void> {
   }
 }
 
-async function likeSingle(id: ID,)
 
-async function likeTrack(id: ID, type: TrackType): Promise<void> {
-  const data = {
-    id,
-    res: 3,
-  };
-  if (type === TrackType.SINGLE) {
-    data['from[0][app_id]'] = 14;
-    data['from[0][res_id]'] = 578
-  }
-  switch (type) {
-    case TrackType.VOL_TRACK: res = 3; break;
-    case TrackType.SINGLE:
-  }
-}
-
-
-likeVol(1382).then(console.log).catch(console.error);
+// likeVol(1382).then(console.log).catch(console.error);

@@ -3,3 +3,4 @@ yarn-error.log
 
 /dist
 /out
+.DS_Store

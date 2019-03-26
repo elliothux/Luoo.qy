@@ -44,7 +44,7 @@ function launch(): void {
       mainWindow.webContents.openDevTools();
     } else {
       console.log("prod");
-      // mainWindow.webContents.openDevTools();
+      mainWindow.webContents.openDevTools();
       // closeDevTools();
     }
   }
