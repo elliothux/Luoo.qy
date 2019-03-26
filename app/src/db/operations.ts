@@ -1,8 +1,8 @@
 import * as path from "path";
-import { app } from "electron";
 import { DataStoreOptions } from "nedb";
 import { isElectron, runPath } from "../utils";
 import Nedb = require("nedb");
+
 
 function getDB(name: string): Nedb {
   const db = new Nedb({

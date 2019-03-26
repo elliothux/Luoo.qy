@@ -25,6 +25,14 @@ function find<T = VolInfo>(options: FindOptions): Promise<T[]> {
   });
 }
 
+async function latestID(): Promise<number> {
+  const [latest] = await find({
+    sort: { id: -1 },
+    limit: 1
+  });
+  return latest ? latest.id : 0;
+}
+
 async function insert(items: VolInfo[]): Promise<VolInfo[]> {
   const tracks: VolTrack[] = [];
   for (let item of items) {
@@ -35,4 +43,4 @@ async function insert(items: VolInfo[]): Promise<VolInfo[]> {
   return insertDB<VolInfo>(db, items);
 }
 
-export { count, findOne, find, insert };
+export { count, findOne, find, insert, latestID };

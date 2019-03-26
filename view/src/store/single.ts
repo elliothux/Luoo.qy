@@ -1,5 +1,5 @@
 import { action, computed, observable, reaction } from "mobx";
-import { getIPC } from "../utils";
+import {exec, getIPC} from "../utils";
 import { ViewTypes, Single, TrackType } from "../types";
 import { Pagination } from "./pagination";
 import { store } from "./index";
@@ -17,6 +17,7 @@ class SingleStore {
    */
   public init = async () => {
     await this.updateTotal();
+    exec(this.updateFromCGI);
   };
 
   private initReaction = () => {
@@ -36,6 +37,14 @@ class SingleStore {
         store.setBackgroundImage(this.displayedItem.cover);
       }
     });
+  };
+
+  private updateFromCGI = async () => {
+    const items = await ipc.request.requestSingles(await ipc.db.single.latestID());
+    if (items.length) {
+      await ipc.db.single.insert(items);
+      await this.updateTotal();
+    }
   };
 
   /*

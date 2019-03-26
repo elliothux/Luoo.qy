@@ -58,6 +58,7 @@ export interface VolTrack extends Track {
 }
 
 export interface Single extends Track {
+  fromId: number,
   desc: string;
   date: number;
   recommender: string;

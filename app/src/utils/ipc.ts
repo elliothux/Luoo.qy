@@ -42,7 +42,8 @@ function injectIPC(target: object): void {
           count: vol.count,
           findOne: vol.findOne,
           find: vol.find,
-          insert: vol.insert
+          insert: vol.insert,
+          latestID: vol.latestID
         },
         volTrack: {
           findOne: volTrack.findOne,
@@ -52,13 +53,15 @@ function injectIPC(target: object): void {
           count: single.count,
           findOne: single.findOne,
           find: single.find,
-          insert: vol.insert
+          insert: single.insert,
+          latestID: single.latestID
         },
         article: {
           count: article.count,
           findOne: article.findOne,
           find: article.find,
-          insert: article.insert
+          insert: article.insert,
+          latestID: article.latestID
         },
         articleTrack: {
           findOne: articleTrack.findOne,

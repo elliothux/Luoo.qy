@@ -1,6 +1,7 @@
-import camelcase = require("camelcase-keys");
 import { getJSON } from "./request";
 import { ArticleInfo, RetData, Single, VolInfo } from "../types";
+import camelcase = require("camelcase-keys");
+
 
 async function getRetDataJSON<T>(url: string): Promise<T> {
   const response = await getJSON({ url });

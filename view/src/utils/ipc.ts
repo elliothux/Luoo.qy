@@ -37,6 +37,7 @@ declare global {
         findOne<T = VolInfo>(query: object): Promise<Maybe<T>>;
         find<T = VolInfo>(options: FindOptions): Promise<T[]>;
         insert(items: VolInfo[]): Promise<VolInfo[]>;
+        latestID: () => Promise<ID>;
       };
       volTrack: {
         findOne(query: object): Promise<Maybe<VolTrack>>;
@@ -47,12 +48,14 @@ declare global {
         findOne(query: object): Promise<Maybe<Single>>;
         find<T = Single>(options: FindOptions): Promise<T[]>;
         insert(items: Single[]): Promise<Single[]>;
+        latestID: () => Promise<ID>;
       };
       article: {
         count(query?: object): Promise<number>;
         findOne<T = ArticleInfo>(query: object): Promise<Maybe<T>>;
         find<T = ArticleInfo>(options: FindOptions): Promise<T[]>;
         insert(items: ArticleInfo[]): Promise<ArticleInfo[]>;
+        latestID: () => Promise<ID>;
       };
       articleTrack: {
         findOne(query: object): Promise<Maybe<ArticleTrack>>;

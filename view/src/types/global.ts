@@ -101,6 +101,7 @@ interface IVolTrack extends JTrack {
 export type VolTrack = Readonly<IVolTrack>;
 
 interface ISingle extends JTrack {
+  fromId: number,
   desc: string;
   date: number;
   recommender: string;
