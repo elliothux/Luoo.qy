@@ -4,6 +4,7 @@ import {PlayingMode, PlayingStatus, PlayingTypes, Track, TrackType} from "../typ
 import {volStore} from "./vol";
 import {articleStore} from "./article";
 import {singleStore} from "./single";
+import {debug} from "util";
 
 const ipc = getIPC();
 const audio: HTMLAudioElement = new Audio();
@@ -46,10 +47,11 @@ class PlayerStore {
     );
     reaction(
       () => (this.playingTrack ? this.playingTrack.url : null),
-      () => {
+      async () => {
         this.setPlayedTime(0);
         this.changePlayingRatio(0);
-        return this.updateAudio();
+        await this.updateAudio();
+        return this.play();
       }
     );
     reaction(
