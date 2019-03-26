@@ -1,7 +1,7 @@
 import { action, computed, observable } from "mobx";
 import { toast } from "react-toastify";
 import { UserInfo } from "../../types";
-import { exec, getIPC } from "../../utils";
+import { getIPC } from "../../utils";
 import { collectionVolStore } from "./collection-vol";
 import { collectionTrackStore } from "./collection-track";
 import { collectionArticleStore } from "./collection-article";

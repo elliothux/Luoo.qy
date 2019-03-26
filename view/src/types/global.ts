@@ -62,7 +62,7 @@ export enum PlayingMode {
 
 export enum TrackType {
   VOL_TRACK = 'VOL_TRACK',
-  SINGLE = 'VOL_TRACK',
+  SINGLE = 'SINGLE',
   ARTICLE_TRACK = 'ARTICLE_TRACK'
 }
 interface ITrack {
