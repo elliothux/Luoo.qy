@@ -35,6 +35,9 @@ declare global {
       likeVol(id: ID): Promise<ID[]>;
       likeArticle(id: ID): Promise<ID[]>;
       likeTrack(type: TrackType, id: ID, fromID: ID): Promise<ID[]>;
+      unlikeVol(id: ID): Promise<ID[]>;
+      unlikeArticle(id: ID): Promise<ID[]>;
+      unlikeTrack(type: TrackType, id: ID, fromID: ID): Promise<ID[]>;
     };
     db: {
       vol: {

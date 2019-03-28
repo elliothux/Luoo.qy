@@ -1,4 +1,5 @@
 import { action, computed, observable, reaction } from "mobx";
+import { toast } from "react-toastify";
 import { exec, getIPC } from "../../utils";
 import { Pagination } from "../pagination";
 import { ViewTypes, VolInfo } from "../../types";
@@ -97,7 +98,10 @@ class CollectionVol {
     const volInfo = (await ipc.db.vol.findOne({
       id: this.displayedItemId
     })) as VolInfo;
-    const tracks = await ipc.db.volTrack.find({ query: { volId: volInfo.id },       sort: { id: -1 }});
+    const tracks = await ipc.db.volTrack.find({
+      query: { volId: volInfo.id },
+      sort: { id: -1 }
+    });
     this.displayedItem = {
       ...volInfo,
       tracks
@@ -115,6 +119,27 @@ class CollectionVol {
     this.isFetching = true;
     this.ids = await ipc.user.fetchAndSaveLikedVols();
     this.isFetching = false;
+  };
+
+  /*
+  @desc Fetch liking
+   */
+  @observable
+  fetchIds: ID[] = [];
+
+  @action
+  toggleLike = async (id: ID, liked: boolean) => {
+    this.fetchIds.push(id);
+    try {
+      this.ids = liked
+        ? await ipc.user.unlikeVol(id)
+        : await ipc.user.likeVol(id);
+      toast.warn(liked ? "取消收藏成功" : "期刊收藏成功");
+    } catch (e) {
+      console.error(e);
+      return toast.warn(liked ? "取消收藏失败" : "期刊收藏失败");
+    }
+    this.fetchIds = this.fetchIds.filter(i => i !== id);
   };
 }
 

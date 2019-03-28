@@ -17,7 +17,10 @@ import {
   fetchAndSaveLikedArticles,
   likeVol,
   likeArticle,
-  likeTrack
+  likeTrack,
+    unlikeVol,
+    unlikeArticle,
+    unlikeTrack
 } from "../user";
 
 function injectIPC(target: object): void {
@@ -36,7 +39,10 @@ function injectIPC(target: object): void {
         fetchAndSaveLikedArticles,
         likeVol,
         likeArticle,
-        likeTrack
+        likeTrack,
+        unlikeVol,
+        unlikeArticle,
+        unlikeTrack
       },
       request: {
         requestVols,

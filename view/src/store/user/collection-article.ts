@@ -1,4 +1,5 @@
 import { action, computed, observable, reaction } from "mobx";
+import { toast } from "react-toastify";
 import { exec, getIPC } from "../../utils";
 import { Pagination } from "../pagination";
 import { ArticleInfo, ViewTypes } from "../../types";
@@ -120,6 +121,27 @@ class CollectionArticle {
     this.isFetching = true;
     this.ids = await ipc.user.fetchAndSaveLikedArticles();
     this.isFetching = false;
+  };
+
+  /*
+  @desc Fetch liking
+   */
+  @observable
+  fetchIds: ID[] = [];
+
+  @action
+  toggleLike = async (id: ID, liked: boolean) => {
+    this.fetchIds.push(id);
+    try {
+      this.ids = liked
+          ? await ipc.user.unlikeArticle(id)
+          : await ipc.user.likeArticle(id);
+      toast.warn(liked ? "取消收藏成功" : "专栏收藏成功");
+    } catch (e) {
+      console.error(e);
+      return toast.warn(liked ? "取消收藏失败" : "专栏收藏失败");
+    }
+    this.fetchIds = this.fetchIds.filter(i => i !== id);
   };
 }
 

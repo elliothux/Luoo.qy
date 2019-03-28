@@ -1,9 +1,9 @@
-import {action, computed, observable, reaction, toJS} from "mobx";
-import { exec, getIPC, uniqueBy } from "../../utils";
+import {action, computed, observable, reaction} from "mobx";
+import { toast } from "react-toastify";
+import { exec, getIPC } from "../../utils";
 import { Pagination } from "../pagination";
 import { ViewTypes, Track, FindOptions, TrackType } from "../../types";
 import { store } from "../index";
-import { debug } from "util";
 
 const ipc: IpcObject = getIPC();
 const PAGE_SCALE = 7 * 3;
@@ -128,6 +128,27 @@ class CollectionTrack {
     this.isFetching = true;
     this.ids = await ipc.user.fetchAndSaveLikedTracks();
     this.isFetching = false;
+  };
+
+  /*
+  @desc Fetch liking
+   */
+  @observable
+  fetchIds: ID[] = [];
+
+  @action
+  toggleLike = async (type: TrackType, id: ID, fromID: ID, liked: boolean) => {
+    this.fetchIds.push(id);
+    try {
+      this.ids = liked
+          ? await ipc.user.unlikeTrack(type, id, fromID)
+          : await ipc.user.likeTrack(type, id, fromID);
+      toast.warn(liked ? "取消收藏成功" : "曲目收藏成功");
+    } catch (e) {
+      console.error(e);
+      return toast.warn(liked ? "取消收藏失败" : "曲目收藏失败");
+    }
+    this.fetchIds = this.fetchIds.filter(i => i !== id);
   };
 }
 
