@@ -34,7 +34,6 @@ function renderArticles(articles: ArticleInfo[]) {
             isPlaying={playerStore.isArticlePlaying(id)}
             isLiked={true}
             onPlay={onPlay}
-            onPause={playerStore.pause}
         />
     );
   });

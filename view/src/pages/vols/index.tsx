@@ -44,7 +44,6 @@ class Vols extends React.Component {
           color={vol.color}
           vol={vol.vol}
           isPlaying={playerStore.isVolPlaying(id)}
-          isLiked={collectionVolStore.isLiked(id)}
           onPlay={onPlay}
         />
       );

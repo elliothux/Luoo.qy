@@ -18,6 +18,7 @@ class CollectionArticle {
      */
   public init = async () => {
     this.ids = ipc.user.getUserLikedArticleIds();
+    // exec(this.updateFromCGI);
     if (!this.ids.length) {
       exec(this.updateFromCGI);
     }
@@ -129,7 +130,7 @@ class CollectionArticle {
   @observable
   private fetchIds: ID[] = [];
 
-  public isFechingLike = (id: ID): boolean => {
+  public isFetchingLike = (id: ID): boolean => {
     return this.fetchIds.includes(id);
   };
 
@@ -140,7 +141,7 @@ class CollectionArticle {
 
     const [ids, error] = await promiseWrapper<number[]>(liked
         ? ipc.user.unlikeArticle(id)
-        : ipc.user.unlikeArticle(id));
+        : ipc.user.likeArticle(id));
     const MIN_TIME = 1000;
     const timeout = Date.now() - startTime < MIN_TIME ? MIN_TIME : 0;
 

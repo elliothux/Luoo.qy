@@ -1,13 +1,20 @@
 import * as React from "react";
-import {observer} from "mobx-react";
-import {collectionTrackStore, collectionVolStore, playerStore, store, volStore} from "../../store";
-import {Icon, IconTypes} from "../../components/icon";
-import {TrackItem} from "../../components/track-item";
-import {Route} from "../../components/route";
-import {Loading} from "../../components/loading";
-import {PlayingTypes, ViewTypes, VolInfo, VolTrack} from "../../types";
+import { observer } from "mobx-react";
+import {
+  collectionTrackStore,
+  collectionVolStore,
+  playerStore,
+  store,
+  volStore
+} from "../../store";
+import { Icon, IconTypes } from "../../components/icon";
+import { TrackItem } from "../../components/track-item";
+import { Route } from "../../components/route";
+import { Loading } from "../../components/loading";
+import { PlayingTypes, ViewTypes, VolInfo, VolTrack } from "../../types";
 import "./index.scss";
-import {scrollToTop} from "../../utils";
+import { noop, scrollToTop } from "../../utils";
+import { func } from "prop-types";
 
 let infoRef: Maybe<HTMLDivElement> = null;
 let tracksRef: Maybe<HTMLDivElement> = null;
@@ -65,17 +72,14 @@ function IVol() {
     );
   }
 
-  const isPlaying = playerStore.isVolPlaying(vol.id);
-  const isLiked = collectionVolStore.isLiked(vol.id);
+  const { id } = vol;
+  const isPlaying = playerStore.isVolPlaying(id);
+  const isLiked = collectionVolStore.isLiked(id);
+  const isFetchingLike = collectionVolStore.isFetchingLike(id);
 
   return (
     <Route currentView={store.view} view={ViewTypes.VOL_INFO} id="vol">
-      <div
-        id="vol-bg"
-        style={{
-          backgroundImage: `url(${vol.cover})`
-        }}
-      />
+      <div id="vol-bg" style={{ backgroundImage: `url(${vol.cover})` }} />
 
       <div id="vol-bg-mask" />
 
@@ -88,7 +92,22 @@ function IVol() {
         <p id="vol-info-index">
           vol.
           {vol.vol}
-          <Icon type={isLiked ? IconTypes.LIKED : IconTypes.LIKE} />
+          <Icon
+            type={
+              isFetchingLike
+                ? IconTypes.LOADING
+                : isLiked
+                  ? IconTypes.LIKED
+                  : IconTypes.LIKE
+            }
+            onClick={
+              isFetchingLike
+                ? noop
+                : () => collectionVolStore.toggleLike(id, isLiked)
+            }
+            animate
+            preventDefault
+          />
           <Icon
             type={isPlaying ? IconTypes.PAUSE : IconTypes.PLAY}
             onClick={isPlaying ? playerStore.pause : () => play(vol)}
@@ -97,9 +116,7 @@ function IVol() {
         <p id="vol-info-title">{vol.title}</p>
         <div
           id="vol-info-desc"
-          dangerouslySetInnerHTML={{
-            __html: vol.desc
-          }}
+          dangerouslySetInnerHTML={{ __html: vol.desc }}
         />
         <div id="vol-info-date">
           <Icon type={IconTypes.LOGO} />

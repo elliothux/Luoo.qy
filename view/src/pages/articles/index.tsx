@@ -34,9 +34,7 @@ function renderArticles(articles: Maybe<ArticleInfo[]>) {
             color={article.color}
             metaInfo={article.metaInfo}
             isPlaying={playerStore.isArticlePlaying(id)}
-            isLiked={collectionArticleStore.isLiked(id)}
             onPlay={onPlay}
-            onPause={playerStore.pause}
         />
     )
   });

@@ -18,6 +18,7 @@ class CollectionVol {
      */
   public init = async () => {
     this.ids = ipc.user.getUserLikedVolIds();
+    // exec(this.updateFromCGI);
     if (!this.ids.length) {
       exec(this.updateFromCGI);
     }

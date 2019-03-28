@@ -4,7 +4,6 @@ import { collectionVolStore, playerStore, volStore } from "../../store";
 import { observer } from "mobx-react";
 import "./index.scss";
 
-
 export interface Props {
   id: ID;
   cover: Cover;
@@ -27,7 +26,7 @@ class VolItem extends React.Component<Props> {
 
   private get isLiked(): boolean {
     const { id, isLiked } = this.props;
-    if (typeof isLiked === 'boolean') {
+    if (typeof isLiked === "boolean") {
       return isLiked;
     }
     return collectionVolStore.isLiked(id);
