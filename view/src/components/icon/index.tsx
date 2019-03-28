@@ -79,7 +79,7 @@ export enum IconTypes {
   EXPAND = "EXPAND",
   SYNC = "SYNC",
   STAR = "STAR",
-  RADIO = "RADIO"
+  RADIO = "RADIO",
 }
 
 export interface Props {

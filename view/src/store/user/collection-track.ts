@@ -1,6 +1,6 @@
-import {action, computed, observable, reaction} from "mobx";
+import { action, computed, observable, reaction } from "mobx";
 import { toast } from "react-toastify";
-import { exec, getIPC } from "../../utils";
+import { exec, getIPC, promiseWrapper } from "../../utils";
 import { Pagination } from "../pagination";
 import { ViewTypes, Track, FindOptions, TrackType } from "../../types";
 import { store } from "../index";
@@ -134,21 +134,40 @@ class CollectionTrack {
   @desc Fetch liking
    */
   @observable
-  fetchIds: ID[] = [];
+  private fetchIds: ID[] = [];
+
+  public isFechingLike = (id: ID): boolean => {
+    return this.fetchIds.includes(id);
+  };
 
   @action
-  toggleLike = async (type: TrackType, id: ID, fromID: ID, liked: boolean) => {
+  public toggleLike = async (
+    type: TrackType,
+    id: ID,
+    fromID: ID,
+    liked: boolean
+  ) => {
     this.fetchIds.push(id);
-    try {
-      this.ids = liked
-          ? await ipc.user.unlikeTrack(type, id, fromID)
-          : await ipc.user.likeTrack(type, id, fromID);
-      toast.warn(liked ? "取消收藏成功" : "曲目收藏成功");
-    } catch (e) {
-      console.error(e);
-      return toast.warn(liked ? "取消收藏失败" : "曲目收藏失败");
-    }
-    this.fetchIds = this.fetchIds.filter(i => i !== id);
+    const startTime = Date.now();
+
+    const [ids, error] = await promiseWrapper<number[]>(
+      liked
+        ? ipc.user.unlikeTrack(type, id, fromID)
+        : ipc.user.likeTrack(type, id, fromID)
+    );
+    const MIN_TIME = 1000;
+    const timeout = Date.now() - startTime < MIN_TIME ? MIN_TIME : 0;
+
+    setTimeout(() => {
+      if (error || !ids) {
+        console.error(error);
+        toast.warn(liked ? "取消收藏失败" : "曲目收藏失败");
+      } else {
+        this.ids = ids;
+        toast.warn(liked ? "取消收藏成功" : "曲目收藏成功");
+      }
+      this.fetchIds = this.fetchIds.filter(i => i !== id);
+    }, timeout);
   };
 }
 

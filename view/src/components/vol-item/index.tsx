@@ -1,7 +1,9 @@
 import * as React from "react";
 import { Icon, IconTypes } from "../icon";
-import { playerStore, volStore } from "../../store";
+import { collectionVolStore, playerStore, volStore } from "../../store";
+import { observer } from "mobx-react";
 import "./index.scss";
+
 
 export interface Props {
   id: ID;
@@ -11,15 +13,37 @@ export interface Props {
   color: Color;
   vol: number;
   isPlaying: boolean;
-  isLiked: boolean;
+  isLiked?: boolean;
   onPlay: () => void;
   onPause?: () => void;
 }
 
-class VolItem extends React.PureComponent<Props> {
+@observer
+class VolItem extends React.Component<Props> {
   private onClick = () => {
     const { id } = this.props;
     volStore.setItem(id);
+  };
+
+  private get isLiked(): boolean {
+    const { id, isLiked } = this.props;
+    if (typeof isLiked === 'boolean') {
+      return isLiked;
+    }
+    return collectionVolStore.isLiked(id);
+  }
+
+  private get isFetchingLike(): boolean {
+    const { id } = this.props;
+    return collectionVolStore.isFetchingLike(id);
+  }
+
+  private onToggleLike = () => {
+    if (this.isFetchingLike) {
+      return;
+    }
+    const { id } = this.props;
+    return collectionVolStore.toggleLike(id, this.isLiked);
   };
 
   public render() {
@@ -30,10 +54,10 @@ class VolItem extends React.PureComponent<Props> {
       tags,
       color,
       isPlaying,
-      isLiked,
       onPlay,
       onPause = playerStore.pause
     } = this.props;
+
     return (
       <div className="vol-item" onClick={this.onClick}>
         <div
@@ -50,7 +74,14 @@ class VolItem extends React.PureComponent<Props> {
           <p className="vol-item-info-title">{title}</p>
           <div className="vol-item-operation">
             <Icon
-              type={isLiked ? IconTypes.LIKED : IconTypes.LIKE}
+              type={
+                this.isFetchingLike
+                  ? IconTypes.SYNC
+                  : this.isLiked
+                    ? IconTypes.LIKED
+                    : IconTypes.LIKE
+              }
+              onClick={this.onToggleLike}
               preventDefault
             />
             <Icon

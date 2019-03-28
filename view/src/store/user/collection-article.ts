@@ -1,6 +1,6 @@
 import { action, computed, observable, reaction } from "mobx";
 import { toast } from "react-toastify";
-import { exec, getIPC } from "../../utils";
+import { exec, getIPC, promiseWrapper } from "../../utils";
 import { Pagination } from "../pagination";
 import { ArticleInfo, ViewTypes } from "../../types";
 import { store } from "../index";
@@ -127,21 +127,33 @@ class CollectionArticle {
   @desc Fetch liking
    */
   @observable
-  fetchIds: ID[] = [];
+  private fetchIds: ID[] = [];
+
+  public isFechingLike = (id: ID): boolean => {
+    return this.fetchIds.includes(id);
+  };
 
   @action
-  toggleLike = async (id: ID, liked: boolean) => {
+  public toggleLike = async (id: ID, liked: boolean) => {
     this.fetchIds.push(id);
-    try {
-      this.ids = liked
-          ? await ipc.user.unlikeArticle(id)
-          : await ipc.user.likeArticle(id);
-      toast.warn(liked ? "取消收藏成功" : "专栏收藏成功");
-    } catch (e) {
-      console.error(e);
-      return toast.warn(liked ? "取消收藏失败" : "专栏收藏失败");
-    }
-    this.fetchIds = this.fetchIds.filter(i => i !== id);
+    const startTime = Date.now();
+
+    const [ids, error] = await promiseWrapper<number[]>(liked
+        ? ipc.user.unlikeArticle(id)
+        : ipc.user.unlikeArticle(id));
+    const MIN_TIME = 1000;
+    const timeout = Date.now() - startTime < MIN_TIME ? MIN_TIME : 0;
+
+    setTimeout(() => {
+      if (error || !ids) {
+        console.error(error);
+        toast.warn(liked ? "取消收藏失败" : "专栏收藏失败");
+      } else {
+        this.ids = ids;
+        toast.warn(liked ? "取消收藏成功" : "专栏收藏成功");
+      }
+      this.fetchIds = this.fetchIds.filter(i => i !== id);
+    }, timeout);
   };
 }
 

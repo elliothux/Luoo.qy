@@ -51,11 +51,7 @@ function isAnyPartOfElementInViewport(el: HTMLElement) {
   return vertInView && horInView;
 }
 
-type PromiseResolveResult<T> = [T, null];
-type PromiseRejectResult = [null, Error];
-export type PromiseResult<T> = Promise<
-  PromiseResolveResult<T> | PromiseRejectResult
->;
+export type PromiseResult<T> = Promise<[T, null] | [null, Error]>;
 function promiseWrapper<T>(p: Promise<T>): PromiseResult<T> {
   return new Promise(resolve => {
     p.then(i => resolve([i as T, null])).catch(e => resolve([null, e]));
