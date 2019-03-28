@@ -7,7 +7,7 @@
 }
 
 .icon.animate {
-  &.SYNC {
+  &.SYNC, &.LOADING {
     animation: SYNC 800ms infinite;
     animation-timing-function: linear;
     @keyframes SYNC {

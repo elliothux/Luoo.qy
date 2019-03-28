@@ -1,4 +1,6 @@
 import * as React from "react";
+import { preventSyntheticEvent } from "../../utils";
+
 import LOGO from "../../static/icon/logo.png";
 import BACK from "../../static/icon/back.svg";
 import CATEGORY from "../../static/icon/cate.svg";
@@ -37,9 +39,10 @@ import EXPAND from "../../static/icon/expand.svg";
 import SYNC from "../../static/icon/sync.svg";
 import STAR from "../../static/icon/star.svg";
 import RADIO from "../../static/icon/radio.svg";
+import LOADING from "../../static/icon/loading.svg";
 
 import "./index.scss";
-import { preventSyntheticEvent } from "../../utils";
+
 
 export enum IconTypes {
   BACK = "BACK",
@@ -80,6 +83,7 @@ export enum IconTypes {
   SYNC = "SYNC",
   STAR = "STAR",
   RADIO = "RADIO",
+  LOADING = "LOADING"
 }
 
 export interface Props {
@@ -208,6 +212,9 @@ function Icon(props: Props) {
       break;
     case IconTypes.RADIO:
       src = RADIO;
+      break;
+    case IconTypes.LOADING:
+      src = LOADING;
       break;
     default:
       throw "Invalid icon type";

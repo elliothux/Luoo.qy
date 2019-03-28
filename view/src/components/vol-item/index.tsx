@@ -76,12 +76,13 @@ class VolItem extends React.Component<Props> {
             <Icon
               type={
                 this.isFetchingLike
-                  ? IconTypes.SYNC
+                  ? IconTypes.LOADING
                   : this.isLiked
                     ? IconTypes.LIKED
                     : IconTypes.LIKE
               }
               onClick={this.onToggleLike}
+              animate
               preventDefault
             />
             <Icon
