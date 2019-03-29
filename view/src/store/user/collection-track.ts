@@ -136,7 +136,7 @@ class CollectionTrack {
   @observable
   private fetchIds: ID[] = [];
 
-  public isFechingLike = (id: ID): boolean => {
+  public isFetchingLike = (id: ID): boolean => {
     return this.fetchIds.includes(id);
   };
 

@@ -1,18 +1,17 @@
 import * as React from "react";
 import { observer } from "mobx-react";
-import {collectionTrackStore, playerStore, singleStore, store} from "../../store";
+import {
+  collectionTrackStore,
+  playerStore,
+  singleStore,
+  store
+} from "../../store";
 import { Icon, IconTypes } from "../../components/icon";
 import { PlayingTypes, ViewTypes } from "../../types";
 import { Route } from "../../components/route";
 import { Loading } from "../../components/loading";
-import "./index.scss";
 import { ipcUtils } from "../../utils";
-
-let coverRef: HTMLDivElement;
-
-function getCoverRef(i: Maybe<HTMLImageElement>) {
-  coverRef = i as HTMLDivElement;
-}
+import "./index.scss";
 
 function formatDate(date: number): string {
   const d = date.toString();
@@ -24,66 +23,105 @@ function formatRecommender(recommender: string): string {
   return recommender.replace(/-/g, "").trim();
 }
 
-function ISingle() {
-  const { displayedItem: single } = singleStore;
+@observer
+class Single extends React.Component {
+  private static get id(): ID {
+    const { displayedItem: single } = singleStore;
+    return single ? single.id : 0;
+  }
 
-  if (!single) {
+  private static get isPlaying(): boolean {
+    const { id } = Single;
+    return id ? playerStore.isTrackPlaying(id) : false;
+  }
+
+  private static get isLiked(): boolean {
+    const { id } = Single;
+    return id ? collectionTrackStore.isLiked(id) : false;
+  }
+
+  private static get isFetchingLike(): boolean {
+    const { id } = Single;
+    return id ? collectionTrackStore.isFetchingLike(id) : false;
+  }
+
+  private static onTogglePlay = async () => {
+    if (Single.isPlaying) {
+      return playerStore.pause();
+    }
+
+    const ids = await ipcUtils.getSingleIds();
+    playerStore.setPlayingIds(ids, Single.id, PlayingTypes.SINGLE);
+  };
+
+  private static onToggleLike = () => {
+    if (Single.isFetchingLike) {
+      return;
+    }
+  };
+
+  private static renderLoading = () => (
+    <Route currentView={store.view} view={ViewTypes.SINGLE_INFO} id="single">
+      <Loading />
+    </Route>
+  );
+
+  public render() {
+    const { displayedItem: single } = singleStore;
+
+    if (!single) {
+      return Single.renderLoading();
+    }
+
     return (
       <Route currentView={store.view} view={ViewTypes.SINGLE_INFO} id="single">
-        <Loading />
+        <div
+          id="single-bg"
+          style={{
+            backgroundImage: `url(${single.cover})`
+          }}
+        />
+        <div id="single-bg-mask" />
+        <div id="single-info">
+          <p id="single-info-name">
+            {single.name}
+            <Icon
+              type={
+                Single.isFetchingLike
+                  ? IconTypes.LOADING
+                  : Single.isLiked
+                    ? IconTypes.LIKED
+                    : IconTypes.LIKE
+              }
+              onClick={Single.onToggleLike}
+              animate
+              preventDefault
+            />
+            <Icon
+              preventDefault
+              type={Single.isPlaying ? IconTypes.PAUSE : IconTypes.PLAY}
+              onClick={Single.onTogglePlay}
+            />
+          </p>
+          <p id="single-info-artist">{single.artist}</p>
+          <div
+            id="single-info-desc"
+            dangerouslySetInnerHTML={{
+              __html: single.desc
+            }}
+          />
+          <div id="single-info-date">
+            <Icon type={IconTypes.LOGO} />
+            <span id="single-info-recommender">
+              推荐人：
+              {formatRecommender(single.recommender)} ·{" "}
+            </span>
+            <span id="single-info-date">{formatDate(single.date)}</span>
+          </div>
+        </div>
       </Route>
     );
   }
-
-  const { id } = single;
-  const isPlaying = playerStore.isTrackPlaying(id);
-  const isLiked = collectionTrackStore.isLiked(id);
-
-  const onPlay = async () => {
-    const ids = await ipcUtils.getSingleIds();
-    playerStore.setPlayingIds(ids, id, PlayingTypes.SINGLE);
-  };
-
-  return (
-    <Route currentView={store.view} view={ViewTypes.SINGLE_INFO} id="single">
-      <div
-        id="single-bg"
-        ref={getCoverRef}
-        style={{
-          backgroundImage: `url(${single.cover})`
-        }}
-      />
-      <div id="single-bg-mask" />
-      <div id="single-info">
-        <p id="single-info-name">
-          {single.name}
-          <Icon type={isLiked ? IconTypes.LIKED : IconTypes.LIKE} />
-          <Icon
-            preventDefault
-            type={isPlaying ? IconTypes.PAUSE : IconTypes.PLAY}
-            onClick={isPlaying ? playerStore.pause : onPlay}
-          />
-        </p>
-        <p id="single-info-artist">{single.artist}</p>
-        <div
-          id="single-info-desc"
-          dangerouslySetInnerHTML={{
-            __html: single.desc
-          }}
-        />
-        <div id="single-info-date">
-          <Icon type={IconTypes.LOGO} />
-          <span id="vol-info-recommender">
-            推荐人：
-            {formatRecommender(single.recommender)} ·{" "}
-          </span>
-          <span id="vol-info-date">{formatDate(single.date)}</span>
-        </div>
-      </div>
-    </Route>
-  );
 }
-
-const Single = observer(ISingle);
 
 export { Single };
