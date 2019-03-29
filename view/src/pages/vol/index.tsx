@@ -1,4 +1,5 @@
 import * as React from "react";
+import { RefObject } from "react";
 import { observer } from "mobx-react";
 import {
   collectionTrackStore,
@@ -11,134 +12,172 @@ import { Icon, IconTypes } from "../../components/icon";
 import { TrackItem } from "../../components/track-item";
 import { Route } from "../../components/route";
 import { Loading } from "../../components/loading";
-import { PlayingTypes, ViewTypes, VolInfo, VolTrack } from "../../types";
+import { scrollToTop } from "../../utils";
+import { PlayingTypes, ViewTypes, VolTrack } from "../../types";
 import "./index.scss";
-import { noop, scrollToTop } from "../../utils";
-import { func } from "prop-types";
 
-let infoRef: Maybe<HTMLDivElement> = null;
-let tracksRef: Maybe<HTMLDivElement> = null;
+@observer
+class Vol extends React.Component {
+  private infoRef: RefObject<HTMLDivElement> = React.createRef();
+  private tracksRef: RefObject<HTMLDivElement> = React.createRef();
 
-function renderTracks(vol: VolInfo) {
-  const tracks = vol.tracks as VolTrack[];
-  const ids = tracks.map(i => i.id);
-
-  return tracks.map(track => {
-    const { id, name, artist, album, cover } = track;
-    const isPlaying = playerStore.isTrackPlaying(id);
-
-    const onPlay = async () => {
-      await playerStore.setPlayingIds(ids, id, PlayingTypes.VOL, vol.id);
-      return playerStore.play();
-    };
-
-    const onClick = () => {
-      playerStore.toggleShowPlayer(true);
-      if (!isPlaying) {
-        return onPlay();
+  public componentDidMount(): void {
+    const {
+      infoRef: { current: infoRef },
+      tracksRef: { current: tracksRef }
+    } = this;
+    store.onChangeView(view => {
+      if (infoRef && tracksRef && view === ViewTypes.VOL_INFO) {
+        scrollToTop(infoRef, false);
+        scrollToTop(tracksRef, false);
       }
-    };
+    });
+  }
 
-    return (
-      <TrackItem
-        key={id}
-        name={name}
-        artist={artist}
-        album={album}
-        cover={cover}
-        isPlaying={isPlaying}
-        isLiked={collectionTrackStore.isLiked(id)}
-        onPlay={onPlay}
-        onClick={onClick}
-      />
-    );
-  });
-}
+  private static get id(): ID {
+    const { displayedItem: vol } = volStore;
+    return vol ? vol.id : 0;
+  }
 
-function play(vol: VolInfo) {
-  const tracks = vol.tracks as VolTrack[];
-  const ids = tracks.map(i => i.id);
-  playerStore.setPlayingIds(ids, null, PlayingTypes.VOL, vol.id);
-}
+  private static get trackIds(): ID[] {
+    const { displayedItem: vol } = volStore;
+    if (!vol || !vol.tracks) {
+      return [];
+    }
+    return vol.tracks.map(i => i.id);
+  }
 
-function IVol() {
-  const { displayedItem: vol } = volStore;
+  private static get isPlaying(): boolean {
+    const { id } = Vol;
+    return id ? playerStore.isVolPlaying(id) : false;
+  }
 
-  if (!vol) {
+  private static get isLiked(): boolean {
+    const { id } = Vol;
+    return id ? collectionVolStore.isLiked(id) : false;
+  }
+
+  private static get isFetchingLike(): boolean {
+    const { id } = Vol;
+    return id ? collectionVolStore.isFetchingLike(id) : false;
+  }
+
+  private static onPlayTrack = async (track: VolTrack) => {
+    const { id } = track;
+    await playerStore.setPlayingIds(Vol.trackIds, id, PlayingTypes.VOL, Vol.id);
+    return playerStore.play();
+  };
+
+  private static onClickTrack = async (track: VolTrack) => {
+    playerStore.toggleShowPlayer(true);
+    if (!Vol.isPlaying) {
+      return Vol.onPlayTrack(track);
+    }
+  };
+
+  private static renderTracks = (tracks: VolTrack[]) => {
+    return tracks.map(track => {
+      const { id, name, artist, album, cover } = track;
+      const isPlaying = playerStore.isTrackPlaying(id);
+
+      return (
+        <TrackItem
+          key={id}
+          name={name}
+          artist={artist}
+          album={album}
+          cover={cover}
+          isPlaying={isPlaying}
+          isLiked={collectionTrackStore.isLiked(id)}
+          onPlay={() => Vol.onPlayTrack(track)}
+          onClick={() => Vol.onClickTrack(track)}
+        />
+      );
+    });
+  };
+
+  private static togglePlay = () => {
+    if (Vol.isPlaying) {
+      return playerStore.pause();
+    }
+
+    const { displayedItem: vol } = volStore;
+    if (!vol) {
+      return;
+    }
+    const tracks = vol.tracks as VolTrack[];
+    const ids = tracks.map(i => i.id);
+    playerStore.setPlayingIds(ids, null, PlayingTypes.VOL, vol.id);
+  };
+
+  private static toggleLike = () => {
+    if (Vol.isFetchingLike) {
+      return;
+    }
+    return collectionVolStore.toggleLike(Vol.id, Vol.isLiked);
+  };
+
+  public render() {
+    const { displayedItem: vol } = volStore;
+
+    if (!vol) {
+      return (
+        <Route currentView={store.view} view={ViewTypes.VOL_INFO} id="vol">
+          <Loading />
+        </Route>
+      );
+    }
+
     return (
       <Route currentView={store.view} view={ViewTypes.VOL_INFO} id="vol">
-        <Loading />
+        <div id="vol-bg" style={{ backgroundImage: `url(${vol.cover})` }} />
+
+        <div id="vol-bg-mask" />
+
+        <div id="vol-info" ref={this.infoRef}>
+          <div id="vol-info-tags">
+            {vol.tags.map(t => (
+              <span key={t}>#{t}</span>
+            ))}
+          </div>
+          <p id="vol-info-index">
+            vol.
+            {vol.vol}
+            <Icon
+              type={
+                Vol.isFetchingLike
+                  ? IconTypes.LOADING
+                  : Vol.isLiked
+                    ? IconTypes.LIKED
+                    : IconTypes.LIKE
+              }
+              onClick={Vol.toggleLike}
+              animate
+              preventDefault
+            />
+            <Icon
+              type={Vol.isPlaying ? IconTypes.PAUSE : IconTypes.PLAY}
+              onClick={Vol.togglePlay}
+            />
+          </p>
+          <p id="vol-info-title">{vol.title}</p>
+          <div
+            id="vol-info-desc"
+            dangerouslySetInnerHTML={{ __html: vol.desc }}
+          />
+          <div id="vol-info-date">
+            <Icon type={IconTypes.LOGO} />
+            <span id="vol-info-author">{vol.author} · </span>
+            <span id="vol-info-date">{vol.date}</span>
+          </div>
+        </div>
+
+        <div id="vol-tracks" ref={this.tracksRef}>
+          {vol.tracks ? Vol.renderTracks(vol.tracks) : null}
+        </div>
       </Route>
     );
   }
-
-  const { id } = vol;
-  const isPlaying = playerStore.isVolPlaying(id);
-  const isLiked = collectionVolStore.isLiked(id);
-  const isFetchingLike = collectionVolStore.isFetchingLike(id);
-
-  return (
-    <Route currentView={store.view} view={ViewTypes.VOL_INFO} id="vol">
-      <div id="vol-bg" style={{ backgroundImage: `url(${vol.cover})` }} />
-
-      <div id="vol-bg-mask" />
-
-      <div id="vol-info" ref={i => (infoRef = i)}>
-        <div id="vol-info-tags">
-          {vol.tags.map(t => (
-            <span key={t}>#{t}</span>
-          ))}
-        </div>
-        <p id="vol-info-index">
-          vol.
-          {vol.vol}
-          <Icon
-            type={
-              isFetchingLike
-                ? IconTypes.LOADING
-                : isLiked
-                  ? IconTypes.LIKED
-                  : IconTypes.LIKE
-            }
-            onClick={
-              isFetchingLike
-                ? noop
-                : () => collectionVolStore.toggleLike(id, isLiked)
-            }
-            animate
-            preventDefault
-          />
-          <Icon
-            type={isPlaying ? IconTypes.PAUSE : IconTypes.PLAY}
-            onClick={isPlaying ? playerStore.pause : () => play(vol)}
-          />
-        </p>
-        <p id="vol-info-title">{vol.title}</p>
-        <div
-          id="vol-info-desc"
-          dangerouslySetInnerHTML={{ __html: vol.desc }}
-        />
-        <div id="vol-info-date">
-          <Icon type={IconTypes.LOGO} />
-          <span id="vol-info-author">{vol.author} · </span>
-          <span id="vol-info-date">{vol.date}</span>
-        </div>
-      </div>
-
-      <div id="vol-tracks" ref={i => (tracksRef = i)}>
-        {renderTracks(vol)}
-      </div>
-    </Route>
-  );
 }
-
-store.onChangeView(view => {
-  if (infoRef && tracksRef && view === ViewTypes.VOL_INFO) {
-    scrollToTop(infoRef, false);
-    scrollToTop(tracksRef, false);
-  }
-});
-
-const Vol = observer(IVol);
 
 export { Vol };
