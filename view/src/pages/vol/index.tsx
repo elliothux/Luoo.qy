@@ -22,11 +22,11 @@ class Vol extends React.Component {
   private tracksRef: RefObject<HTMLDivElement> = React.createRef();
 
   public componentDidMount(): void {
-    const {
-      infoRef: { current: infoRef },
-      tracksRef: { current: tracksRef }
-    } = this;
     store.onChangeView(view => {
+      const {
+        infoRef: { current: infoRef },
+        tracksRef: { current: tracksRef }
+      } = this;
       if (infoRef && tracksRef && view === ViewTypes.VOL_INFO) {
         scrollToTop(infoRef, false);
         scrollToTop(tracksRef, false);
@@ -62,6 +62,27 @@ class Vol extends React.Component {
     return id ? collectionVolStore.isFetchingLike(id) : false;
   }
 
+  private static onTogglePlay = () => {
+    if (Vol.isPlaying) {
+      return playerStore.pause();
+    }
+
+    const { displayedItem: vol } = volStore;
+    if (!vol) {
+      return;
+    }
+    const tracks = vol.tracks as VolTrack[];
+    const ids = tracks.map(i => i.id);
+    playerStore.setPlayingIds(ids, null, PlayingTypes.VOL, vol.id);
+  };
+
+  private static onToggleLike = () => {
+    if (Vol.isFetchingLike) {
+      return;
+    }
+    return collectionVolStore.toggleLike(Vol.id, Vol.isLiked);
+  };
+
   private static onPlayTrack = async (track: VolTrack) => {
     const { id } = track;
     await playerStore.setPlayingIds(Vol.trackIds, id, PlayingTypes.VOL, Vol.id);
@@ -96,36 +117,17 @@ class Vol extends React.Component {
     });
   };
 
-  private static togglePlay = () => {
-    if (Vol.isPlaying) {
-      return playerStore.pause();
-    }
-
-    const { displayedItem: vol } = volStore;
-    if (!vol) {
-      return;
-    }
-    const tracks = vol.tracks as VolTrack[];
-    const ids = tracks.map(i => i.id);
-    playerStore.setPlayingIds(ids, null, PlayingTypes.VOL, vol.id);
-  };
-
-  private static toggleLike = () => {
-    if (Vol.isFetchingLike) {
-      return;
-    }
-    return collectionVolStore.toggleLike(Vol.id, Vol.isLiked);
-  };
+  private static renderLoading = () => (
+    <Route currentView={store.view} view={ViewTypes.VOL_INFO} id="vol">
+      <Loading />
+    </Route>
+  );
 
   public render() {
     const { displayedItem: vol } = volStore;
 
     if (!vol) {
-      return (
-        <Route currentView={store.view} view={ViewTypes.VOL_INFO} id="vol">
-          <Loading />
-        </Route>
-      );
+      return Vol.renderLoading();
     }
 
     return (
@@ -151,13 +153,13 @@ class Vol extends React.Component {
                     ? IconTypes.LIKED
                     : IconTypes.LIKE
               }
-              onClick={Vol.toggleLike}
+              onClick={Vol.onToggleLike}
               animate
               preventDefault
             />
             <Icon
               type={Vol.isPlaying ? IconTypes.PAUSE : IconTypes.PLAY}
-              onClick={Vol.togglePlay}
+              onClick={Vol.onTogglePlay}
             />
           </p>
           <p id="vol-info-title">{vol.title}</p>
