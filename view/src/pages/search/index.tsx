@@ -136,23 +136,7 @@ class Search extends React.Component {
   };
 
   private searchVol = async (text: string) => {
-    const items = await ipc.db.vol.find({
-      query: {},
-      where: (item: VolInfo): boolean => {
-        const reg = new RegExp(text.trim());
-        if (reg.test(item.title) || reg.test(item.desc)) {
-          return true;
-        }
-        for (let tag of item.tags) {
-          if (reg.test(tag)) {
-            return true;
-          }
-        }
-        return false;
-      },
-      projection: { id: 1 }
-    } as FindOptions);
-    // debugger;
+    const items = await ipc.db.vol.search(text, { id: 1 });
     searchVolStore.setIds(items.map(i => i.id));
     setTimeout(() => this.setState({ fetchingVol: false }), 1000);
   };

@@ -55,7 +55,8 @@ function injectIPC(target: object): void {
           findOne: vol.findOne,
           find: vol.find,
           insert: vol.insert,
-          latestID: vol.latestID
+          latestID: vol.latestID,
+          search: vol.search
         },
         volTrack: {
           findOne: volTrack.findOne,

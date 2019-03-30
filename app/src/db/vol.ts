@@ -43,4 +43,25 @@ async function insert(items: VolInfo[]): Promise<VolInfo[]> {
   return insertDB<VolInfo>(db, items);
 }
 
-export { count, findOne, find, insert, latestID };
+function search<T = VolInfo>(text: string, projection: object): Promise<T[]> {
+  return find({
+    query: {
+      $where: function () {
+        const item = this as VolInfo;
+        const reg = new RegExp(text.trim());
+        if (reg.test(item.title) || reg.test(item.desc)) {
+          return true;
+        }
+        for (let tag of item.tags) {
+          if (reg.test(tag)) {
+            return true;
+          }
+        }
+        return false;
+      }
+    },
+    projection
+  } as FindOptions);
+}
+
+export { count, findOne, find, insert, latestID, search };

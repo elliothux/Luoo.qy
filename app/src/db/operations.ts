@@ -57,17 +57,9 @@ interface DBFindOptions extends FindOptions {
 }
 
 function find<T>(options: DBFindOptions): Promise<T[]> {
-  const { db, query, where, projection, skip, limit, sort } = options;
+  const { db, query, projection, skip, limit, sort } = options;
+  let cursor = db.find<T>(query);
 
-  let cursor = db.find<T>(
-    where
-      ? {
-          $where: function() {
-            return where(this);
-          }
-        }
-      : query
-  );
   if (projection) {
     cursor = cursor.projection(projection);
   }

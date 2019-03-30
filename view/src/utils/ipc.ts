@@ -46,6 +46,7 @@ declare global {
         find<T = VolInfo>(options: FindOptions): Promise<T[]>;
         insert(items: VolInfo[]): Promise<VolInfo[]>;
         latestID: () => Promise<ID>;
+        search<T = VolInfo>(text: string, projection: object): Promise<T[]>;
       };
       volTrack: {
         findOne(query: object): Promise<Maybe<VolTrack>>;
