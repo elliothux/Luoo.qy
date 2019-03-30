@@ -85,9 +85,12 @@ function INav() {
         </div>
         <div
           className={hideClassName(
-            [ViewTypes.VOLS, ViewTypes.SINGLES, ViewTypes.ARTICLES].includes(
-              view
-            )
+            [
+              ViewTypes.VOLS,
+              ViewTypes.SINGLES,
+              ViewTypes.ARTICLES,
+              ViewTypes.SEARCH
+            ].includes(view)
           )}
         >
           <Icon type={IconTypes.SHARE} />

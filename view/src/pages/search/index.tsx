@@ -1,12 +1,17 @@
 import * as React from "react";
-import {Route} from "../../components/route";
+import { Route } from "../../components/route";
+import { store, volStore } from "../../store";
+import { ViewTypes } from "../../types";
+import { observer } from "mobx-react";
+import { getIPC, preventSyntheticEvent } from "../../utils";
+import { Icon, IconTypes } from "../../components/icon";
 import "./index.scss";
-import {store, volStore} from "../../store";
-import {FindOptions, ViewTypes} from "../../types";
-import {observer} from "mobx-react";
-import {getIPC, preventSyntheticEvent} from "../../utils";
-import {Icon, IconTypes} from "../../components/icon";
 
+enum SearchViewTypes {
+  VOLS,
+  TRACKS,
+  ARTICLES
+}
 
 const ipc = getIPC();
 setTimeout(() => store.changeView(ViewTypes.SEARCH), 2000);
@@ -14,14 +19,29 @@ setTimeout(() => store.changeView(ViewTypes.SEARCH), 2000);
 class Search extends React.Component {
   state = {
     inputText: "",
-    searchText: '',
+    searchText: "",
     showHistory: false,
     showResult: false,
     history: ["迷幻摇滚", "vol788", "Beatles"],
+    view: SearchViewTypes.VOLS,
     volResult: null,
     trackResult: null,
     articleResult: null
   };
+
+  get translateX(): string {
+    const { view } = this.state;
+    switch (view) {
+      case SearchViewTypes.VOLS:
+        return `0%`;
+      case SearchViewTypes.TRACKS:
+        return `-33.333333%`;
+      case SearchViewTypes.ARTICLES:
+        return `-66.66666%`;
+      default:
+        throw new Error("Invalid view type");
+    }
+  }
 
   private showHistory = () => this.setState({ showHistory: true });
 
@@ -29,7 +49,7 @@ class Search extends React.Component {
 
   private onChangeInputText = (e: React.FormEvent<HTMLInputElement>) => {
     preventSyntheticEvent(e);
-    const { value = '' } = e.currentTarget;
+    const { value = "" } = e.currentTarget;
     this.setState({ inputText: value });
     if (!value.trim()) {
       this.setState({ showResult: false });
@@ -44,7 +64,7 @@ class Search extends React.Component {
   };
 
   private onClickHistoryItem = (e: React.MouseEvent<HTMLInputElement>) => {
-    const { value = '' } = e.currentTarget.dataset;
+    const { value = "" } = e.currentTarget.dataset;
     this.setState({ inputText: value });
     return this.handleSearch(value);
   };
@@ -71,9 +91,12 @@ class Search extends React.Component {
   };
 
   private jumpVol = async (text: string): Promise<boolean> => {
-    const match = text.trim().toLowerCase().match(/^vol\s?\d+/);
+    const match = text
+      .trim()
+      .toLowerCase()
+      .match(/^vol\s?\d+/);
     if (match && match[0].trim()) {
-      const vol = parseInt((match[0].match(/\d+/) || ['0'])[0], 10);
+      const vol = parseInt((match[0].match(/\d+/) || ["0"])[0], 10);
       if (!vol) {
         return false;
       }
@@ -89,25 +112,88 @@ class Search extends React.Component {
     return false;
   };
 
-  private renderResult = () => {
+  changeView = (view: SearchViewTypes) => {
+    this.setState({ view });
+  };
+
+  private renderSearchNav = () => {
+    const { view } = this.state;
     return (
-        <>
-          <div id="search-result-nav">
-            <div>期刊</div>
-            <div>歌曲</div>
-            <div>专栏</div>
+      <div id="search-result-nav">
+        <div
+          className={view === SearchViewTypes.VOLS ? "active" : ""}
+          onClick={this.changeView.bind(this, SearchViewTypes.VOLS)}
+        >
+          期刊
+        </div>
+        <div
+          className={view === SearchViewTypes.TRACKS ? "active" : ""}
+          onClick={this.changeView.bind(this, SearchViewTypes.TRACKS)}
+        >
+          曲目
+        </div>
+        <div
+          className={view === SearchViewTypes.ARTICLES ? "active" : ""}
+          onClick={this.changeView.bind(this, SearchViewTypes.ARTICLES)}
+        >
+          专栏
+        </div>
+      </div>
+    );
+  };
+
+  private renderLoading = () => <Icon type={IconTypes.LOADING} animate />;
+
+  private renderEmpty = () => "暂无结果";
+
+  private renderResult = () => {
+    const { volResult, trackResult, articleResult } = this.state;
+    return (
+      <>
+        {this.renderSearchNav()}
+        <div
+          id="search-result-content"
+          style={{
+            transform: `translateX(${this.translateX})`
+          }}
+        >
+          <div>
+            <h1>“{this.state.searchText}” 相关期刊</h1>
+            {Array.isArray(volResult)
+              ? volResult.length
+                ? null
+                : this.renderEmpty()
+              : this.renderLoading()}
           </div>
-          <div id="search-result-content">
-            <h1>"{this.state.searchText}" 的搜索结果</h1>
-            <Icon type={IconTypes.LOADING} animate />
+          <div>
+            <h1>“{this.state.searchText}” 相关单曲</h1>
+            {Array.isArray(trackResult)
+              ? trackResult.length
+                ? null
+                : this.renderEmpty()
+              : this.renderLoading()}
           </div>
-        </>
+          <div>
+            <h1>“{this.state.searchText}” 相关专栏</h1>
+            {Array.isArray(articleResult)
+              ? articleResult.length
+                ? null
+                : this.renderEmpty()
+              : this.renderLoading()}
+          </div>
+        </div>
+      </>
     );
   };
 
   public render() {
     return (
-      <Route currentView={store.view} view={ViewTypes.SEARCH} id="search" className={this.state.showResult ? 'show-result' : ''}>
+      <Route
+        currentView={store.view}
+        view={ViewTypes.SEARCH}
+        id="search"
+        className={this.state.showResult ? "show-result" : ""}
+      >
         <div id="search-main">
           <div id="search-input">
             <input
@@ -138,11 +224,7 @@ class Search extends React.Component {
             </div>
           </div>
         </div>
-        {
-          this.state.showResult ?
-              this.renderResult() :
-              null
-        }
+        {this.state.showResult ? this.renderResult() : null}
       </Route>
     );
   }

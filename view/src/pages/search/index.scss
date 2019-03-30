@@ -1,6 +1,10 @@
 @import "../../styles/helper";
 
 #search {
+  padding: 0 !important;
+  width: 100vw !important;
+  overflow: hidden;
+
   #search-main {
     position: fixed;
     width: 266px;
@@ -80,6 +84,9 @@
   }
 
   #search-result-nav {
+    margin-left: 70px;
+    display: inline-block;
+
     & > div {
       display: inline-block;
       background: rgba(0, 0, 0, 0.1);
@@ -92,7 +99,7 @@
       cursor: pointer;
       @include transition;
 
-      &:active, &:hover {
+      &.active, &:hover {
         opacity: 1;
         background: rgba(0, 0, 0, 0.26);
         border: 1px solid #ffffff;
@@ -102,18 +109,27 @@
   }
 
   #search-result-content {
-    text-align: center;
+    width: 300vw;
+    display: flex;
+    @include transition;
+    transition-duration: 800ms;
 
-    .icon.LOADING {
-      margin-top: 15vh;
-      opacity: 0.6;
-    }
+    & > div {
+      text-align: center;
+      width: 100vw !important;
+      padding: 0 70px !important;
 
-    & > h1 {
-      text-align: left;
-      margin-top: 24px;
-      font-weight: normal;
-      font-size: 22px;
+      .icon.LOADING {
+        margin-top: 15vh;
+        opacity: 0.6;
+      }
+
+      & > h1 {
+        text-align: left;
+        margin-top: 24px;
+        font-weight: normal;
+        font-size: 22px;
+      }
     }
   }
 
