@@ -10,6 +10,7 @@ import {
   collectionVolStore,
   userStore
 } from "./user";
+import { searchArticleStore, searchTrackStore, searchVolStore } from "./search";
 import { Pagination } from "./pagination";
 
 type ChangeViewListener = (view?: ViewTypes, preView?: ViewTypes) => void;
@@ -21,7 +22,7 @@ class Store {
       volStore.init(),
       singleStore.init(),
       articleStore.init(),
-      userStore.init(),
+      userStore.init()
     ]);
     playerStore.init();
   };
@@ -97,5 +98,8 @@ export {
   collectionVolStore,
   collectionTrackStore,
   collectionArticleStore,
+  searchArticleStore,
+  searchTrackStore,
+  searchVolStore,
   Pagination
 };

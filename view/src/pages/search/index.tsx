@@ -1,11 +1,18 @@
 import * as React from "react";
 import { Route } from "../../components/route";
-import { store, volStore } from "../../store";
-import { ViewTypes } from "../../types";
+import {
+  searchArticleStore,
+  searchTrackStore,
+  searchVolStore,
+  store,
+  volStore
+} from "../../store";
+import {FindOptions, ViewTypes, VolInfo} from "../../types";
 import { observer } from "mobx-react";
-import { getIPC, preventSyntheticEvent } from "../../utils";
+import { exec, getIPC, preventSyntheticEvent } from "../../utils";
 import { Icon, IconTypes } from "../../components/icon";
 import "./index.scss";
+import { VolItem } from "../../components/vol-item";
 
 enum SearchViewTypes {
   VOLS,
@@ -22,11 +29,11 @@ class Search extends React.Component {
     searchText: "",
     showHistory: false,
     showResult: false,
-    history: ["迷幻摇滚", "vol788", "Beatles"],
+    history: ["迷幻摇滚", "vol788", "Beatles", "再见"],
     view: SearchViewTypes.VOLS,
-    volResult: null,
-    trackResult: null,
-    articleResult: null
+    fetchingVol: false,
+    fetchingTrack: false,
+    fetchingArticle: false
   };
 
   get translateX(): string {
@@ -79,15 +86,27 @@ class Search extends React.Component {
       return;
     }
 
-    this.setState({ showResult: true, searchText: t });
-
-    const handles: ((text: string) => Promise<boolean>)[] = [];
-    for (let handle of handles) {
-      const done = await handle(t);
-      if (done) {
-        return;
+    const state = {
+      showResult: true,
+      searchText: t,
+      fetchingVol: false,
+      fetchingTrack: false,
+      fetchingArticle: false
+    };
+    switch (this.state.view) {
+      case SearchViewTypes.VOLS: {
+        exec(() => this.searchVol(t));
+        state.fetchingVol = true;
+        break;
       }
+      case SearchViewTypes.TRACKS:
+        state.fetchingTrack = true;
+        break;
+      case SearchViewTypes.ARTICLES:
+        state.fetchingArticle = true;
+        break;
     }
+    this.setState(state);
   };
 
   private jumpVol = async (text: string): Promise<boolean> => {
@@ -112,8 +131,30 @@ class Search extends React.Component {
     return false;
   };
 
-  changeView = (view: SearchViewTypes) => {
+  private changeView = (view: SearchViewTypes) => {
     this.setState({ view });
+  };
+
+  private searchVol = async (text: string) => {
+    const items = await ipc.db.vol.find({
+      query: {},
+      where: (item: VolInfo): boolean => {
+        const reg = new RegExp(text.trim());
+        if (reg.test(item.title) || reg.test(item.desc)) {
+          return true;
+        }
+        for (let tag of item.tags) {
+          if (reg.test(tag)) {
+            return true;
+          }
+        }
+        return false;
+      },
+      projection: { id: 1 }
+    } as FindOptions);
+    // debugger;
+    searchVolStore.setIds(items.map(i => i.id));
+    setTimeout(() => this.setState({ fetchingVol: false }), 1000);
   };
 
   private renderSearchNav = () => {
@@ -146,8 +187,49 @@ class Search extends React.Component {
 
   private renderEmpty = () => "暂无结果";
 
+  private renderVolResult = () => {
+    const { fetchingVol } = this.state;
+    if (fetchingVol) {
+      return this.renderLoading();
+    }
+
+    const { displayedItems } = searchVolStore;
+    if (!displayedItems.length) {
+      return this.renderEmpty();
+    }
+
+    return "111";
+  };
+
+  private renderTrackResult = () => {
+    const { fetchingTrack } = this.state;
+    if (fetchingTrack) {
+      return this.renderLoading();
+    }
+
+    const { displayedItems } = searchTrackStore;
+    if (!displayedItems.length) {
+      return this.renderEmpty();
+    }
+
+    return "222";
+  };
+
+  private renderArticleResult = () => {
+    const { fetchingArticle } = this.state;
+    if (fetchingArticle) {
+      return this.renderLoading();
+    }
+
+    const { displayedItems } = searchArticleStore;
+    if (!displayedItems.length) {
+      return this.renderEmpty();
+    }
+
+    return "333";
+  };
+
   private renderResult = () => {
-    const { volResult, trackResult, articleResult } = this.state;
     return (
       <>
         {this.renderSearchNav()}
@@ -159,27 +241,15 @@ class Search extends React.Component {
         >
           <div>
             <h1>“{this.state.searchText}” 相关期刊</h1>
-            {Array.isArray(volResult)
-              ? volResult.length
-                ? null
-                : this.renderEmpty()
-              : this.renderLoading()}
+            {this.renderVolResult()}
           </div>
           <div>
             <h1>“{this.state.searchText}” 相关单曲</h1>
-            {Array.isArray(trackResult)
-              ? trackResult.length
-                ? null
-                : this.renderEmpty()
-              : this.renderLoading()}
+            {this.renderTrackResult()}
           </div>
           <div>
             <h1>“{this.state.searchText}” 相关专栏</h1>
-            {Array.isArray(articleResult)
-              ? articleResult.length
-                ? null
-                : this.renderEmpty()
-              : this.renderLoading()}
+            {this.renderArticleResult()}
           </div>
         </div>
       </>

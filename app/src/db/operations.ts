@@ -2,7 +2,7 @@ import * as path from "path";
 import { DataStoreOptions } from "nedb";
 import { isElectron, runPath } from "../utils";
 import Nedb = require("nedb");
-
+import { FindOptions } from "../types";
 
 function getDB(name: string): Nedb {
   const db = new Nedb({
@@ -14,7 +14,7 @@ function getDB(name: string): Nedb {
   setTimeout(() => {
     db.ensureIndex({ fieldName: "id" }, function(error) {
       if (error) {
-        console.error(`Create index error:`, error)
+        console.error(`Create index error:`, error);
       }
     });
   }, 0);
@@ -52,18 +52,22 @@ function count(db: Nedb, query?: object): Promise<number> {
   });
 }
 
-interface DBFindOptions {
+interface DBFindOptions extends FindOptions {
   db: Nedb;
-  query?: object;
-  projection?: object;
-  skip?: number;
-  limit?: number;
-  sort?: object;
 }
-function find<T>(options: DBFindOptions): Promise<T[]> {
-  const { db, query, projection, skip, limit, sort } = options;
 
-  let cursor = db.find<T>(query);
+function find<T>(options: DBFindOptions): Promise<T[]> {
+  const { db, query, where, projection, skip, limit, sort } = options;
+
+  let cursor = db.find<T>(
+    where
+      ? {
+          $where: function() {
+            return where(this);
+          }
+        }
+      : query
+  );
   if (projection) {
     cursor = cursor.projection(projection);
   }

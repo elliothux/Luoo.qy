@@ -115,7 +115,8 @@ async function requestLikeTrack(type: TrackType, id: ID, fromID: ID) {
   const data = {
     id,
     res: 3,
-    "form[0][res_id]": fromID
+    "form[0][res_id]": fromID,
+    "form[0][app_id]": 0
   };
   const appIdKey = "form[0][app_id]";
 
