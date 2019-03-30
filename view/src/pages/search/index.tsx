@@ -1,21 +1,26 @@
 import * as React from "react";
-import { Route } from "../../components/route";
+import {Route} from "../../components/route";
 import "./index.scss";
-import { store } from "../../store";
-import { ViewTypes } from "../../types";
-import { observer } from "mobx-react";
-import { preventSyntheticEvent } from "../../utils";
-import { Icon, IconTypes } from "../../components/icon";
-import {debug} from "util";
+import {store, volStore} from "../../store";
+import {FindOptions, ViewTypes} from "../../types";
+import {observer} from "mobx-react";
+import {getIPC, preventSyntheticEvent} from "../../utils";
+import {Icon, IconTypes} from "../../components/icon";
 
+
+const ipc = getIPC();
 setTimeout(() => store.changeView(ViewTypes.SEARCH), 2000);
 @observer
 class Search extends React.Component {
   state = {
     inputText: "",
+    searchText: '',
     showHistory: false,
     showResult: false,
-    history: ["迷幻摇滚", "vol788", "Beatles"]
+    history: ["迷幻摇滚", "vol788", "Beatles"],
+    volResult: null,
+    trackResult: null,
+    articleResult: null
   };
 
   private showHistory = () => this.setState({ showHistory: true });
@@ -35,22 +40,70 @@ class Search extends React.Component {
     if (e.key !== "Enter") {
       return;
     }
-    this.handleSearch(this.state.inputText);
+    return this.handleSearch(this.state.inputText);
   };
 
   private onClickHistoryItem = (e: React.MouseEvent<HTMLInputElement>) => {
     const { value = '' } = e.currentTarget.dataset;
     this.setState({ inputText: value });
-    this.handleSearch(value);
+    return this.handleSearch(value);
   };
 
-  private handleSearch(text: string) {
-    if (!text.trim()) {
+  private handleSearch = async (text: string) => {
+    const t = text.trim();
+    if (!t) {
       return;
     }
 
-    this.setState({ showResult: true });
-  }
+    if (await this.jumpVol(t)) {
+      return;
+    }
+
+    this.setState({ showResult: true, searchText: t });
+
+    const handles: ((text: string) => Promise<boolean>)[] = [];
+    for (let handle of handles) {
+      const done = await handle(t);
+      if (done) {
+        return;
+      }
+    }
+  };
+
+  private jumpVol = async (text: string): Promise<boolean> => {
+    const match = text.trim().toLowerCase().match(/^vol\s?\d+/);
+    if (match && match[0].trim()) {
+      const vol = parseInt((match[0].match(/\d+/) || ['0'])[0], 10);
+      if (!vol) {
+        return false;
+      }
+
+      const volItem = await ipc.db.vol.findOne({ vol });
+      if (!volItem) {
+        return false;
+      }
+
+      volStore.setItem(volItem.id);
+      return true;
+    }
+    return false;
+  };
+
+  private renderResult = () => {
+    return (
+        <>
+          <div id="search-result-nav">
+            <div>期刊</div>
+            <div>歌曲</div>
+            <div>专栏</div>
+          </div>
+          <div id="search-result-content">
+            <h1>"{this.state.searchText}" 的搜索结果</h1>
+            <Icon type={IconTypes.LOADING} animate />
+          </div>
+        </>
+    );
+  };
 
   public render() {
     return (
@@ -85,6 +138,11 @@ class Search extends React.Component {
             </div>
           </div>
         </div>
+        {
+          this.state.showResult ?
+              this.renderResult() :
+              null
+        }
       </Route>
     );
   }

@@ -79,6 +79,44 @@
     }
   }
 
+  #search-result-nav {
+    & > div {
+      display: inline-block;
+      background: rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      border-radius: 30px;
+      padding: 3px 12px;
+      margin-right: 16px;
+      opacity: 0.8;
+      font-size: 14px;
+      cursor: pointer;
+      @include transition;
+
+      &:active, &:hover {
+        opacity: 1;
+        background: rgba(0, 0, 0, 0.26);
+        border: 1px solid #ffffff;
+        transform-origin: bottom;
+      }
+    }
+  }
+
+  #search-result-content {
+    text-align: center;
+
+    .icon.LOADING {
+      margin-top: 15vh;
+      opacity: 0.6;
+    }
+
+    & > h1 {
+      text-align: left;
+      margin-top: 24px;
+      font-weight: normal;
+      font-size: 22px;
+    }
+  }
+
   &.show-result {
     #search-main {
       transform: scale(0.8);
