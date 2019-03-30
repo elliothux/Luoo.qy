@@ -31,6 +31,10 @@ function goUser() {
   store.changeView(ViewTypes.USER);
 }
 
+function goSearch() {
+  store.changeView(ViewTypes.SEARCH);
+}
+
 function INav() {
   const { view } = store;
   return (
@@ -72,7 +76,10 @@ function INav() {
             {volStore.type === VolType.All ? "分类" : volStore.typeItem.name}
           </p>
         </div>
-        <div>
+        <div
+          className={hideClassName(view === ViewTypes.SEARCH)}
+          onClick={goSearch}
+        >
           <Icon type={IconTypes.SEARCH} />
           <p>搜索</p>
         </div>

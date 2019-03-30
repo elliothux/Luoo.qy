@@ -12,6 +12,7 @@ import { Article } from "./pages/article";
 import { Player } from "./components/player";
 import { MiniPlayer } from "./components/mini-player";
 import { User } from "./pages/user";
+import { Search } from "./pages/search";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
       <Articles />
       <Article />
       <User />
+      <Search />
       <Player />
       <MiniPlayer />
       <ToastContainer

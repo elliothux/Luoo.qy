@@ -37,7 +37,8 @@ export enum ViewTypes {
   SINGLE_INFO,
   ARTICLES,
   ARTICLE_INFO,
-  USER
+  USER,
+  SEARCH
 }
 
 export enum PlayingTypes {
