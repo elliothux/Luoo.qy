@@ -1,10 +1,9 @@
 import {action, computed, observable, reaction} from "mobx";
-import {formatPlayingTime, getIPC, LrcLine, LyricParser} from "../utils";
+import {exec, formatPlayingTime, getIPC, LrcLine, LyricParser} from "../utils";
 import {PlayingMode, PlayingStatus, PlayingTypes, Track, TrackType} from "../types";
 import {volStore} from "./vol";
 import {articleStore} from "./article";
 import {singleStore} from "./single";
-import {debug} from "util";
 
 const ipc = getIPC();
 const audio: HTMLAudioElement = new Audio();
@@ -92,6 +91,7 @@ class PlayerStore {
   @action
   private setPlayingIndex(index: number) {
     this.playingIndex = index;
+    this.play();
   }
 
   @observable

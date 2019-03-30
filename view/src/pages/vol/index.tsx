@@ -72,8 +72,7 @@ class Vol extends React.Component {
       return;
     }
     const tracks = vol.tracks as VolTrack[];
-    const ids = tracks.map(i => i.id);
-    playerStore.setPlayingIds(ids, null, PlayingTypes.VOL, vol.id);
+    playerStore.setPlayingIds(Vol.trackIds, null, PlayingTypes.VOL, vol.id);
   };
 
   private static onToggleLike = () => {
