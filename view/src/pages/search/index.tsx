@@ -1,18 +1,19 @@
 import * as React from "react";
 import { Route } from "../../components/route";
 import {
-  searchArticleStore,
-  searchTrackStore,
-  searchVolStore,
   store,
   volStore
 } from "../../store";
-import {FindOptions, ViewTypes, VolInfo} from "../../types";
+import { ViewTypes } from "../../types";
 import { observer } from "mobx-react";
-import { exec, getIPC, preventSyntheticEvent } from "../../utils";
+import { getIPC, preventSyntheticEvent } from "../../utils";
 import { Icon, IconTypes } from "../../components/icon";
+import { searchStore } from "../../store/search";
+import { SearchResultVol } from "../../components/search-result-vols";
+import { SearchResultArticle } from '../../components/search-result-articles';
+import { SearchResultTrack } from '../../components/search-result-tracks';
 import "./index.scss";
-import { VolItem } from "../../components/vol-item";
+
 
 enum SearchViewTypes {
   VOLS,
@@ -26,14 +27,7 @@ setTimeout(() => store.changeView(ViewTypes.SEARCH), 2000);
 class Search extends React.Component {
   state = {
     inputText: "",
-    searchText: "",
-    showHistory: false,
-    showResult: false,
-    history: ["迷幻摇滚", "vol788", "Beatles", "再见"],
-    view: SearchViewTypes.VOLS,
-    fetchingVol: false,
-    fetchingTrack: false,
-    fetchingArticle: false
+    view: SearchViewTypes.VOLS
   };
 
   get translateX(): string {
@@ -50,17 +44,26 @@ class Search extends React.Component {
     }
   }
 
-  private showHistory = () => this.setState({ showHistory: true });
+  get title(): string {
+    const { view } = this.state;
+    const { searchText } = searchStore;
 
-  private hideHistory = () => this.setState({ showHistory: false });
+    switch (view) {
+      case SearchViewTypes.VOLS:
+        return `“${searchText}” 相关期刊`;
+      case SearchViewTypes.TRACKS:
+        return `“${searchText}” 相关歌曲`;
+      case SearchViewTypes.ARTICLES:
+        return `“${searchText}” 相关专栏`;
+      default:
+        throw new Error("Invalid view type");
+    }
+  }
 
   private onChangeInputText = (e: React.FormEvent<HTMLInputElement>) => {
     preventSyntheticEvent(e);
     const { value = "" } = e.currentTarget;
     this.setState({ inputText: value });
-    if (!value.trim()) {
-      this.setState({ showResult: false });
-    }
   };
 
   private onKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -77,39 +80,14 @@ class Search extends React.Component {
   };
 
   private handleSearch = async (text: string) => {
-    const t = text.trim();
-    if (!t) {
+    if (await Search.jumpVol(text)) {
       return;
     }
 
-    if (await this.jumpVol(t)) {
-      return;
-    }
-
-    const state = {
-      showResult: true,
-      searchText: t,
-      fetchingVol: false,
-      fetchingTrack: false,
-      fetchingArticle: false
-    };
-    switch (this.state.view) {
-      case SearchViewTypes.VOLS: {
-        exec(() => this.searchVol(t));
-        state.fetchingVol = true;
-        break;
-      }
-      case SearchViewTypes.TRACKS:
-        state.fetchingTrack = true;
-        break;
-      case SearchViewTypes.ARTICLES:
-        state.fetchingArticle = true;
-        break;
-    }
-    this.setState(state);
+    searchStore.setSearchText(text);
   };
 
-  private jumpVol = async (text: string): Promise<boolean> => {
+  private static jumpVol = async (text: string): Promise<boolean> => {
     const match = text
       .trim()
       .toLowerCase()
@@ -133,12 +111,6 @@ class Search extends React.Component {
 
   private changeView = (view: SearchViewTypes) => {
     this.setState({ view });
-  };
-
-  private searchVol = async (text: string) => {
-    const items = await ipc.db.vol.search(text, { id: 1 });
-    searchVolStore.setIds(items.map(i => i.id));
-    setTimeout(() => this.setState({ fetchingVol: false }), 1000);
   };
 
   private renderSearchNav = () => {
@@ -167,74 +139,18 @@ class Search extends React.Component {
     );
   };
 
-  private renderLoading = () => <Icon type={IconTypes.LOADING} animate />;
-
-  private renderEmpty = () => "暂无结果";
-
-  private renderVolResult = () => {
-    const { fetchingVol } = this.state;
-    if (fetchingVol) {
-      return this.renderLoading();
-    }
-
-    const { displayedItems } = searchVolStore;
-    if (!displayedItems.length) {
-      return this.renderEmpty();
-    }
-
-    return "111";
-  };
-
-  private renderTrackResult = () => {
-    const { fetchingTrack } = this.state;
-    if (fetchingTrack) {
-      return this.renderLoading();
-    }
-
-    const { displayedItems } = searchTrackStore;
-    if (!displayedItems.length) {
-      return this.renderEmpty();
-    }
-
-    return "222";
-  };
-
-  private renderArticleResult = () => {
-    const { fetchingArticle } = this.state;
-    if (fetchingArticle) {
-      return this.renderLoading();
-    }
-
-    const { displayedItems } = searchArticleStore;
-    if (!displayedItems.length) {
-      return this.renderEmpty();
-    }
-
-    return "333";
-  };
-
   private renderResult = () => {
     return (
       <>
         {this.renderSearchNav()}
+        <h1 id="search-result-title">{this.title}</h1>
         <div
           id="search-result-content"
-          style={{
-            transform: `translateX(${this.translateX})`
-          }}
+          style={{ transform: `translateX(${this.translateX})` }}
         >
-          <div>
-            <h1>“{this.state.searchText}” 相关期刊</h1>
-            {this.renderVolResult()}
-          </div>
-          <div>
-            <h1>“{this.state.searchText}” 相关单曲</h1>
-            {this.renderTrackResult()}
-          </div>
-          <div>
-            <h1>“{this.state.searchText}” 相关专栏</h1>
-            {this.renderArticleResult()}
-          </div>
+          <SearchResultVol />
+          <SearchResultTrack />
+          <SearchResultArticle />
         </div>
       </>
     );
@@ -246,7 +162,7 @@ class Search extends React.Component {
         currentView={store.view}
         view={ViewTypes.SEARCH}
         id="search"
-        className={this.state.showResult ? "show-result" : ""}
+        className={searchStore.searchText ? "show-result" : ""}
       >
         <div id="search-main">
           <div id="search-input">
@@ -255,8 +171,6 @@ class Search extends React.Component {
               placeholder="搜索..."
               maxLength={50}
               value={this.state.inputText}
-              onFocus={this.showHistory}
-              onBlur={this.hideHistory}
               onChange={this.onChangeInputText}
               onKeyPress={this.onKeyPress}
             />
@@ -265,7 +179,7 @@ class Search extends React.Component {
           <div id="search-history">
             <p>搜索历史</p>
             <div className="search-history-content">
-              {this.state.history.map(i => (
+              {searchStore.history.map(i => (
                 <div
                   key={i}
                   className="search-history-item"
@@ -278,7 +192,7 @@ class Search extends React.Component {
             </div>
           </div>
         </div>
-        {this.state.showResult ? this.renderResult() : null}
+        {searchStore.searchText ? this.renderResult() : null}
       </Route>
     );
   }

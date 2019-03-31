@@ -1,0 +1,11 @@
+
+#vol-search-result-content {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-column-gap: 8vw;
+  grid-row-gap: 4vw;
+
+  .pagination {
+    grid-column: 1 / 4;
+  }
+}

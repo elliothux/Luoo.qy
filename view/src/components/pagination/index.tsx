@@ -9,18 +9,21 @@ interface Props {
   store: PaginationStore;
 }
 
-function IPagination(props: Props) {
+function IPagination({ store }: Props) {
+  if (store.totalPage <= 1) {
+    return null;
+  }
+
   const {
-    store: {
-      hasNext,
-      hasPre,
-      changeCurrentPage,
-      nextPagination,
-      prePagination,
-      displayPaginations,
-      currentPage
-    }
-  } = props;
+    hasNext,
+    hasPre,
+    changeCurrentPage,
+    nextPagination,
+    prePagination,
+    displayPaginations,
+    currentPage
+  } = store;
+
   return (
     <div className="pagination">
       <Icon
