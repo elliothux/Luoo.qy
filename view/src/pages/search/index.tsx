@@ -53,6 +53,9 @@ class Search extends React.Component {
     preventSyntheticEvent(e);
     const { value = "" } = e.currentTarget;
     this.setState({ inputText: value });
+    if (!value.trim()) {
+      searchStore.setSearchText(null);
+    }
   };
 
   private onKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {

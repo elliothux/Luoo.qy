@@ -1,6 +1,6 @@
 import * as React from "react";
 import { observer } from "mobx-react";
-import { playerStore, searchVolStore } from "../../store";
+import {collectionVolStore, playerStore, searchVolStore} from "../../store";
 import { PlayingTypes } from "../../types";
 import { Pagination } from "../pagination";
 import { VolItem } from "../vol-item";
@@ -8,7 +8,13 @@ import { Empty } from "../empty";
 import { Loading } from "../loading";
 
 import "./index.scss";
+import {scrollToTop} from "../../utils";
 
+let containerRef: HTMLDivElement;
+
+function getContainerRef(i: HTMLDivElement) {
+  containerRef = i;
+}
 
 function ISearchResultVol() {
   const { displayedItems, pagination, isLoading } = searchVolStore;
@@ -22,7 +28,7 @@ function ISearchResultVol() {
   }
 
   return (
-    <div id="vol-search-result-content">
+    <div id="vol-search-result-content" ref={getContainerRef}>
       {displayedItems.map(vol => {
         const { id } = vol;
 
@@ -49,6 +55,10 @@ function ISearchResultVol() {
     </div>
   );
 }
+
+searchVolStore.pagination.onChangePage(() => {
+  scrollToTop(containerRef);
+});
 
 const SearchResultVol = observer(ISearchResultVol);
 

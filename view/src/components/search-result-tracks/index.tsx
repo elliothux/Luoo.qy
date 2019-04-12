@@ -12,7 +12,13 @@ import { Empty } from "../empty";
 import {Pagination} from "../pagination";
 
 import "./index.scss";
+import {scrollToTop} from "../../utils";
 
+let containerRef: HTMLDivElement;
+
+function getContainerRef(i: HTMLDivElement) {
+  containerRef = i;
+}
 
 function ISearchResultTrack() {
   const { displayedItems, isLoading, pagination } = searchTrackStore;
@@ -26,7 +32,7 @@ function ISearchResultTrack() {
   }
 
   return (
-    <div id={id}>
+    <div id={id} ref={getContainerRef}>
       {displayedItems.map(track => {
         const { id } = track;
         const isPlaying = playerStore.isTrackPlaying(id);
@@ -61,6 +67,10 @@ function ISearchResultTrack() {
     </div>
   );
 }
+
+searchTrackStore.pagination.onChangePage(() => {
+  scrollToTop(containerRef);
+});
 
 const SearchResultTrack = observer(ISearchResultTrack);
 

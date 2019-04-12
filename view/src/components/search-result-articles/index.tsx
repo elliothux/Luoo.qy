@@ -5,10 +5,17 @@ import { PlayingTypes } from "../../types";
 import { ArticleItem } from "../article-item";
 import { Loading } from "../loading";
 import { Empty } from "../empty";
-
-import "./index.scss";
 import {Pagination} from "../pagination";
 
+import "./index.scss";
+import {scrollToTop} from "../../utils";
+
+
+let containerRef: HTMLDivElement;
+
+function getContainerRef(i: HTMLDivElement) {
+  containerRef = i;
+}
 
 function ISearchResultArticle() {
   const { displayedItems, isLoading, pagination } = searchArticleStore;
@@ -22,7 +29,7 @@ function ISearchResultArticle() {
   }
 
   return (
-    <div id={id}>
+    <div id={id} ref={getContainerRef}>
       {displayedItems.map(article => {
         const { id } = article;
         const onPlay = async () => {
@@ -48,6 +55,10 @@ function ISearchResultArticle() {
     </div>
   );
 }
+
+searchArticleStore.pagination.onChangePage(() => {
+  scrollToTop(containerRef);
+});
 
 const SearchResultArticle = observer(ISearchResultArticle);
 
