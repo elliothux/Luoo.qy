@@ -138,15 +138,15 @@
     display: flex;
     @include transition;
     transition-duration: 800ms;
-    height: calc(100% - 114px);
-    margin-top: 108px;
+    height: calc(100% - 91px);
+    margin-top: 90px;
     overflow: hidden;
 
     #vol-search-result-content,
-    #search-search-result-content,
+    #track-search-result-content,
     #article-search-result-content {
       width: calc(100vw - 70px * 2) !important;
-      padding: 25px 70px 0 !important;
+      padding: 20px 70px 0 !important;
       height: calc(100% - 25px);
       overflow-y: scroll;
 

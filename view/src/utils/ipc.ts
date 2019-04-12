@@ -65,6 +65,7 @@ declare global {
         find<T = ArticleInfo>(options: FindOptions): Promise<T[]>;
         insert(items: ArticleInfo[]): Promise<ArticleInfo[]>;
         latestID: () => Promise<ID>;
+        search<T = ArticleInfo>(text: string, projection: object): Promise<T[]>;
       };
       articleTrack: {
         findOne(query: object): Promise<Maybe<ArticleTrack>>;

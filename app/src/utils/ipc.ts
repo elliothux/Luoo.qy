@@ -74,7 +74,8 @@ function injectIPC(target: object): void {
           findOne: article.findOne,
           find: article.find,
           insert: article.insert,
-          latestID: article.latestID
+          latestID: article.latestID,
+          search: article.search
         },
         articleTrack: {
           findOne: articleTrack.findOne,

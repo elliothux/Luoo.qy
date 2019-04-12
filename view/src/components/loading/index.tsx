@@ -1,8 +1,15 @@
 import * as React from "react";
 import "./index.scss";
 
-function Loading() {
-  return <div className="loading">Loading</div>;
+interface LoadingProps {
+  id?: string;
+}
+function Loading(props: LoadingProps) {
+  return (
+    <div className="loading" id={props.id || ""}>
+      Loading
+    </div>
+  );
 }
 
 export { Loading };

@@ -167,3 +167,9 @@ export interface UserCollections {
   vols: number[];
   articles: number[];
 }
+
+export enum SearchViewTypes {
+  VOLS,
+  TRACKS,
+  ARTICLES
+}

@@ -4,7 +4,7 @@ import {
   store,
   volStore
 } from "../../store";
-import { ViewTypes } from "../../types";
+import { ViewTypes, SearchViewTypes } from "../../types";
 import { observer } from "mobx-react";
 import { getIPC, preventSyntheticEvent } from "../../utils";
 import { Icon, IconTypes } from "../../components/icon";
@@ -15,24 +15,14 @@ import { SearchResultTrack } from '../../components/search-result-tracks';
 import "./index.scss";
 
 
-enum SearchViewTypes {
-  VOLS,
-  TRACKS,
-  ARTICLES
-}
-
 const ipc = getIPC();
 setTimeout(() => store.changeView(ViewTypes.SEARCH), 2000);
 @observer
 class Search extends React.Component {
-  state = {
-    inputText: "",
-    view: SearchViewTypes.VOLS
-  };
+  state = { inputText: "" };
 
-  get translateX(): string {
-    const { view } = this.state;
-    switch (view) {
+  private static get translateX(): string {
+    switch (searchStore.searchType) {
       case SearchViewTypes.VOLS:
         return `0%`;
       case SearchViewTypes.TRACKS:
@@ -44,11 +34,10 @@ class Search extends React.Component {
     }
   }
 
-  get title(): string {
-    const { view } = this.state;
-    const { searchText } = searchStore;
+  private static get title(): string {
+    const { searchText, searchType } = searchStore;
 
-    switch (view) {
+    switch (searchType) {
       case SearchViewTypes.VOLS:
         return `“${searchText}” 相关期刊`;
       case SearchViewTypes.TRACKS:
@@ -109,29 +98,24 @@ class Search extends React.Component {
     return false;
   };
 
-  private changeView = (view: SearchViewTypes) => {
-    this.setState({ view });
-  };
-
   private renderSearchNav = () => {
-    const { view } = this.state;
     return (
       <div id="search-result-nav">
         <div
-          className={view === SearchViewTypes.VOLS ? "active" : ""}
-          onClick={this.changeView.bind(this, SearchViewTypes.VOLS)}
+          className={searchStore.searchType === SearchViewTypes.VOLS ? "active" : ""}
+          onClick={() => searchStore.setSearchType(SearchViewTypes.VOLS)}
         >
           期刊
         </div>
         <div
-          className={view === SearchViewTypes.TRACKS ? "active" : ""}
-          onClick={this.changeView.bind(this, SearchViewTypes.TRACKS)}
+          className={searchStore.searchType === SearchViewTypes.TRACKS ? "active" : ""}
+          onClick={() => searchStore.setSearchType(SearchViewTypes.TRACKS)}
         >
           曲目
         </div>
         <div
-          className={view === SearchViewTypes.ARTICLES ? "active" : ""}
-          onClick={this.changeView.bind(this, SearchViewTypes.ARTICLES)}
+          className={searchStore.searchType === SearchViewTypes.ARTICLES ? "active" : ""}
+          onClick={() => searchStore.setSearchType(SearchViewTypes.ARTICLES)}
         >
           专栏
         </div>
@@ -143,10 +127,10 @@ class Search extends React.Component {
     return (
       <>
         {this.renderSearchNav()}
-        <h1 id="search-result-title">{this.title}</h1>
+        <h1 id="search-result-title">{Search.title}</h1>
         <div
           id="search-result-content"
-          style={{ transform: `translateX(${this.translateX})` }}
+          style={{ transform: `translateX(${Search.translateX})` }}
         >
           <SearchResultVol />
           <SearchResultTrack />

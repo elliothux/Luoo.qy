@@ -1,17 +1,32 @@
 import * as React from "react";
 import { observer } from "mobx-react";
-import {collectionTrackStore, playerStore, searchTrackStore} from "../../store";
-import {getIPC } from "../../utils";
+import {
+  collectionTrackStore,
+  playerStore,
+  searchTrackStore
+} from "../../store";
+import { getIPC } from "../../utils";
 import { PlayingTypes } from "../../types";
-import {TrackItem} from "../track-item";
-
+import { TrackItem } from "../track-item";
+import { Loading } from "../loading";
+import { Empty } from "../empty";
+import {Pagination} from "../pagination";
 
 const ipc = getIPC();
 
 function ISearchResultTrack() {
-  const { displayedItems } = searchTrackStore;
+  const { displayedItems, isLoading, pagination } = searchTrackStore;
+  const id = "track-search-result-content";
+
+  if (isLoading) {
+    return <Loading id={id} />;
+  }
+  if (displayedItems.length === 0) {
+    return <Empty id={id} />;
+  }
+
   return (
-    <div id="track-search-result-content">
+    <div id={id}>
       {displayedItems.map(track => {
         const { id } = track;
         const isPlaying = playerStore.isTrackPlaying(id);
@@ -29,19 +44,20 @@ function ISearchResultTrack() {
         };
 
         return (
-            <TrackItem
-                key={id}
-                name={track.name}
-                artist={track.artist}
-                album={track.album}
-                cover={track.cover}
-                isPlaying={isPlaying}
-                isLiked={collectionTrackStore.isLiked(id)}
-                onPlay={onPlay}
-                onClick={onClick}
-            />
+          <TrackItem
+            key={id}
+            name={track.name}
+            artist={track.artist}
+            album={track.album}
+            cover={track.cover}
+            isPlaying={isPlaying}
+            isLiked={collectionTrackStore.isLiked(id)}
+            onPlay={onPlay}
+            onClick={onClick}
+          />
         );
       })}
+      <Pagination store={pagination} />
     </div>
   );
 }

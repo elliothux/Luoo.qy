@@ -10,10 +10,6 @@ interface Props {
 }
 
 function IPagination({ store }: Props) {
-  if (store.totalPage <= 1) {
-    return null;
-  }
-
   const {
     hasNext,
     hasPre,

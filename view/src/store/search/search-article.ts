@@ -22,16 +22,21 @@ class SearchArticle {
   };
 
   @observable
-  private ids: ID[] = [];
+  private ids: Maybe<ID[]> = null;
 
   @action
-  public setIds = (ids: ID[]) => {
+  public setIds = (ids: Maybe<ID[]>) => {
     this.ids = ids
   };
 
   @computed
+  public get isLoading(): boolean {
+    return !this.ids;
+  }
+
+  @computed
   private get total(): number {
-    return this.ids.length;
+    return (this.ids || []).length;
   }
 
   @computed
