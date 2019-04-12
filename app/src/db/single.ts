@@ -3,9 +3,9 @@ import {
   find as findDB,
   findOne as findOneDB,
   insert as insertDB,
-  count as countDB
+  count as countDB, whereOfTrack
 } from "./operations";
-import { FindOptions, Single } from "../types";
+import {FindOptions, Single} from "../types";
 
 const db: Nedb = getDB("single");
 
@@ -36,4 +36,14 @@ function insert(items: Single[]): Promise<Single[]> {
   return insertDB<Single>(db, items);
 }
 
-export { count, find, findOne, insert, latestID };
+function search<T = Single>(
+    text: string,
+    projection: object
+): Promise<T[]> {
+  return find({
+    query: { $where: () => whereOfTrack(this, text) },
+    projection
+  } as FindOptions);
+}
+
+export { count, find, findOne, insert, latestID, search };

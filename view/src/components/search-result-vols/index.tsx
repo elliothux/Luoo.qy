@@ -1,13 +1,14 @@
 import * as React from "react";
 import { observer } from "mobx-react";
 import { playerStore, searchVolStore } from "../../store";
-import { ipcUtils } from "../../utils";
-import { PlayingTypes, VolInfo } from "../../types";
+import { PlayingTypes } from "../../types";
 import { Pagination } from "../pagination";
 import { VolItem } from "../vol-item";
-import "./index.scss";
 import { Empty } from "../empty";
 import { Loading } from "../loading";
+
+import "./index.scss";
+
 
 function ISearchResultVol() {
   const { displayedItems, pagination, isLoading } = searchVolStore;
@@ -26,7 +27,7 @@ function ISearchResultVol() {
         const { id } = vol;
 
         const onPlay = async () => {
-          const ids = await ipcUtils.getTrackIdsByVolId(id);
+          const ids = searchVolStore.getIds();
           playerStore.setPlayingIds(ids, null, PlayingTypes.VOL, vol.id);
         };
 

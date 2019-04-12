@@ -96,7 +96,22 @@ class SearchStore {
   };
 
   @action
-  private searchTracks = async () => {};
+  private searchTracks = async () => {
+    if (!this.searchText) {
+      return;
+    }
+
+    const projection = { id: 1 };
+    const [volTracks, singles, articleTracks] = await Promise.all([
+      ipc.db.volTrack.search(this.searchText, projection),
+      ipc.db.single.search(this.searchText, projection),
+      ipc.db.articleTrack.search(this.searchText, projection),
+    ]);
+    const items = [...volTracks, ...singles, ...articleTracks];
+    setTimeout(() => {
+      searchTrackStore.setIds(items.map(i => i.id));
+    }, 1500);
+  };
 }
 
 const searchStore = new SearchStore();

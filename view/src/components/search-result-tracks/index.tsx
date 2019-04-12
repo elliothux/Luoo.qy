@@ -5,14 +5,14 @@ import {
   playerStore,
   searchTrackStore
 } from "../../store";
-import { getIPC } from "../../utils";
 import { PlayingTypes } from "../../types";
 import { TrackItem } from "../track-item";
 import { Loading } from "../loading";
 import { Empty } from "../empty";
 import {Pagination} from "../pagination";
 
-const ipc = getIPC();
+import "./index.scss";
+
 
 function ISearchResultTrack() {
   const { displayedItems, isLoading, pagination } = searchTrackStore;
@@ -32,7 +32,7 @@ function ISearchResultTrack() {
         const isPlaying = playerStore.isTrackPlaying(id);
 
         const onPlay = async () => {
-          const ids = ipc.user.getUserLikedTrackIds();
+          const ids = searchTrackStore.getIds();
           playerStore.setPlayingIds(ids, id, PlayingTypes.COLLECTION_TRACK);
         };
 

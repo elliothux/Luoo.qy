@@ -1,13 +1,15 @@
 import * as React from "react";
 import {observer} from "mobx-react";
-import {collectionTrackStore, collectionVolStore, playerStore} from "../../store";
+import {collectionTrackStore, playerStore} from "../../store";
 import {Loading} from "../loading";
 import {Empty} from "../empty";
 import {PlayingTypes, Track} from "../../types";
 import {Pagination} from "../pagination";
 import {TrackItem} from "../track-item";
-import "./index.scss";
 import {getIPC, scrollToTop} from "../../utils";
+
+import "./index.scss";
+
 
 const ipc = getIPC();
 

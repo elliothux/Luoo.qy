@@ -1,7 +1,6 @@
 import * as React from "react";
 import { observer } from "mobx-react";
 import { playerStore, searchArticleStore } from "../../store";
-import { ipcUtils } from "../../utils";
 import { PlayingTypes } from "../../types";
 import { ArticleItem } from "../article-item";
 import { Loading } from "../loading";
@@ -27,7 +26,7 @@ function ISearchResultArticle() {
       {displayedItems.map(article => {
         const { id } = article;
         const onPlay = async () => {
-          const ids = await ipcUtils.getTrackIdsByArticleId(id);
+          const ids = searchArticleStore.getIds();
           playerStore.setPlayingIds(ids, null, PlayingTypes.ARTICLE, id);
         };
 

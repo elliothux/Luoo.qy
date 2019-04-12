@@ -2,7 +2,8 @@ import {
   getDB,
   find as findDB,
   findOne as findOneDB,
-  insert as insertDB
+  insert as insertDB,
+  whereOfTrack
 } from "./operations";
 import { FindOptions, ArticleTrack } from "../types";
 
@@ -23,4 +24,14 @@ function insert(items: ArticleTrack[]): Promise<ArticleTrack[]> {
   return insertDB<ArticleTrack>(db, items);
 }
 
-export { find, findOne, insert };
+function search<T = ArticleTrack>(
+  text: string,
+  projection: object
+): Promise<T[]> {
+  return find({
+    query: { $where: () => whereOfTrack(this, text) },
+    projection
+  } as FindOptions);
+}
+
+export { find, findOne, insert, search };

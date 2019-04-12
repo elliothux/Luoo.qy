@@ -51,6 +51,7 @@ declare global {
       volTrack: {
         findOne(query: object): Promise<Maybe<VolTrack>>;
         find<T = VolTrack>(options: FindOptions): Promise<T[]>;
+        search<T = VolTrack>(text: string, projection: object): Promise<T[]>;
       };
       single: {
         count(query?: object): Promise<number>;
@@ -58,6 +59,7 @@ declare global {
         find<T = Single>(options: FindOptions): Promise<T[]>;
         insert(items: Single[]): Promise<Single[]>;
         latestID: () => Promise<ID>;
+        search<T = Single>(text: string, projection: object): Promise<T[]>;
       };
       article: {
         count(query?: object): Promise<number>;
@@ -70,6 +72,10 @@ declare global {
       articleTrack: {
         findOne(query: object): Promise<Maybe<ArticleTrack>>;
         find<T = ArticleTrack>(options: FindOptions): Promise<T[]>;
+        search<T = ArticleTrack>(
+          text: string,
+          projection: object
+        ): Promise<T[]>;
       };
     };
   }

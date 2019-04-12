@@ -24,6 +24,10 @@ class SearchTrack {
   @observable
   private ids: Maybe<ID[]> = null;
 
+  public getIds = (): ID[] => {
+    return this.ids || [];
+  };
+
   @action
   public setIds = (ids: Maybe<ID[]>) => {
     this.ids = ids
@@ -83,6 +87,7 @@ class SearchTrack {
     const articleTracks = iArticleTracks
         .filter(i => !singleAndVolTrackIds.includes(i.id))
         .map(i => ({ ...i, type: TrackType.ARTICLE_TRACK }));
+
     this.displayedItems = [...volTracks, ...singles, ...articleTracks];
   };
 }

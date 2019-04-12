@@ -2,7 +2,7 @@ import * as path from "path";
 import { DataStoreOptions } from "nedb";
 import { isElectron, runPath } from "../utils";
 import Nedb = require("nedb");
-import { FindOptions } from "../types";
+import {ArticleTrack, FindOptions, Track} from "../types";
 
 function getDB(name: string): Nedb {
   const db = new Nedb({
@@ -107,4 +107,11 @@ async function isExist(db: Nedb, query: object): Promise<boolean> {
   return doc !== null;
 }
 
-export { getDB, insert, count, find, findOne, isExist };
+function whereOfTrack<T extends Track>(item: T, text: string) {
+  const reg = new RegExp(text.trim());
+  return (
+      reg.test(item.name) || reg.test(item.artist) || reg.test(item.album)
+  );
+}
+
+export { getDB, insert, count, find, findOne, isExist, whereOfTrack };

@@ -60,14 +60,16 @@ function injectIPC(target: object): void {
         },
         volTrack: {
           findOne: volTrack.findOne,
-          find: volTrack.find
+          find: volTrack.find,
+          search: volTrack.search
         },
         single: {
           count: single.count,
           findOne: single.findOne,
           find: single.find,
           insert: single.insert,
-          latestID: single.latestID
+          latestID: single.latestID,
+          search: single.search
         },
         article: {
           count: article.count,
@@ -79,7 +81,8 @@ function injectIPC(target: object): void {
         },
         articleTrack: {
           findOne: articleTrack.findOne,
-          find: articleTrack.find
+          find: articleTrack.find,
+          search: article.search
         }
       }
     }

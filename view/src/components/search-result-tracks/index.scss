@@ -1,0 +1,10 @@
+#track-search-result-content {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-column-gap: 3vw;
+  grid-row-gap: 1.5vw;
+
+  .pagination {
+    grid-column: 1 / 8;
+  }
+}

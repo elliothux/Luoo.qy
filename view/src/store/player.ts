@@ -102,6 +102,7 @@ class PlayerStore {
     const id = this.playingIds[this.playingIndex];
     if (!id) {
       this.playingTrack = null;
+      return;
     }
 
     const query = { id };
@@ -152,7 +153,7 @@ class PlayerStore {
             type: TrackType.ARTICLE_TRACK
           } as Track;
         } else {
-          throw new Error(`Cannot found track id${id}`);
+          throw new Error(`Cannot found track id ${id}`);
         }
         break;
       }

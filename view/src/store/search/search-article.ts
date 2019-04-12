@@ -24,6 +24,10 @@ class SearchArticle {
   @observable
   private ids: Maybe<ID[]> = null;
 
+  public getIds = (): ID[] => {
+    return this.ids || [];
+  };
+
   @action
   public setIds = (ids: Maybe<ID[]>) => {
     this.ids = ids
