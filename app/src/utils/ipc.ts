@@ -8,7 +8,8 @@ import {
   login,
   logout,
   getUserInfo,
-  getUserSetting,
+  setUserSetting,
+  getUserSettings,
   getUserLikedVolIds,
   getUserLikedArticleIds,
   getUserLikedTrackIds,
@@ -18,9 +19,9 @@ import {
   likeVol,
   likeArticle,
   likeTrack,
-    unlikeVol,
-    unlikeArticle,
-    unlikeTrack
+  unlikeVol,
+  unlikeArticle,
+  unlikeTrack
 } from "../user";
 
 function injectIPC(target: object): void {
@@ -30,7 +31,8 @@ function injectIPC(target: object): void {
         login,
         logout,
         getUserInfo,
-        getUserSetting,
+        setUserSetting,
+        getUserSettings,
         getUserLikedVolIds,
         getUserLikedArticleIds,
         getUserLikedTrackIds,

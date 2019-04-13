@@ -159,7 +159,8 @@ export interface UserInfo {
 
 export interface UserSettings {
   autoUpdate: boolean;
-  autoSync: boolean;
+  pushNotifications: boolean;
+  downloadFolder: string;
 }
 
 export interface UserCollections {

@@ -1,7 +1,8 @@
 import * as path from "path";
 import * as fs from "fs";
-import { UserCollections, UserData, UserInfo, UserSettings } from "../types";
+import { UserData, UserInfo, UserSettings } from "../types";
 import { isElectron, runPath, aseEncode, aseDecode } from "../utils";
+import {getDefaultDownloadFolder} from "./utils";
 
 const defaultUserData: UserData = {
   info: {
@@ -15,7 +16,8 @@ const defaultUserData: UserData = {
   },
   settings: {
     autoUpdate: true,
-    autoSync: true
+    pushNotifications: true,
+    downloadFolder: getDefaultDownloadFolder()
   },
   collections: {
     tracks: [],
@@ -133,15 +135,15 @@ function setUserLikedArticleIds(articles: number[]): void {
 /*
 @desc User settings
  */
-function setUserSetting(key: keyof UserSettings, value: boolean): void {
+function setUserSetting(key: keyof UserSettings, value: boolean | string): UserSettings {
   const { settings } = userData;
   settings[key] = value;
-  return writeUserDataToFile();
+  writeUserDataToFile();
+  return getUserSettings();
 }
 
-function getUserSetting(key: keyof UserSettings): boolean {
-  const { settings } = userData;
-  return !!settings[key];
+function getUserSettings(): UserSettings{
+  return userData.settings;
 }
 
 export {
@@ -154,6 +156,6 @@ export {
   setUserLikedTrackIds,
   setUserLikedArticleIds,
   setUserSetting,
-  getUserSetting,
+  getUserSettings,
   clearUserInfo
 };

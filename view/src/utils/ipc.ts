@@ -25,7 +25,11 @@ declare global {
       login(mail: string, password: string): Promise<UserInfo>;
       logout(): void;
       getUserInfo(): UserInfo;
-      getUserSetting(key: keyof UserSettings): boolean;
+      setUserSetting(
+        key: keyof UserSettings,
+        value: boolean | string
+      ): UserSettings;
+      getUserSettings(): UserSettings;
       getUserLikedVolIds(): number[];
       getUserLikedArticleIds(): number[];
       getUserLikedTrackIds(): number[];

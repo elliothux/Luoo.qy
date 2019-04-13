@@ -1,42 +1,60 @@
 import * as React from "react";
-import {observer} from "mobx-react";
-import {Toggle} from "../toggle";
+import { observer } from "mobx-react";
+import { Toggle } from "../toggle";
+import { Icon, IconTypes } from "../icon";
+import { settingStore } from "../../store/user";
 
 import "./index.scss";
-import {Icon, IconTypes} from "../icon";
+
+function toggleAutoUpdate() {
+  settingStore.setSetting("autoUpdate", !settingStore.setting.autoUpdate);
+}
+
+function togglePushNotifications() {
+  settingStore.setSetting(
+    "pushNotifications",
+    !settingStore.setting.pushNotifications
+  );
+}
 
 function IUserSettingCommon() {
+  const {
+    downloadFolder,
+    pushNotifications,
+    autoUpdate
+  } = settingStore.setting;
+
   return (
     <div id="user-setting-common">
       <div className="user-setting-line">
         <Icon type={IconTypes.DOWNLOAD_FOLDER} />
         <span className="user-setting-title">下载路径：</span>
-        <span>/Users/qingyang/Desktop/Luoo.qy</span>
+        <span>{downloadFolder}</span>
       </div>
-      <div className="user-setting-line">
-        <Toggle on={false} onToggle={console.log} />
+      <div className="user-setting-line" onClick={toggleAutoUpdate}>
+        <Toggle on={autoUpdate} />
         <span className="user-setting-title">自动更新：</span>
-          <span>禁用</span>
+        <span>{autoUpdate ? "启用" : "禁用"}</span>
       </div>
-      <div className="user-setting-line">
-        <Toggle on={true} onToggle={console.log} />
+      <div className="user-setting-line" onClick={togglePushNotifications}>
+        <Toggle on={pushNotifications} />
         <span className="user-setting-title">推送通知：</span>
-          <span>启用</span>
+        <span>{pushNotifications ? "启用" : "禁用"}</span>
       </div>
-        <div>
-            <div className="user-setting-item">
-                <Icon type={IconTypes.LOGOUT}/>
-                <span>退出登录</span>
-            </div>
-            <div className="user-setting-item">
-                <Icon type={IconTypes.UPGRADE}/>
-                <span>检查更新</span>
-            </div>
-            <div className="user-setting-item">
-                <Icon type={IconTypes.WEBSITE}/>
-                <span>访问网站</span>
-            </div>
+      <div>
+        <div className="user-setting-item">
+          <Icon type={IconTypes.LOGOUT} />
+          <span>退出登录</span>
         </div>
+        <div className="user-setting-item">
+          <Icon type={IconTypes.UPGRADE} />
+          <span>检查更新</span>
+        </div>
+        <div className="user-setting-item">
+          <Icon type={IconTypes.WEBSITE} />
+          <span>访问网站</span>
+        </div>
+      </div>
     </div>
   );
 }

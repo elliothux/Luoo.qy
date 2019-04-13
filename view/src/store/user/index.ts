@@ -5,6 +5,7 @@ import { getIPC } from "../../utils";
 import { collectionVolStore } from "./collection-vol";
 import { collectionTrackStore } from "./collection-track";
 import { collectionArticleStore } from "./collection-article";
+import { settingStore } from "./setting";
 
 const ipc: IpcObject = getIPC();
 
@@ -44,5 +45,6 @@ export {
   userStore,
   collectionVolStore,
   collectionTrackStore,
-  collectionArticleStore
+  collectionArticleStore,
+  settingStore
 };
