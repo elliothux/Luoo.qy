@@ -1,0 +1,25 @@
+@import "../../styles/helper";
+
+.toggle {
+  width: 38px;
+  height: 18px;
+  border-radius: 20px;
+  border: 1px solid white;
+  @include cursor;
+
+  & > div {
+    width: 12px;
+    height: 12px;
+    border-radius: 100%;
+    border: 1px solid white;
+    box-sizing: border-box;
+    margin: 3px;
+    @include transition;
+  }
+
+  &.on > div {
+    background-color: white;
+    transform: translateX(20px);
+    border-color: rgba(0, 0, 0, 0);
+  }
+}

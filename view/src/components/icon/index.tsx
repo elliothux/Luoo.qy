@@ -41,6 +41,10 @@ import STAR from "../../static/icon/star.svg";
 import RADIO from "../../static/icon/radio.svg";
 import LOADING from "../../static/icon/loading.svg";
 import SETTING from "../../static/icon/setting.svg";
+import DOWNLOAD_FOLDER from "../../static/icon/download-folder.svg";
+import LOGOUT from "../../static/icon/logout.svg";
+import UPGRADE from "../../static/icon/upgrade.svg";
+import WEBSITE from "../../static/icon/website.svg";
 
 import "./index.scss";
 
@@ -85,7 +89,11 @@ export enum IconTypes {
   STAR = "STAR",
   RADIO = "RADIO",
   LOADING = "LOADING",
-  SETTING = "SETTING"
+  SETTING = "SETTING",
+  DOWNLOAD_FOLDER = "DOWNLOAD_FOLDER",
+  LOGOUT = "LOGOUT",
+  UPGRADE = "UPGRADE",
+  WEBSITE = "WEBSITE"
 }
 
 export interface Props {
@@ -220,6 +228,18 @@ function Icon(props: Props) {
       break;
     case IconTypes.SETTING:
       src = SETTING;
+      break;
+    case IconTypes.DOWNLOAD_FOLDER:
+      src = DOWNLOAD_FOLDER;
+      break;
+    case IconTypes.LOGOUT:
+      src = LOGOUT;
+      break;
+    case IconTypes.UPGRADE:
+      src = UPGRADE;
+      break;
+    case IconTypes.WEBSITE:
+      src = WEBSITE;
       break;
     default:
       throw "Invalid icon type";

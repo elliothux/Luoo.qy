@@ -1,3 +1,42 @@
-#user-setting-common {
+@import "../../styles/helper";
 
+#user-setting-common {
+  .user-setting-line {
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    @include cursor;
+
+    .toggle {
+      display: inline-block;
+      margin-right: 18px;
+    }
+
+    .icon {
+      width: 46px;
+      margin-right: 13px;
+      margin-left: -3px;
+      margin-top: -6px;
+    }
+
+    .user-setting-title {
+      margin-right: 8px;
+    }
+  }
+
+  .user-setting-item {
+    margin-top: 40px;
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-right: 38px;
+    font-size: 15px;
+    @include cursor;
+
+    .icon {
+      width: 38px;
+    }
+  }
 }

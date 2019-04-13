@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="66px" height="66px" viewBox="0 0 66 66" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.3 (57544) - http://www.bohemiancoding.com/sketch -->
+    <title>logout</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="main" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="res" transform="translate(-1144.000000, -752.000000)" stroke="#FFFFFF" stroke-width="2">
+            <g id="logout" transform="translate(1144.000000, 752.000000)">
+                <g transform="translate(17.000000, 14.000000)" id="Shape">
+                    <path d="M39,17 L19,17"></path>
+                    <polyline points="34 11 40 16.4999171 34 22"></polyline>
+                    <polyline points="12 32 25 32 25 23"></polyline>
+                    <polyline points="26 12 26 0 0 0"></polyline>
+                    <polygon points="0 1 0 31.7614087 12 39 12 8.23859139"></polygon>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

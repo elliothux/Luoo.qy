@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="66px" height="66px" viewBox="0 0 66 66" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.3 (57544) - http://www.bohemiancoding.com/sketch -->
+    <title>upgrade</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="main" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="res" transform="translate(-1290.000000, -752.000000)" fill="#FFFFFF" fill-rule="nonzero">
+            <g id="upgrade" transform="translate(1290.000000, 752.000000)">
+                <g transform="translate(14.000000, 11.000000)">
+                    <g id="Group" transform="translate(28.405000, 24.174000) scale(-1, 1) translate(-28.405000, -24.174000) translate(18.905000, 7.174000)" stroke="#FFFFFF" stroke-width="0.6">
+                        <path d="M18.383,33.911 L0.88,27.601 L0.88,5.02 L18.383,11.33 L18.383,33.91 L18.383,33.911 Z M17.597,32.216 L17.596,32.216 L17.596,12.886 L2.206,7.209 L2.206,26.539 L17.597,32.216 Z" id="Shape"></path>
+                        <polygon id="Shape" transform="translate(7.486470, 3.081829) rotate(70.000000) translate(-7.486470, -3.081829) " points="6.81346985 -3.58967101 8.15946985 -3.58967101 8.15946985 9.75332899 6.81346985 9.75332899"></polygon>
+                    </g>
+                    <g id="Group" transform="translate(0.633000, 7.174000)" stroke="#FFFFFF" stroke-width="0.6">
+                        <path d="M18.383,33.911 L0.88,27.601 L0.88,5.02 L18.383,11.33 L18.383,33.91 L18.383,33.911 Z M17.597,32.216 L17.596,32.216 L17.596,12.886 L2.206,7.209 L2.206,26.539 L17.597,32.216 Z" id="Shape"></path>
+                        <polygon id="Shape" transform="translate(7.486470, 3.081829) rotate(70.000000) translate(-7.486470, -3.081829) " points="6.81346985 -3.58967101 8.15946985 -3.58967101 8.15946985 9.75332899 6.81346985 9.75332899"></polygon>
+                    </g>
+                    <polygon id="Shape" points="18.192 2.404 14.83 4.673 14 3.443 18.938 0.113 19.014 0 19.06 0.03 19.105 0 19.181 0.113 24.12 3.443 23.29 4.673 19.971 2.433 19.971 14.284 18.192 14.284 18.192 2.404"></polygon>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
