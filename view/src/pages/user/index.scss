@@ -85,7 +85,7 @@ $header-height: 48px;
     overflow: hidden;
 
     #user-content {
-      width: 300vw;
+      width: 400vw;
       display: flex;
       @include transition;
       transition-duration: 800ms;
@@ -98,7 +98,7 @@ $header-height: 48px;
       }
 
       .loading {
-        width: calc(33.33333% - 70px * 2);
+        width: calc(25% - 70px * 2);
         padding: 0 70px;
       }
     }

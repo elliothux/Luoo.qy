@@ -1,22 +1,20 @@
 import * as React from "react";
 import { Route } from "../../components/route";
-import {
-  store,
-  volStore
-} from "../../store";
+import { store, volStore } from "../../store";
 import { ViewTypes, SearchViewTypes } from "../../types";
 import { observer } from "mobx-react";
 import { getIPC, preventSyntheticEvent } from "../../utils";
 import { Icon, IconTypes } from "../../components/icon";
 import { searchStore } from "../../store/search";
 import { SearchResultVol } from "../../components/search-result-vols";
-import { SearchResultArticle } from '../../components/search-result-articles';
-import { SearchResultTrack } from '../../components/search-result-tracks';
+import { SearchResultArticle } from "../../components/search-result-articles";
+import { SearchResultTrack } from "../../components/search-result-tracks";
+import { Empty } from "../../components/empty";
+
 import "./index.scss";
 
-
 const ipc = getIPC();
-setTimeout(() => store.changeView(ViewTypes.SEARCH), 2000);
+
 @observer
 class Search extends React.Component {
   state = { inputText: "" };
@@ -105,19 +103,25 @@ class Search extends React.Component {
     return (
       <div id="search-result-nav">
         <div
-          className={searchStore.searchType === SearchViewTypes.VOLS ? "active" : ""}
+          className={
+            searchStore.searchType === SearchViewTypes.VOLS ? "active" : ""
+          }
           onClick={() => searchStore.setSearchType(SearchViewTypes.VOLS)}
         >
           期刊
         </div>
         <div
-          className={searchStore.searchType === SearchViewTypes.TRACKS ? "active" : ""}
+          className={
+            searchStore.searchType === SearchViewTypes.TRACKS ? "active" : ""
+          }
           onClick={() => searchStore.setSearchType(SearchViewTypes.TRACKS)}
         >
           曲目
         </div>
         <div
-          className={searchStore.searchType === SearchViewTypes.ARTICLES ? "active" : ""}
+          className={
+            searchStore.searchType === SearchViewTypes.ARTICLES ? "active" : ""
+          }
           onClick={() => searchStore.setSearchType(SearchViewTypes.ARTICLES)}
         >
           专栏
@@ -166,16 +170,20 @@ class Search extends React.Component {
           <div id="search-history">
             <p>搜索历史</p>
             <div className="search-history-content">
-              {searchStore.history.map(i => (
-                <div
-                  key={i}
-                  className="search-history-item"
-                  onClick={this.onClickHistoryItem}
-                  data-value={i}
-                >
-                  {i}
-                </div>
-              ))}
+              {searchStore.history.length ? (
+                searchStore.history.map(i => (
+                  <div
+                    key={i}
+                    className="search-history-item"
+                    onClick={this.onClickHistoryItem}
+                    data-value={i}
+                  >
+                    {i}
+                  </div>
+                ))
+              ) : (
+                <Empty />
+              )}
             </div>
           </div>
         </div>

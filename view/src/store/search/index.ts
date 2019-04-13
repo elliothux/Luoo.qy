@@ -1,16 +1,13 @@
-import {searchVolStore} from "./search-vol";
-import {searchTrackStore} from "./search-track";
-import {searchArticleStore} from "./search-article";
+import { searchVolStore } from "./search-vol";
+import { searchTrackStore } from "./search-track";
+import { searchArticleStore } from "./search-article";
 
-import {action, observable, reaction} from "mobx";
-import {getIPC} from "../../utils";
-import {SearchViewTypes} from "../../types";
+import { action, observable, reaction } from "mobx";
+import { getIPC } from "../../utils";
+import { SearchViewTypes } from "../../types";
 
-enum SearchType {
-  VOL,
-  ARTICLE,
-  TRACK
-}
+const MAX_HISTORY_COUNT = 20;
+const HISTORY_LS_KEY = "search_history";
 
 const ipc = getIPC();
 
@@ -20,9 +17,13 @@ class SearchStore {
   }
 
   private initReaction = () => {
-    reaction(() => {
-      return this.searchText;
-    }, this.search);
+    reaction(() => this.searchText, this.search);
+    reaction(
+      () => this.history,
+      () => {
+        localStorage.setItem(HISTORY_LS_KEY, JSON.stringify(this.history));
+      }
+    );
   };
 
   @observable
@@ -38,7 +39,10 @@ class SearchStore {
 
     const t = text.trim();
     this.searchText = t;
-    this.history = [t, ...this.history.filter(i => i !== t)];
+    this.history = [t, ...this.history.filter(i => i !== t)].slice(
+      0,
+      MAX_HISTORY_COUNT
+    );
   };
 
   @observable
@@ -56,7 +60,9 @@ class SearchStore {
   };
 
   @observable
-  public history: string[] = ["迷幻摇滚", "vol788", "Beatles", "再见"];
+  public history: string[] = JSON.parse(
+    localStorage.getItem(HISTORY_LS_KEY) || "[]"
+  );
 
   @action
   private clearIds = () => {
@@ -105,7 +111,7 @@ class SearchStore {
     const [volTracks, singles, articleTracks] = await Promise.all([
       ipc.db.volTrack.search(this.searchText, projection),
       ipc.db.single.search(this.searchText, projection),
-      ipc.db.articleTrack.search(this.searchText, projection),
+      ipc.db.articleTrack.search(this.searchText, projection)
     ]);
     const items = [...volTracks, ...singles, ...articleTracks];
     setTimeout(() => {

@@ -6,6 +6,7 @@ import { Icon, IconTypes } from "../../components/icon";
 import { UserCollection } from "../../components/user-collection";
 import { UserOffline } from "../../components/user-offline";
 import { UserRadio } from "../../components/user-radio";
+import { UserSetting } from "../../components/user-setting";
 import { store, userStore } from "../../store";
 import "./index.scss";
 import { Route } from "../../components/route";
@@ -13,7 +14,8 @@ import { Route } from "../../components/route";
 enum UserViewTypes {
   COLLECTION,
   OFFLINE,
-  RADIO
+  RADIO,
+  SETTING
 }
 
 @observer
@@ -28,9 +30,11 @@ class User extends React.Component {
       case UserViewTypes.COLLECTION:
         return `0%`;
       case UserViewTypes.OFFLINE:
-        return `-33.33333%`;
+        return `-25%`;
       case UserViewTypes.RADIO:
-        return `-66.66666%`;
+        return `-50%`;
+      case UserViewTypes.SETTING:
+        return `-75%`;
       default:
         throw new Error("Invalid view type");
     }
@@ -69,6 +73,13 @@ class User extends React.Component {
             <Icon type={IconTypes.RADIO} />
             <span>电台</span>
           </div>
+          <div
+              className={view === UserViewTypes.SETTING ? "active" : ""}
+              onClick={this.changeView.bind(this, UserViewTypes.SETTING)}
+          >
+            <Icon type={IconTypes.SETTING} />
+            <span>设置</span>
+          </div>
         </div>
         <div id="user-header-info">
           <p>
@@ -96,6 +107,7 @@ class User extends React.Component {
             <UserCollection />
             <UserOffline />
             <UserRadio />
+            <UserSetting />
           </div>
         </div>
       </Route>

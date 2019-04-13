@@ -40,6 +40,7 @@ import SYNC from "../../static/icon/sync.svg";
 import STAR from "../../static/icon/star.svg";
 import RADIO from "../../static/icon/radio.svg";
 import LOADING from "../../static/icon/loading.svg";
+import SETTING from "../../static/icon/setting.svg";
 
 import "./index.scss";
 
@@ -83,7 +84,8 @@ export enum IconTypes {
   SYNC = "SYNC",
   STAR = "STAR",
   RADIO = "RADIO",
-  LOADING = "LOADING"
+  LOADING = "LOADING",
+  SETTING = "SETTING"
 }
 
 export interface Props {
@@ -215,6 +217,9 @@ function Icon(props: Props) {
       break;
     case IconTypes.LOADING:
       src = LOADING;
+      break;
+    case IconTypes.SETTING:
+      src = SETTING;
       break;
     default:
       throw "Invalid icon type";
