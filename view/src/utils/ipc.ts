@@ -9,6 +9,7 @@ import {
   UserInfo,
   UserSettings
 } from "../types";
+import {getRemote} from "./index";
 
 declare global {
   interface Window {
@@ -126,10 +127,8 @@ function getIPC(): IpcObject {
   if (ipc) {
     return ipc;
   }
-  const electron = window.require("electron");
-  const { remote } = electron;
+  const remote = getRemote();
   ipc = remote.getGlobal("ipc") as IpcObject;
-
   return ipc;
 }
 

@@ -1,5 +1,5 @@
 import * as React from "react";
-import {func} from "prop-types";
+import { Remote } from 'electron';
 
 function genRange(start: number, end: number): number[] {
   const result: number[] = [];
@@ -80,6 +80,11 @@ function scrollToTop(element: Maybe<HTMLElement>, smooth: boolean = true): void 
   });
 }
 
+function getRemote(): Remote {
+  const electron = window.require("electron");
+  return electron.remote;
+}
+
 export {
   genRange,
   px,
@@ -90,7 +95,8 @@ export {
   formatPlayingTime,
   isAnyPartOfElementInViewport,
   promiseWrapper,
-  scrollToTop
+  scrollToTop,
+  getRemote
 };
 export { getIPC, ipcUtils } from "./ipc";
 export * from "./event";
