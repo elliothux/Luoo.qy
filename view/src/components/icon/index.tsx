@@ -45,6 +45,7 @@ import DOWNLOAD_FOLDER from "../../static/icon/download-folder.svg";
 import LOGOUT from "../../static/icon/logout.svg";
 import UPGRADE from "../../static/icon/upgrade.svg";
 import WEBSITE from "../../static/icon/website.svg";
+import DOWNLOAD from "../../static/icon/download.svg";
 
 import "./index.scss";
 
@@ -93,7 +94,8 @@ export enum IconTypes {
   DOWNLOAD_FOLDER = "DOWNLOAD_FOLDER",
   LOGOUT = "LOGOUT",
   UPGRADE = "UPGRADE",
-  WEBSITE = "WEBSITE"
+  WEBSITE = "WEBSITE",
+  DOWNLOAD = "DOWNLOAD"
 }
 
 export interface Props {
@@ -240,6 +242,9 @@ function Icon(props: Props) {
       break;
     case IconTypes.WEBSITE:
       src = WEBSITE;
+      break;
+    case IconTypes.DOWNLOAD:
+      src = DOWNLOAD;
       break;
     default:
       throw "Invalid icon type";

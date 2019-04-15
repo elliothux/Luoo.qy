@@ -156,6 +156,7 @@ class Vol extends React.Component {
               animate
               preventDefault
             />
+            <Icon type={IconTypes.DOWNLOAD}/>
             <Icon
               type={Vol.isPlaying ? IconTypes.PAUSE : IconTypes.PLAY}
               onClick={Vol.onTogglePlay}
