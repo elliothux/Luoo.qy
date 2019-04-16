@@ -1,19 +1,13 @@
 import * as React from "react";
-import { RefObject } from "react";
-import { observer } from "mobx-react";
-import {
-  collectionTrackStore,
-  collectionVolStore,
-  playerStore,
-  store,
-  volStore
-} from "../../store";
-import { Icon, IconTypes } from "../../components/icon";
-import { TrackItem } from "../../components/track-item";
-import { Route } from "../../components/route";
-import { Loading } from "../../components/loading";
-import { scrollToTop } from "../../utils";
-import { PlayingTypes, ViewTypes, VolTrack } from "../../types";
+import {RefObject} from "react";
+import {observer} from "mobx-react";
+import {collectionTrackStore, collectionVolStore, playerStore, store, volStore} from "../../store";
+import {Icon, IconTypes} from "../../components/icon";
+import {TrackItem} from "../../components/track-item";
+import {Route} from "../../components/route";
+import {Loading} from "../../components/loading";
+import {events, EventTypes, scrollToTop} from "../../utils";
+import {PlayingTypes, ViewTypes, VolTrack} from "../../types";
 import "./index.scss";
 
 @observer
@@ -95,6 +89,13 @@ class Vol extends React.Component {
     }
   };
 
+  private static onSelectTag = (tag: string) => {
+    store.changeView(ViewTypes.SEARCH);
+    setTimeout(() => {
+      events.emit(EventTypes.SEARCH, tag);
+    }, 800);
+  };
+
   private static renderTracks = (tracks: VolTrack[]) => {
     return tracks.map(track => {
       const { id, name, artist, album, cover } = track;
@@ -138,12 +139,13 @@ class Vol extends React.Component {
         <div id="vol-info" ref={this.infoRef}>
           <div id="vol-info-tags">
             {vol.tags.map(t => (
-              <span key={t}>#{t}</span>
+              <span key={t} onClick={() => Vol.onSelectTag(t)}>#{t}</span>
             ))}
           </div>
           <p id="vol-info-index">
             vol.
             {vol.vol}
+            <Icon type={IconTypes.DOWNLOAD}/>
             <Icon
               type={
                 Vol.isFetchingLike
@@ -156,7 +158,6 @@ class Vol extends React.Component {
               animate
               preventDefault
             />
-            <Icon type={IconTypes.DOWNLOAD}/>
             <Icon
               type={Vol.isPlaying ? IconTypes.PAUSE : IconTypes.PLAY}
               onClick={Vol.onTogglePlay}

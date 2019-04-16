@@ -1,11 +1,12 @@
 import * as React from "react";
-import { observer } from "mobx-react";
+import {observer} from "mobx-react";
 import classnames from "classnames";
-import { playerStore, store, volStore } from "../../store";
-import { Icon, IconTypes } from "../icon";
-import { ViewTypes, VolType } from "../../types";
+import {playerStore, store, volStore} from "../../store";
+import {Icon, IconTypes} from "../icon";
+import {ViewTypes, VolType} from "../../types";
 import LOGO from "../../static/logo.png";
 import "./index.scss";
+import {events} from "../../utils";
 
 function hideClassName(willHide: boolean) {
   return classnames({ "nav-item-hide": willHide });
@@ -35,6 +36,10 @@ function goSearch() {
   store.changeView(ViewTypes.SEARCH);
 }
 
+function goBack() {
+  store.backView();
+}
+
 function INav() {
   const { view } = store;
   return (
@@ -55,7 +60,7 @@ function INav() {
                 ViewTypes.USER
               ].includes(view)
           )}
-          onClick={() => store.backView()}
+          onClick={goBack}
         >
           <Icon type={IconTypes.BACK} />
           <p>返回</p>

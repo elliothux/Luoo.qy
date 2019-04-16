@@ -152,6 +152,7 @@ class Article extends React.Component {
         <div id="article-info" ref={this.infoRef}>
           <p id="article-info-title">
             {article.title}
+            <Icon type={IconTypes.DOWNLOAD}/>
             <Icon type={Article.isLiked ? IconTypes.LIKED : IconTypes.LIKE} />
             <Icon
               type={Article.isPlaying ? IconTypes.PAUSE : IconTypes.PLAY}

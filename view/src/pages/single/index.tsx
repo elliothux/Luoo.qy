@@ -85,6 +85,7 @@ class Single extends React.Component {
         <div id="single-info">
           <p id="single-info-name">
             {single.name}
+            <Icon type={IconTypes.DOWNLOAD}/>
             <Icon
               type={
                 Single.isFetchingLike

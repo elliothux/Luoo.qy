@@ -57,10 +57,10 @@
         height: 29px;
         position: relative;
         top: 4px;
+        margin-right: 8px;
         @include cursor;
         &:first-child {
           margin-left: 42px;
-          margin-right: 8px;
         }
       }
     }

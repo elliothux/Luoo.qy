@@ -3,7 +3,7 @@ import { Route } from "../../components/route";
 import { store, volStore } from "../../store";
 import { ViewTypes, SearchViewTypes } from "../../types";
 import { observer } from "mobx-react";
-import { getIPC, preventSyntheticEvent } from "../../utils";
+import { events, EventTypes, getIPC, preventSyntheticEvent } from "../../utils";
 import { Icon, IconTypes } from "../../components/icon";
 import { searchStore } from "../../store/search";
 import { SearchResultVol } from "../../components/search-result-vols";
@@ -18,6 +18,16 @@ const ipc = getIPC();
 @observer
 class Search extends React.Component {
   state = { inputText: "" };
+
+  componentDidMount(): void {
+    events.on(EventTypes.CLEAR_SEARCH_TEXT, () => {
+      this.setState({ inputText: "" });
+    });
+    events.on(EventTypes.SEARCH, (text: string) => {
+      this.setState({ inputText: text });
+      return this.handleSearch(text);
+    });
+  }
 
   private static get translateX(): string {
     switch (searchStore.searchType) {

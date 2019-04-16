@@ -52,6 +52,9 @@ class EventProxy {
 
 const events = new EventProxy();
 
-export enum EventTypes {}
+export enum EventTypes {
+  CLEAR_SEARCH_TEXT,
+  SEARCH
+}
 
 export { EventProxy, events };

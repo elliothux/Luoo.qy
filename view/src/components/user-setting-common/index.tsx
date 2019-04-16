@@ -59,6 +59,10 @@ function IUserSettingCommon() {
       </div>
       <div>
         <div className="user-setting-item">
+          {/*<Icon type={IconTypes.TRASH} />*/}
+          <span>清除搜索历史</span>
+        </div>
+        <div className="user-setting-item">
           <Icon type={IconTypes.LOGOUT} />
           <span>退出登录</span>
         </div>
