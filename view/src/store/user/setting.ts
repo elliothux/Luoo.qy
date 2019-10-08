@@ -11,7 +11,7 @@ class SettingStore {
   @action
   public setSetting = (key: keyof UserSettings, value: string | boolean) => {
     const { setting } = this;
-    setting[key] = value;
+    (setting[key] as any) = value;
     ipc.user.setUserSetting(key, value);
   };
 }

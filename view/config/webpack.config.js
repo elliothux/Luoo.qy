@@ -64,6 +64,12 @@ module.exports = function(webpackEnv) {
         options: cssOptions,
       },
       {
+        loader: require.resolve('sass-loader'),
+        options: {
+          implementation: require('dart-sass'),
+        },
+      },
+      {
         loader: require.resolve('postcss-loader'),
         options: {
           ident: 'postcss',
@@ -289,8 +295,7 @@ module.exports = function(webpackEnv) {
                 {
                   importLoaders: 2,
                   sourceMap: isEnvProduction && shouldUseSourceMap,
-                },
-                'sass-loader'
+                }
               ),
               sideEffects: true,
             },

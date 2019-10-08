@@ -19,14 +19,14 @@ function togglePushNotifications() {
 }
 
 function selectDownloadFolder() {
-  exec(() => {
+  exec(async () => {
     const remote = getRemote();
-    const folder = remote.dialog.showOpenDialog({
+    const { filePaths: folder} = await remote.dialog.showOpenDialog({
       title: "选择文件夹",
       defaultPath: settingStore.setting.downloadFolder,
       properties: ["openDirectory", "createDirectory", "promptToCreate"]
     });
-    if (!folder) {
+    if (!folder || !folder.length) {
       return;
     }
     settingStore.setSetting("downloadFolder", folder[0]);
