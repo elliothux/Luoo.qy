@@ -1,9 +1,39 @@
 
 # Luoo.qy
 
+虽然 V2.0 版本的完成度已经达到90%，但因为落网原网站停止运营，很遗憾宣布本项目**无期限暂停开发**，直到原网站恢复（如果可能）。落网的粉丝可以到[落网记忆](https://www.luoow.com)（非本人运营）查看历史期刊。
+
+-----------------
+
 👨‍💻‍ V2.0 开发中，敬请期待。
 
 你可以查看 V1.0 版本：https://github.com/Aedron/Luoo.qy/tree/v1.0
+
+## Preview
+
+### 期刊列表
+![8PbNrV.png](https://s2.ax1x.com/2020/03/10/8PbNrV.png)
+
+### 期刊详情
+![8PbdVU.png](https://s2.ax1x.com/2020/03/10/8PbdVU.png)
+
+### 单曲列表
+![8Pb88s.png](https://s2.ax1x.com/2020/03/10/8Pb88s.png)
+
+### 单曲详情
+![8PbJvq.png](https://s2.ax1x.com/2020/03/10/8PbJvq.png)
+
+### 播放器
+![8PbUbT.png](https://s2.ax1x.com/2020/03/10/8PbUbT.png)
+
+### 个人收藏
+![8PbtK0.png](https://s2.ax1x.com/2020/03/10/8PbtK0.png)
+
+### 搜索
+![8PbG2n.png](https://s2.ax1x.com/2020/03/10/8PbG2n.png)
+
+### 登录
+![8Pb3Cj.png](https://s2.ax1x.com/2020/03/10/8Pb3Cj.png)
 
 ## TODO
 - [x] design：制定UI规范（doing）
